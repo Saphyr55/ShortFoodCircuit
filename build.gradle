@@ -1,5 +1,8 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'org.beryx.jlink' version '2.24.1'
 }
 
 group 'fr.sfc'
@@ -9,11 +12,44 @@ repositories {
     mavenCentral()
 }
 
+application {
+    mainModule = 'fr.sfc'
+    mainClass = 'fr.sfc.SFCApplication'
+}
+
+ext {
+    junitVersion = '5.9.0'
+}
+
+javafx {
+    version = '16'
+    modules = [ 'javafx.controls',
+                'javafx.fxml',
+                'javafx.web',
+                'javafx.media' ]
+}
+
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    implementation 'mysql:mysql-connector-java:8.0.31'
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
 }
 
 test {
     useJUnitPlatform()
+}
+
+jlink {
+    imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    launcher {
+        name = 'app'
+    }
+}
+
+jlinkZip {
+    group = 'distribution'
 }

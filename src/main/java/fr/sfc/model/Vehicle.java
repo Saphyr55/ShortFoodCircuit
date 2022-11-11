@@ -1,7 +1,7 @@
 package fr.sfc.model;
 
 public final class Vehicle extends Entity {
-	
+
     private String registration;
     private float maxWeight;
 

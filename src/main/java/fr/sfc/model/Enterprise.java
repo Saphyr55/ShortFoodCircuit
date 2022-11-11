@@ -2,11 +2,11 @@ package fr.sfc.model;
 
 import fr.sfc.core.Location;
 
-public final class Entreprise extends EC {
+public final class Enterprise extends EC {
 	
 	private String SIRET;
 	
-    public Entreprise(int id, Location location, String name, String phoneNumber, String address) {
+    public Enterprise(int id, Location location, String name, String phoneNumber, String address) {
 		super(id, location, name, phoneNumber, address);
 	}
     
