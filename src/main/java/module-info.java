@@ -10,5 +10,5 @@ module fr.sfc {
 
     opens fr.sfc;
     opens fr.sfc.controllers;
-
+    opens fr.sfc.components to javafx.fxml;
 }

@@ -4,7 +4,7 @@ package fr.sfc.core;
  *
  */
 public final class Location {
-    
+
 	private String name;
     private float longitude;
     private float latitude;
