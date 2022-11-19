@@ -1,20 +1,22 @@
 package fr.sfc;
 
+import java.io.IOException;
+
+import fr.sfc.controllers.MainController;
 import fr.sfc.database.Database;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.sql.Connection;
 
 public final class SFCApplication extends Application {
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws Exception {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(SFCApplication.class.getResource("hello-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(SFCApplication.class.getResource("default.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("Hello !");
         stage.setScene(scene);

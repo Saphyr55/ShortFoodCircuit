@@ -22,7 +22,7 @@ ext {
 }
 
 javafx {
-    version = '16'
+    version = '17'
     modules = [ 'javafx.controls',
                 'javafx.fxml',
                 'javafx.web',
@@ -32,6 +32,7 @@ javafx {
 dependencies {
 
     implementation 'mysql:mysql-connector-java:8.0.31'
+    implementation 'org.apache.lucene:lucene-spatial:8.4.1'
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")

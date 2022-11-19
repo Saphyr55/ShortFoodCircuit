@@ -7,6 +7,7 @@ module fr.sfc {
 
 	requires java.sql;
     requires mysql.connector.j;
+    requires lucene.core;
 
     opens fr.sfc;
     opens fr.sfc.controllers;
