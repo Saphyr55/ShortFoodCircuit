@@ -1,5 +1,8 @@
 package fr.sfc.database;
 
+import fr.sfc.database.impl.QueryBuilderImpl;
+import fr.sfc.database.impl.QueryImpl;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -19,6 +22,14 @@ public final class Database implements AutoCloseable {
 	public void init() throws SQLException {
 		this.url = "jdbc:" + DatabaseManager.dbFileProperties.getConfig().getDBMS() + "://" + properties.host + ":" + properties.port + "/" + name;
 		this.connection = DriverManager.getConnection(url, properties.user, properties.password);
+	}
+
+	public Query createQuery(String request) {
+		return new QueryImpl(connection, request);
+	}
+
+	public QueryBuilder createQueryBuilder() {
+		return QueryBuilderImpl.of(connection);
 	}
 
 	public Connection getConnection() {

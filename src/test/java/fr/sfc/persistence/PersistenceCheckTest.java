@@ -1,6 +1,6 @@
 package fr.sfc.persistence;
 
-import fr.sfc.model.Admin;
+import fr.sfc.model.entity.Admin;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

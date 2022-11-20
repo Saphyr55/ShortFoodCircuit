@@ -1,4 +1,4 @@
-package fr.sfc.model;
+package fr.sfc.model.entity;
 
 import fr.sfc.core.Location;
 import fr.sfc.persistence.Column;

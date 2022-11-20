@@ -1,6 +1,6 @@
 package fr.sfc.database;
 
-import fr.sfc.model.Admin;
+import fr.sfc.model.entity.Admin;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -10,14 +10,14 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SQLRequestTest {
+class QueryImplTest {
 
     private static QueryBuilder queryBuilder;
 
     @BeforeAll
     static void setup() {
         DatabaseManager.init();
-        queryBuilder = QueryBuilder.of()
+        queryBuilder = DatabaseManager.TEST.createQueryBuilder()
                     .select("idAdmin")
                     .from(Admin.class)
                     .where("idAdmin = :idAdmin");
@@ -26,7 +26,7 @@ class SQLRequestTest {
 
     @Test
     void setParameter() throws SQLException {
-        SQLRequest request = queryBuilder.buildRequest();
+        Query request = queryBuilder.buildRequest();
         request.setParameter("idAdmin", "1").prepare();
         Optional<ResultSet> optionalResultSet = request.getResultSet();
         assertTrue(optionalResultSet.isPresent());

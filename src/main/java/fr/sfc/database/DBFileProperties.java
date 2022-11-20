@@ -25,6 +25,8 @@ public final class DBFileProperties {
             this.propertiesTest = parse(ini.get(DatabaseManager.testDBName), Database.Properties.class);
         } catch (IOException e) {
             e.printStackTrace();
+
+
         }
     }
 
