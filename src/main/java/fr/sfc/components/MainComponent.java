@@ -8,7 +8,9 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-public class MainComponent extends HBox {
+public class MainComponent extends HBox implements IComponent<MainComponent> {
+
+    private MainComponent self;
 
     public MainComponent() {
         super();
@@ -16,10 +18,14 @@ public class MainComponent extends HBox {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
-            fxmlLoader.load();
+            self = fxmlLoader.load();
         } catch (IOException exception) {
             exception.printStackTrace();
         }
     }
 
+    @Override
+    public MainComponent getSelf() {
+        return self;
+    }
 }

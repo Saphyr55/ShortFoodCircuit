@@ -1,6 +1,7 @@
 package fr.sfc.components;
 
 import fr.sfc.SFCApplication;
+import fr.sfc.controllers.MapViewController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,26 +15,29 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MapViewComponent extends AnchorPane implements Initializable {
+public class MapViewComponent extends AnchorPane implements IComponent<MapViewComponent> {
 
     @FXML
     private WebView map;
+    private MapViewComponent self;
+    private final MapViewController controller;
 
     public MapViewComponent() {
         super();
+        controller = new MapViewController(this);
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("map.fxml"));
             fxmlLoader.setRoot(this);
-            fxmlLoader.setController(this);
-            fxmlLoader.load();
+            fxmlLoader.setController(controller);
+            self = fxmlLoader.load();
         } catch (IOException exception) {
             exception.printStackTrace();
         }
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        final WebEngine engine = map.getEngine();
-        engine.load(SFCApplication.index.toExternalForm());
+    public MapViewComponent getSelf() {
+        return self;
     }
+
 }
