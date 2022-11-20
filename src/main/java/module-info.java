@@ -17,6 +17,7 @@ module fr.sfc {
     requires java.security.jgss;
     requires java.security.sasl;
     requires mysql.connector.j;
+    requires lucene.core;
 
     opens fr.sfc;
     opens fr.sfc.controllers;

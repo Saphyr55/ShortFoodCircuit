@@ -1,5 +1,7 @@
 package fr.sfc.core;
 
+import static org.apache.lucene.util.SloppyMath.haversinMeters;
+
 /**
  *
  */
@@ -29,20 +31,9 @@ public final class Location {
      * @return distance float
      */
     public float distanceTo(Location location) {
-        float STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945f;
-
-        float lat1 = (float) Math.toRadians(this.latitude);
-        float lon1 = (float) Math.toRadians(this.longitude);
-        float lat2 = (float) Math.toRadians(location.latitude);
-        float lon2 = (float) Math.toRadians(location.longitude);
-
-        float angle = (float) Math.acos(Math.sin(lat1) * Math.sin(lat2)
-                + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2));
-
-        float nauticalMiles = (float) (60 * Math.toDegrees(angle));
-        return STATUTE_MILES_PER_NAUTICAL_MILE * nauticalMiles;
+        return (float) haversinMeters(this.latitude, this.longitude, location.latitude, location.longitude);
     }
-    
+
     public String getName() {
         return name;
     }
