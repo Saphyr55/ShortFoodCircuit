@@ -1,6 +1,4 @@
-package fr.sfc.components;
-
-import org.w3c.dom.Node;
+package fr.sfc.component;
 
 public interface IComponent<T extends IComponent<?>> {
 

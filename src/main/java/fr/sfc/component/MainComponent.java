@@ -1,14 +1,12 @@
-package fr.sfc.components;
+package fr.sfc.component;
 
+import fr.sfc.controller.MainController;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-public class MainComponent extends HBox implements IComponent<MainComponent> {
+public class MainComponent extends HBox {
 
     private MainComponent self;
 
@@ -17,15 +15,11 @@ public class MainComponent extends HBox implements IComponent<MainComponent> {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
             fxmlLoader.setRoot(this);
-            fxmlLoader.setController(this);
+            fxmlLoader.setController(new MainController());
             self = fxmlLoader.load();
         } catch (IOException exception) {
             exception.printStackTrace();
         }
     }
 
-    @Override
-    public MainComponent getSelf() {
-        return self;
-    }
 }

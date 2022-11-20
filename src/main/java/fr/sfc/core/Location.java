@@ -11,13 +11,37 @@ public final class Location {
     private float longitude;
     private float latitude;
 
-    public static Location Of(String name, float longitude, float latitude) {
+    /**
+     *
+     * Create a location
+     *
+     * @param name String
+     * @param longitude float
+     * @param latitude float
+     * @return location
+     */
+    public static Location of(String name, float longitude, float latitude) {
         return new Location(name, longitude, latitude);
     }
-    public static Location Of(Location location) {
+
+    /**
+     *
+     * Copy a location
+     *
+     * @param location Location
+     * @return location
+     */
+    public static Location of(Location location) {
         return new Location(location.name, location.longitude, location.latitude);
     }
 
+    /**
+     * Constructor location
+     *
+     * @param name String
+     * @param longitude float
+     * @param latitude float
+     */
     public Location(String name, float longitude, float latitude) {
         this.name = name;
         this.latitude  = latitude;
@@ -34,14 +58,23 @@ public final class Location {
         return (float) haversinMeters(this.latitude, this.longitude, location.latitude, location.longitude);
     }
 
+    /**
+     * @return name String
+     */
     public String getName() {
         return name;
     }
-    
+
+    /**
+     * @return longitude float
+     */
     public float getLongitude() {
         return longitude;
     }
-    
+
+    /**
+     * @return latitude float
+     */
     public float getLatitude() {
         return latitude;
     }
