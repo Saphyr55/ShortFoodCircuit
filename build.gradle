@@ -1,12 +1,12 @@
 plugins {
     id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
     id 'org.beryx.jlink' version '2.24.1'
 }
 
 group 'fr.sfc'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 repositories {
     mavenCentral()
@@ -22,7 +22,7 @@ ext {
 }
 
 javafx {
-    version = '17'
+    version = '19'
     modules = [ 'javafx.controls',
                 'javafx.fxml',
                 'javafx.web',

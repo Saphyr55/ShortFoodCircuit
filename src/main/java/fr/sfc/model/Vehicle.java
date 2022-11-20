@@ -1,12 +1,15 @@
 package fr.sfc.model;
 
-public final class Vehicle extends Entity {
+public final class Vehicle {
 
+    private int id;
     private String registration;
     private float maxWeight;
 
     public Vehicle(int id, String registration, float maxWeight) {
-    	super(id);
+    	this.id = id;
+        this.registration = registration;
+        this.maxWeight = maxWeight;
     }
     
     public String getRegistration() {

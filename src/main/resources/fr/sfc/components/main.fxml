@@ -32,27 +32,38 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import fr.sfc.components.MainComponent?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
+<?import fr.sfc.components.MapViewComponent?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+
+<fx:root type="HBox" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TabPane prefHeight="603.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab text="Untitled Tab 1">
-               <content>
-                  <MainComponent />
-               </content>
-            </Tab>
-          <Tab text="Untitled Tab 2">
-               <content>
-                  <MainComponent />
-               </content>
-            </Tab>
-        </tabs>
-      </TabPane>
+  <AnchorPane prefHeight="602.0" prefWidth="399.0">
+    <children>
+      <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Master" textAlignment="CENTER" wrapText="false" AnchorPane.bottomAnchor="557.1999999999999" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="148.4" AnchorPane.topAnchor="14.0">
+        <font>
+          <Font size="18.0" fx:id="x1" />
+        </font>
+        <textFill>
+          <Color red="0.624" green="0.624" blue="0.624" fx:id="x2" />
+        </textFill>
+      </Label>
+    </children>
+  </AnchorPane>
+  <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
+    <content>
+            <VBox prefHeight="-1.0" prefWidth="-1.0">
+              <children>
+                <MapViewComponent maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+              </children>
+            </VBox>
+    </content>
+  </ScrollPane>
    </children>
-
-
+</fx:root>

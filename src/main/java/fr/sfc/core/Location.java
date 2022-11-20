@@ -6,11 +6,18 @@ import static org.apache.lucene.util.SloppyMath.haversinMeters;
  *
  */
 public final class Location {
-    
+
 	private String name;
     private float longitude;
     private float latitude;
-    
+
+    public static Location Of(String name, float longitude, float latitude) {
+        return new Location(name, longitude, latitude);
+    }
+    public static Location Of(Location location) {
+        return new Location(location.name, location.longitude, location.latitude);
+    }
+
     public Location(String name, float longitude, float latitude) {
         this.name = name;
         this.latitude  = latitude;

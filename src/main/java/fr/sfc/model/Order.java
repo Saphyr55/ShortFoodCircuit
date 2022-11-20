@@ -2,8 +2,9 @@ package fr.sfc.model;
 
 import java.time.LocalTime;
 
-public final class Order extends Entity {
-    
+public final class Order {
+
+    private int id;
 	private LocalTime startTime;
     private LocalTime endTime;
     private String wording;
@@ -11,7 +12,7 @@ public final class Order extends Entity {
     
 
     public Order(int id, LocalTime startTime, LocalTime endTime, String wording, float weight) {
-    	super(id);
+    	this.id = id;
     }
     
     public LocalTime getStartTime() {
