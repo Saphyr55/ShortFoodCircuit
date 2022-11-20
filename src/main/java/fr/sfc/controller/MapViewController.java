@@ -1,8 +1,6 @@
-package fr.sfc.controllers;
+package fr.sfc.controller;
 
 import fr.sfc.SFCApplication;
-import fr.sfc.components.IComponent;
-import fr.sfc.components.MapViewComponent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.web.WebEngine;
@@ -17,7 +15,7 @@ public class MapViewController implements Initializable  {
     @FXML
     private WebView map;
 
-    public MapViewController(IComponent<?> component) {
+    public MapViewController() {
 
     }
 

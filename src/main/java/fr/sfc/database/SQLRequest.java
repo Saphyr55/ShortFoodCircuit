@@ -5,7 +5,7 @@ import com.mysql.cj.Query;
 import java.sql.*;
 import java.util.Optional;
 
-public class SQLRequest implements AutoCloseable {
+public final class SQLRequest implements AutoCloseable {
 
     private final String requestString;
     private final Connection connection;
@@ -13,7 +13,7 @@ public class SQLRequest implements AutoCloseable {
 
     public SQLRequest(String requestString) {
         this.requestString = requestString;
-        connection = Database.get().getConnection();
+        connection = DatabaseManager.SFC.getConnection();
     }
     
     public void execute() {
@@ -46,7 +46,7 @@ public class SQLRequest implements AutoCloseable {
         }
         return  Optional.empty();
     }
-
+    
     @Override
     public void close() throws Exception {
         if (statement != null)

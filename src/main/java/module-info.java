@@ -1,10 +1,5 @@
 module fr.sfc {
 
-    requires javafx.controls;
-    requires javafx.fxml;
-    requires javafx.web;
-    requires javafx.media;
-
     requires java.xml;
 	requires java.sql;
     requires java.base;
@@ -16,10 +11,17 @@ module fr.sfc {
     requires java.se;
     requires java.security.jgss;
     requires java.security.sasl;
+
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires javafx.web;
+    requires javafx.media;
+
     requires mysql.connector.j;
     requires lucene.core;
+    requires ini4j;
 
     opens fr.sfc;
-    opens fr.sfc.controllers;
-    opens fr.sfc.components to javafx.fxml;
+    opens fr.sfc.controller;
+    opens fr.sfc.component to javafx.fxml;
 }

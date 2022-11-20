@@ -7,31 +7,39 @@ import fr.sfc.persistence.Id;
 import fr.sfc.persistence.Table;
 
 @Entity
-@Table(name = "customer")
-public class Customer {
+@Table(name = "company")
+public final class Company {
 
     @Id
-    @Column(name = "idCustomer")
+    @Column(name = "idCompany")
     private int id;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "phoneNumber")
     private String phoneNumber;
+
     @Column(name = "address")
     private String address;
+
     @Column(name = "longitude")
     private float longitude;
+
     @Column(name = "latitude")
     private float latitude;
 
-    public Customer(int id, Location location, String name, String phoneNumber, String address) {
-    	this.id = id;
+    @Column(name = "SIRET")
+	private String SIRET;
+	
+    public Company(int id, Location location, String name, String phoneNumber, String address) {
+        this.id = id;
         this.longitude = location.getLongitude();
         this.latitude = location.getLatitude();
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
-    }
+	}
 
     public int getId() {
         return id;
@@ -79,5 +87,13 @@ public class Customer {
 
     public void setLatitude(float latitude) {
         this.latitude = latitude;
+    }
+
+    public String getSIRET() {
+        return SIRET;
+    }
+
+    public void setSIRET(String SIRET) {
+        this.SIRET = SIRET;
     }
 }

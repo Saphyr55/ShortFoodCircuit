@@ -1,5 +1,6 @@
 package fr.sfc.model;
 
+import fr.sfc.database.DatabaseManager;
 import fr.sfc.persistence.Column;
 import fr.sfc.persistence.Entity;
 import fr.sfc.persistence.Id;
@@ -8,19 +9,19 @@ import fr.sfc.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tournee")
+@Table(name = "productTour")
 public final class ProductTour {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "idProductTour")
     private int id;
-    @Column(name = "heureDebut")
+    @Column(name = "startDate")
     private LocalDateTime startDateTime;
-    @Column(name = "heureFin")
+    @Column(name = "endDate")
     private LocalDateTime endDateTime;
-    @Column(name = "nom")
+    @Column(name = "name")
     private String name;
-    @Column(name = "poids")
+    @Column(name = "weight")
     private float weight;
     
     public ProductTour(int id, LocalDateTime startDate, LocalDateTime endDateTime, String name, float weight) {
