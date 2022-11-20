@@ -3,70 +3,95 @@ package fr.sfc.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
-public class Database implements AutoCloseable {
+public final class Database implements AutoCloseable {
 
-	private static final Map<String, Database> databases = new HashMap<>();
-	private static final String mainDatabaseName = "sfc";
-	private static String currentDbName = mainDatabaseName;
-	private static final String CLASS_DRIVER = "com.mysql.cj.jdbc.Driver";
-	static { initDriver(); }
-
-	private final String ip = "127.0.0.1";
-	private final String password = "";
-	private final String user = "root";
-	private final String port = "3306";
 	private Connection connection;
-	private String SGDBName;
+	private final Properties properties;
+	private final String name;
 	private String url;
 
-	public Database(final String dbName) throws SQLException {
-		SGDBName = CLASS_DRIVER.split("\\.")[1];
-		url = "jdbc:" + SGDBName + "://" + ip + ":" + port + "/" + dbName;
-		connection = DriverManager.getConnection(url, user, password);
+	public Database(String name, Database.Properties properties) {
+		this.name = name;
+		this.properties = properties;
 	}
 
-	public static void switchDB(String dbname) {
-		currentDbName = dbname;
-	}
-
-	public static void switchMainDB() {
-		currentDbName = mainDatabaseName;
-	}
-
-	public static Database get() {
-		if (!databases.containsKey(currentDbName)) {
-			try {
-				databases.put(currentDbName, new Database(currentDbName));
-			} catch (SQLException e) {
-				e.printStackTrace();
-				switchMainDB();
-			}
-		}
-		return databases.get(currentDbName);
-	}
-
-	private static void initDriver() {
-		try {
-			Class.forName(CLASS_DRIVER);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+	public void init() throws SQLException {
+		this.url = "jdbc:" + DatabaseManager.dbFileProperties.getConfig().getDBMS() + "://" + properties.host + ":" + properties.port + "/" + name;
+		this.connection = DriverManager.getConnection(url, properties.user, properties.password);
 	}
 
 	public Connection getConnection() {
 		return connection;
 	}
 
-	public static String getCurrentDbName() {
-		return currentDbName;
+	public Properties getProperties() {
+		return properties;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getUrl() {
+		return url;
 	}
 
 	@Override
 	public void close() throws Exception {
 		connection.close();
+	}
+
+	public static final class Properties {
+
+		private final String host;
+		private final String user;
+		private final String port;
+		private final String password;
+
+		public Properties(final String host, final String user, final String port, final String password) {
+			this.host = host;
+			this.user = user;
+			this.port = port;
+			this.password = password;
+		}
+
+		public String getHost() {
+			return host;
+		}
+
+		public String getUser() {
+			return user;
+		}
+
+		public String getPort() {
+			return port;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+	}
+
+	public static final class Configuration {
+
+		private final String driver;
+		private final String dbms;
+
+		public Configuration(String driver, String dbms) {
+			this.driver = driver;
+			this.dbms = dbms;
+		}
+
+		public String getDriver() {
+			return driver;
+		}
+
+		public String getDBMS() {
+			return dbms;
+		}
+
 	}
 
 }

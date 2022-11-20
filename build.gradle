@@ -33,6 +33,8 @@ dependencies {
 
     implementation 'mysql:mysql-connector-java:8.0.31'
     implementation 'org.apache.lucene:lucene-spatial:8.4.1'
+    implementation 'org.ini4j:ini4j:0.5.4'
+    implementation 'org.reflections:reflections:0.10.2'
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
