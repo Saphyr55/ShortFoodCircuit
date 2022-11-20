@@ -21,6 +21,9 @@ public final class QueryBuilder {
         this.properties = properties;
         this.stringBuilder = new StringBuilder();
     }
+    public QueryBuilder selectAll() {
+        return select("*");
+    }
 
     public QueryBuilder select(String... fields) {
         properties.select = listToSQLString("SELECT ", fields);

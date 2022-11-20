@@ -1,21 +1,24 @@
 package fr.sfc.database;
 
-import com.mysql.cj.Query;
-
 import java.sql.*;
 import java.util.Optional;
 
 public final class SQLRequest implements AutoCloseable {
 
-    private final String requestString;
     private final Connection connection;
     private PreparedStatement statement;
+    private String requestString;
 
     public SQLRequest(String requestString) {
         this.requestString = requestString;
-        connection = DatabaseManager.SFC.getConnection();
+        connection = DatabaseManager.current.getConnection();
     }
-    
+
+    public SQLRequest setParameter(String param, String value) {
+        requestString = requestString.replace(':'+param, value);
+        return this;
+    }
+
     public void execute() {
         try {
             prepare();
@@ -44,9 +47,21 @@ public final class SQLRequest implements AutoCloseable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return  Optional.empty();
+        return Optional.empty();
     }
-    
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public String getRequestString() {
+        return requestString;
+    }
+
+    public PreparedStatement getStatement() {
+        return statement;
+    }
+
     @Override
     public void close() throws Exception {
         if (statement != null)
