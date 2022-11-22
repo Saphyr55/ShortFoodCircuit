@@ -14,7 +14,7 @@ public class Indent {
 
     @Id
     @Column(name = "idIndent")
-    private int id;
+    private Integer id;
 
     @Column(name = "startDate")
     private LocalDateTime startTime;
@@ -26,7 +26,9 @@ public class Indent {
     private String wording;
 
     @Column(name = "weight")
-    private float weight;
+    private Float weight;
+
+    public Indent() { }
 
     public Indent(LocalDateTime startTime, LocalDateTime endTime, String wording, float weight) {
         this.endTime = endTime;

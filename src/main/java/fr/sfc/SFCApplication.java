@@ -17,8 +17,8 @@ public final class SFCApplication extends Application {
     public AdminRepository adminRepository;
 
     @Override
-    public void start(Stage stage) throws Exception {
-        RuntimeApplication.setup(stage,"SFC", 880, 620);
+    public void start(Stage primaryStage) throws Exception {
+        RuntimeApplication.setup(primaryStage,"SFC", 880, 620);
         RuntimeApplication.run();
     }
 

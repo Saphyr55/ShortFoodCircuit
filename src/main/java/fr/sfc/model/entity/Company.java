@@ -12,7 +12,7 @@ public class Company {
 
     @Id
     @Column(name = "idCompany")
-    private int id;
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -24,17 +24,24 @@ public class Company {
     private String address;
 
     @Column(name = "longitude")
-    private float longitude;
+    private Float longitude;
 
     @Column(name = "latitude")
-    private float latitude;
+    private Float latitude;
 
     @Column(name = "SIRET")
 	private String SIRET;
-	
-    public Company(Location location, String name, String phoneNumber, String address) {
-        this.longitude = location.getLongitude();
-        this.latitude = location.getLatitude();
+
+    public Company() { }
+
+    public Company(int id, String name, String phoneNumber, String address, float longitude, float latitude) {
+        this(name, phoneNumber, address, longitude, latitude);
+        this.id = id;
+    }
+
+    public Company(String name, String phoneNumber, String address, float longitude, float latitude) {
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;

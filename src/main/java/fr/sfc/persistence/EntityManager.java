@@ -1,10 +1,9 @@
 package fr.sfc.persistence;
 
-import fr.sfc.core.process.RuntimeEntity;
+import fr.sfc.core.process.EntityLoader;
 import fr.sfc.database.DatabaseManager;
 import fr.sfc.database.Query;
 import fr.sfc.database.QueryBuilder;
-import fr.sfc.model.entity.Admin;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -14,10 +13,10 @@ import java.util.*;
 
 public class EntityManager {
 
-    private final RuntimeEntity runtimeEntity;
+    private final EntityLoader entityLoader;
 
-    public EntityManager(final RuntimeEntity runtimeEntity) {
-        this.runtimeEntity = runtimeEntity;
+    public EntityManager(final EntityLoader entityLoader) {
+        this.entityLoader = entityLoader;
     }
 
     public Query createQuery(String request) {
@@ -41,23 +40,31 @@ public class EntityManager {
         return set;
     }
 
-    public <T> T wrap(Class<T> tClass, ResultSet resultSet) throws SQLException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public <T> T wrap(Class<T> tClass, ResultSet resultSet) throws SQLException,
+            InvocationTargetException, InstantiationException,
+            IllegalAccessException, NoSuchMethodException, NoSuchFieldException {
+
         T type = null;
-        final Map<String, Field> fields = runtimeEntity.getFieldsFromEntity(tClass);
+
+        final Map<String, Field> fields = entityLoader.getFieldsFromEntity(tClass);
         final Set<String> nameFields = fields.keySet();
-        final Map<Object, Field> attributes = new HashMap<>();
+        final Map<Field, Object> attributes = new HashMap<>();
         final Iterator<String> it = nameFields.iterator();
 
         while (resultSet.next()) {
-            final String nameField = it.next();
-            final Field field = fields.get(nameField);
-            System.out.println(nameField + " " + field.getType().getName());
-            attributes.put(resultSet.getObject(nameField, field.getType()), field);
+            while (it.hasNext()) {
+                final String nameField = it.next();
+                final Field field = fields.get(nameField);
+                attributes.put(field, resultSet.getObject(nameField, field.getType()));
+            }
         }
 
         if (!attributes.isEmpty()) {
-            attributes.entrySet().removeIf(objectFieldEntry -> objectFieldEntry.getValue().getAnnotation(Id.class) != null);
-            type = (T) tClass.getConstructors()[0].newInstance(attributes.keySet().toArray());
+            type = tClass.getConstructor().newInstance();
+            for (Map.Entry<String, Field> stringFieldEntry : fields.entrySet()) {
+                stringFieldEntry.getValue().setAccessible(true);
+                stringFieldEntry.getValue().set(type, attributes.get(stringFieldEntry.getValue()));
+            }
         }
 
         return type;

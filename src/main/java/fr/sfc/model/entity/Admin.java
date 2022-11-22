@@ -11,9 +11,11 @@ public class Admin {
 
     @Id
     @Column(name = "idAdmin")
-    private int id;
+    private Integer id;
     @Column(name = "password")
     private String password;
+
+    public Admin() { }
 
     public Admin(String password) {
         this.password = password;

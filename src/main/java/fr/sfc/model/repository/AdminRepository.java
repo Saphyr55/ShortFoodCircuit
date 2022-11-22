@@ -1,15 +1,15 @@
 package fr.sfc.model.repository;
 
-import fr.sfc.database.Query;
 import fr.sfc.model.entity.Admin;
+import fr.sfc.persistence.Autowired;
 import fr.sfc.persistence.EntityManager;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class AdminRepository implements Repository<Admin> {
 
-    public EntityManager entityManager;
+    @Autowired
+    private EntityManager entityManager;
 
     @Override
     public Set<Admin> findAll() {

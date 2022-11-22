@@ -11,11 +11,13 @@ public class Producer {
 
     @Id
     @Column(name = "idProducer")
-    private int id;
+    private Integer id;
 
     @Column(name = "password")
     private String password;
-    
+
+    public Producer() { }
+
     public Producer(String password) {
         this.password = password;
     }

@@ -1,19 +1,16 @@
 package fr.sfc;
 
-import fr.sfc.core.process.RuntimeEntity;
+import fr.sfc.core.process.EntityLoader;
 import fr.sfc.database.DatabaseManager;
 import fr.sfc.model.entity.Admin;
+import fr.sfc.model.repository.AdminRepository;
 import fr.sfc.persistence.EntityManager;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import javax.annotation.processing.Processor;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.ServiceLoader;
 import java.util.Set;
 
 public class RuntimeApplication {
@@ -37,10 +34,13 @@ public class RuntimeApplication {
 
     public static void init(String... args) {
         DatabaseManager.init();
-        RuntimeEntity runtimeEntity = new RuntimeEntity();
-        runtimeEntity.run();
-        EntityManager entityManager = new EntityManager(runtimeEntity);
-        entityManager.findAll(Admin.class);
+        EntityLoader entityLoader = new EntityLoader();
+        entityLoader.load();
+        EntityManager entityManager = new EntityManager(entityLoader);
+        Set<Admin> adminSet = entityManager.findAll(Admin.class);
+        for (Admin admin : adminSet) {
+            System.out.println(admin.getId() + " " + admin.getPassword());
+        }
     }
 
     public static void run() {

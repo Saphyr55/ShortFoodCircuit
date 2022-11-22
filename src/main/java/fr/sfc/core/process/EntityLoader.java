@@ -9,11 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class RuntimeEntity {
+public class EntityLoader {
     private final Map<Class<?>, Map<String, Field>> entities;
     private boolean alreadyLoad = false;
 
-    public RuntimeEntity() {
+    public EntityLoader() {
         entities = new HashMap<>();
     }
 
@@ -21,7 +21,7 @@ public class RuntimeEntity {
         return entities.get(aClass);
     }
 
-    public void run() {
+    public void load() {
         if (!alreadyLoad) {
             Reflections reflections = new Reflections("fr.sfc.model.entity");
             Set<Class<?>> classSet = reflections.getTypesAnnotatedWith(Entity.class);

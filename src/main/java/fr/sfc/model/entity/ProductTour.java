@@ -14,7 +14,7 @@ public class ProductTour {
 
     @Id
     @Column(name = "idProductTour")
-    private int id;
+    private Integer id;
     @Column(name = "startDate")
     private LocalDateTime startDateTime;
     @Column(name = "endDate")
@@ -22,8 +22,10 @@ public class ProductTour {
     @Column(name = "name")
     private String name;
     @Column(name = "weight")
-    private float weight;
-    
+    private Float weight;
+
+    public ProductTour() { }
+
     public ProductTour(LocalDateTime startDate, LocalDateTime endDateTime, String name, float weight) {
         this.startDateTime = startDate;
         this.endDateTime = endDateTime;

@@ -12,7 +12,7 @@ public class Customer {
 
     @Id
     @Column(name = "idCustomer")
-    private int id;
+    private Integer id;
     @Column(name = "name")
     private String name;
     @Column(name = "phoneNumber")
@@ -20,13 +20,15 @@ public class Customer {
     @Column(name = "address")
     private String address;
     @Column(name = "longitude")
-    private float longitude;
+    private Float longitude;
     @Column(name = "latitude")
-    private float latitude;
+    private Float latitude;
 
-    public Customer(Location location, String name, String phoneNumber, String address) {
-        this.longitude = location.getLongitude();
-        this.latitude = location.getLatitude();
+    public Customer() { }
+
+    public Customer(String name, String phoneNumber, String address, float longitude, float latitude) {
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;

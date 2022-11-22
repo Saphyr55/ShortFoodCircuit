@@ -11,11 +11,13 @@ public class Vehicle {
 
     @Id
     @Column(name = "idVehicle")
-    private int id;
+    private Integer id;
     @Column(name = "matriculation")
     private String matriculation;
     @Column(name = "maxWeight")
-    private float maxWeight;
+    private Float maxWeight;
+
+    public Vehicle() { }
 
     public Vehicle(int id, String matriculation, float maxWeight) {
         this.matriculation = matriculation;
