@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,11 +25,9 @@ class QueryImplTest {
 
     @Test
     void setParameter() throws SQLException {
-        Query request = queryBuilder.buildRequest();
+        Query request = queryBuilder.build();
         request.setParameter("idAdmin", "1").prepare();
-        Optional<ResultSet> optionalResultSet = request.getResultSet();
-        assertTrue(optionalResultSet.isPresent());
-        ResultSet resultSet = optionalResultSet.get();
+        ResultSet resultSet = request.getResultSet();
         resultSet.next();
         assertEquals(1,resultSet.getInt(1));
      }

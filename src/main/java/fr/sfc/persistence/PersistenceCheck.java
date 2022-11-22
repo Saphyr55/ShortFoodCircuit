@@ -5,10 +5,6 @@ import java.lang.annotation.Annotation;
 public final class PersistenceCheck {
 
 
-    public static boolean isEntity(Class<?> tClass) {
-        return haveAnnotation(tClass, Entity.class);
-    }
-
     public static boolean isTable(Class<?> tClass) {
         return haveAnnotation(tClass, Table.class);
     }

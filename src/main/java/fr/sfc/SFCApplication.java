@@ -1,5 +1,8 @@
 package fr.sfc;
 
+import fr.sfc.model.entity.Vehicle;
+import fr.sfc.model.repository.AdminRepository;
+import fr.sfc.persistence.EntityManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,19 +13,20 @@ import java.net.URL;
 public final class SFCApplication extends Application {
 
     public static URL index;
-    public static RuntimeApplication application;
+
+    public AdminRepository adminRepository;
 
     @Override
     public void start(Stage stage) throws Exception {
-        application = RuntimeApplication.setup(stage,"SFC", 880, 620);
+        RuntimeApplication.setup(stage,"SFC", 880, 620);
         RuntimeApplication.run();
     }
 
     public static void main(String[] args) {
         try {
-            index = SFCApplication.class.getResource("index.html");
             RuntimeApplication.init();
-            Application.launch(args);
+            index = SFCApplication.class.getResource("index.html");
+            launch(args);
         } catch (Exception e) {
             e.printStackTrace();
         }

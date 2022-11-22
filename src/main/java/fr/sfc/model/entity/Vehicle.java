@@ -7,7 +7,7 @@ import fr.sfc.persistence.Table;
 
 @Entity
 @Table(name = "vehicle")
-public final class Vehicle {
+public class Vehicle {
 
     @Id
     @Column(name = "idVehicle")
@@ -18,7 +18,6 @@ public final class Vehicle {
     private float maxWeight;
 
     public Vehicle(int id, String matriculation, float maxWeight) {
-    	this.id = id;
         this.matriculation = matriculation;
         this.maxWeight = maxWeight;
     }
@@ -34,15 +33,15 @@ public final class Vehicle {
     public String getMatriculation() {
         return matriculation;
     }
-    
+
     public float getMaxWeight() {
         return maxWeight;
     }
-    
+
     public void setMatriculation(String matriculation) {
         this.matriculation = matriculation;
     }
-    
+
     public void setMaxWeight(float maxWeight) {
         this.maxWeight = maxWeight;
     }

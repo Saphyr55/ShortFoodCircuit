@@ -1,14 +1,5 @@
 package fr.sfc.database;
 
-import fr.sfc.database.impl.QueryImpl;
-import fr.sfc.persistence.Entity;
-import fr.sfc.persistence.PersistenceCheck;
-import fr.sfc.persistence.Table;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public interface QueryBuilder {
 
     QueryBuilder selectAll();
@@ -33,7 +24,7 @@ public interface QueryBuilder {
 
     QueryBuilder or(String condition);
 
-    Query buildRequest();
+    Query build();
 
     String buildString();
 

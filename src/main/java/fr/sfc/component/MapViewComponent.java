@@ -13,7 +13,9 @@ public class MapViewComponent extends AnchorPane {
     @FXML
     private WebView map;
     private MapViewComponent self;
-    private final MapViewController controller;
+
+    @AutoComponent
+    private MapViewController controller;
 
     public MapViewComponent() {
         super();

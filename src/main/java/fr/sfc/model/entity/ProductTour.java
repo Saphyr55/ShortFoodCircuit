@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "productTour")
-public final class ProductTour {
+public class ProductTour {
 
     @Id
     @Column(name = "idProductTour")
@@ -24,14 +24,29 @@ public final class ProductTour {
     @Column(name = "weight")
     private float weight;
     
-    public ProductTour(int id, LocalDateTime startDate, LocalDateTime endDateTime, String name, float weight) {
-    	this.id = id;
+    public ProductTour(LocalDateTime startDate, LocalDateTime endDateTime, String name, float weight) {
         this.startDateTime = startDate;
         this.endDateTime = endDateTime;
         this.name = name;
         this.weight = weight;
     }
-    
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getEndDateTime() {
+        return endDateTime;
+    }
+
+    public void setEndDateTime(LocalDateTime endDateTime) {
+        this.endDateTime = endDateTime;
+    }
+
     public LocalDateTime getStartDateTime() {
         return startDateTime;
     }

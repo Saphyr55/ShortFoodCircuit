@@ -18,10 +18,24 @@ module fr.sfc {
     requires javafx.media;
 
     requires mysql.connector.j;
+
     requires lucene.core;
+
     requires ini4j;
+
+    requires org.reflections;
+
+    requires com.google.auto.service;
+    requires com.google.protobuf;
+    requires com.google.common;
+    requires com.google.errorprone.annotations;
 
     opens fr.sfc;
     opens fr.sfc.controller;
-    opens fr.sfc.component to javafx.fxml;
+    opens fr.sfc.core;
+    opens fr.sfc.model.repository;
+    opens fr.sfc.model.entity;
+    opens fr.sfc.component;
+    opens fr.sfc.resource;
+    opens fr.sfc.core.expection;
 }

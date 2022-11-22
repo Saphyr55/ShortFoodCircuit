@@ -24,8 +24,7 @@ public class Customer {
     @Column(name = "latitude")
     private float latitude;
 
-    public Customer(int id, Location location, String name, String phoneNumber, String address) {
-    	this.id = id;
+    public Customer(Location location, String name, String phoneNumber, String address) {
         this.longitude = location.getLongitude();
         this.latitude = location.getLatitude();
         this.name = name;

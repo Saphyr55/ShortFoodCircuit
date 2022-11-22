@@ -10,7 +10,7 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "indent")
-public final class Indent {
+public class Indent {
 
     @Id
     @Column(name = "idIndent")
@@ -28,8 +28,7 @@ public final class Indent {
     @Column(name = "weight")
     private float weight;
 
-    public Indent(int id, LocalDateTime startTime, LocalDateTime endTime, String wording, float weight) {
-    	this.id = id;
+    public Indent(LocalDateTime startTime, LocalDateTime endTime, String wording, float weight) {
         this.endTime = endTime;
         this.startTime = startTime;
         this.wording = wording;

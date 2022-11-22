@@ -25,7 +25,7 @@ public final class QueryImpl implements Query {
     }
 
     @Override
-    public Optional<ResultSet> query() {
+    public ResultSet query() {
         prepare();
         return getResultSet();
     }
@@ -40,13 +40,13 @@ public final class QueryImpl implements Query {
     }
 
     @Override
-    public Optional<ResultSet> getResultSet() {
+    public ResultSet getResultSet() {
         try {
-            return Optional.ofNullable(statement.executeQuery());
+            return statement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return Optional.empty();
+        return null;
     }
 
     @Override

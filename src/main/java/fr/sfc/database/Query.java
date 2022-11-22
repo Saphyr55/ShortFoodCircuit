@@ -26,13 +26,13 @@ public interface Query extends AutoCloseable {
      *
      * @return
      */
-    Optional<ResultSet> query();
+    ResultSet query();
 
     /**
      *
      * @return
      */
-    Optional<ResultSet> getResultSet();
+    ResultSet getResultSet();
 
     /**
      *

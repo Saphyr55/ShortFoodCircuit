@@ -1,22 +1,26 @@
 package fr.sfc.component;
 
 import fr.sfc.controller.MainController;
+import fr.sfc.controller.AutoController;
+import fr.sfc.resource.Resource;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 
+@Component(source = "main.fxml")
 public class MainComponent extends HBox {
 
-    private MainComponent self;
-
+    @AutoController
+    private MainController controller;
+    
     public MainComponent() {
         super();
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+            final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(new MainController());
-            self = fxmlLoader.load();
+            fxmlLoader.load();
         } catch (IOException exception) {
             exception.printStackTrace();
         }

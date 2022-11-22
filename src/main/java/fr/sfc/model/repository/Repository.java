@@ -1,8 +1,12 @@
 package fr.sfc.model.repository;
 
+import fr.sfc.model.entity.Admin;
+
+import java.util.Set;
+
 public interface Repository<T> {
 
-    Iterable<T> findAll();
+    Set<T> findAll();
 
     T find(int id);
 
@@ -10,8 +14,7 @@ public interface Repository<T> {
 
     void delete(T entity);
 
-    boolean exist(int id);
+    void insert(T entity);
 
-    void save(T entity);
-
+    void save(T admin);
 }

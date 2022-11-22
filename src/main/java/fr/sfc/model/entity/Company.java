@@ -8,7 +8,7 @@ import fr.sfc.persistence.Table;
 
 @Entity
 @Table(name = "company")
-public final class Company {
+public class Company {
 
     @Id
     @Column(name = "idCompany")
@@ -32,8 +32,7 @@ public final class Company {
     @Column(name = "SIRET")
 	private String SIRET;
 	
-    public Company(int id, Location location, String name, String phoneNumber, String address) {
-        this.id = id;
+    public Company(Location location, String name, String phoneNumber, String address) {
         this.longitude = location.getLongitude();
         this.latitude = location.getLatitude();
         this.name = name;

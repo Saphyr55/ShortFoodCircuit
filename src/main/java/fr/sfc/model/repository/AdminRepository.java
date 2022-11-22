@@ -1,39 +1,44 @@
 package fr.sfc.model.repository;
 
+import fr.sfc.database.Query;
 import fr.sfc.model.entity.Admin;
+import fr.sfc.persistence.EntityManager;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class AdminRepository implements Repository<Admin> {
 
-    private Enti
+    public EntityManager entityManager;
 
     @Override
-    public Iterable<Admin> findAll() {
-        return null;
+    public Set<Admin> findAll() {
+        return entityManager.findAll(Admin.class);
     }
 
     @Override
     public Admin find(int id) {
-        return null;
+        return entityManager.find(Admin.class, id);
     }
 
     @Override
     public long count() {
-        return 0;
+        return entityManager.count(Admin.class);
     }
 
     @Override
-    public void delete(Admin entity) {
-
+    public void delete(Admin admin) {
+        entityManager.delete(admin);
     }
 
     @Override
-    public boolean exist(int id) {
-        return false;
+    public void insert(Admin admin) {
+        entityManager.insert(admin);
     }
 
     @Override
-    public void save(Admin entity) {
-
+    public void save(Admin admin) {
+        entityManager.insert(admin);
     }
 
 }

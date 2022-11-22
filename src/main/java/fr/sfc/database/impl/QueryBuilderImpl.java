@@ -50,7 +50,7 @@ public final class QueryBuilderImpl implements QueryBuilder {
         List<String> classNames = new ArrayList<>();
 
         for (Class<?> c : tables) {
-            PersistenceCheck.throwHaveNotAnnotation(c, Entity.class);
+            // PersistenceCheck.throwHaveNotAnnotation(c, Entity.class);
 
             if (PersistenceCheck.isTable(c))
                 classNames.add(c.getAnnotation(Table.class).name());
@@ -61,7 +61,7 @@ public final class QueryBuilderImpl implements QueryBuilder {
 
     @Override
     public QueryBuilder from(Class<?> table, String rename) {
-        PersistenceCheck.throwHaveNotAnnotation(table, Entity.class);
+        // PersistenceCheck.throwHaveNotAnnotation(table, Entity.class);
         StringBuilder name = new StringBuilder(table.getName());
         if (PersistenceCheck.isTable(table))
             name = new StringBuilder(table.getAnnotation(Table.class).name());
@@ -90,7 +90,7 @@ public final class QueryBuilderImpl implements QueryBuilder {
 
     @Override
     public QueryBuilder innerJoin(Class<?> table, String rename, String on) {
-        PersistenceCheck.throwHaveNotAnnotation(table, Entity.class);
+        // PersistenceCheck.throwHaveNotAnnotation(table, Entity.class);
 
         if (!rename.isEmpty()) rename = " " + rename;
 
@@ -115,7 +115,7 @@ public final class QueryBuilderImpl implements QueryBuilder {
     }
 
     @Override
-    public Query buildRequest() {
+    public Query build() {
         return new QueryImpl(connection, buildString());
     }
 
