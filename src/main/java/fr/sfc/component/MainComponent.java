@@ -1,22 +1,29 @@
 package fr.sfc.component;
 
+import fr.sfc.api.component.Component;
+import fr.sfc.api.persistence.annotation.Autowired;
 import fr.sfc.controller.MainController;
+import fr.sfc.api.controller.AutoController;
+import fr.sfc.model.entity.Admin;
+import fr.sfc.model.repository.AdminRepository;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 
+@Component(source = "main.fxml")
 public class MainComponent extends HBox {
 
-    private MainComponent self;
+    @AutoController
+    private MainController controller;
 
     public MainComponent() {
         super();
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+            final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(new MainController());
-            self = fxmlLoader.load();
+            fxmlLoader.load();
         } catch (IOException exception) {
             exception.printStackTrace();
         }

@@ -1,5 +1,6 @@
 package fr.sfc.component;
 
+import fr.sfc.api.component.AutoComponent;
 import fr.sfc.controller.MapViewController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +14,9 @@ public class MapViewComponent extends AnchorPane {
     @FXML
     private WebView map;
     private MapViewComponent self;
-    private final MapViewController controller;
+
+    @AutoComponent
+    private MapViewController controller;
 
     public MapViewComponent() {
         super();

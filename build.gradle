@@ -35,10 +35,13 @@ dependencies {
     implementation 'org.apache.lucene:lucene-spatial:8.4.1'
     implementation 'org.ini4j:ini4j:0.5.4'
     implementation 'org.reflections:reflections:0.10.2'
+    implementation 'com.google.auto.service:auto-service:1.0.1'
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    annotationProcessor 'com.google.auto.service:auto-service:1.0.1'
+    compileOnly 'com.google.auto.service:auto-service:1.0.1'
 
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 }
 
 test {
