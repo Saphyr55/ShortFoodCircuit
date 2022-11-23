@@ -15,39 +15,40 @@ import java.util.Set;
 
 public class RuntimeApplicationConfiguration {
 
-    private int initialHeight;
-    private int width;
-    private String title;
-    private String packageEntity;
-    private File dbFile;
-    private Set<String> dbNames;
+
+    private final EntityLoader entityLoader;
+    private final RepositoryFactory repositoryFactory;
+    private final Set<String> connectDBNames;
+    private final Set<String> dbNames;
     private DatabaseManager databaseManager;
-    private EntityManager entityManager;
-    private EntityLoader entityLoader;
     private AutoWiredConfiguration autoWiredConfiguration;
-    private RepositoryFactory repositoryFactory;
-    private Set<String> connectDBNames;
+    private EntityManager entityManager;
+    private File dbFile;
+    private String title;
+    private int initialHeight;
+    private int initialWidth;
+
 
     private RuntimeApplicationConfiguration() {
         this.connectDBNames = new HashSet<>();
         this.dbNames = new HashSet<>();
+        this.entityLoader = new EntityLoader();
+        this.repositoryFactory = new RepositoryFactory();
     }
 
     public void configure(String currentDatabase, String packageEntity, String packageRepository) {
-        this.databaseManager = new DatabaseManager(dbFile, dbNames);
-        this.databaseManager.init();
-        this.connectDBNames.forEach(databaseManager::connect);
-        this.entityLoader = new EntityLoader();
-        this.entityManager = entityLoader.createEntityManager(databaseManager.getDatabase(currentDatabase), packageEntity);
-        this.repositoryFactory = new RepositoryFactory();
-        this.repositoryFactory.detectRepositories(packageRepository);
-        this.autoWiredConfiguration = new AutoWiredConfiguration(repositoryFactory, entityManager);
+        databaseManager = new DatabaseManager(dbFile, dbNames);
+        databaseManager.init();
+        connectDBNames.forEach(databaseManager::connect);
+        entityManager = entityLoader.createEntityManager(databaseManager.getDatabase(currentDatabase), packageEntity);
+        repositoryFactory.detectRepositories(packageRepository);
+        autoWiredConfiguration = new AutoWiredConfiguration(repositoryFactory, entityManager);
         autoWiredConfiguration.configure();
     }
 
     public RuntimeApplication createApplication(Stage stage, Parent parent) {
         RuntimeApplication.set(new RuntimeApplication(stage, parent, this));
-        return RuntimeApplication.get();
+        return RuntimeApplication.getCurrentApplication();
     }
 
     public RepositoryFactory getRepositoryFactory() {
@@ -59,7 +60,7 @@ public class RuntimeApplicationConfiguration {
     }
 
     public int getInitialWidth() {
-        return width;
+        return initialWidth;
     }
 
     public String getInitialTitle() {
@@ -92,7 +93,7 @@ public class RuntimeApplicationConfiguration {
         }
 
         public Builder withWidth(int width) {
-            this.runtimeApplicationConfiguration.width = width;
+            this.runtimeApplicationConfiguration.initialWidth = width;
             return this;
         }
 
@@ -107,12 +108,14 @@ public class RuntimeApplicationConfiguration {
         }
 
         public Builder withDatabasesName(String... dbName) {
-            this.runtimeApplicationConfiguration.dbNames = Sets.newHashSet(dbName);
+            this.runtimeApplicationConfiguration.dbNames.clear();
+            this.runtimeApplicationConfiguration.dbNames.addAll(Sets.newHashSet(dbName));
             return this;
         }
 
         public Builder withConnectDatabase(String... dbName) {
-            this.runtimeApplicationConfiguration.connectDBNames = Sets.newHashSet(dbName);
+            this.runtimeApplicationConfiguration.connectDBNames.clear();
+            this.runtimeApplicationConfiguration.connectDBNames.addAll(Sets.newHashSet(dbName));
             return this;
         }
 

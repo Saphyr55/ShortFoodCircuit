@@ -2,6 +2,7 @@ package fr.sfc;
 
 import fr.sfc.api.RuntimeApplication;
 import fr.sfc.api.RuntimeApplicationConfiguration;
+import fr.sfc.api.persistence.AutoWiredConfiguration;
 import fr.sfc.api.persistence.EntityManager;
 import fr.sfc.api.persistence.annotation.Autowired;
 import fr.sfc.model.entity.Admin;
@@ -28,6 +29,8 @@ public final class SFCApplication extends Application {
 
         Parent parent = new FXMLLoader(SFCApplication.class.getResource("default.fxml")).load();
 
+
+
         RuntimeApplicationConfiguration configuration = RuntimeApplicationConfiguration.Builder.of()
                 .widthTitle("Short Food Circuit")
                 .withWidth(880)
@@ -36,7 +39,7 @@ public final class SFCApplication extends Application {
                 .withDatabasesName("sfc", "test")
                 .withConnectDatabase("sfc")
                 .build();
-
+        
         configuration.configure(
                   "sfc",
                     "fr.sfc.model.entity",
@@ -46,7 +49,10 @@ public final class SFCApplication extends Application {
         RuntimeApplication application = configuration.createApplication(stage, parent);
         application.show();
 
-        AdminRepository adminRepository = configuration.getRepositoryFactory().getRepository(AdminRepository.class);
+        AdminRepository adminRepository = configuration
+                .getRepositoryFactory()
+                .getRepository(AdminRepository.class);
+
         Admin admin = adminRepository.find(1);
         System.out.println(admin.getPassword());
 

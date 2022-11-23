@@ -9,9 +9,9 @@ public class RuntimeApplication {
     private static RuntimeApplication runtimeApplication;
     private final Stage primaryStage;
     private final Scene scene;
-    private RuntimeApplicationConfiguration runtimeApplicationConfiguration;
+    private final RuntimeApplicationConfiguration runtimeApplicationConfiguration;
 
-    public RuntimeApplication(Stage primaryStage, Parent parent, RuntimeApplicationConfiguration configuration) {
+    public RuntimeApplication(final Stage primaryStage, final Parent parent, final RuntimeApplicationConfiguration configuration) {
         this.primaryStage = primaryStage;
         this.runtimeApplicationConfiguration = configuration;
         this.scene = new Scene(parent,
@@ -24,19 +24,6 @@ public class RuntimeApplication {
 
     public void show() {
         primaryStage.show();
-    }
-
-    public static RuntimeApplication application() {
-        return runtimeApplication;
-    }
-
-    public static boolean isJUnitTest() {
-        for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
-            if (element.getClassName().startsWith("org.junit.")) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public Stage getPrimaryStage() {
@@ -55,7 +42,7 @@ public class RuntimeApplication {
         runtimeApplication = application;
     }
 
-    public static RuntimeApplication get() {
+    public static RuntimeApplication getCurrentApplication() {
         return runtimeApplication;
     }
 
