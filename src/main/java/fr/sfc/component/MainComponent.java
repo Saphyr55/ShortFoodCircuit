@@ -1,8 +1,11 @@
 package fr.sfc.component;
 
+import fr.sfc.api.component.Component;
+import fr.sfc.api.persistence.annotation.Autowired;
 import fr.sfc.controller.MainController;
-import fr.sfc.controller.AutoController;
-import fr.sfc.resource.Resource;
+import fr.sfc.api.controller.AutoController;
+import fr.sfc.model.entity.Admin;
+import fr.sfc.model.repository.AdminRepository;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 
@@ -13,7 +16,7 @@ public class MainComponent extends HBox {
 
     @AutoController
     private MainController controller;
-    
+
     public MainComponent() {
         super();
         try {

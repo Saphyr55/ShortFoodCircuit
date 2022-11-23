@@ -1,7 +1,7 @@
 package fr.sfc.controller;
 
 import fr.sfc.component.MainComponent;
-import fr.sfc.component.AutoComponent;
+import fr.sfc.api.component.AutoComponent;
 import javafx.fxml.Initializable;
 
 import java.net.URL;

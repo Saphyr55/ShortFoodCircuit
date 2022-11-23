@@ -1,5 +1,6 @@
 package fr.sfc.component;
 
+import fr.sfc.api.component.AutoComponent;
 import fr.sfc.controller.MapViewController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

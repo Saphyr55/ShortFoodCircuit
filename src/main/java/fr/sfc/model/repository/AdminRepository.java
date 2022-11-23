@@ -1,8 +1,8 @@
 package fr.sfc.model.repository;
 
 import fr.sfc.model.entity.Admin;
-import fr.sfc.persistence.Autowired;
-import fr.sfc.persistence.EntityManager;
+import fr.sfc.api.persistence.annotation.Autowired;
+import fr.sfc.api.persistence.EntityManager;
 
 import java.util.Set;
 

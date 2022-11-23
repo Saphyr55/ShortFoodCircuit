@@ -32,10 +32,13 @@ module fr.sfc {
 
     opens fr.sfc;
     opens fr.sfc.controller;
-    opens fr.sfc.core;
+    opens fr.sfc.api.core;
     opens fr.sfc.model.repository;
     opens fr.sfc.model.entity;
     opens fr.sfc.component;
-    opens fr.sfc.resource;
-    opens fr.sfc.core.expection;
+    opens fr.sfc.api.resource;
+    opens fr.sfc.api.core.expection;
+    opens fr.sfc.api.component;
+    opens fr.sfc.api.controller;
+    opens fr.sfc.api;
 }

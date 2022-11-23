@@ -1,7 +1,5 @@
 package fr.sfc.model.repository;
 
-import fr.sfc.model.entity.Admin;
-
 import java.util.Set;
 
 public interface Repository<T> {
