@@ -13,7 +13,11 @@ public final class DatabaseManager {
     private final DatabaseFileProperties databaseManagerFileProperties;
     private final Map<String, Database> databases;
 
-    public DatabaseManager(final File fileConfigDatabase, String... databasesNames) {
+    public DatabaseManager(final String fileConfigDatabase, final String... databasesNames) {
+        this(new File(fileConfigDatabase), Sets.newHashSet(Arrays.asList(databasesNames)));
+    }
+
+    public DatabaseManager(final File fileConfigDatabase, final String... databasesNames) {
         this(fileConfigDatabase, Sets.newHashSet(Arrays.asList(databasesNames)));
     }
 
@@ -24,7 +28,7 @@ public final class DatabaseManager {
         this.databaseManagerFileProperties = new DatabaseFileProperties(databaseNames, this.fileConfigDatabase);
     }
 
-    public void init() {
+    public void setupConfiguration() {
         try {
             Class.forName(databaseManagerFileProperties.getConfig().getDriver());
             fillDatabases();
@@ -46,9 +50,14 @@ public final class DatabaseManager {
         }
     }
 
+    public void shutdown(String databaseName) {
+        getDatabase(databaseName).close();
+    }
+
     public Database getDatabase(String databaseName) {
         return databases.get(databaseName);
     }
+
 
     private void fillDatabases() {
         databaseNames.forEach(this::createDatabaseFromName);

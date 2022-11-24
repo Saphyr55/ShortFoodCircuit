@@ -51,8 +51,14 @@ public final class Database implements AutoCloseable {
 	}
 
 	@Override
-	public void close() throws Exception {
-		connection.close();
+	public void close() {
+		if (connection != null) {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
 	public static class Properties {
@@ -92,7 +98,7 @@ public final class Database implements AutoCloseable {
 		private final String driver;
 		private final String dbms;
 
-		public Configuration(String driver, String dbms) {
+		public Configuration(final String driver, final String dbms) {
 			this.driver = driver;
 			this.dbms = dbms;
 		}

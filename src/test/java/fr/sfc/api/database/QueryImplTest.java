@@ -1,12 +1,10 @@
 package fr.sfc.api.database;
 
-import fr.sfc.api.database.DatabaseManager;
-import fr.sfc.api.database.Query;
-import fr.sfc.api.database.QueryBuilder;
 import fr.sfc.model.entity.Admin;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -18,12 +16,14 @@ class QueryImplTest {
 
     @BeforeAll
     static void setup() {
-        DatabaseManager.init();
-        queryBuilder = DatabaseManager.TEST.createQueryBuilder()
+        File dbFile = new File("db.ini");
+        DatabaseManager databaseManager = new DatabaseManager(dbFile, "test");
+        databaseManager.setupConfiguration();
+        databaseManager.connect("test");
+        queryBuilder = databaseManager.getDatabase("test").createQueryBuilder()
                     .select("idAdmin")
                     .from(Admin.class)
                     .where("idAdmin = :idAdmin");
-        System.out.println(queryBuilder.buildString());
     }
 
     @Test

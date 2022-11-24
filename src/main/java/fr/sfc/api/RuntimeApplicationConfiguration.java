@@ -46,7 +46,7 @@ public final class RuntimeApplicationConfiguration {
     public void configure(String currentDatabase, String packageEntity, String packageRepository) {
         entityClassFactory = new EntityClassLoader(packageEntity).createEntityClassFactory();
         databaseManager = new DatabaseManager(dbFile, dbNames);
-        databaseManager.init();
+        databaseManager.setupConfiguration();
         connectDBNames.forEach(databaseManager::connect);
         entityManager = entityClassFactory.createEntityManager(databaseManager.getDatabase(currentDatabase));
         repositoryFactory.detectRepositories(packageRepository);

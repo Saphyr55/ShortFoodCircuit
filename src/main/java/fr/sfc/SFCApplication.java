@@ -49,7 +49,7 @@ public final class SFCApplication extends Application {
                 .getRepository(AdminRepository.class);
 
         Admin admin = adminRepository.find(1);
-        System.out.println(admin.getPassword());
+        System.out.println(admin);
 
     }
 
