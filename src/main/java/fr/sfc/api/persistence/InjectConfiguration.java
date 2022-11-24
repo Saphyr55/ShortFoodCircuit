@@ -1,20 +1,20 @@
 package fr.sfc.api.persistence;
 
 import com.google.common.collect.Sets;
-import fr.sfc.api.persistence.annotation.Autowired;
+import fr.sfc.api.persistence.annotation.Inject;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AutoWiredConfiguration {
+public final class InjectConfiguration {
 
     private final Set<Class<?>> classesAccessible;
     private final EntityManager entityManager;
     private final RepositoryFactory factory;
 
-    public AutoWiredConfiguration(final RepositoryFactory factory, final EntityManager manager) {
+    public InjectConfiguration(final RepositoryFactory factory, final EntityManager manager) {
         this.entityManager = manager;
         this.factory = factory;
         this.classesAccessible = new HashSet<>();
@@ -23,10 +23,10 @@ public class AutoWiredConfiguration {
     public void configure() {
         configureEntityManagerForRepository();
     }
-
+    
     private void configureEntityManagerForRepository() {
         factory.getAllRepository().forEach(repository -> Arrays.stream(repository.getClass().getDeclaredFields())
-                        .filter(field -> field.getAnnotation(Autowired.class) != null)
+                        .filter(field -> field.getAnnotation(Inject.class) != null)
                         .forEach(field -> setValueFieldToEntityManager(field, repository))
         );
     }
@@ -74,8 +74,8 @@ public class AutoWiredConfiguration {
             return this;
         }
 
-        public AutoWiredConfiguration build() {
-            var config = new AutoWiredConfiguration(factory, entityManager);
+        public InjectConfiguration build() {
+            var config = new InjectConfiguration(factory, entityManager);
             config.classesAccessible.clear();
             config.classesAccessible.addAll(classesAccessible);
             return config;

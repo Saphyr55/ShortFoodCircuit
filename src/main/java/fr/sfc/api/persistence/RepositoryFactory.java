@@ -8,7 +8,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-public class RepositoryFactory {
+public final class RepositoryFactory {
 
     private Map<Class<? extends Repository<?>>, Repository<?>> repositories;
     private Set<Repository<?>> setRepositories;

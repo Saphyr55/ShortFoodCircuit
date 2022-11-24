@@ -1,7 +1,7 @@
 package fr.sfc.api.component;
 
-public interface IComponent<T extends IComponent<?>> {
+public interface IComponent<T> {
 
-    T getSelf();
+    
 
 }

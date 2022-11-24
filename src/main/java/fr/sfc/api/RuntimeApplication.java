@@ -4,7 +4,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class RuntimeApplication {
+public final class RuntimeApplication {
 
     private static RuntimeApplication runtimeApplication;
     private final Stage primaryStage;

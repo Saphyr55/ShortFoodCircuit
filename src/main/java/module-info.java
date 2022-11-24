@@ -36,9 +36,8 @@ module fr.sfc {
     opens fr.sfc.model.repository;
     opens fr.sfc.model.entity;
     opens fr.sfc.component;
-    opens fr.sfc.api.resource;
-    opens fr.sfc.api.core.expection;
     opens fr.sfc.api.component;
     opens fr.sfc.api.controller;
     opens fr.sfc.api;
+    opens fr.sfc.api.persistence;
 }

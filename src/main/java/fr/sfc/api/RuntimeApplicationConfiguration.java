@@ -1,11 +1,8 @@
 package fr.sfc.api;
 
 import com.google.common.collect.Sets;
-import fr.sfc.api.core.process.EntityLoader;
+import fr.sfc.api.persistence.*;
 import fr.sfc.api.database.DatabaseManager;
-import fr.sfc.api.persistence.AutoWiredConfiguration;
-import fr.sfc.api.persistence.EntityManager;
-import fr.sfc.api.persistence.RepositoryFactory;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
@@ -13,68 +10,144 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
-public class RuntimeApplicationConfiguration {
+/**
+ *
+ */
+public final class RuntimeApplicationConfiguration {
 
 
-    private final EntityLoader entityLoader;
-    private final RepositoryFactory repositoryFactory;
+    private EntityClassFactory entityClassFactory;
+    private RepositoryFactory repositoryFactory;
     private final Set<String> connectDBNames;
     private final Set<String> dbNames;
     private DatabaseManager databaseManager;
-    private AutoWiredConfiguration autoWiredConfiguration;
+    private InjectConfiguration injectConfiguration;
     private EntityManager entityManager;
     private File dbFile;
     private String title;
     private int initialHeight;
     private int initialWidth;
 
-
+    /**
+     *
+     */
     private RuntimeApplicationConfiguration() {
         this.connectDBNames = new HashSet<>();
         this.dbNames = new HashSet<>();
-        this.entityLoader = new EntityLoader();
         this.repositoryFactory = new RepositoryFactory();
     }
 
+    /**
+     *
+     * @param currentDatabase
+     * @param packageEntity
+     * @param packageRepository
+     */
     public void configure(String currentDatabase, String packageEntity, String packageRepository) {
+        entityClassFactory = new EntityClassLoader(packageEntity).createEntityClassFactory();
         databaseManager = new DatabaseManager(dbFile, dbNames);
         databaseManager.init();
         connectDBNames.forEach(databaseManager::connect);
-        entityManager = entityLoader.createEntityManager(databaseManager.getDatabase(currentDatabase), packageEntity);
+        entityManager = entityClassFactory.createEntityManager(databaseManager.getDatabase(currentDatabase));
         repositoryFactory.detectRepositories(packageRepository);
-        autoWiredConfiguration = new AutoWiredConfiguration(repositoryFactory, entityManager);
-        autoWiredConfiguration.configure();
+        injectConfiguration = new InjectConfiguration(repositoryFactory, entityManager);
+        injectConfiguration.configure();
     }
 
+    /**
+     *
+     * @param stage
+     * @param parent
+     * @return
+     */
     public RuntimeApplication createApplication(Stage stage, Parent parent) {
         RuntimeApplication.set(new RuntimeApplication(stage, parent, this));
         return RuntimeApplication.getCurrentApplication();
     }
 
+    /**
+     *
+     * @return
+     */
     public RepositoryFactory getRepositoryFactory() {
         return repositoryFactory;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getInitialHeight() {
         return initialHeight;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getInitialWidth() {
         return initialWidth;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getInitialTitle() {
         return title;
     }
 
+    /**
+     *
+     * @return
+     */
     public DatabaseManager getDatabaseManager() {
         return databaseManager;
     }
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return entityManager;
     }
 
+    /**
+     *
+     * @return
+     */
+    public EntityClassFactory getEntityClassFactory() {
+        return entityClassFactory;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Set<String> getConnectDBNames() {
+        return connectDBNames;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Set<String> getDbNames() {
+        return dbNames;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public InjectConfiguration getInjectConfiguration() {
+        return injectConfiguration;
+    }
+
+    /**
+     *
+     */
     public static class Builder {
 
         private final RuntimeApplicationConfiguration runtimeApplicationConfiguration;
