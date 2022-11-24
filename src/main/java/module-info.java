@@ -40,4 +40,5 @@ module fr.sfc {
     opens fr.sfc.api.controller;
     opens fr.sfc.api;
     opens fr.sfc.api.persistence;
+    opens fr.sfc.api.persistence.exception;
 }

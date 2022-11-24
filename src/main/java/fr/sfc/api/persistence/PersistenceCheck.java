@@ -1,6 +1,7 @@
 package fr.sfc.api.persistence;
 
 import fr.sfc.api.persistence.annotation.Table;
+import fr.sfc.api.persistence.exception.PersistenceAnnotationPresentException;
 
 import java.lang.annotation.Annotation;
 

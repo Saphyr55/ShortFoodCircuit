@@ -152,7 +152,7 @@ public final class RuntimeApplicationConfiguration {
 
         private final RuntimeApplicationConfiguration runtimeApplicationConfiguration;
 
-        public Builder() {
+        private Builder() {
             runtimeApplicationConfiguration = new RuntimeApplicationConfiguration();
         }
 

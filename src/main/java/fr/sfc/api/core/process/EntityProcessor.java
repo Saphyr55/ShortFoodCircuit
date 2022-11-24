@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @AutoService(Processor.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
-@SupportedAnnotationTypes("fr.sfc.persistence.Entity")
+@SupportedAnnotationTypes("fr.sfc.api.persistence.annotation.Entity")
 public class EntityProcessor extends AbstractProcessor {
 
     @Override

@@ -1,4 +1,4 @@
-package fr.sfc.api.persistence;
+package fr.sfc.api.persistence.exception;
 
 public class EntityException extends RuntimeException{
 
