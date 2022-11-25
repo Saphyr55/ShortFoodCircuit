@@ -1,6 +1,6 @@
 package fr.sfc.api.core;
 
-import fr.sfc.api.core.Location;
+import fr.sfc.api.common.Location;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

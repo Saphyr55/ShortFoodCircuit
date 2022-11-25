@@ -35,7 +35,8 @@ public final class EntityManager {
         try (Query query = createQueryBuilder().selectAll().from(aClass).build()) {
             try (ResultSet resultSet = query.query()) {
                 T t = wrapResultSetToEntity(aClass, resultSet);
-                if (t != null) set.add(t);
+                if (t != null)
+                    set.add(t);
             }
         } catch (Exception e) {
             e.printStackTrace();

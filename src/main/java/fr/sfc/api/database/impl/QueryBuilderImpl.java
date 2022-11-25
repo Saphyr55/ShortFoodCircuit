@@ -96,8 +96,7 @@ public final class QueryBuilderImpl implements QueryBuilder {
 
     @Override
     public QueryBuilder innerJoin(Class<?> table, String rename, String on) {
-        // PersistenceCheck.throwHaveNotAnnotation(table, Entity.class);
-
+        PersistenceCheck.throwHaveNotAnnotation(table, Entity.class);
         if (!rename.isEmpty()) rename = " " + rename;
 
         if (PersistenceCheck.isTable(table))

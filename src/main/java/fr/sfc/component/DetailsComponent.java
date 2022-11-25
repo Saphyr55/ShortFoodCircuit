@@ -1,5 +1,7 @@
 package fr.sfc.component;
 
-public class DetailsComponent {
+import fr.sfc.api.component.Component;
+
+public class DetailsComponent implements Component {
 
 }

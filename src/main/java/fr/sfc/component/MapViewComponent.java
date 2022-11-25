@@ -1,8 +1,8 @@
 package fr.sfc.component;
 
-import fr.sfc.api.component.AutoComponent;
+import fr.sfc.SFCApplication;
+import fr.sfc.api.component.ComponentFXML;
 import fr.sfc.api.component.Component;
-import fr.sfc.api.component.IComponent;
 import fr.sfc.api.controller.AutoController;
 import fr.sfc.controller.MapViewController;
 import javafx.fxml.FXML;
@@ -12,8 +12,8 @@ import javafx.scene.web.WebView;
 
 import java.io.IOException;
 
-@Component(source = "map.fxml")
-public class MapViewComponent extends AnchorPane implements IComponent<AnchorPane> {
+@ComponentFXML(resource = "map.fxml")
+public class MapViewComponent extends AnchorPane implements Component {
 
     @FXML
     private WebView map;

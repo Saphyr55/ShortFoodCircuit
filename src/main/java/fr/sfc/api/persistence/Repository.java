@@ -1,4 +1,4 @@
-package fr.sfc.model.repository;
+package fr.sfc.api.persistence;
 
 import java.util.Set;
 
