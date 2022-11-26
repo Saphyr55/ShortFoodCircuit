@@ -1,12 +1,16 @@
 package fr.sfc.api.controller;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import fr.sfc.api.component.Component;
+import javafx.fxml.Initializable;
 
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Controller {
-    
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public abstract class Controller implements Initializable {
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
 }

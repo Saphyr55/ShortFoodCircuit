@@ -1,35 +1,40 @@
 package fr.sfc.api.persistence;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.reflections.Reflections;
-import org.reflections.scanners.Scanners;
-import org.reflections.util.ConfigurationBuilder;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 
 public final class RepositoryFactory {
 
     private final Map<Class<? extends Repository<?>>, Repository<?>> repositories;
-    private final Set<Repository<?>> setRepositories;
+    private final List<Repository<?>> setRepositories;
+    private final String packageRepository;
 
-    public RepositoryFactory() {
-        repositories = new HashMap<>();
-        setRepositories = new HashSet<>();
+    public RepositoryFactory(final String packageRepository) {
+        this.repositories = Maps.newIdentityHashMap();
+        this.setRepositories = Lists.newArrayList();
+        this.packageRepository = packageRepository;
     }
 
-    public void detectRepositories(String packageRepository) {
+    public void detect() {
+
         try {
-            final Reflections reflections = new Reflections(packageRepository, Scanners.values());
-            System.out.println(Arrays.toString(reflections.getConfiguration().getUrls().toArray()));
+            final Reflections reflections = new Reflections(packageRepository);
 
             for (final var subClasses : reflections.getSubTypesOf(Repository.class)) {
 
                 if (!repositories.containsKey(subClasses)) {
+
                     repositories.put((Class<? extends Repository<?>>) subClasses,
                             subClasses.getConstructor().newInstance());
                 }
             }
+
             repositories.forEach((aClass, repository) -> setRepositories.add(repository));
 
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
@@ -40,7 +45,7 @@ public final class RepositoryFactory {
 
     }
 
-    public Set<Repository<?>> getAllRepository() {
+    public List<Repository<?>> getAllRepository() {
         return setRepositories;
     }
 

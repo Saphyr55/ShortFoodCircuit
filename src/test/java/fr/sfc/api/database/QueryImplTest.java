@@ -18,8 +18,7 @@ class QueryImplTest {
     static void setup() {
         File dbFile = new File("db.ini");
         DatabaseManager databaseManager = new DatabaseManager(dbFile, "test");
-        databaseManager.setupConfiguration();
-        databaseManager.connect("test");
+        databaseManager.configure();
         queryBuilder = databaseManager.getDatabase("test").createQueryBuilder()
                     .select("idAdmin")
                     .from(Admin.class)
