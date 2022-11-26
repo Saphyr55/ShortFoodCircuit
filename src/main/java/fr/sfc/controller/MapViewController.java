@@ -15,8 +15,6 @@ public class MapViewController extends Controller implements Initializable  {
     @FXML
     private WebView map;
 
-    
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         final WebEngine engine = map.getEngine();

@@ -36,35 +36,40 @@ public final class InjectConfiguration {
     }
     
     private void configureForRepository() {
-        repositoryFactory.getAllRepository()
-                        .forEach(repository -> Arrays.stream(repository.getClass().getDeclaredFields())
-                        .filter(field -> field.getAnnotation(Inject.class) != null)
+        repositoryFactory.getAllRepository().forEach(repository -> Arrays
+                        .stream(repository.getClass().getDeclaredFields())
+                        .filter(this::haveInjectAnnotation)
                         .forEach(field -> setValueFieldToAll(field, repository)));
     }
 
     private void configureForComponent() {
-        componentFactory.getComponents()
-                        .forEach((aClass, component) -> Arrays.stream(aClass.getFields())
-                        .filter(field -> field.getAnnotation(Inject.class) != null)
+        componentFactory.getAllComponents().forEach(component -> Arrays
+                        .stream(component.getClass().getDeclaredFields())
+                        .filter(this::haveInjectAnnotation)
                         .forEach(field -> setValueFieldToAll(field, component)));
     }
 
     private void configureForController() {
-        controllerFactory.getControllers()
-                .forEach((aClass, component) -> Arrays.stream(aClass.getFields())
-                        .filter(field -> field.getAnnotation(Inject.class) != null)
-                        .forEach(field -> setValueFieldToAll(field, component)));
+        controllerFactory.getAllControllers().forEach(controller -> Arrays
+                        .stream(controller.getClass().getDeclaredFields())
+                        .filter(this::haveInjectAnnotation)
+                        .forEach(field -> setValueFieldToAll(field, controller)));
     }
 
     private void setValueFieldToAll(Field field, Object instance) {
+        field.getType();
         setValueFieldToEntityManager(field, instance);
         setValueFieldToRepository(field, instance);
     }
 
+    private boolean haveInjectAnnotation(Field field) {
+        return field.getAnnotation(Inject.class) != null;
+    }
+
     private void setValueFieldToRepository(Field field, Object instance) {
         final List<? extends Repository<?>> repositories = repositoryFactory.getAllRepository();
-        for (int i = 0; i < repositories.size() - 1; i++)
-            setFieldValueForObject(repositories.get(i).getClass(), field, instance, repositories.get(i));
+        for (final var repository : repositories)
+            setFieldValueForObject(repository.getClass(), field, instance, repository);
     }
 
     private void setFieldValueForObject(final Class<?> aClass, final Field field,

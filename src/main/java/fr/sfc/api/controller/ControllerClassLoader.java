@@ -2,6 +2,7 @@ package fr.sfc.api.controller;
 
 import com.google.common.collect.Sets;
 import fr.sfc.api.component.Component;
+import javafx.scene.Parent;
 
 import java.util.Set;
 

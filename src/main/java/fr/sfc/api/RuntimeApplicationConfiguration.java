@@ -9,8 +9,15 @@ import fr.sfc.api.controller.ControllerFactory;
 import fr.sfc.api.persistence.*;
 import fr.sfc.api.database.DatabaseManager;
 import fr.sfc.api.persistence.InjectConfiguration;
+import javafx.css.Styleable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -48,7 +55,8 @@ public final class RuntimeApplicationConfiguration {
 
         repositoryFactory.detect();
         componentFactory.detect();
-        controllerFactory.detect();
+
+        controllerFactory.detect(componentFactory.getAllComponents());
 
         injectConfiguration = new InjectConfiguration(
                 repositoryFactory, entityManager,
@@ -145,8 +153,8 @@ public final class RuntimeApplicationConfiguration {
         }
 
         @SafeVarargs
-        public final Builder withComponentPackage(final Class<? extends Component>... mainComponent) {
-            this.componentFactory = new ComponentClassLoader(mainComponent).createComponentFactory();
+        public final Builder withComponentPackage(final Parent root, final Class<? extends Component>... mainComponent) {
+            this.componentFactory = new ComponentClassLoader(getAllNodes(root), mainComponent).createComponentFactory();
             return this;
         }
 
@@ -160,6 +168,29 @@ public final class RuntimeApplicationConfiguration {
             return new RuntimeApplicationConfiguration(
                     databaseManager, componentFactory, controllerFactory,
                     repositoryFactory, entityClassFactory);
+        }
+
+        private static List<Node> getAllNodes(final Styleable root) {
+            final ArrayList<Node> nodes = new ArrayList<>();
+            addAllDescendents(root, nodes);
+            return nodes;
+        }
+
+        private static void addAllDescendents(final Styleable styleable, final ArrayList<Node> nodes) {
+            System.out.println(styleable);
+            if (styleable instanceof final Parent parent) {
+                if (styleable instanceof final TabPane tabPane) {
+                    for (final Tab tab : tabPane.getTabs()) {
+                        final Node node = tab.getContent();
+                        nodes.add(node);
+                        addAllDescendents(node, nodes);
+                    }
+                }
+                for (final Node node : parent.getChildrenUnmodifiable()) {
+                    nodes.add(node);
+                    addAllDescendents(node, nodes);
+                }
+            }
         }
 
     }

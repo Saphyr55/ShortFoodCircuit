@@ -2,6 +2,7 @@ package fr.sfc.api;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public final class RuntimeApplication {

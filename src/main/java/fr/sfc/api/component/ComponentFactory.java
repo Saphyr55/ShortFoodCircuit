@@ -1,18 +1,22 @@
 package fr.sfc.api.component;
 
+import fr.sfc.api.controller.Controller;
 import javafx.fxml.FXMLLoader;
+import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ComponentFactory {
 
-    private final Map<Class<? extends Component>, Component> components;
+    private final Map<Class<? extends Component>, List<Component>> components;
     private final ComponentClassLoader componentClassLoader;
 
     public ComponentFactory(final ComponentClassLoader componentClassLoader) {
@@ -21,11 +25,39 @@ public class ComponentFactory {
     }
 
     public void detect() {
-        componentClassLoader.getComponentPackages().forEach(this::setComponentsFromPackage);
+        System.out.println(componentClassLoader.getNodes().size());
+
+        setComponentsFromFXML();
+        componentClassLoader.getComponentPackages().stream()
+                .filter(aClass -> aClass.getAnnotation(ComponentFXML.class) == null)
+                .forEach(this::setComponentsFromPackage);
     }
 
-    public <T extends Component> T getComponent(Class<T> tClass) {
-        return (T) components.get(tClass);
+    public <T extends Component> List<T> getComponent(Class<T> tClass) {
+        return (List<T>) components.get(tClass);
+    }
+
+    public List<Component> getAllComponents() {
+        final List<Component> componentsList = new ArrayList<>();
+        components.forEach((aClass, c) -> componentsList.addAll(c));
+        return componentsList;
+    }
+
+
+    private void setComponentsFromFXML() {
+        componentClassLoader.getNodes().stream()
+                .filter(node -> node instanceof Component)
+                .filter(node -> node.getClass().getAnnotation(ComponentFXML.class) != null)
+                .forEach(node -> {
+                    final Component component = (Component) node;
+                    if (!components.containsKey(component.getClass())) {
+                        final List<Component> componentList = new ArrayList<>();
+                        components.put(component.getClass(), componentList);
+                        componentList.add(component);
+                    } else {
+                        components.get(component.getClass()).add(component);
+                    }
+        });
     }
 
     private <T extends Component> void setComponentsFromPackage(Class<T> tClass) {
@@ -34,10 +66,13 @@ public class ComponentFactory {
                 .setUrls(ClasspathHelper.forClass(tClass)));
 
         for (final var aClass : reflections.getSubTypesOf(Component.class)) {
-
-            final Component component = createComponent(aClass);
-            // updateClassForFXML(component);
-            components.put(aClass, component);
+            if (!components.containsKey(aClass)) {
+                final List<Component> componentList = new ArrayList<>();
+                components.put(aClass, componentList);
+                componentList.add(createComponent(tClass));
+            } else {
+                components.get(aClass).add(createComponent(tClass));
+            }
         }
     }
 
@@ -50,27 +85,7 @@ public class ComponentFactory {
         }
     }
 
-    @Deprecated
-    private <T extends Component> void updateClassForFXML(T component) {
-
-        try {
-
-            final Class<? extends Component> tClass = component.getClass();
-            final ComponentFXML componentFXML = tClass.getAnnotation(ComponentFXML.class);
-
-            if (componentFXML != null) {
-                final FXMLLoader loader = new FXMLLoader(tClass.getResource(componentFXML.resource()));
-                loader.setRoot(component);
-                loader.setController(component); // TODO : replace for a controller
-                loader.load();
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public Map<Class<? extends Component>, Component> getComponents() {
+    public Map<Class<? extends Component>, List<Component>> getComponents() {
         return components;
     }
 }
