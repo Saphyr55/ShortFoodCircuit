@@ -27,7 +27,7 @@ public final class EntityClassLoader {
         for (final Class<?> aClass : classSet)
             classMapMapOfEntities.put(aClass, hashClassEntityForFields(aClass));
 
-        return new EntityClassFactory(classMapMapOfEntities);
+        return new EntityClassFactory();
     }
 
     private Map<String, Field> hashClassEntityForFields(Class<?> aClass) {

@@ -6,8 +6,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class QueryImplBuilderTest {
@@ -19,14 +17,13 @@ class QueryImplBuilderTest {
 
     @BeforeAll
     static void setup() {
-        databaseManager.setupConfiguration();
-        databaseManager.connect("test");
+        databaseManager.configure();
         dbTest = databaseManager.getDatabase("test");
     }
     
     @AfterAll
     static void teardown() {
-        databaseManager.shutdown("test");
+        databaseManager.shutdown();
     }
 
     @Test

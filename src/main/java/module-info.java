@@ -17,6 +17,8 @@ module fr.sfc {
     requires javafx.web;
     requires javafx.media;
 
+    requires org.jetbrains.annotations;
+
     requires mysql.connector.j;
 
     requires lucene.core;
@@ -41,4 +43,5 @@ module fr.sfc {
     opens fr.sfc.api.persistence;
     opens fr.sfc.api.persistence.exception;
     opens fr.sfc.api.common;
+
 }

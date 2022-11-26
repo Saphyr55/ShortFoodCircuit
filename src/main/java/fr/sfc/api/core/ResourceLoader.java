@@ -4,8 +4,8 @@ import java.net.URL;
 
 public final class ResourceLoader {
 
-    public URL getResource(String path) {
-        return null;
+    public URL getResourceClassPath(Class<?> aClass, String filename) {
+        return aClass.getResource(filename);
     }
 
 }

@@ -2,12 +2,11 @@ package fr.sfc.api.component;
 
 import javafx.fxml.FXMLLoader;
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
+import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +20,7 @@ public class ComponentFactory {
         this.components = new HashMap<>();
     }
 
-    public void detectComponents() {
+    public void detect() {
         componentClassLoader.getComponentPackages().forEach(this::setComponentsFromPackage);
     }
 
@@ -29,13 +28,13 @@ public class ComponentFactory {
         return (T) components.get(tClass);
     }
 
-    private void setComponentsFromPackage(String componentsPackage) {
+    private <T extends Component> void setComponentsFromPackage(Class<T> tClass) {
 
-        final Reflections reflections = new Reflections(componentsPackage);
-
-        System.out.println(Arrays.toString(reflections.getConfiguration().getUrls().toArray()));
+        final Reflections reflections = new Reflections(new ConfigurationBuilder()
+                .setUrls(ClasspathHelper.forClass(tClass)));
 
         for (final var aClass : reflections.getSubTypesOf(Component.class)) {
+
             final Component component = createComponent(aClass);
             // updateClassForFXML(component);
             components.put(aClass, component);
@@ -51,16 +50,18 @@ public class ComponentFactory {
         }
     }
 
-    private <T extends Component> void updateClassForFXML(final T component) {
+    @Deprecated
+    private <T extends Component> void updateClassForFXML(T component) {
 
         try {
-            final Class<? extends Component> tClass = component.getClass();
-            final ComponentFXML componentFXML;
-            if ((componentFXML = tClass.getAnnotation(ComponentFXML.class)) != null) {
 
+            final Class<? extends Component> tClass = component.getClass();
+            final ComponentFXML componentFXML = tClass.getAnnotation(ComponentFXML.class);
+
+            if (componentFXML != null) {
                 final FXMLLoader loader = new FXMLLoader(tClass.getResource(componentFXML.resource()));
                 loader.setRoot(component);
-                loader.setController(component); // TODO : replace for the controller
+                loader.setController(component); // TODO : replace for a controller
                 loader.load();
             }
 

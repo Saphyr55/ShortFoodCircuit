@@ -1,34 +1,70 @@
 package fr.sfc.api.persistence;
 
 import com.google.common.collect.Sets;
+import fr.sfc.api.component.ComponentFactory;
+import fr.sfc.api.controller.ControllerFactory;
 import fr.sfc.api.persistence.annotation.Inject;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public final class InjectConfiguration {
 
-    private final Set<Class<?>> classesAccessible;
     private final EntityManager entityManager;
-    private final RepositoryFactory factory;
+    private final RepositoryFactory repositoryFactory;
+    private final ComponentFactory componentFactory;
+    private final ControllerFactory controllerFactory;
 
-    public InjectConfiguration(final RepositoryFactory factory, final EntityManager manager) {
-        this.entityManager = manager;
-        this.factory = factory;
-        this.classesAccessible = new HashSet<>();
+    public InjectConfiguration(final RepositoryFactory repositoryFactory,
+                               final EntityManager entityManager,
+                               final ComponentFactory componentFactory,
+                               final ControllerFactory controllerFactory) {
+
+        this.entityManager = entityManager;
+        this.repositoryFactory = repositoryFactory;
+        this.componentFactory = componentFactory;
+        this.controllerFactory = controllerFactory;
     }
 
     public void configure() {
-        configureEntityManagerForRepository();
+        configureForRepository();
+        configureForComponent();
+        configureForController();
     }
     
-    private void configureEntityManagerForRepository() {
-        factory.getAllRepository().forEach(repository -> Arrays.stream(repository.getClass().getDeclaredFields())
+    private void configureForRepository() {
+        repositoryFactory.getAllRepository()
+                        .forEach(repository -> Arrays.stream(repository.getClass().getDeclaredFields())
                         .filter(field -> field.getAnnotation(Inject.class) != null)
-                        .forEach(field -> setValueFieldToEntityManager(field, repository))
-        );
+                        .forEach(field -> setValueFieldToAll(field, repository)));
+    }
+
+    private void configureForComponent() {
+        componentFactory.getComponents()
+                        .forEach((aClass, component) -> Arrays.stream(aClass.getFields())
+                        .filter(field -> field.getAnnotation(Inject.class) != null)
+                        .forEach(field -> setValueFieldToAll(field, component)));
+    }
+
+    private void configureForController() {
+        controllerFactory.getControllers()
+                .forEach((aClass, component) -> Arrays.stream(aClass.getFields())
+                        .filter(field -> field.getAnnotation(Inject.class) != null)
+                        .forEach(field -> setValueFieldToAll(field, component)));
+    }
+
+    private void setValueFieldToAll(Field field, Object instance) {
+        setValueFieldToEntityManager(field, instance);
+        setValueFieldToRepository(field, instance);
+    }
+
+    private void setValueFieldToRepository(Field field, Object instance) {
+        final List<? extends Repository<?>> repositories = repositoryFactory.getAllRepository();
+        for (int i = 0; i < repositories.size() - 1; i++)
+            setFieldValueForObject(repositories.get(i).getClass(), field, instance, repositories.get(i));
     }
 
     private void setFieldValueForObject(final Class<?> aClass, final Field field,
@@ -47,40 +83,5 @@ public final class InjectConfiguration {
         setFieldValueForObject(EntityManager.class, field, instance, entityManager);
     }
 
-    public static class Builder {
-
-        private Set<Class<?>> classesAccessible;
-        private EntityManager entityManager;
-        private RepositoryFactory factory;
-
-        private Builder() { }
-
-        public static Builder of() {
-            return new Builder();
-        }
-
-        public Builder withAccessibleClasses(Class<?>... classes) {
-            this.classesAccessible = Sets.newHashSet(classes);
-            return this;
-        }
-
-        public Builder withEntityManager(final EntityManager manager) {
-            this.entityManager = manager;
-            return this;
-        }
-
-        public Builder withRepositoryFactory(final RepositoryFactory factory) {
-            this.factory = factory;
-            return this;
-        }
-
-        public InjectConfiguration build() {
-            var config = new InjectConfiguration(factory, entityManager);
-            config.classesAccessible.clear();
-            config.classesAccessible.addAll(classesAccessible);
-            return config;
-        }
-
-    }
 
 }

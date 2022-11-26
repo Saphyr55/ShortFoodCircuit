@@ -1,56 +1,59 @@
 package fr.sfc.api;
 
-import com.google.common.collect.Sets;
+import fr.sfc.api.component.Component;
+import fr.sfc.api.component.ComponentClassLoader;
+import fr.sfc.api.component.ComponentFactory;
+import fr.sfc.api.controller.Controller;
+import fr.sfc.api.controller.ControllerClassLoader;
+import fr.sfc.api.controller.ControllerFactory;
 import fr.sfc.api.persistence.*;
 import fr.sfc.api.database.DatabaseManager;
+import fr.sfc.api.persistence.InjectConfiguration;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  *
  */
 public final class RuntimeApplicationConfiguration {
 
-
-    private EntityClassFactory entityClassFactory;
-    private RepositoryFactory repositoryFactory;
-    private final Set<String> connectDBNames;
-    private final Set<String> dbNames;
-    private DatabaseManager databaseManager;
+    private final DatabaseManager databaseManager;
+    private final RepositoryFactory repositoryFactory;
+    private final ComponentFactory componentFactory;
+    private final EntityClassFactory entityClassFactory;
+    private final ControllerFactory controllerFactory;
     private InjectConfiguration injectConfiguration;
     private EntityManager entityManager;
-    private File dbFile;
-    private String title;
-    private int initialHeight;
-    private int initialWidth;
 
     /**
      *
      */
-    private RuntimeApplicationConfiguration() {
-        this.connectDBNames = new HashSet<>();
-        this.dbNames = new HashSet<>();
-        this.repositoryFactory = new RepositoryFactory();
+    private RuntimeApplicationConfiguration(final DatabaseManager databaseManager,
+                                            final ComponentFactory componentFactory,
+                                            final ControllerFactory controllerFactory,
+                                            final RepositoryFactory repositoryFactory,
+                                            final EntityClassFactory entityClassFactory) {
+
+        this.repositoryFactory = repositoryFactory;
+        this.componentFactory = componentFactory;
+        this.entityClassFactory = entityClassFactory;
+        this.databaseManager = databaseManager;
+        this.controllerFactory = controllerFactory;
     }
 
-    /**
-     *
-     * @param currentDatabase
-     * @param packageEntity
-     * @param packageRepository
-     */
-    public void configure(String currentDatabase, String packageEntity, String packageRepository) {
-        entityClassFactory = new EntityClassLoader(packageEntity).createClassFactory();
-        databaseManager = new DatabaseManager(dbFile, dbNames);
-        databaseManager.setupConfiguration();
-        connectDBNames.forEach(databaseManager::connect);
+    public void configure(final String currentDatabase) {
+
+        databaseManager.configure();
         entityManager = entityClassFactory.createEntityManager(databaseManager.getDatabase(currentDatabase));
-        repositoryFactory.detectRepositories(packageRepository);
-        injectConfiguration = new InjectConfiguration(repositoryFactory, entityManager);
+
+        repositoryFactory.detect();
+        componentFactory.detect();
+        controllerFactory.detect();
+
+        injectConfiguration = new InjectConfiguration(
+                repositoryFactory, entityManager,
+                componentFactory, controllerFactory);
+
         injectConfiguration.configure();
     }
 
@@ -60,8 +63,8 @@ public final class RuntimeApplicationConfiguration {
      * @param parent
      * @return
      */
-    public RuntimeApplication createApplication(Stage stage, Parent parent) {
-        RuntimeApplication.set(new RuntimeApplication(stage, parent, this));
+    public RuntimeApplication createApplication(final Stage stage, final Parent parent, final String title, int width, int height) {
+        RuntimeApplication.set(new RuntimeApplication(this, stage, parent, title, width, height));
         return RuntimeApplication.getCurrentApplication();
     }
 
@@ -71,30 +74,6 @@ public final class RuntimeApplicationConfiguration {
      */
     public RepositoryFactory getRepositoryFactory() {
         return repositoryFactory;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getInitialHeight() {
-        return initialHeight;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getInitialWidth() {
-        return initialWidth;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getInitialTitle() {
-        return title;
     }
 
     /**
@@ -117,32 +96,20 @@ public final class RuntimeApplicationConfiguration {
      *
      * @return
      */
+    public InjectConfiguration getInjectConfiguration() {
+        return injectConfiguration;
+    }
+
+    public ComponentFactory getComponentFactory() {
+        return componentFactory;
+    }
+
     public EntityClassFactory getEntityClassFactory() {
         return entityClassFactory;
     }
 
-    /**
-     *
-     * @return
-     */
-    public Set<String> getConnectDBNames() {
-        return connectDBNames;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Set<String> getDbNames() {
-        return dbNames;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public InjectConfiguration getInjectConfiguration() {
-        return injectConfiguration;
+    public ControllerFactory getControllerFactory() {
+        return controllerFactory;
     }
 
     /**
@@ -150,50 +117,49 @@ public final class RuntimeApplicationConfiguration {
      */
     public static class Builder {
 
-        private final RuntimeApplicationConfiguration runtimeApplicationConfiguration;
+        private DatabaseManager databaseManager;
+        private EntityClassFactory entityClassFactory;
+        private ComponentFactory componentFactory;
+        private RepositoryFactory repositoryFactory;
+        private ControllerFactory controllerFactory;
 
-        private Builder() {
-            runtimeApplicationConfiguration = new RuntimeApplicationConfiguration();
-        }
+        private Builder() { }
 
         public static Builder of() {
             return new Builder();
         }
 
-        public Builder withHeight(int height) {
-            this.runtimeApplicationConfiguration.initialHeight = height;
+        public Builder withDatabaseManager(final String fileConfigDatabase, final String... databasesNames) {
+            this.databaseManager = DatabaseManager.of(fileConfigDatabase, databasesNames);
             return this;
         }
 
-        public Builder withWidth(int width) {
-            this.runtimeApplicationConfiguration.initialWidth = width;
+        public Builder withEntityPackage(final String entityPackage) {
+            this.entityClassFactory = new EntityClassLoader(entityPackage).createClassFactory();
             return this;
         }
 
-        public Builder widthTitle(String title) {
-            this.runtimeApplicationConfiguration.title = title;
+        public Builder withRepositoryPackage(final String repositoryPackage) {
+            this.repositoryFactory = new RepositoryFactory(repositoryPackage);
             return this;
         }
 
-        public Builder withDatabaseFileConfig(File file) {
-            this.runtimeApplicationConfiguration.dbFile = file;
+        @SafeVarargs
+        public final Builder withComponentPackage(final Class<? extends Component>... mainComponent) {
+            this.componentFactory = new ComponentClassLoader(mainComponent).createComponentFactory();
             return this;
         }
 
-        public Builder withDatabasesName(String... dbName) {
-            this.runtimeApplicationConfiguration.dbNames.clear();
-            this.runtimeApplicationConfiguration.dbNames.addAll(Sets.newHashSet(dbName));
-            return this;
-        }
-
-        public Builder withConnectDatabase(String... dbName) {
-            this.runtimeApplicationConfiguration.connectDBNames.clear();
-            this.runtimeApplicationConfiguration.connectDBNames.addAll(Sets.newHashSet(dbName));
+        @SafeVarargs
+        public final Builder withControllerPackage(final Class<? extends Controller>... mainController) {
+            this.controllerFactory = new ControllerClassLoader(mainController).createControllerFactory();
             return this;
         }
 
         public RuntimeApplicationConfiguration build() {
-            return runtimeApplicationConfiguration;
+            return new RuntimeApplicationConfiguration(
+                    databaseManager, componentFactory, controllerFactory,
+                    repositoryFactory, entityClassFactory);
         }
 
     }
