@@ -8,16 +8,15 @@ import org.reflections.util.ConfigurationBuilder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class ControllerFactory {
+public class ControllerManager {
 
     private final Map<Class<? extends Controller>, List<Controller>> controllers;
     private final ControllerClassLoader controllerClassLoader;
 
-    public ControllerFactory(final ControllerClassLoader controllerClassLoader) {
+    public ControllerManager(final ControllerClassLoader controllerClassLoader) {
         this.controllerClassLoader = controllerClassLoader;
         this.controllers = Maps.newIdentityHashMap();
     }

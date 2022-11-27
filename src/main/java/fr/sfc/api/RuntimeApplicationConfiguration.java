@@ -2,10 +2,10 @@ package fr.sfc.api;
 
 import fr.sfc.api.component.Component;
 import fr.sfc.api.component.ComponentClassLoader;
-import fr.sfc.api.component.ComponentFactory;
+import fr.sfc.api.component.ComponentManager;
 import fr.sfc.api.controller.Controller;
 import fr.sfc.api.controller.ControllerClassLoader;
-import fr.sfc.api.controller.ControllerFactory;
+import fr.sfc.api.controller.ControllerManager;
 import fr.sfc.api.persistence.*;
 import fr.sfc.api.database.DatabaseManager;
 import fr.sfc.api.persistence.InjectConfiguration;
@@ -25,10 +25,10 @@ import java.util.List;
 public final class RuntimeApplicationConfiguration {
 
     private final DatabaseManager databaseManager;
-    private final RepositoryFactory repositoryFactory;
-    private final ComponentFactory componentFactory;
-    private final EntityClassFactory entityClassFactory;
-    private final ControllerFactory controllerFactory;
+    private final RepositoryManager repositoryManager;
+    private final ComponentManager componentManager;
+    private final EntityClassManager entityClassManager;
+    private final ControllerManager controllerManager;
     private InjectConfiguration injectConfiguration;
     private EntityManager entityManager;
 
@@ -36,31 +36,31 @@ public final class RuntimeApplicationConfiguration {
      *
      */
     private RuntimeApplicationConfiguration(final DatabaseManager databaseManager,
-                                            final ComponentFactory componentFactory,
-                                            final ControllerFactory controllerFactory,
-                                            final RepositoryFactory repositoryFactory,
-                                            final EntityClassFactory entityClassFactory) {
+                                            final ComponentManager componentManager,
+                                            final ControllerManager controllerManager,
+                                            final RepositoryManager repositoryManager,
+                                            final EntityClassManager entityClassManager) {
 
-        this.repositoryFactory = repositoryFactory;
-        this.componentFactory = componentFactory;
-        this.entityClassFactory = entityClassFactory;
+        this.repositoryManager = repositoryManager;
+        this.componentManager = componentManager;
+        this.entityClassManager = entityClassManager;
         this.databaseManager = databaseManager;
-        this.controllerFactory = controllerFactory;
+        this.controllerManager = controllerManager;
     }
 
     public void configure(final String currentDatabase) {
 
         databaseManager.configure();
-        entityManager = entityClassFactory.createEntityManager(databaseManager.getDatabase(currentDatabase));
+        entityManager = entityClassManager.createEntityManager(databaseManager.getDatabase(currentDatabase));
 
-        repositoryFactory.detect();
-        componentFactory.detect();
+        repositoryManager.detect();
+        componentManager.detect();
 
-        controllerFactory.detect(componentFactory.getAllComponents());
+        controllerManager.detect(componentManager.getAllComponents());
 
         injectConfiguration = new InjectConfiguration(
-                repositoryFactory, entityManager,
-                componentFactory, controllerFactory);
+                repositoryManager, entityManager,
+                componentManager, controllerManager);
 
         injectConfiguration.configure();
     }
@@ -80,8 +80,8 @@ public final class RuntimeApplicationConfiguration {
      *
      * @return
      */
-    public RepositoryFactory getRepositoryFactory() {
-        return repositoryFactory;
+    public RepositoryManager getRepositoryFactory() {
+        return repositoryManager;
     }
 
     /**
@@ -108,16 +108,16 @@ public final class RuntimeApplicationConfiguration {
         return injectConfiguration;
     }
 
-    public ComponentFactory getComponentFactory() {
-        return componentFactory;
+    public ComponentManager getComponentFactory() {
+        return componentManager;
     }
 
-    public EntityClassFactory getEntityClassFactory() {
-        return entityClassFactory;
+    public EntityClassManager getEntityClassFactory() {
+        return entityClassManager;
     }
 
-    public ControllerFactory getControllerFactory() {
-        return controllerFactory;
+    public ControllerManager getControllerFactory() {
+        return controllerManager;
     }
 
     /**
@@ -126,10 +126,10 @@ public final class RuntimeApplicationConfiguration {
     public static class Builder {
 
         private DatabaseManager databaseManager;
-        private EntityClassFactory entityClassFactory;
-        private ComponentFactory componentFactory;
-        private RepositoryFactory repositoryFactory;
-        private ControllerFactory controllerFactory;
+        private EntityClassManager entityClassManager;
+        private ComponentManager componentManager;
+        private RepositoryManager repositoryManager;
+        private ControllerManager controllerManager;
 
         private Builder() { }
 
@@ -143,31 +143,31 @@ public final class RuntimeApplicationConfiguration {
         }
 
         public Builder withEntityPackage(final String entityPackage) {
-            this.entityClassFactory = new EntityClassLoader(entityPackage).createClassFactory();
+            this.entityClassManager = new EntityClassLoader(entityPackage).createClassFactory();
             return this;
         }
 
         public Builder withRepositoryPackage(final String repositoryPackage) {
-            this.repositoryFactory = new RepositoryFactory(repositoryPackage);
+            this.repositoryManager = new RepositoryManager(repositoryPackage);
             return this;
         }
 
         @SafeVarargs
         public final Builder withComponentPackage(final Parent root, final Class<? extends Component>... mainComponent) {
-            this.componentFactory = new ComponentClassLoader(getAllNodes(root), mainComponent).createComponentFactory();
+            this.componentManager = new ComponentClassLoader(getAllNodes(root), mainComponent).createComponentFactory();
             return this;
         }
 
         @SafeVarargs
         public final Builder withControllerPackage(final Class<? extends Controller>... mainController) {
-            this.controllerFactory = new ControllerClassLoader(mainController).createControllerFactory();
+            this.controllerManager = new ControllerClassLoader(mainController).createControllerFactory();
             return this;
         }
 
         public RuntimeApplicationConfiguration build() {
             return new RuntimeApplicationConfiguration(
-                    databaseManager, componentFactory, controllerFactory,
-                    repositoryFactory, entityClassFactory);
+                    databaseManager, componentManager, controllerManager,
+                    repositoryManager, entityClassManager);
         }
 
         private static List<Node> getAllNodes(final Styleable root) {

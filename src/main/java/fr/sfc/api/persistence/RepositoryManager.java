@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Map;
 
 
-public final class RepositoryFactory {
+public final class RepositoryManager {
 
     private final Map<Class<? extends Repository<?>>, Repository<?>> repositories;
     private final List<Repository<?>> setRepositories;
     private final String packageRepository;
 
-    public RepositoryFactory(final String packageRepository) {
+    public RepositoryManager(final String packageRepository) {
         this.repositories = Maps.newIdentityHashMap();
         this.setRepositories = Lists.newArrayList();
         this.packageRepository = packageRepository;

@@ -1,7 +1,6 @@
 package fr.sfc.api.component;
 
 import com.google.common.collect.Sets;
-import fr.sfc.api.RuntimeApplication;
 import javafx.scene.Node;
 
 import java.util.List;
@@ -18,8 +17,8 @@ public final class ComponentClassLoader {
         this.nodes = nodes;
     }
 
-    public ComponentFactory createComponentFactory() {
-        return new ComponentFactory(this);
+    public ComponentManager createComponentFactory() {
+        return new ComponentManager(this);
     }
 
     public Set<Class<? extends Component>> getComponentPackages() {

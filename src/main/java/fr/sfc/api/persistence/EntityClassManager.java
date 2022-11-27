@@ -4,14 +4,13 @@ import com.google.common.collect.Maps;
 import fr.sfc.api.database.Database;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.Map;
 
-public class EntityClassFactory {
+public class EntityClassManager {
 
     private final Map<Class<?>, Map<String, Field>> classEntities;
 
-    public EntityClassFactory() {
+    public EntityClassManager() {
         this.classEntities = Maps.newIdentityHashMap();
     }
 

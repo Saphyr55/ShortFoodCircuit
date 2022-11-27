@@ -1,25 +1,21 @@
 package fr.sfc.api.component;
 
-import fr.sfc.api.controller.Controller;
-import javafx.fxml.FXMLLoader;
-import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ComponentFactory {
+public class ComponentManager {
 
     private final Map<Class<? extends Component>, List<Component>> components;
     private final ComponentClassLoader componentClassLoader;
 
-    public ComponentFactory(final ComponentClassLoader componentClassLoader) {
+    public ComponentManager(final ComponentClassLoader componentClassLoader) {
         this.componentClassLoader = componentClassLoader;
         this.components = new HashMap<>();
     }

@@ -14,11 +14,11 @@ import java.util.*;
 
 public final class EntityManager {
 
-    private final EntityClassFactory entityClassFactory;
+    private final EntityClassManager entityClassManager;
     private final Database database;
 
-    public EntityManager(final Database database, final EntityClassFactory entityClassFactory) {
-        this.entityClassFactory = entityClassFactory;
+    public EntityManager(final Database database, final EntityClassManager entityClassManager) {
+        this.entityClassManager = entityClassManager;
         this.database = database;
     }
 
@@ -73,7 +73,7 @@ public final class EntityManager {
     }
 
     private <T> String getIdName(Class<T> aClass) {
-        var map = entityClassFactory.getFieldsFromEntity(aClass);
+        var map = entityClassManager.getFieldsFromEntity(aClass);
         var list = map.entrySet().stream()
                  .filter(stringFieldEntry -> fieldHaveAnnotation(stringFieldEntry.getValue(), Id.class)).toList();
         if (!list.isEmpty())
@@ -91,7 +91,7 @@ public final class EntityManager {
         T type = null;
 
         final Map<Field, Object> attributes = new HashMap<>();
-        final Map<String, Field> fields = entityClassFactory.getFieldsFromEntity(tClass);
+        final Map<String, Field> fields = entityClassManager.getFieldsFromEntity(tClass);
         final Set<String> nameFields = fields.keySet();
         final Iterator<String> it = nameFields.iterator();
 
