@@ -18,7 +18,6 @@ public class MainComponent extends HBox implements Component {
     private final FXMLLoader loader;
 
 
-
     public MainComponent() throws IOException {
         super();
         loader = new FXMLLoader(getClass().getResource( "main.fxml"));

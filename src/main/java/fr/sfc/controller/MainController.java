@@ -6,6 +6,7 @@ import fr.sfc.model.repository.AdminRepository;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.text.Font;
 
 import java.beans.EventHandler;
 import java.net.URL;
@@ -19,8 +20,8 @@ public class MainController extends Controller {
     @FXML
     private Button button;
 
-    public void show(ActionEvent event) {
-        System.out.println(adminRepository.count());
+    public void show() {
+
     }
 
 }

@@ -1,6 +1,5 @@
 package fr.sfc.api.core.process;
 
-import com.google.auto.service.AutoService;
 import fr.sfc.api.persistence.annotation.Column;
 import fr.sfc.api.persistence.annotation.Entity;
 
@@ -19,8 +18,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@AutoService(Processor.class)
-@SupportedSourceVersion(SourceVersion.RELEASE_17)
 @SupportedAnnotationTypes("fr.sfc.api.persistence.annotation.Entity")
 public class EntityProcessor extends AbstractProcessor {
 
