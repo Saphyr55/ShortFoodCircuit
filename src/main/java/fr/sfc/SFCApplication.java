@@ -2,59 +2,41 @@ package fr.sfc;
 
 import fr.sfc.api.RuntimeApplication;
 import fr.sfc.api.RuntimeApplicationConfiguration;
-import fr.sfc.api.persistence.AutoWiredConfiguration;
-import fr.sfc.api.persistence.EntityManager;
-import fr.sfc.api.persistence.annotation.Autowired;
-import fr.sfc.model.entity.Admin;
-import fr.sfc.model.repository.AdminRepository;
+import fr.sfc.component.MainComponent;
+
+import fr.sfc.controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 
 public final class SFCApplication extends Application {
 
     public static URL index;
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
-        runtimeApplicationSetupConfiguration(primaryStage);
-    }
+    public void start(final Stage primaryStage) throws IOException {
 
-    private static void runtimeApplicationSetupConfiguration(Stage stage) throws IOException {
-
-        Parent parent = new FXMLLoader(SFCApplication.class.getResource("default.fxml")).load();
-
-
+        Parent root = FXMLLoader.load(Objects.requireNonNull(SFCApplication.class.getResource("default.fxml")));
 
         RuntimeApplicationConfiguration configuration = RuntimeApplicationConfiguration.Builder.of()
-                .widthTitle("Short Food Circuit")
-                .withWidth(880)
-                .withHeight(620)
-                .withDatabaseFileConfig(new File("db.ini"))
-                .withDatabasesName("sfc", "test")
-                .withConnectDatabase("sfc")
+                .withComponentPackage(root, MainComponent.class)
+                .withControllerPackage(MainController.class)
+                .withEntityPackage("fr.sfc.model.entity")
+                .withRepositoryPackage("fr.sfc.model.repository")
+                .withDatabaseManager("db.ini", "sfc")
                 .build();
-        
-        configuration.configure(
-                  "sfc",
-                    "fr.sfc.model.entity",
-                "fr.sfc.model.repository"
-        );
 
-        RuntimeApplication application = configuration.createApplication(stage, parent);
+        configuration.configure("sfc");
+
+        RuntimeApplication application = configuration.createApplication(primaryStage, root, "Short Food Circuit", 820, 680);
         application.show();
 
-        AdminRepository adminRepository = configuration
-                .getRepositoryFactory()
-                .getRepository(AdminRepository.class);
-
-        Admin admin = adminRepository.find(1);
-        System.out.println(admin.getPassword());
+        primaryStage.setOnCloseRequest(event -> configuration.getDatabaseManager().shutdown());
 
     }
 

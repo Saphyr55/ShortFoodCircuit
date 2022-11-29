@@ -1,5 +1,8 @@
 package fr.sfc.component;
 
-public class DetailsComponent {
+import fr.sfc.api.component.Component;
+import javafx.fxml.FXMLLoader;
+
+public class DetailsComponent implements Component {
 
 }

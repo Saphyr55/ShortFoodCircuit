@@ -43,7 +43,7 @@
         <tabs>
           <Tab text="Untitled Tab 1">
                <content>
-                  <MainComponent />
+                  <MainComponent/>
                </content>
             </Tab>
           <Tab text="Untitled Tab 2">

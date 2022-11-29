@@ -1,4 +1,4 @@
-package fr.sfc.api.core;
+package fr.sfc.api.common;
 
 public final class Password {
 

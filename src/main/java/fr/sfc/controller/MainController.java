@@ -1,22 +1,27 @@
 package fr.sfc.controller;
 
-import fr.sfc.component.MainComponent;
-import fr.sfc.api.component.AutoComponent;
-import javafx.fxml.Initializable;
+import fr.sfc.api.controller.Controller;
+import fr.sfc.api.persistence.annotation.Inject;
+import fr.sfc.model.repository.AdminRepository;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.text.Font;
 
+import java.beans.EventHandler;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+public class MainController extends Controller {
 
-public class MainController implements Initializable {
+    @Inject
+    private AdminRepository adminRepository;
 
-    @AutoComponent
-    private MainComponent component;
+    @FXML
+    private Button button;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void show() {
 
     }
-
 
 }

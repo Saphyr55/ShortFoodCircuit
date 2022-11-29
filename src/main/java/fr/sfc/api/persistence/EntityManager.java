@@ -1,25 +1,24 @@
 package fr.sfc.api.persistence;
 
-import fr.sfc.api.core.process.EntityLoader;
 import fr.sfc.api.database.Database;
-import fr.sfc.api.database.DatabaseManager;
 import fr.sfc.api.database.Query;
 import fr.sfc.api.database.QueryBuilder;
 import fr.sfc.api.persistence.annotation.Id;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class EntityManager {
+public final class EntityManager {
 
-    private final EntityLoader entityLoader;
+    private final EntityClassManager entityClassManager;
     private final Database database;
 
-    public EntityManager(final Database database, final EntityLoader entityLoader) {
-        this.entityLoader = entityLoader;
+    public EntityManager(final Database database, final EntityClassManager entityClassManager) {
+        this.entityClassManager = entityClassManager;
         this.database = database;
     }
 
@@ -35,8 +34,9 @@ public class EntityManager {
         Set<T> set = new HashSet<>();
         try (Query query = createQueryBuilder().selectAll().from(aClass).build()) {
             try (ResultSet resultSet = query.query()) {
-                T t = wrap(aClass, resultSet);
-                if (t != null) set.add(t);
+                T t = wrapResultSetToEntity(aClass, resultSet);
+                if (t != null)
+                    set.add(t);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,7 +64,7 @@ public class EntityManager {
                 .where(getIdName(entityClass) + "=" + id) // TODO : CRITICAL : Replace this line for security
                 .build()) {
             ResultSet resultSet = query.query();
-            type = wrap(entityClass, resultSet);
+            type = wrapResultSetToEntity(entityClass, resultSet);
             resultSet.close();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -73,24 +73,26 @@ public class EntityManager {
     }
 
     private <T> String getIdName(Class<T> aClass) {
-        var map = entityLoader.getFieldsFromEntity(aClass);
-
+        var map = entityClassManager.getFieldsFromEntity(aClass);
         var list = map.entrySet().stream()
-                 .filter(stringFieldEntry -> stringFieldEntry.getValue().getAnnotation(Id.class) != null).toList();
+                 .filter(stringFieldEntry -> fieldHaveAnnotation(stringFieldEntry.getValue(), Id.class)).toList();
         if (!list.isEmpty())
             return list.get(0).getKey();
         return null;
     }
 
-    public <T> T wrap(Class<T> tClass, ResultSet resultSet)
+    public boolean fieldHaveAnnotation(Field field, Class<? extends Annotation> aClass) {
+        return field.getAnnotation(aClass) != null;
+    }
+
+    public <T> T wrapResultSetToEntity(Class<T> tClass, ResultSet resultSet)
             throws SQLException, InvocationTargetException,
             InstantiationException, IllegalAccessException, NoSuchMethodException {
-
         T type = null;
 
-        final Map<String, Field> fields = entityLoader.getFieldsFromEntity(tClass);
-        final Set<String> nameFields = fields.keySet();
         final Map<Field, Object> attributes = new HashMap<>();
+        final Map<String, Field> fields = entityClassManager.getFieldsFromEntity(tClass);
+        final Set<String> nameFields = fields.keySet();
         final Iterator<String> it = nameFields.iterator();
 
         while (resultSet.next()) {
@@ -102,8 +104,10 @@ public class EntityManager {
         }
 
         if (!attributes.isEmpty()) {
+
             type = tClass.getConstructor().newInstance();
-            for (Map.Entry<String, Field> stringFieldEntry : fields.entrySet()) {
+
+            for (final Map.Entry<String, Field> stringFieldEntry : fields.entrySet()) {
                 stringFieldEntry.getValue().setAccessible(true);
                 stringFieldEntry.getValue().set(type, attributes.get(stringFieldEntry.getValue()));
             }

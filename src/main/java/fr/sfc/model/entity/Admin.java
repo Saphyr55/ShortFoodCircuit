@@ -12,7 +12,6 @@ public class Admin {
     @Id
     @Column(name = "idAdmin")
     private Integer id;
-    @Column(name = "password")
     private String password;
 
     public Admin() { }
@@ -35,5 +34,13 @@ public class Admin {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "id=" + id +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

@@ -2,29 +2,28 @@ package fr.sfc.api.database;
 
 import fr.sfc.model.entity.Admin;
 import fr.sfc.model.entity.Customer;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.io.File;
-import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class QueryImplBuilderTest {
 
     private static Database dbTest;
+    private static final DatabaseManager databaseManager = new DatabaseManager(
+            "db.ini",
+            "test");
 
     @BeforeAll
     static void setup() {
-        File dbFile = new File("db.ini");
-        DatabaseManager databaseManager = new DatabaseManager(dbFile, "test");
-        try {
-            databaseManager.init();
-            databaseManager.connect("test");
-            dbTest = databaseManager.getDatabase("test");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        databaseManager.configure();
+        dbTest = databaseManager.getDatabase("test");
+    }
+    
+    @AfterAll
+    static void teardown() {
+        databaseManager.shutdown();
     }
 
     @Test

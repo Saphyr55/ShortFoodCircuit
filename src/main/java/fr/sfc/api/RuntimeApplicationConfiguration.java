@@ -1,126 +1,196 @@
 package fr.sfc.api;
 
-import com.google.common.collect.Sets;
-import fr.sfc.api.core.process.EntityLoader;
+import fr.sfc.api.component.Component;
+import fr.sfc.api.component.ComponentClassLoader;
+import fr.sfc.api.component.ComponentManager;
+import fr.sfc.api.controller.Controller;
+import fr.sfc.api.controller.ControllerClassLoader;
+import fr.sfc.api.controller.ControllerManager;
+import fr.sfc.api.persistence.*;
 import fr.sfc.api.database.DatabaseManager;
-import fr.sfc.api.persistence.AutoWiredConfiguration;
-import fr.sfc.api.persistence.EntityManager;
-import fr.sfc.api.persistence.RepositoryFactory;
+import fr.sfc.api.persistence.InjectConfiguration;
+import javafx.css.Styleable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-public class RuntimeApplicationConfiguration {
+/**
+ *
+ */
+public final class RuntimeApplicationConfiguration {
 
-
-    private final EntityLoader entityLoader;
-    private final RepositoryFactory repositoryFactory;
-    private final Set<String> connectDBNames;
-    private final Set<String> dbNames;
-    private DatabaseManager databaseManager;
-    private AutoWiredConfiguration autoWiredConfiguration;
+    private final DatabaseManager databaseManager;
+    private final RepositoryManager repositoryManager;
+    private final ComponentManager componentManager;
+    private final EntityClassManager entityClassManager;
+    private final ControllerManager controllerManager;
+    private InjectConfiguration injectConfiguration;
     private EntityManager entityManager;
-    private File dbFile;
-    private String title;
-    private int initialHeight;
-    private int initialWidth;
 
+    /**
+     *
+     */
+    private RuntimeApplicationConfiguration(final DatabaseManager databaseManager,
+                                            final ComponentManager componentManager,
+                                            final ControllerManager controllerManager,
+                                            final RepositoryManager repositoryManager,
+                                            final EntityClassManager entityClassManager) {
 
-    private RuntimeApplicationConfiguration() {
-        this.connectDBNames = new HashSet<>();
-        this.dbNames = new HashSet<>();
-        this.entityLoader = new EntityLoader();
-        this.repositoryFactory = new RepositoryFactory();
+        this.repositoryManager = repositoryManager;
+        this.componentManager = componentManager;
+        this.entityClassManager = entityClassManager;
+        this.databaseManager = databaseManager;
+        this.controllerManager = controllerManager;
     }
 
-    public void configure(String currentDatabase, String packageEntity, String packageRepository) {
-        databaseManager = new DatabaseManager(dbFile, dbNames);
-        databaseManager.init();
-        connectDBNames.forEach(databaseManager::connect);
-        entityManager = entityLoader.createEntityManager(databaseManager.getDatabase(currentDatabase), packageEntity);
-        repositoryFactory.detectRepositories(packageRepository);
-        autoWiredConfiguration = new AutoWiredConfiguration(repositoryFactory, entityManager);
-        autoWiredConfiguration.configure();
+    public void configure(final String currentDatabase) {
+
+        databaseManager.configure();
+        entityManager = entityClassManager.createEntityManager(databaseManager.getDatabase(currentDatabase));
+
+        repositoryManager.detect();
+        componentManager.detect();
+
+        controllerManager.detect(componentManager.getAllComponents());
+
+        injectConfiguration = new InjectConfiguration(
+                repositoryManager, entityManager,
+                componentManager, controllerManager);
+
+        injectConfiguration.configure();
     }
 
-    public RuntimeApplication createApplication(Stage stage, Parent parent) {
-        RuntimeApplication.set(new RuntimeApplication(stage, parent, this));
+    /**
+     *
+     * @param stage
+     * @param parent
+     * @return
+     */
+    public RuntimeApplication createApplication(final Stage stage, final Parent parent, final String title, int width, int height) {
+        RuntimeApplication.set(new RuntimeApplication(this, stage, parent, title, width, height));
         return RuntimeApplication.getCurrentApplication();
     }
 
-    public RepositoryFactory getRepositoryFactory() {
-        return repositoryFactory;
+    /**
+     *
+     * @return
+     */
+    public RepositoryManager getRepositoryFactory() {
+        return repositoryManager;
     }
 
-    public int getInitialHeight() {
-        return initialHeight;
-    }
-
-    public int getInitialWidth() {
-        return initialWidth;
-    }
-
-    public String getInitialTitle() {
-        return title;
-    }
-
+    /**
+     *
+     * @return
+     */
     public DatabaseManager getDatabaseManager() {
         return databaseManager;
     }
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEntityManager() {
         return entityManager;
     }
 
+    /**
+     *
+     * @return
+     */
+    public InjectConfiguration getInjectConfiguration() {
+        return injectConfiguration;
+    }
+
+    public ComponentManager getComponentFactory() {
+        return componentManager;
+    }
+
+    public EntityClassManager getEntityClassFactory() {
+        return entityClassManager;
+    }
+
+    public ControllerManager getControllerFactory() {
+        return controllerManager;
+    }
+
+    /**
+     *
+     */
     public static class Builder {
 
-        private final RuntimeApplicationConfiguration runtimeApplicationConfiguration;
+        private DatabaseManager databaseManager;
+        private EntityClassManager entityClassManager;
+        private ComponentManager componentManager;
+        private RepositoryManager repositoryManager;
+        private ControllerManager controllerManager;
 
-        public Builder() {
-            runtimeApplicationConfiguration = new RuntimeApplicationConfiguration();
-        }
+        private Builder() { }
 
         public static Builder of() {
             return new Builder();
         }
 
-        public Builder withHeight(int height) {
-            this.runtimeApplicationConfiguration.initialHeight = height;
+        public Builder withDatabaseManager(final String fileConfigDatabase, final String... databasesNames) {
+            this.databaseManager = DatabaseManager.of(fileConfigDatabase, databasesNames);
             return this;
         }
 
-        public Builder withWidth(int width) {
-            this.runtimeApplicationConfiguration.initialWidth = width;
+        public Builder withEntityPackage(final String entityPackage) {
+            this.entityClassManager = new EntityClassLoader(entityPackage).createClassFactory();
             return this;
         }
 
-        public Builder widthTitle(String title) {
-            this.runtimeApplicationConfiguration.title = title;
+        public Builder withRepositoryPackage(final String repositoryPackage) {
+            this.repositoryManager = new RepositoryManager(repositoryPackage);
             return this;
         }
 
-        public Builder withDatabaseFileConfig(File file) {
-            this.runtimeApplicationConfiguration.dbFile = file;
+        @SafeVarargs
+        public final Builder withComponentPackage(final Parent root, final Class<? extends Component>... mainComponent) {
+            this.componentManager = new ComponentClassLoader(getAllNodes(root), mainComponent).createComponentFactory();
             return this;
         }
 
-        public Builder withDatabasesName(String... dbName) {
-            this.runtimeApplicationConfiguration.dbNames.clear();
-            this.runtimeApplicationConfiguration.dbNames.addAll(Sets.newHashSet(dbName));
-            return this;
-        }
-
-        public Builder withConnectDatabase(String... dbName) {
-            this.runtimeApplicationConfiguration.connectDBNames.clear();
-            this.runtimeApplicationConfiguration.connectDBNames.addAll(Sets.newHashSet(dbName));
+        @SafeVarargs
+        public final Builder withControllerPackage(final Class<? extends Controller>... mainController) {
+            this.controllerManager = new ControllerClassLoader(mainController).createControllerFactory();
             return this;
         }
 
         public RuntimeApplicationConfiguration build() {
-            return runtimeApplicationConfiguration;
+            return new RuntimeApplicationConfiguration(
+                    databaseManager, componentManager, controllerManager,
+                    repositoryManager, entityClassManager);
+        }
+
+        private static List<Node> getAllNodes(final Styleable root) {
+            final ArrayList<Node> nodes = new ArrayList<>();
+            addAllDescendents(root, nodes);
+            return nodes;
+        }
+
+        private static void addAllDescendents(final Styleable styleable, final ArrayList<Node> nodes) {
+            System.out.println(styleable);
+            if (styleable instanceof final Parent parent) {
+                if (styleable instanceof final TabPane tabPane) {
+                    for (final Tab tab : tabPane.getTabs()) {
+                        final Node node = tab.getContent();
+                        nodes.add(node);
+                        addAllDescendents(node, nodes);
+                    }
+                }
+                for (final Node node : parent.getChildrenUnmodifiable()) {
+                    nodes.add(node);
+                    addAllDescendents(node, nodes);
+                }
+            }
         }
 
     }

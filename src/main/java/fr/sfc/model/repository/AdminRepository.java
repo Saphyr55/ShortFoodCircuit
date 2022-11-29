@@ -1,14 +1,15 @@
 package fr.sfc.model.repository;
 
+import fr.sfc.api.persistence.Repository;
 import fr.sfc.model.entity.Admin;
-import fr.sfc.api.persistence.annotation.Autowired;
+import fr.sfc.api.persistence.annotation.Inject;
 import fr.sfc.api.persistence.EntityManager;
 
 import java.util.Set;
 
 public class AdminRepository implements Repository<Admin> {
 
-    @Autowired
+    @Inject
     private EntityManager entityManager;
 
     @Override
@@ -40,5 +41,4 @@ public class AdminRepository implements Repository<Admin> {
     public void save(Admin admin) {
         entityManager.insert(admin);
     }
-
 }

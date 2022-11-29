@@ -13,7 +13,15 @@ public final class DatabaseManager {
     private final DatabaseFileProperties databaseManagerFileProperties;
     private final Map<String, Database> databases;
 
-    public DatabaseManager(final File fileConfigDatabase, String... databasesNames) {
+    public static DatabaseManager of(final String fileConfigDatabase, final String... databasesNames) {
+        return new DatabaseManager(fileConfigDatabase, databasesNames);
+    }
+
+    public DatabaseManager(final String fileConfigDatabase, final String... databasesNames) {
+        this(new File(fileConfigDatabase), Sets.newHashSet(Arrays.asList(databasesNames)));
+    }
+
+    public DatabaseManager(final File fileConfigDatabase, final String... databasesNames) {
         this(fileConfigDatabase, Sets.newHashSet(Arrays.asList(databasesNames)));
     }
 
@@ -24,21 +32,21 @@ public final class DatabaseManager {
         this.databaseManagerFileProperties = new DatabaseFileProperties(databaseNames, this.fileConfigDatabase);
     }
 
-    public void init() {
+    public void configure() {
         try {
             Class.forName(databaseManagerFileProperties.getConfig().getDriver());
             fillDatabases();
+            connectAll();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("Driver jdbc not found", e);
         }
     }
 
-    public void connectAll() throws SQLException {
-        for (var stringDatabaseEntry : databases.entrySet())
-            stringDatabaseEntry.getValue().connect();
+    private void connectAll() {
+        databaseNames.forEach(this::connect);
     }
 
-    public void connect(String databaseName) {
+    private void connect(String databaseName) {
         try {
             getDatabase(databaseName).connect();
         }catch (SQLException e) {
@@ -46,9 +54,14 @@ public final class DatabaseManager {
         }
     }
 
+    public void shutdown() {
+        databases.forEach((key, value) -> value.close());
+    }
+
     public Database getDatabase(String databaseName) {
         return databases.get(databaseName);
     }
+
 
     private void fillDatabases() {
         databaseNames.forEach(this::createDatabaseFromName);
