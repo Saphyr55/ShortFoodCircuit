@@ -4,6 +4,7 @@ import fr.sfc.api.component.Component;
 import fr.sfc.api.component.ComponentFXML;
 import fr.sfc.controller.MapViewController;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;

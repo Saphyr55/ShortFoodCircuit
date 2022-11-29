@@ -37,6 +37,7 @@ public final class SFCApplication extends Application {
         application.show();
 
         primaryStage.setOnCloseRequest(event -> configuration.getDatabaseManager().shutdown());
+
     }
 
     public static void main(String[] args) {

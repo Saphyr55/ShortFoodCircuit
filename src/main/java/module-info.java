@@ -12,6 +12,8 @@ module fr.sfc {
     requires java.security.jgss;
     requires java.security.sasl;
 
+    requires javax.servlet.api;
+
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -25,7 +27,6 @@ module fr.sfc {
 
     requires ini4j;
 
-    requires com.google.auto.service;
     requires com.google.protobuf;
     requires com.google.common;
 
