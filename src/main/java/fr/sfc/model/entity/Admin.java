@@ -12,7 +12,6 @@ public class Admin {
     @Id
     @Column(name = "idAdmin")
     private Integer id;
-    @Column(name = "password")
     private String password;
 
     public Admin() { }

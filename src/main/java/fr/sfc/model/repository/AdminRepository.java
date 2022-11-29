@@ -41,5 +41,4 @@ public class AdminRepository implements Repository<Admin> {
     public void save(Admin admin) {
         entityManager.insert(admin);
     }
-
 }
