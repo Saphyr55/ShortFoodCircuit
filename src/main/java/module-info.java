@@ -5,14 +5,11 @@ module fr.sfc {
     requires java.base;
     requires java.compiler;
     requires java.desktop;
-    requires java.datatransfer;
     requires java.net.http;
     requires java.management;
     requires java.se;
     requires java.security.jgss;
     requires java.security.sasl;
-
-    requires javax.servlet.api;
 
     requires javafx.controls;
     requires javafx.fxml;
