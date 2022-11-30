@@ -11,24 +11,37 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controller's manager,
+ * Can save all object who implement controller
+ */
 public class ControllerManager {
 
     private final Map<Class<? extends Controller>, List<Controller>> controllers;
     private final ControllerClassLoader controllerClassLoader;
 
+    /**
+     * Create a controller manager
+     *
+     * @param controllerClassLoader class loader
+     */
     public ControllerManager(final ControllerClassLoader controllerClassLoader) {
         this.controllerClassLoader = controllerClassLoader;
         this.controllers = Maps.newIdentityHashMap();
     }
 
+    /**
+     * Set up the map from the ControllerClassLoader
+     * The map gonna contains all components,
+     * Set up in first the fxml component and after the normal component
+     */
     public void detect(final List<Component> components) {
         setControllersFromNodes(components);
         controllerClassLoader.getControllerPackages().forEach(this::setControllersFromPackage);
     }
 
-    @SuppressWarnings("unchecked cast")
-    public <T extends Controller> List<T> getControllers(Class<T> tClass) {
-        return (List<T>) controllers.get(tClass);
+    public List<? extends Controller> getControllers(Class<? extends Controller> tClass) {
+        return controllers.get(tClass);
     }
 
     public List<Controller> getAllControllers() {
@@ -38,20 +51,22 @@ public class ControllerManager {
     }
 
     private void setControllersFromNodes(final List<Component> components) {
-        components.forEach(component -> {
-            if (component.getLoader().getController() instanceof final Controller controller) {
+        components.stream()
+                .filter(component -> component.getLoader().getController() instanceof Controller)
+                .forEach(this::setControllerFromComponent);
+    }
 
-                if (!controllers.containsKey(controller.getClass())) {
+    private void setControllerFromComponent(final Component component) {
+        final Controller controller = component.getLoader().getController();
+        if (!controllers.containsKey(controller.getClass())) {
 
-                    final List<Controller> controllerList = new ArrayList<>();
-                    controllers.put(controller.getClass(), controllerList);
-                    controllerList.add(controller);
+            final List<Controller> controllerList = new ArrayList<>();
+            controllers.put(controller.getClass(), controllerList);
+            controllerList.add(controller);
 
-                } else {
-                    controllers.get(controller.getClass()).add(controller);
-                }
-            }
-        });
+        } else {
+            controllers.get(controller.getClass()).add(controller);
+        }
     }
 
     private <T extends Controller> void setControllersFromPackage(Class<T> tClass) {

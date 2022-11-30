@@ -32,6 +32,11 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.address = address;
     }
+    
+    public Customer(int id, String name, String phoneNumber, String address, float longitude, float latitude) {
+        this(name, phoneNumber, address, longitude, latitude);
+        this.id = id;
+    }
 
     public int getId() {
         return id;

@@ -6,10 +6,14 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public abstract class Controller implements Initializable {
+/**
+ * To create controller, we need to implement this interface
+ * It permit to be detected through ControllerClassLoader
+ */
+public interface Controller extends Initializable {
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    default void initialize(URL location, ResourceBundle resources) {
 
     }
 
