@@ -22,6 +22,12 @@ public class Producer {
         this.password = password;
     }
 
+    public Producer(int id, String password) {
+        this.id = id;
+        this.password = password;
+    }
+
+
     public int getId() {
         return id;
     }

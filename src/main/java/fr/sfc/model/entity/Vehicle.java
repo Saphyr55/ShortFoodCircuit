@@ -19,10 +19,16 @@ public class Vehicle {
 
     public Vehicle() { }
 
-    public Vehicle(int id, String matriculation, float maxWeight) {
+    public Vehicle(String matriculation, Float maxWeight) {
         this.matriculation = matriculation;
         this.maxWeight = maxWeight;
     }
+
+    public Vehicle(Integer id, String matriculation, Float maxWeight) {
+        this(matriculation, maxWeight);
+        this.id = id;
+    }
+
 
     public int getId() {
         return id;

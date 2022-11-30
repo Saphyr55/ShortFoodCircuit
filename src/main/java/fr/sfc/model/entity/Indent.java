@@ -36,6 +36,12 @@ public class Indent {
         this.weight = weight;
     }
 
+    public Indent(int id, LocalDateTime startTime, LocalDateTime endTime, String wording, float weight) {
+        this(startTime, endTime, wording, weight);
+        this.id = id;
+    }
+
+
     public int getId() {
         return id;
     }

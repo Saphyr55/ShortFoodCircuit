@@ -36,13 +36,12 @@ public final class DatabaseManager {
         try {
             Class.forName(databaseManagerFileProperties.getConfig().getDriver());
             fillDatabases();
-            connectAll();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("Driver jdbc not found", e);
         }
     }
 
-    private void connectAll() {
+    public void connect() {
         databaseNames.forEach(this::connect);
     }
 

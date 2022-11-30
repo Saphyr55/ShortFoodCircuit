@@ -20,6 +20,12 @@ public class Admin {
         this.password = password;
     }
 
+    public Admin(int id, String password) {
+        this(password);
+        this.id = id;
+    }
+
+
     public int getId() {
         return id;
     }
