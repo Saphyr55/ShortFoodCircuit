@@ -12,7 +12,7 @@ import java.beans.EventHandler;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainController extends Controller {
+public class MainController implements Controller {
 
     @Inject
     private AdminRepository adminRepository;

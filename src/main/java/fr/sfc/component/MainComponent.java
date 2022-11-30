@@ -2,7 +2,6 @@ package fr.sfc.component;
 
 import fr.sfc.api.component.Component;
 import fr.sfc.api.component.ComponentFXML;
-import fr.sfc.api.component.ComponentLoader;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 

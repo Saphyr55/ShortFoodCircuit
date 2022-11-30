@@ -11,7 +11,7 @@ import javafx.scene.web.WebView;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MapViewController extends Controller {
+public class MapViewController implements Controller {
 
     @FXML
     private WebView map;

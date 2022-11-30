@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Permit to configure databases, repositories, components,
+ * entities and inject dependence for the RuntimeApplication
+ * Configurable with package
  */
 public final class RuntimeApplicationConfiguration {
 
@@ -48,10 +50,18 @@ public final class RuntimeApplicationConfiguration {
         this.controllerManager = controllerManager;
     }
 
-    public void configure(final String currentDatabase) {
+    /**
+     * Set up the current database for creating entity manager
+     * Configure the database manager and connect it, detect components, repositories and controllers
+     * Create an inject configuration and configure it
+     *
+     * @param currentNameDatabase current name database
+     */
+    public void configure(final String currentNameDatabase) {
 
         databaseManager.configure();
-        entityManager = entityClassManager.createEntityManager(databaseManager.getDatabase(currentDatabase));
+        databaseManager.connect();
+        entityManager = entityClassManager.createEntityManager(databaseManager.getDatabase(currentNameDatabase));
 
         repositoryManager.detect();
         componentManager.detect();
@@ -66,10 +76,11 @@ public final class RuntimeApplicationConfiguration {
     }
 
     /**
+     * Create the runtime application
      *
-     * @param stage
-     * @param parent
-     * @return
+     * @param stage stage
+     * @param parent parent
+     * @return runtime application
      */
     public RuntimeApplication createApplication(final Stage stage, final Parent parent, final String title, int width, int height) {
         RuntimeApplication.set(new RuntimeApplication(this, stage, parent, title, width, height));
@@ -119,7 +130,7 @@ public final class RuntimeApplicationConfiguration {
     public ControllerManager getControllerFactory() {
         return controllerManager;
     }
-
+    
     /**
      *
      */

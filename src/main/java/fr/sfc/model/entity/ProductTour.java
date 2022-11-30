@@ -25,11 +25,16 @@ public class ProductTour {
 
     public ProductTour() { }
 
-    public ProductTour(LocalDateTime startDate, LocalDateTime endDateTime, String name, float weight) {
+    public ProductTour(LocalDateTime startDate, LocalDateTime endDateTime, String name, Float weight) {
         this.startDateTime = startDate;
         this.endDateTime = endDateTime;
         this.name = name;
         this.weight = weight;
+    }
+    
+    public ProductTour(Integer id, LocalDateTime startDateTime, LocalDateTime endDateTime, String name, Float weight) {
+        this(startDateTime, endDateTime, name, weight);
+        this.id = id;
     }
 
     public int getId() {

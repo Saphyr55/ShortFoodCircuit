@@ -8,8 +8,10 @@ import fr.sfc.api.persistence.annotation.Inject;
 
 
 public class CompanyRepository implements Repository<Company> {
+
     @Inject
     private EntityManager entityManager;
+    
     @Override
     public Set<Company> findAll() {
         return entityManager.findAll(Company.class);

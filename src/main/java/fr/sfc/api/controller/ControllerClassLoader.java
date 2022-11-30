@@ -7,7 +7,7 @@ import java.util.Set;
 public class ControllerClassLoader {
 
     private final Set<Class<? extends Controller>> componentClasses;
-
+    
     @SafeVarargs
     public ControllerClassLoader(final Class<? extends Controller>... componentClasses) {
         this.componentClasses = Sets.newHashSet(componentClasses);
