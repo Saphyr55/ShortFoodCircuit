@@ -1,7 +1,7 @@
 package fr.sfc;
 
-import fr.sfc.api.RuntimeApplication;
-import fr.sfc.api.RuntimeApplicationConfiguration;
+import fr.sfc.api.BackendApplication;
+import fr.sfc.api.BackendApplicationConfiguration;
 import fr.sfc.component.MainComponent;
 
 import fr.sfc.controller.MainController;
@@ -23,7 +23,7 @@ public final class SFCApplication extends Application {
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(SFCApplication.class.getResource("default.fxml")));
 
-        RuntimeApplicationConfiguration configuration = RuntimeApplicationConfiguration.Builder.of()
+        BackendApplicationConfiguration configuration = BackendApplicationConfiguration.Builder.of()
                 .withComponentPackage(root, MainComponent.class)
                 .withControllerPackage(MainController.class)
                 .withEntityPackage("fr.sfc.model.entity")
@@ -33,7 +33,7 @@ public final class SFCApplication extends Application {
 
         configuration.configure("sfc");
 
-        RuntimeApplication application = configuration.createApplication(primaryStage, root, "Short Food Circuit", 820, 680);
+        BackendApplication application = configuration.createApplication(primaryStage, root, "Short Food Circuit", 820, 680);
         application.show();
 
         primaryStage.setOnCloseRequest(event -> configuration.getDatabaseManager().shutdown());

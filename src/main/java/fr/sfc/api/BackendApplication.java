@@ -2,22 +2,21 @@ package fr.sfc.api;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public final class RuntimeApplication {
+public final class BackendApplication {
 
-    private static RuntimeApplication runtimeApplication;
+    private static BackendApplication backendApplication;
     private final Stage primaryStage;
     private final Scene scene;
     private final Parent parent;
-    private final RuntimeApplicationConfiguration runtimeApplicationConfiguration;
+    private final BackendApplicationConfiguration backendApplicationConfiguration;
 
-    public RuntimeApplication(final RuntimeApplicationConfiguration configuration,
+    public BackendApplication(final BackendApplicationConfiguration configuration,
                               final Stage primaryStage, final Parent parent,
                               final String title, int width, int height) {
         this.primaryStage = primaryStage;
-        this.runtimeApplicationConfiguration = configuration;
+        this.backendApplicationConfiguration = configuration;
         this.scene = new Scene(parent, width, height);
         this.primaryStage.setTitle(title);
         this.primaryStage.setScene(scene);
@@ -36,16 +35,16 @@ public final class RuntimeApplication {
         return scene;
     }
 
-    public RuntimeApplicationConfiguration getConfig() {
-        return runtimeApplicationConfiguration;
+    public BackendApplicationConfiguration getConfig() {
+        return backendApplicationConfiguration;
     }
 
-    public static void set(RuntimeApplication application) {
-        runtimeApplication = application;
+    public static void set(BackendApplication application) {
+        backendApplication = application;
     }
 
-    public static RuntimeApplication getCurrentApplication() {
-        return runtimeApplication;
+    public static BackendApplication getCurrentApplication() {
+        return backendApplication;
     }
 
     public Parent getParent() {

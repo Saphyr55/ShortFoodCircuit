@@ -38,9 +38,10 @@ dependencies {
     implementation 'org.reflections:reflections:0.10.2'
     implementation 'org.jetbrains:annotations:23.0.0'
 
-    testImplementation "org.testfx:testfx-junit5:4.0.16-alpha"
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testImplementation "org.testfx:testfx-junit5:4.0.16-alpha"
+    testCompileOnly "org.testfx:testfx-junit5:4.0.16-alpha"
 }
 
 test {

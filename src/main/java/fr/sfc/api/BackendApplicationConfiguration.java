@@ -24,7 +24,7 @@ import java.util.List;
  * entities and inject dependence for the RuntimeApplication
  * Configurable with package
  */
-public final class RuntimeApplicationConfiguration {
+public final class BackendApplicationConfiguration {
 
     private final DatabaseManager databaseManager;
     private final RepositoryManager repositoryManager;
@@ -37,7 +37,7 @@ public final class RuntimeApplicationConfiguration {
     /**
      *
      */
-    private RuntimeApplicationConfiguration(final DatabaseManager databaseManager,
+    private BackendApplicationConfiguration(final DatabaseManager databaseManager,
                                             final ComponentManager componentManager,
                                             final ControllerManager controllerManager,
                                             final RepositoryManager repositoryManager,
@@ -82,9 +82,9 @@ public final class RuntimeApplicationConfiguration {
      * @param parent parent
      * @return runtime application
      */
-    public RuntimeApplication createApplication(final Stage stage, final Parent parent, final String title, int width, int height) {
-        RuntimeApplication.set(new RuntimeApplication(this, stage, parent, title, width, height));
-        return RuntimeApplication.getCurrentApplication();
+    public BackendApplication createApplication(final Stage stage, final Parent parent, final String title, int width, int height) {
+        BackendApplication.set(new BackendApplication(this, stage, parent, title, width, height));
+        return BackendApplication.getCurrentApplication();
     }
 
     /**
@@ -175,8 +175,8 @@ public final class RuntimeApplicationConfiguration {
             return this;
         }
 
-        public RuntimeApplicationConfiguration build() {
-            return new RuntimeApplicationConfiguration(
+        public BackendApplicationConfiguration build() {
+            return new BackendApplicationConfiguration(
                     databaseManager, componentManager, controllerManager,
                     repositoryManager, entityClassManager);
         }
