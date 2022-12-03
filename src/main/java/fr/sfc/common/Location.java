@@ -1,4 +1,4 @@
-package fr.sfc.api.common;
+package fr.sfc.common;
 
 import static org.apache.lucene.util.SloppyMath.haversinMeters;
 

@@ -1,4 +1,4 @@
-package fr.sfc.component;
+package fr.sfc.component.productTour;
 
 import fr.sfc.api.controlling.Component;
 import javafx.scene.layout.AnchorPane;

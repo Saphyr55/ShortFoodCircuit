@@ -31,13 +31,15 @@ public final class EntityManager {
     }
 
     public <T> Set<T> findAll(Class<T> aClass) {
-        Set<T> set = new HashSet<>();
-        try (Query query = createQueryBuilder().selectAll().from(aClass).build()) {
-            try (ResultSet resultSet = query.query()) {
+        final Set<T> set = new HashSet<>();
+        try {
+            final var q = createQueryBuilder().selectAll().from(aClass).build();
+            try (ResultSet resultSet = q.query()) {
                 T t = wrapResultSetToEntity(aClass, resultSet);
                 if (t != null)
                     set.add(t);
             }
+            q.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,7 +77,8 @@ public final class EntityManager {
     private <T> String getIdName(Class<T> aClass) {
         var map = entityClassManager.getFieldsFromEntity(aClass);
         var list = map.entrySet().stream()
-                .filter(stringFieldEntry -> fieldHaveAnnotation(stringFieldEntry.getValue(), Id.class)).toList();
+                .filter(stringFieldEntry -> fieldHaveAnnotation(stringFieldEntry.getValue(), Id.class))
+                .toList();
         if (!list.isEmpty())
             return list.get(0).getKey();
         return null;

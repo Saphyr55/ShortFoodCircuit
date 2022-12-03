@@ -21,6 +21,7 @@ public final class BackendApplication {
         this.primaryStage.setTitle(title);
         this.primaryStage.setScene(scene);
         this.parent = root;
+        primaryStage.setOnCloseRequest(event -> configuration.getDatabaseManager().shutdown());
     }
 
     public void show() {

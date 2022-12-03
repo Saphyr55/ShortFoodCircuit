@@ -47,11 +47,16 @@ public final class BackendApplicationConfiguration {
         databaseManager.configure();
         databaseManager.connect();
         entityManager = entityClassManager.createEntityManager(databaseManager.getDatabase(currentNameDatabase));
+
         repositoryManager.detect();
+
+
         componentManager.detect();
-        componentManager.getAllControllers().forEach(Controller::setup);
         injectConfiguration = new InjectConfiguration(repositoryManager, entityManager, componentManager);
         injectConfiguration.configure();
+
+
+        componentManager.getAllControllers().forEach(Controller::setup);
     }
 
     /**
@@ -128,7 +133,7 @@ public final class BackendApplicationConfiguration {
         }
 
         public Builder withEntityPackage(final String entityPackage) {
-            this.entityClassManager = new EntityClassLoader(entityPackage).createClassFactory();
+            this.entityClassManager = new EntityClassLoader(entityPackage).createClassManager();
             return this;
         }
 

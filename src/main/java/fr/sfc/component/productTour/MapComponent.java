@@ -1,4 +1,4 @@
-package fr.sfc.component;
+package fr.sfc.component.productTour;
 
 import fr.sfc.api.controlling.AutoController;
 import fr.sfc.api.controlling.Component;
@@ -16,9 +16,9 @@ public class MapComponent extends HBox implements Component {
     @Override
     public void setup() {
         wwMap = new WebView();
+        wwMap.prefWidthProperty().bind(widthProperty());
+        wwMap.prefHeightProperty().bind(heightProperty());
         getChildren().add(wwMap);
-        this.setMaxWidth(Double.MAX_VALUE);
-        this.setMaxHeight(Double.MAX_VALUE);
     }
 
     public WebView getWwMap() {

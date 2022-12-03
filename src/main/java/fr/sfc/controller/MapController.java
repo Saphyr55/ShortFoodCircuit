@@ -3,7 +3,7 @@ package fr.sfc.controller;
 import com.google.common.io.Resources;
 import fr.sfc.api.controlling.AutoComponent;
 import fr.sfc.api.controlling.Controller;
-import fr.sfc.component.MapComponent;
+import fr.sfc.component.productTour.MapComponent;
 import javafx.scene.web.WebEngine;
 
 public class MapController implements Controller {

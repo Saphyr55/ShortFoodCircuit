@@ -43,6 +43,7 @@ module fr.sfc {
     opens fr.sfc.api.controlling;
     opens fr.sfc.api.persistence;
     opens fr.sfc.api.persistence.exception;
-    opens fr.sfc.api.common;
+    opens fr.sfc.common;
+    opens fr.sfc.component.productTour;
 
 }
