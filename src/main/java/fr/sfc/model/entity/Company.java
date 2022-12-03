@@ -29,9 +29,10 @@ public class Company {
     private Float latitude;
 
     @Column(name = "SIRET")
-	private String SIRET;
+    private String SIRET;
 
-    public Company() { }
+    public Company() {
+    }
 
     public Company(int id, String name, String phoneNumber, String address, float longitude, float latitude) {
         this(name, phoneNumber, address, longitude, latitude);
@@ -44,7 +45,7 @@ public class Company {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
-	}
+    }
 
     public int getId() {
         return id;

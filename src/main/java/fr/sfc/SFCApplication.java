@@ -1,18 +1,17 @@
 package fr.sfc;
 
+import com.google.common.io.Resources;
 import fr.sfc.api.BackendApplication;
 import fr.sfc.api.BackendApplicationConfiguration;
 import fr.sfc.component.MainComponent;
-
-import fr.sfc.controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 
 public final class SFCApplication extends Application {
 
@@ -21,11 +20,10 @@ public final class SFCApplication extends Application {
     @Override
     public void start(final Stage primaryStage) throws IOException {
 
-        Parent root = FXMLLoader.load(Objects.requireNonNull(SFCApplication.class.getResource("default.fxml")));
+        AnchorPane root = FXMLLoader.load(Resources.getResource("root.fxml"));
 
         BackendApplicationConfiguration configuration = BackendApplicationConfiguration.Builder.of()
-                .withComponentPackage(root, MainComponent.class)
-                .withControllerPackage(MainController.class)
+                .setRoot(root)
                 .withEntityPackage("fr.sfc.model.entity")
                 .withRepositoryPackage("fr.sfc.model.repository")
                 .withDatabaseManager("db.ini", "sfc")

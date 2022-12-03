@@ -9,108 +9,108 @@ import java.sql.SQLException;
 
 public final class Database implements AutoCloseable {
 
-	private Connection connection;
-	private final Database.Properties properties;
-	private final Database.Configuration configuration;
-	private final String name;
-	private String url;
+    private Connection connection;
+    private final Database.Properties properties;
+    private final Database.Configuration configuration;
+    private final String name;
+    private String url;
 
-	public Database(final String name, final Database.Configuration configuration, final Database.Properties properties) {
-		this.name = name;
-		this.configuration = configuration;
-		this.properties = properties;
-	}
-	
-	public void connect() throws SQLException {
-		this.url = "jdbc:" + configuration.getDBMS() + "://" + properties.host + ":" + properties.port + "/" + name;
-		this.connection = DriverManager.getConnection(url, properties.user, properties.password);
-	}
+    public Database(final String name, final Database.Configuration configuration, final Database.Properties properties) {
+        this.name = name;
+        this.configuration = configuration;
+        this.properties = properties;
+    }
 
-	public Query createQuery(String request) {
-		return new QueryImpl(connection, request);
-	}
+    public void connect() throws SQLException {
+        this.url = "jdbc:" + configuration.getDBMS() + "://" + properties.host + ":" + properties.port + "/" + name;
+        this.connection = DriverManager.getConnection(url, properties.user, properties.password);
+    }
 
-	public QueryBuilder createQueryBuilder() {
-		return QueryBuilderImpl.of(connection);
-	}
+    public Query createQuery(String request) {
+        return new QueryImpl(connection, request);
+    }
 
-	public Connection getConnection() {
-		return connection;
-	}
+    public QueryBuilder createQueryBuilder() {
+        return QueryBuilderImpl.of(connection);
+    }
 
-	public Properties getProperties() {
-		return properties;
-	}
+    public Connection getConnection() {
+        return connection;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Properties getProperties() {
+        return properties;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public void close() {
-		if (connection != null) {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				throw new RuntimeException(e);
-			}
-		}
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public static class Properties {
+    @Override
+    public void close() {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
-		private final String host;
-		private final String user;
-		private final String port;
-		private final String password;
+    public static class Properties {
 
-		public Properties(final String host, final String user, final String port, final String password) {
-			this.host = host;
-			this.user = user;
-			this.port = port;
-			this.password = password;
-		}
+        private final String host;
+        private final String user;
+        private final String port;
+        private final String password;
 
-		public String getHost() {
-			return host;
-		}
+        public Properties(final String host, final String user, final String port, final String password) {
+            this.host = host;
+            this.user = user;
+            this.port = port;
+            this.password = password;
+        }
 
-		public String getUser() {
-			return user;
-		}
+        public String getHost() {
+            return host;
+        }
 
-		public String getPort() {
-			return port;
-		}
+        public String getUser() {
+            return user;
+        }
 
-		public String getPassword() {
-			return password;
-		}
+        public String getPort() {
+            return port;
+        }
 
-	}
+        public String getPassword() {
+            return password;
+        }
 
-	public static final class Configuration {
+    }
 
-		private final String driver;
-		private final String dbms;
+    public static final class Configuration {
 
-		public Configuration(final String driver, final String dbms) {
-			this.driver = driver;
-			this.dbms = dbms;
-		}
+        private final String driver;
+        private final String dbms;
 
-		public String getDriver() {
-			return driver;
-		}
+        public Configuration(final String driver, final String dbms) {
+            this.driver = driver;
+            this.dbms = dbms;
+        }
 
-		public String getDBMS() {
-			return dbms;
-		}
+        public String getDriver() {
+            return driver;
+        }
 
-	}
+        public String getDBMS() {
+            return dbms;
+        }
+
+    }
 
 }

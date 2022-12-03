@@ -7,17 +7,16 @@ import static org.apache.lucene.util.SloppyMath.haversinMeters;
  */
 public final class Location {
 
-	private String name;
+    private String name;
     private float longitude;
     private float latitude;
 
     /**
-     *
      * Create a location
      *
-     * @param name String
+     * @param name      String
      * @param longitude float
-     * @param latitude float
+     * @param latitude  float
      * @return location
      */
     public static Location of(String name, float longitude, float latitude) {
@@ -25,7 +24,6 @@ public final class Location {
     }
 
     /**
-     *
      * Copy a location
      *
      * @param location Location
@@ -38,13 +36,13 @@ public final class Location {
     /**
      * Constructor location
      *
-     * @param name String
+     * @param name      String
      * @param longitude float
-     * @param latitude float
+     * @param latitude  float
      */
     public Location(String name, float longitude, float latitude) {
         this.name = name;
-        this.latitude  = latitude;
+        this.latitude = latitude;
         this.longitude = longitude;
     }
 
@@ -78,15 +76,15 @@ public final class Location {
     public float getLatitude() {
         return latitude;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
-    
+
     public void setLatitude(float latitude) {
         this.latitude = latitude;
     }

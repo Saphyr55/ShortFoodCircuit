@@ -17,7 +17,7 @@ public class EntityClassManager {
     public EntityManager createEntityManager(final Database database) {
         return new EntityManager(database, this);
     }
-    
+
     public Map<String, Field> getFieldsFromEntity(Class<?> aClass) {
         return classEntities.get(aClass);
     }

@@ -17,7 +17,7 @@ public final class EntityClassLoader {
     public EntityClassLoader(final String entityPackage) {
         this.entityPackage = entityPackage;
     }
-    
+
     public EntityClassManager createClassFactory() {
 
         final Reflections reflections = new Reflections(new ConfigurationBuilder().forPackage(entityPackage));

@@ -16,7 +16,8 @@ public class Producer {
     @Column(name = "password")
     private String password;
 
-    public Producer() { }
+    public Producer() {
+    }
 
     public Producer(String password) {
         this.password = password;

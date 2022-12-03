@@ -75,7 +75,7 @@ public final class EntityManager {
     private <T> String getIdName(Class<T> aClass) {
         var map = entityClassManager.getFieldsFromEntity(aClass);
         var list = map.entrySet().stream()
-                 .filter(stringFieldEntry -> fieldHaveAnnotation(stringFieldEntry.getValue(), Id.class)).toList();
+                .filter(stringFieldEntry -> fieldHaveAnnotation(stringFieldEntry.getValue(), Id.class)).toList();
         if (!list.isEmpty())
             return list.get(0).getKey();
         return null;

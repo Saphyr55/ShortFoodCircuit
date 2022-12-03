@@ -23,7 +23,8 @@ public class ProductTour {
     @Column(name = "weight")
     private Float weight;
 
-    public ProductTour() { }
+    public ProductTour() {
+    }
 
     public ProductTour(LocalDateTime startDate, LocalDateTime endDateTime, String name, Float weight) {
         this.startDateTime = startDate;
@@ -56,23 +57,23 @@ public class ProductTour {
     public LocalDateTime getStartDateTime() {
         return startDateTime;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public float getWeight() {
         return weight;
     }
-    
+
     public void setStartDateTime(LocalDateTime startDateTime) {
         this.startDateTime = startDateTime;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public void setWeight(float weight) {
         this.weight = weight;
     }

@@ -17,7 +17,7 @@ public final class PersistenceCheck {
     }
 
     public static boolean throwHaveNotAnnotation(Class<?> tClass, Class<? extends Annotation> annotation) {
-        if(!tClass.isAnnotationPresent(annotation))
+        if (!tClass.isAnnotationPresent(annotation))
             throw new PersistenceAnnotationPresentException(annotation.getName() + " not present in " + tClass.getName());
         return true;
     }

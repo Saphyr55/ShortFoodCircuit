@@ -3,7 +3,7 @@ package fr.sfc.api.persistence.exception;
 public class PersistenceAnnotationPresentException extends RuntimeException {
 
     public PersistenceAnnotationPresentException() {
-       super();
+        super();
     }
 
     public PersistenceAnnotationPresentException(String s) {
