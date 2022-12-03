@@ -51,6 +51,9 @@ dependencies {
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testImplementation "org.testfx:testfx-junit5:4.0.16-alpha"
+    testRuntimeOnly "org.testfx:testfx-junit5:4.0.16-alpha"
+
 }
 
 test {
