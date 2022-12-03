@@ -1,23 +1,11 @@
 package fr.sfc.api;
 
-import fr.sfc.api.component.Component;
-import fr.sfc.api.component.ComponentClassLoader;
-import fr.sfc.api.component.ComponentManager;
-import fr.sfc.api.controller.Controller;
-import fr.sfc.api.controller.ControllerClassLoader;
-import fr.sfc.api.controller.ControllerManager;
+import fr.sfc.api.controlling.*;
 import fr.sfc.api.persistence.*;
 import fr.sfc.api.database.DatabaseManager;
 import fr.sfc.api.persistence.InjectConfiguration;
-import javafx.css.Styleable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Permit to configure databases, repositories, components,
@@ -30,16 +18,15 @@ public final class BackendApplicationConfiguration {
     private final RepositoryManager repositoryManager;
     private final ComponentManager componentManager;
     private final EntityClassManager entityClassManager;
-    private final ControllerManager controllerManager;
     private InjectConfiguration injectConfiguration;
     private EntityManager entityManager;
+    private Parent root;
 
     /**
      *
      */
     private BackendApplicationConfiguration(final DatabaseManager databaseManager,
                                             final ComponentManager componentManager,
-                                            final ControllerManager controllerManager,
                                             final RepositoryManager repositoryManager,
                                             final EntityClassManager entityClassManager) {
 
@@ -47,7 +34,6 @@ public final class BackendApplicationConfiguration {
         this.componentManager = componentManager;
         this.entityClassManager = entityClassManager;
         this.databaseManager = databaseManager;
-        this.controllerManager = controllerManager;
     }
 
     /**
@@ -58,32 +44,29 @@ public final class BackendApplicationConfiguration {
      * @param currentNameDatabase current name database
      */
     public void configure(final String currentNameDatabase) {
-
         databaseManager.configure();
         databaseManager.connect();
         entityManager = entityClassManager.createEntityManager(databaseManager.getDatabase(currentNameDatabase));
 
         repositoryManager.detect();
+
+
         componentManager.detect();
-
-        controllerManager.detect(componentManager.getAllComponents());
-
-        injectConfiguration = new InjectConfiguration(
-                repositoryManager, entityManager,
-                componentManager, controllerManager);
-
+        injectConfiguration = new InjectConfiguration(repositoryManager, entityManager, componentManager);
         injectConfiguration.configure();
+
+
+        componentManager.getAllControllers().forEach(Controller::setup);
     }
 
     /**
      * Create the runtime application
      *
      * @param stage stage
-     * @param parent parent
      * @return runtime application
      */
-    public BackendApplication createApplication(final Stage stage, final Parent parent, final String title, int width, int height) {
-        BackendApplication.set(new BackendApplication(this, stage, parent, title, width, height));
+    public BackendApplication createApplication(final Stage stage, final Parent root, final String title, int width, int height) {
+        BackendApplication.set(new BackendApplication(this, stage, root, title, width, height));
         return BackendApplication.getCurrentApplication();
     }
 
@@ -119,28 +102,24 @@ public final class BackendApplicationConfiguration {
         return injectConfiguration;
     }
 
-    public ComponentManager getComponentFactory() {
+
+    public ComponentFactory getComponentFactory() {
+        return getComponentManager().getComponentFactory();
+    }
+
+    public ComponentManager getComponentManager() {
         return componentManager;
-    }
-
-    public EntityClassManager getEntityClassFactory() {
-        return entityClassManager;
-    }
-
-    public ControllerManager getControllerFactory() {
-        return controllerManager;
     }
     
     /**
      *
      */
-    public static class Builder {
+    public final static class Builder {
 
         private DatabaseManager databaseManager;
         private EntityClassManager entityClassManager;
         private ComponentManager componentManager;
         private RepositoryManager repositoryManager;
-        private ControllerManager controllerManager;
 
         private Builder() { }
 
@@ -154,7 +133,7 @@ public final class BackendApplicationConfiguration {
         }
 
         public Builder withEntityPackage(final String entityPackage) {
-            this.entityClassManager = new EntityClassLoader(entityPackage).createClassFactory();
+            this.entityClassManager = new EntityClassLoader(entityPackage).createClassManager();
             return this;
         }
 
@@ -163,45 +142,15 @@ public final class BackendApplicationConfiguration {
             return this;
         }
 
-        @SafeVarargs
-        public final Builder withComponentPackage(final Parent root, final Class<? extends Component>... mainComponent) {
-            this.componentManager = new ComponentClassLoader(getAllNodes(root), mainComponent).createComponentFactory();
-            return this;
-        }
-
-        @SafeVarargs
-        public final Builder withControllerPackage(final Class<? extends Controller>... mainController) {
-            this.controllerManager = new ControllerClassLoader(mainController).createControllerFactory();
+        public Builder setRoot(final Parent root) {
+            this.componentManager = new ComponentLoader(root).createComponentManager();
             return this;
         }
 
         public BackendApplicationConfiguration build() {
             return new BackendApplicationConfiguration(
-                    databaseManager, componentManager, controllerManager,
+                    databaseManager, componentManager,
                     repositoryManager, entityClassManager);
-        }
-
-        private static List<Node> getAllNodes(final Styleable root) {
-            final ArrayList<Node> nodes = new ArrayList<>();
-            addAllDescendents(root, nodes);
-            return nodes;
-        }
-
-        private static void addAllDescendents(final Styleable styleable, final ArrayList<Node> nodes) {
-            System.out.println(styleable);
-            if (styleable instanceof final Parent parent) {
-                if (styleable instanceof final TabPane tabPane) {
-                    for (final Tab tab : tabPane.getTabs()) {
-                        final Node node = tab.getContent();
-                        nodes.add(node);
-                        addAllDescendents(node, nodes);
-                    }
-                }
-                for (final Node node : parent.getChildrenUnmodifiable()) {
-                    nodes.add(node);
-                    addAllDescendents(node, nodes);
-                }
-            }
         }
 
     }

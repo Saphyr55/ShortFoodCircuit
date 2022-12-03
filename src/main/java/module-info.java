@@ -1,16 +1,20 @@
 module fr.sfc {
 
-    requires java.xml;
-	requires java.sql;
-    requires java.base;
-    requires java.compiler;
-    requires java.desktop;
-    requires java.net.http;
-    requires java.management;
     requires java.se;
-    requires java.security.jgss;
-    requires java.security.sasl;
 
+    requires jdk.accessibility;
+    requires jdk.attach;
+    requires jdk.jsobject;
+    requires jdk.httpserver;
+    requires jdk.net;
+    requires jdk.sctp;
+    requires jdk.charsets;
+    requires jdk.compiler;
+    requires jdk.javadoc;
+    requires jdk.xml.dom;
+    requires jdk.random;
+
+    requires javafx.base;
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -36,10 +40,10 @@ module fr.sfc {
     opens fr.sfc.model.entity;
 
     opens fr.sfc.api;
-    opens fr.sfc.api.component;
-    opens fr.sfc.api.controller;
+    opens fr.sfc.api.controlling;
     opens fr.sfc.api.persistence;
     opens fr.sfc.api.persistence.exception;
-    opens fr.sfc.api.common;
+    opens fr.sfc.common;
+    opens fr.sfc.component.productTour;
 
 }

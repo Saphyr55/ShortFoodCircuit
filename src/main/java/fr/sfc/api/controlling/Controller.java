@@ -1,6 +1,5 @@
-package fr.sfc.api.controller;
+package fr.sfc.api.controlling;
 
-import fr.sfc.api.component.Component;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
@@ -13,8 +12,8 @@ import java.util.ResourceBundle;
 public interface Controller extends Initializable {
 
     @Override
-    default void initialize(URL location, ResourceBundle resources) {
+    default void initialize(URL location, ResourceBundle resources) { }
 
-    }
+    default void setup() { }
 
 }

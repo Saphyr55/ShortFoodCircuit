@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 public interface Query extends AutoCloseable {
 
     /**
-     *
      * @param param
      * @param value
      * @return
@@ -22,19 +21,16 @@ public interface Query extends AutoCloseable {
     void prepare();
 
     /**
-     *
      * @return
      */
     ResultSet query();
 
     /**
-     *
      * @return
      */
     ResultSet getResultSet();
 
     /**
-     *
      * @return
      */
     String getRequest();

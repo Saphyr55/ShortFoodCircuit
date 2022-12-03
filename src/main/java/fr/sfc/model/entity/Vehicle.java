@@ -17,7 +17,8 @@ public class Vehicle {
     @Column(name = "maxWeight")
     private Float maxWeight;
 
-    public Vehicle() { }
+    public Vehicle() {
+    }
 
     public Vehicle(String matriculation, Float maxWeight) {
         this.matriculation = matriculation;

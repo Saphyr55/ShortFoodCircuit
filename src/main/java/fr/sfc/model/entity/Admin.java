@@ -12,6 +12,7 @@ public class Admin {
     @Id
     @Column(name = "idAdmin")
     private Integer id;
+    @Column(name = "password")
     private String password;
 
     public Admin() { }
@@ -24,7 +25,6 @@ public class Admin {
         this(password);
         this.id = id;
     }
-
 
     public int getId() {
         return id;

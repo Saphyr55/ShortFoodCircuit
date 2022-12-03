@@ -1,7 +1,6 @@
 package fr.sfc.api.persistence;
 
-import fr.sfc.api.component.ComponentManager;
-import fr.sfc.api.controller.ControllerManager;
+import fr.sfc.api.controlling.ComponentManager;
 import fr.sfc.api.persistence.annotation.Inject;
 
 import java.lang.reflect.Field;
@@ -13,17 +12,14 @@ public final class InjectConfiguration {
     private final EntityManager entityManager;
     private final RepositoryManager repositoryManager;
     private final ComponentManager componentManager;
-    private final ControllerManager controllerManager;
 
     public InjectConfiguration(final RepositoryManager repositoryManager,
                                final EntityManager entityManager,
-                               final ComponentManager componentManager,
-                               final ControllerManager controllerManager) {
+                               final ComponentManager componentManager) {
 
         this.entityManager = entityManager;
         this.repositoryManager = repositoryManager;
         this.componentManager = componentManager;
-        this.controllerManager = controllerManager;
     }
 
     public void configure() {
@@ -31,26 +27,26 @@ public final class InjectConfiguration {
         configureForComponent();
         configureForController();
     }
-    
+
     private void configureForRepository() {
         repositoryManager.getAllRepository().forEach((final var repository) -> Arrays
-                        .stream(repository.getClass().getDeclaredFields())
-                        .filter(this::haveInjectAnnotation)
-                        .forEach(field -> setValueFieldToAll(field, repository)));
+                .stream(repository.getClass().getDeclaredFields())
+                .filter(this::haveInjectAnnotation)
+                .forEach(field -> setValueFieldToAll(field, repository)));
     }
 
     private void configureForComponent() {
-        componentManager.getAllComponents().forEach((final var component) -> Arrays
-                        .stream(component.getClass().getDeclaredFields())
-                        .filter(this::haveInjectAnnotation)
-                        .forEach(field -> setValueFieldToAll(field, component)));
+        componentManager.getAllComponents().forEach(component -> Arrays
+                .stream(component.getClass().getDeclaredFields())
+                .filter(this::haveInjectAnnotation)
+                .forEach(field -> setValueFieldToAll(field, component)));
     }
 
     private void configureForController() {
-        controllerManager.getAllControllers().forEach((final var controller) -> Arrays
-                        .stream(controller.getClass().getDeclaredFields())
-                        .filter(this::haveInjectAnnotation)
-                        .forEach(field -> setValueFieldToAll(field, controller)));
+        componentManager.getAllControllers().forEach(controller -> Arrays
+                .stream(controller.getClass().getDeclaredFields())
+                .filter(this::haveInjectAnnotation)
+                .forEach(field -> setValueFieldToAll(field, controller)));
     }
 
     private void setValueFieldToAll(final Field field, final Object instance) {

@@ -23,7 +23,8 @@ public class Customer {
     @Column(name = "latitude")
     private Float latitude;
 
-    public Customer() { }
+    public Customer() {
+    }
 
     public Customer(String name, String phoneNumber, String address, float longitude, float latitude) {
         this.longitude = longitude;

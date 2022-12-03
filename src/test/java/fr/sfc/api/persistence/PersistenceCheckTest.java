@@ -21,7 +21,7 @@ class PersistenceCheckTest {
 
     @Test
     void throwHaveNotAnnotation() {
-        assertDoesNotThrow( () -> PersistenceCheck.throwHaveNotAnnotation(Admin.class, Table.class));
+        assertDoesNotThrow(() -> PersistenceCheck.throwHaveNotAnnotation(Admin.class, Table.class));
         assertThrowsExactly(PersistenceAnnotationPresentException.class, () -> PersistenceCheck.throwHaveNotAnnotation(Admin.class, SuppressWarnings.class));
     }
 }
