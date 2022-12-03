@@ -2,7 +2,10 @@ package fr.sfc.api.database.impl;
 
 import fr.sfc.api.database.Query;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public final class QueryImpl implements Query {
 
@@ -17,7 +20,7 @@ public final class QueryImpl implements Query {
 
     @Override
     public Query setParameter(String param, String value) {
-        request = request.replace(':'+param, value);
+        request = request.replace(':' + param, value);
         return this;
     }
 

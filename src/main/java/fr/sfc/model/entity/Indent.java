@@ -27,7 +27,8 @@ public class Indent {
     @Column(name = "weight")
     private Float weight;
 
-    public Indent() { }
+    public Indent() {
+    }
 
     public Indent(LocalDateTime startTime, LocalDateTime endTime, String wording, float weight) {
         this.endTime = endTime;
@@ -53,31 +54,31 @@ public class Indent {
     public LocalDateTime getStartTime() {
         return startTime;
     }
-    
+
     public LocalDateTime getEndTime() {
         return endTime;
     }
-    
+
     public String getWording() {
         return wording;
     }
-    
+
     public float getWeight() {
         return weight;
     }
-    
+
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
-    
+
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
-    
+
     public void setWording(String wording) {
         this.wording = wording;
     }
-    
+
     public void setWeight(float weight) {
         this.weight = weight;
     }

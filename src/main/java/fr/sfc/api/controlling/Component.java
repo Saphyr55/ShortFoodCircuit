@@ -1,4 +1,4 @@
-package fr.sfc.api.component;
+package fr.sfc.api.controlling;
 
 import javafx.fxml.FXMLLoader;
 
@@ -17,5 +17,7 @@ public interface Component {
     default FXMLLoader getLoader() {
         return null;
     }
+
+    default void setup() { }
 
 }

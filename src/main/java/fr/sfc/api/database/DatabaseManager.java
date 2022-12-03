@@ -4,7 +4,10 @@ import com.google.common.collect.Sets;
 
 import java.io.File;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public final class DatabaseManager {
 
@@ -48,7 +51,7 @@ public final class DatabaseManager {
     private void connect(String databaseName) {
         try {
             getDatabase(databaseName).connect();
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

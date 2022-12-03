@@ -31,7 +31,7 @@ public final class DatabaseFileProperties {
      * Convert a section to a class
      *
      * @param section section
-     * @param tClass class
+     * @param tClass  class
      * @return T
      */
     public static <T> T parse(Ini.Section section, Class<T> tClass) {

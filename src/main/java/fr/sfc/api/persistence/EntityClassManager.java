@@ -1,25 +1,27 @@
 package fr.sfc.api.persistence;
 
-import com.google.common.collect.Maps;
 import fr.sfc.api.database.Database;
+import fr.sfc.api.persistence.exception.EntityNotFoundException;
 
 import java.lang.reflect.Field;
 import java.util.Map;
 
-public class EntityClassManager {
+public final class EntityClassManager {
 
     private final Map<Class<?>, Map<String, Field>> classEntities;
 
-    public EntityClassManager() {
-        this.classEntities = Maps.newIdentityHashMap();
+    public EntityClassManager(final Map<Class<?>, Map<String, Field>> map) {
+        this.classEntities = map;
     }
 
     public EntityManager createEntityManager(final Database database) {
         return new EntityManager(database, this);
     }
-    
-    public Map<String, Field> getFieldsFromEntity(Class<?> aClass) {
-        return classEntities.get(aClass);
+
+    public Map<String, Field> getFieldsFromEntity(final Class<?> aClass) {
+        if (classEntities.containsKey(aClass))
+            return classEntities.get(aClass);
+        else throw new EntityNotFoundException(aClass + " was not found");
     }
 
     public Map<Class<?>, Map<String, Field>> getClassEntities() {

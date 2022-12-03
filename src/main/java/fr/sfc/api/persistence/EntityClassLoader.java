@@ -12,21 +12,19 @@ import java.util.Set;
 
 public final class EntityClassLoader {
 
-    private String entityPackage;
+    private final String entityPackage;
 
     public EntityClassLoader(final String entityPackage) {
         this.entityPackage = entityPackage;
     }
-    
-    public EntityClassManager createClassFactory() {
+
+    public EntityClassManager createClassManager() {
 
         final Reflections reflections = new Reflections(new ConfigurationBuilder().forPackage(entityPackage));
         final Map<Class<?>, Map<String, Field>> classMapMapOfEntities = new HashMap<>();
         final Set<Class<?>> classSet = reflections.getTypesAnnotatedWith(Entity.class);
-        for (final Class<?> aClass : classSet)
-            classMapMapOfEntities.put(aClass, hashClassEntityForFields(aClass));
-
-        return new EntityClassManager();
+        for (final Class<?> aClass : classSet) classMapMapOfEntities.put(aClass, hashClassEntityForFields(aClass));
+        return new EntityClassManager(classMapMapOfEntities);
     }
 
     private Map<String, Field> hashClassEntityForFields(Class<?> aClass) {
