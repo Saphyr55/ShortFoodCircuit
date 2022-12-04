@@ -6,7 +6,7 @@ import fr.sfc.controller.productTour.AdderProductTourController;
 import fr.sfc.entity.ProductTour;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
@@ -14,14 +14,14 @@ public class AdderProdutTourComponent extends GridPane implements Component {
 
     @AutoController
     private AdderProductTourController controller;
-    private TextField searchTextField;
-    private ListCell<ProductTour> productTourListCell;
-    private Button adderProductTourButton;
 
+    private TextField searchTextField;
+    private ListView<String> productTourListCell;
+    private Button adderProductTourButton;
 
     @Override
     public void setup() {
-        productTourListCell = new ListCell<>();
+        productTourListCell = new ListView<>();
         adderProductTourButton = new Button("Add Product Tour");
         searchTextField = new TextField();
         searchTextField.setPromptText("Search for product tour");
@@ -42,7 +42,7 @@ public class AdderProdutTourComponent extends GridPane implements Component {
         return adderProductTourButton;
     }
 
-    public ListCell<ProductTour> getProductTourListCell() {
+    public ListView<String> getProductTourListView() {
         return productTourListCell;
     }
 

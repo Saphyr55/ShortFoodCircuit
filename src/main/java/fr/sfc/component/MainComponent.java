@@ -1,13 +1,11 @@
 package fr.sfc.component;
 
-import fr.sfc.api.BackendApplication;
 import fr.sfc.api.controlling.AutoController;
 import fr.sfc.api.controlling.Component;
 import fr.sfc.api.controlling.SetComponent;
 import fr.sfc.component.productTour.AdderProdutTourComponent;
 import fr.sfc.component.productTour.DetailsProductTourComponent;
 import fr.sfc.controller.MainController;
-import javafx.beans.binding.Binding;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
