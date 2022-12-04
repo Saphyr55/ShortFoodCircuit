@@ -1,4 +1,4 @@
-package fr.sfc.model.entity;
+package fr.sfc.entity;
 
 import fr.sfc.api.persistence.annotation.Column;
 import fr.sfc.api.persistence.annotation.Entity;
@@ -13,7 +13,7 @@ public class Company {
     @Column(name = "idCompany")
     private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "nameOwner")
     private String name;
 
     @Column(name = "phoneNumber")
@@ -31,15 +31,13 @@ public class Company {
     @Column(name = "SIRET")
     private String SIRET;
 
-    public Company() {
-    }
+    public Company() { }
 
-    public Company(int id, String name, String phoneNumber, String address, float longitude, float latitude) {
-        this(name, phoneNumber, address, longitude, latitude);
-        this.id = id;
-    }
-
-    public Company(String name, String phoneNumber, String address, float longitude, float latitude) {
+    public Company(String name,
+                   String phoneNumber,
+                   String address,
+                   float longitude,
+                   float latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.name = name;
@@ -101,5 +99,18 @@ public class Company {
 
     public void setSIRET(String SIRET) {
         this.SIRET = SIRET;
+    }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", address='" + address + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", SIRET='" + SIRET + '\'' +
+                '}';
     }
 }

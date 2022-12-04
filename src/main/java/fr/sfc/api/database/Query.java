@@ -14,7 +14,6 @@ public interface Query extends AutoCloseable {
      */
     Query setParameter(String param, String value);
 
-
     /**
      *
      */
@@ -26,6 +25,11 @@ public interface Query extends AutoCloseable {
     ResultSet query();
 
     /**
+     *
+     */
+    void execute();
+
+    /**
      * @return
      */
     ResultSet getResultSet();
@@ -34,5 +38,7 @@ public interface Query extends AutoCloseable {
      * @return
      */
     String getRequest();
+
+    void executeAndClose();
 
 }

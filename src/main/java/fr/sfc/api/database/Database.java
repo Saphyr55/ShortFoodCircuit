@@ -1,8 +1,5 @@
 package fr.sfc.api.database;
 
-import fr.sfc.api.database.impl.QueryBuilderImpl;
-import fr.sfc.api.database.impl.QueryImpl;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -24,14 +21,6 @@ public final class Database implements AutoCloseable {
     public void connect() throws SQLException {
         this.url = "jdbc:" + configuration.getDBMS() + "://" + properties.host + ":" + properties.port + "/" + name;
         this.connection = DriverManager.getConnection(url, properties.user, properties.password);
-    }
-
-    public Query createQuery(String request) {
-        return new QueryImpl(connection, request);
-    }
-
-    public QueryBuilder createQueryBuilder() {
-        return QueryBuilderImpl.of(connection);
     }
 
     public Connection getConnection() {
@@ -61,39 +50,9 @@ public final class Database implements AutoCloseable {
         }
     }
 
-    public static class Properties {
+    public record Properties(String host, String user, String port, String password) { }
 
-        private final String host;
-        private final String user;
-        private final String port;
-        private final String password;
-
-        public Properties(final String host, final String user, final String port, final String password) {
-            this.host = host;
-            this.user = user;
-            this.port = port;
-            this.password = password;
-        }
-
-        public String getHost() {
-            return host;
-        }
-
-        public String getUser() {
-            return user;
-        }
-
-        public String getPort() {
-            return port;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-    }
-
-    public static final class Configuration {
+    public static class Configuration {
 
         private final String driver;
         private final String dbms;

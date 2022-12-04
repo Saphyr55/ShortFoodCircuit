@@ -36,8 +36,8 @@ module fr.sfc {
     opens fr.sfc;
     opens fr.sfc.controller;
     opens fr.sfc.component;
-    opens fr.sfc.model.repository;
-    opens fr.sfc.model.entity;
+    opens fr.sfc.repository;
+    opens fr.sfc.entity;
 
     opens fr.sfc.api;
     opens fr.sfc.api.controlling;
@@ -45,5 +45,6 @@ module fr.sfc {
     opens fr.sfc.api.persistence.exception;
     opens fr.sfc.common;
     opens fr.sfc.component.productTour;
+    opens fr.sfc.controller.productTour;
 
 }

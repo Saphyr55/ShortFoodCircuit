@@ -13,14 +13,19 @@ public final class BackendApplication {
     private final BackendApplicationConfiguration backendApplicationConfiguration;
 
     public BackendApplication(final BackendApplicationConfiguration configuration,
-                              final Stage primaryStage, final Parent root,
-                              final String title, int width, int height) {
+                              final Stage primaryStage,
+                              final Parent root,
+                              final String title,
+                              int width,
+                              int height) {
+
+        this.parent = root;
         this.primaryStage = primaryStage;
         this.backendApplicationConfiguration = configuration;
         this.scene = new Scene(root, width, height);
         this.primaryStage.setTitle(title);
         this.primaryStage.setScene(scene);
-        this.parent = root;
+
         primaryStage.setOnCloseRequest(event -> configuration.getDatabaseManager().shutdown());
     }
 

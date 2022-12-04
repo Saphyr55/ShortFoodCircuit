@@ -3,7 +3,7 @@ package fr.sfc.api;
 import fr.sfc.api.controlling.*;
 import fr.sfc.api.persistence.*;
 import fr.sfc.api.database.DatabaseManager;
-import fr.sfc.api.persistence.InjectConfiguration;
+import fr.sfc.api.persistence.InjectionConfiguration;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
@@ -18,9 +18,8 @@ public final class BackendApplicationConfiguration {
     private final RepositoryManager repositoryManager;
     private final ComponentManager componentManager;
     private final EntityClassManager entityClassManager;
-    private InjectConfiguration injectConfiguration;
+    private InjectionConfiguration injectionConfiguration;
     private EntityManager entityManager;
-    private Parent root;
 
     /**
      *
@@ -50,13 +49,9 @@ public final class BackendApplicationConfiguration {
 
         repositoryManager.detect();
 
-
         componentManager.detect();
-        injectConfiguration = new InjectConfiguration(repositoryManager, entityManager, componentManager);
-        injectConfiguration.configure();
-
-
-        componentManager.getAllControllers().forEach(Controller::setup);
+        injectionConfiguration = new InjectionConfiguration(repositoryManager, entityManager, componentManager);
+        injectionConfiguration.configure();
     }
 
     /**
@@ -65,8 +60,9 @@ public final class BackendApplicationConfiguration {
      * @param stage stage
      * @return runtime application
      */
-    public BackendApplication createApplication(final Stage stage, final Parent root, final String title, int width, int height) {
+    public BackendApplication createApplication(final Stage stage, final Parent root, final String title, final int width, final int height) {
         BackendApplication.set(new BackendApplication(this, stage, root, title, width, height));
+        componentManager.getAllControllers().forEach(Controller::setup);
         return BackendApplication.getCurrentApplication();
     }
 
@@ -98,8 +94,8 @@ public final class BackendApplicationConfiguration {
      *
      * @return
      */
-    public InjectConfiguration getInjectConfiguration() {
-        return injectConfiguration;
+    public InjectionConfiguration getInjectConfiguration() {
+        return injectionConfiguration;
     }
 
 
