@@ -1,27 +1,47 @@
 package fr.sfc.controller;
 
-import fr.sfc.api.controller.Controller;
+import fr.sfc.api.controlling.AutoComponent;
+import fr.sfc.api.controlling.Controller;
 import fr.sfc.api.persistence.annotation.Inject;
-import fr.sfc.model.repository.AdminRepository;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.text.Font;
-
-import java.beans.EventHandler;
-import java.net.URL;
-import java.util.ResourceBundle;
+import fr.sfc.component.MainComponent;
+import fr.sfc.entity.Company;
+import fr.sfc.entity.Order;
+import fr.sfc.entity.ProductTour;
+import fr.sfc.entity.Vehicle;
+import fr.sfc.repository.*;
 
 public class MainController implements Controller {
 
-    @Inject
-    private AdminRepository adminRepository;
+    @AutoComponent
+    private MainComponent component;
 
-    @FXML
-    private Button button;
+    @Inject private AdminRepository adminRepository;
+    @Inject private OrderRepository orderRepository;
+    @Inject private CompanyRepository companyRepository;
+    @Inject private ProductTourRepository productTourRepository;
+    @Inject private VehicleRepository vehicleRepository;
 
-    public void show() {
+    @Override
+    public void setup() {
+
+        Company company = null;
+        ProductTour productTour = null;
+        Vehicle vehicle = null;
+        Order order = orderRepository.find(1);
+
+        if (order != null) {
+            company = companyRepository.find(order.getIdCompany());
+            if (company != null) {
+                productTour = productTourRepository.find(order.getIdProductTour());
+                if (productTour != null) {
+                    vehicle = vehicleRepository.find(productTour.getIdVehicle());
+                }
+            }
+        }
+
+        System.out.println(company + "\n" + vehicle + "\n" + productTour + "\n" + order);
 
     }
+
 
 }

@@ -16,8 +16,6 @@ import java.net.URL;
 
 public final class SFCApplication extends Application {
 
-    public static URL index;
-
     @Override
     public void start(final Stage primaryStage) throws IOException {
 
@@ -25,8 +23,8 @@ public final class SFCApplication extends Application {
 
         BackendApplicationConfiguration configuration = BackendApplicationConfiguration.Builder.of()
                 .setRoot(root)
-                .withEntityPackage("fr.sfc.model.entity")
-                .withRepositoryPackage("fr.sfc.model.repository")
+                .withEntityPackage("fr.sfc.entity")
+                .withRepositoryPackage("fr.sfc.repository")
                 .withDatabaseManager("db.ini", "sfc")
                 .build();
         configuration.configure("sfc");
@@ -35,7 +33,6 @@ public final class SFCApplication extends Application {
 
     public static void main(String[] args) {
         try {
-            index = SFCApplication.class.getResource("index.html");
             Application.launch(args);
         } catch (Exception e) {
             e.printStackTrace();

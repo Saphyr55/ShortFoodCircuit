@@ -16,6 +16,7 @@ public final class RepositoryManager {
     private final String packageRepository;
 
     public RepositoryManager(final String packageRepository) {
+
         this.repositories = Maps.newIdentityHashMap();
         this.setRepositories = Lists.newArrayList();
         this.packageRepository = packageRepository;

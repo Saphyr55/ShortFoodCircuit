@@ -1,9 +1,6 @@
-package fr.sfc.model.entity;
+package fr.sfc.entity;
 
-import fr.sfc.api.persistence.annotation.Column;
-import fr.sfc.api.persistence.annotation.Entity;
-import fr.sfc.api.persistence.annotation.Id;
-import fr.sfc.api.persistence.annotation.Table;
+import fr.sfc.api.persistence.annotation.*;
 
 @Entity
 @Table(name = "customer")
@@ -22,6 +19,8 @@ public class Customer {
     private Float longitude;
     @Column(name = "latitude")
     private Float latitude;
+    @ForeignKey(entity = ProductTour.class)
+    private Integer idProductTour;
 
     public Customer() {
     }
@@ -85,5 +84,18 @@ public class Customer {
 
     public void setLatitude(float latitude) {
         this.latitude = latitude;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", address='" + address + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", idProductTour=" + idProductTour +
+                '}';
     }
 }
