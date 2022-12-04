@@ -17,12 +17,10 @@ import java.util.*;
 public final class EntityManager {
 
     private final EntityClassManager entityClassManager;
-    private final Database database;
     private final QueryFactory queryFactory;
 
     public EntityManager(final Database database, final EntityClassManager entityClassManager) {
         this.entityClassManager = entityClassManager;
-        this.database = database;
         this.queryFactory = new QueryFactory(database);
     }
 
@@ -143,4 +141,7 @@ public final class EntityManager {
         return type;
     }
 
+    public QueryFactory getQueryFactory() {
+        return queryFactory;
+    }
 }

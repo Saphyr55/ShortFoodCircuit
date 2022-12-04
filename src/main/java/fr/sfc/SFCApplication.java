@@ -16,8 +16,6 @@ import java.net.URL;
 
 public final class SFCApplication extends Application {
 
-    public static URL index;
-
     @Override
     public void start(final Stage primaryStage) throws IOException {
 
@@ -35,7 +33,6 @@ public final class SFCApplication extends Application {
 
     public static void main(String[] args) {
         try {
-            index = SFCApplication.class.getResource("index.html");
             Application.launch(args);
         } catch (Exception e) {
             e.printStackTrace();

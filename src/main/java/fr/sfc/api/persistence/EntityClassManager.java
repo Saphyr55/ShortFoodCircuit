@@ -46,7 +46,7 @@ public final class EntityClassManager {
     public <T> String getIdName(Class<T> aClass) {
         var map = getFieldsFromEntity(aClass);
         var list = map.entrySet().stream()
-                .filter(stringFieldEntry -> fieldHaveAnnotation(stringFieldEntry.getValue(), Id.class))
+                .filter(stringFieldEntry -> stringFieldEntry.getValue().isAnnotationPresent(Id.class))
                 .toList();
         if (!list.isEmpty())
             return list.get(0).getKey();
@@ -63,7 +63,7 @@ public final class EntityClassManager {
     public <T> Map.Entry<String, String> formatInsert(T entity) {
         final StringBuilder values = new StringBuilder();
         final StringBuilder column = new StringBuilder();
-        getFieldsFromEntity(entity.getClass()).forEach((s, field) -> {
+        this.getFieldsFromEntity(entity.getClass()).forEach((s, field) -> {
             try {
                 if (!field.isAnnotationPresent(Id.class)) {
                     field.setAccessible(true);
@@ -79,10 +79,6 @@ public final class EntityClassManager {
         column.deleteCharAt(column.lastIndexOf(","));
         values.deleteCharAt(values.lastIndexOf(","));
         return Map.entry(column.toString(), values.toString());
-    }
-
-    public boolean fieldHaveAnnotation(Field field, Class<? extends Annotation> aClass) {
-        return field.getAnnotation(aClass) != null;
     }
 
     public Map<Class<?>, Map<String, Field>> getClassEntities() {

@@ -15,31 +15,32 @@ public class MainController implements Controller {
     @AutoComponent
     private MainComponent component;
 
-    @Inject
-    private AdminRepository adminRepository;
-
-    @Inject
-    private OrderRepository orderRepository;
-
-    @Inject
-    private CompanyRepository companyRepository;
-
-    @Inject
-    private ProductTourRepository productTourRepository;
-
-    @Inject
-    private VehicleRepository vehicleRepository;
+    @Inject private AdminRepository adminRepository;
+    @Inject private OrderRepository orderRepository;
+    @Inject private CompanyRepository companyRepository;
+    @Inject private ProductTourRepository productTourRepository;
+    @Inject private VehicleRepository vehicleRepository;
 
     @Override
     public void setup() {
 
+        Company company = null;
+        ProductTour productTour = null;
+        Vehicle vehicle = null;
         Order order = orderRepository.find(1);
-        Company company = companyRepository.find(order.getIdCompany());
-        ProductTour productTour = productTourRepository.find(order.getIdProductTour());
-        Vehicle vehicle = vehicleRepository.find(productTour.getIdVehicle());
+
+        if (order != null) {
+            company = companyRepository.find(order.getIdCompany());
+            if (company != null) {
+                productTour = productTourRepository.find(order.getIdProductTour());
+                if (productTour != null) {
+                    vehicle = vehicleRepository.find(productTour.getIdVehicle());
+                }
+            }
+        }
 
         System.out.println(company + "\n" + vehicle + "\n" + productTour + "\n" + order);
-        System.out.println(orderRepository.count());
+
     }
 
 
