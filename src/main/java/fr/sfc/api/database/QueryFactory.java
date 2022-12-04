@@ -30,6 +30,22 @@ public class QueryFactory {
         return QueryBuilderImpl.of(database.getConnection());
     }
 
+    public Query createQuery(Method method, Object... values) {
+        for (Annotation declaredAnnotation : method.getDeclaredAnnotations()) {
+
+            if (declaredAnnotation.annotationType().equals(NativeQuery.class))
+                return createNativeQuery(method);
+
+            else if (declaredAnnotation.annotationType().equals(FormatQuery.class))
+                return createFormatQuery(method, values);
+
+            else if (declaredAnnotation.annotationType().equals(MagicQuery.class))
+                return createMagicQuery(method, values);
+
+        }
+        return createNativeQuery(method);
+    }
+
     public Query createNativeQuery(Method method) {
         final NativeQuery formatQuery = method.getAnnotation(NativeQuery.class);
         if (formatQuery != null)
@@ -49,7 +65,7 @@ public class QueryFactory {
         if (magicQuery != null) {
             int i = 0;
             String request = magicQuery.value();
-            for (Class<?> aClass : magicQuery.classes()) {
+            for (Class<?> aClass : magicQuery.entities()) {
                 String tableN = ":table"+i;
                 String idN = ":id"+i;
                 request = request.replace(tableN, entityClassManager.getNameTable(aClass));

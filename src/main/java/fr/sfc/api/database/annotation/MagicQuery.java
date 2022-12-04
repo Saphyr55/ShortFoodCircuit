@@ -11,7 +11,7 @@ public @interface MagicQuery {
 
     String value();
 
-    Class<?>[] classes() default Class.class;
+    Class<?>[] entities() default Class.class;
 
 }
 
