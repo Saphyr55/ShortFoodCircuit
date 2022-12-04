@@ -34,6 +34,7 @@ public final class InjectionConfiguration {
         injectValueFieldForObject(EntityManager.class, field, instance, entityManager);
         setValueFieldToRepository(field, instance);
         injectValueFieldForObject(QueryFactory.class, field, instance, entityManager.getQueryFactory());
+        injectValueFieldForObject(EntityClassLoader.class, field, instance, entityManager.getEntityClassManager());
     }
 
     private void configureFor(Iterator<?> collection) {

@@ -2,17 +2,15 @@ package fr.sfc.api.persistence;
 
 import fr.sfc.api.database.Database;
 import fr.sfc.api.database.Query;
-import fr.sfc.api.database.QueryBuilder;
 import fr.sfc.api.database.QueryFactory;
 import fr.sfc.api.database.annotation.FormatQuery;
 
-import java.lang.annotation.AnnotationTypeMismatchException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public final class EntityManager {
 
@@ -21,7 +19,7 @@ public final class EntityManager {
 
     public EntityManager(final Database database, final EntityClassManager entityClassManager) {
         this.entityClassManager = entityClassManager;
-        this.queryFactory = new QueryFactory(database);
+        this.queryFactory = new QueryFactory(database, entityClassManager);
     }
 
     @FormatQuery(value = "SELECT * FROM %s")
@@ -35,11 +33,10 @@ public final class EntityManager {
                     getClass().getMethod("findAll", Class.class),
                     entityClassManager.getNameTable(aClass));
 
-            try (final ResultSet resultSet = query.query()) {
-                T t = wrapResultSetToEntity(aClass, resultSet);
-                if (t != null)
-                    set.add(t);
-            }
+            final ResultSet resultSet = query.query();
+            set.addAll(wrapResultSetToEntities(aClass, resultSet));
+
+            resultSet.close();
             query.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,54 +91,73 @@ public final class EntityManager {
 
     @FormatQuery(value = "SELECT * FROM %s WHERE %s=%s")
     public <T> T find(Class<T> entityClass, int id) {
-        T type = null;
+        AtomicReference<T> type = new AtomicReference<>();
         try {
             final Query query = queryFactory.createFormatQuery(
                     getClass().getMethod("find", Class.class, int.class),
                     entityClassManager.getNameTable(entityClass),
                     entityClassManager.getIdName(entityClass), id);
+
             final ResultSet resultSet = query.query();
-            type = wrapResultSetToEntity(entityClass, resultSet);
+
+            wrapResultSetToEntities(entityClass, resultSet)
+                    .stream()
+                    .findFirst()
+                    .ifPresent(type::set);
+
             resultSet.close();
             query.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return type;
+        return type.get();
     }
 
-    public <T> T wrapResultSetToEntity(Class<T> tClass, ResultSet resultSet)
+    public <T> Set<T> wrapResultSetToEntities(Class<T> tClass, ResultSet resultSet)
             throws SQLException, InvocationTargetException,
             InstantiationException, IllegalAccessException, NoSuchMethodException {
-        T type = null;
-
-        final Map<Field, Object> attributes = new HashMap<>();
+        final Set<T> types = new HashSet<>();
+        final Set<Map<Field, Object>> setsAttributes = new HashSet<>();
         final Map<String, Field> fields = entityClassManager.getFieldsFromEntity(tClass);
         final Set<String> nameFields = fields.keySet();
         final Iterator<String> it = nameFields.iterator();
 
         while (resultSet.next()) {
+
+            final Map<Field, Object> attributes = new HashMap<>();
+            setsAttributes.add(attributes);
+
             while (it.hasNext()) {
+
                 final String nameField = it.next();
                 final Field field = fields.get(nameField);
                 attributes.put(field, resultSet.getObject(nameField, field.getType()));
             }
         }
 
-        if (!attributes.isEmpty()) {
+        for (final Map<Field, Object> attributes : setsAttributes) {
 
-            type = tClass.getConstructor().newInstance();
+            if (!attributes.isEmpty()) {
 
-            for (final Map.Entry<String, Field> stringFieldEntry : fields.entrySet()) {
-                stringFieldEntry.getValue().setAccessible(true);
-                stringFieldEntry.getValue().set(type, attributes.get(stringFieldEntry.getValue()));
+                T type = tClass.getConstructor().newInstance();
+                for (final Map.Entry<String, Field> stringFieldEntry : fields.entrySet()) {
+
+                    stringFieldEntry.getValue().setAccessible(true);
+                    stringFieldEntry.getValue().set(type, attributes.get(stringFieldEntry.getValue()));
+                }
+
+                types.add(type);
             }
         }
 
-        return type;
+        return types;
     }
 
     public QueryFactory getQueryFactory() {
         return queryFactory;
+    }
+
+    public EntityClassManager getEntityClassManager() {
+        return entityClassManager;
     }
 }

@@ -39,8 +39,9 @@ public class MainController implements Controller {
             }
         }
 
+        System.out.println(vehicleRepository.findAll());
         System.out.println(company + "\n" + vehicle + "\n" + productTour + "\n" + order);
-
+        System.out.println(productTourRepository.findByVehicle(vehicle));
     }
 
 
