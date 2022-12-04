@@ -54,11 +54,13 @@ public class ProductTourRepository implements Repository<ProductTour> {
         entityManager.insert(entity);
     }
 
-    @MagicQuery(value = "SELECT * FROM :table0 WHERE :id0 = %s", classes = ProductTour.class)
+    @MagicQuery(value = "SELECT * FROM :table0 WHERE :id0 = %s", entities = ProductTour.class)
     public Set<ProductTour> findByVehicle(Vehicle vehicle) {
         try {
 
-            Query query = queryFactory.createMagicQuery(getClass().getMethod("findByVehicle", Vehicle.class), vehicle.getId());
+            Query query = queryFactory.createQuery(
+                    getClass().getMethod("findByVehicle", Vehicle.class),
+                    vehicle.getId());
             ResultSet resultSet = query.query();
 
             Set<ProductTour> set = entityManager.wrapResultSetToEntities(ProductTour.class, resultSet);
