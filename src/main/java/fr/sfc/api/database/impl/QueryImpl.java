@@ -2,15 +2,18 @@ package fr.sfc.api.database.impl;
 
 import fr.sfc.api.database.Query;
 
+import java.security.Security;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public final class QueryImpl implements Query {
 
     private final Connection connection;
     private PreparedStatement statement;
+    private ResultSet resultSet;
     private String request;
 
     public QueryImpl(Connection connection, String request) {
@@ -25,9 +28,15 @@ public final class QueryImpl implements Query {
     }
 
     @Override
-    public ResultSet query() {
-        prepare();
-        return getResultSet();
+    public ResultSet executeQuery() {
+        try {
+            prepare();
+            resultSet = statement.executeQuery();
+            return resultSet;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -41,12 +50,7 @@ public final class QueryImpl implements Query {
 
     @Override
     public ResultSet getResultSet() {
-        try {
-            return statement.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return resultSet;
     }
 
     @Override
@@ -58,7 +62,7 @@ public final class QueryImpl implements Query {
     public void executeAndClose() {
         try {
             prepare();
-            execute();
+            executeUpdate();
             close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,7 +76,7 @@ public final class QueryImpl implements Query {
 
 
     @Override
-    public void execute() {
+    public void executeUpdate() {
         try {
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -84,6 +88,7 @@ public final class QueryImpl implements Query {
     public void close() {
         if (statement != null) {
             try {
+                resultSet.close();
                 statement.close();
             } catch (SQLException e) {
                 throw new RuntimeException(e);

@@ -22,12 +22,12 @@ public interface Query extends AutoCloseable {
     /**
      * @return
      */
-    ResultSet query();
+    ResultSet executeQuery();
 
     /**
      *
      */
-    void execute();
+    void executeUpdate();
 
     /**
      * @return
@@ -38,6 +38,7 @@ public interface Query extends AutoCloseable {
      * @return
      */
     String getRequest();
+
 
     void executeAndClose();
 

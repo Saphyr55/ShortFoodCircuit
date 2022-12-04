@@ -27,17 +27,11 @@ public final class EntityManager {
 
         final Set<T> set = new HashSet<>();
 
-        try {
-            final Query query =
-                    queryFactory.createFormatQuery(
-                    getClass().getMethod("findAll", Class.class),
-                    entityClassManager.getNameTable(aClass));
+        try (final Query query = queryFactory.createQuery(
+                getClass().getMethod("findAll", Class.class),
+                entityClassManager.getNameTable(aClass))) {
 
-            final ResultSet resultSet = query.query();
-            set.addAll(wrapResultSetToEntities(aClass, resultSet));
-
-            resultSet.close();
-            query.close();
+            set.addAll(wrapResultSetToEntities(aClass, query.executeQuery()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,43 +40,47 @@ public final class EntityManager {
 
     @FormatQuery(value = "INSERT INTO %s (%s) VALUES (%s)")
     public <T> void insert(T entity) {
-        try {
-            Map.Entry<String, String> entry = entityClassManager.formatInsert(entity);
 
-            final Query query =
-                    queryFactory.createFormatQuery(getClass().getMethod("insert", Object.class),
-                    entityClassManager.getNameTable(entity.getClass()), entry.getKey(), entry.getValue());
+        Map.Entry<String, String> entry = entityClassManager.formatInsert(entity);
 
-            query.executeAndClose();
-        } catch (NoSuchMethodException e) {
+        try (final Query query = queryFactory.createQuery(
+                getClass().getMethod("insert", Object.class),
+                entityClassManager.getNameTable(entity.getClass()),
+                entry.getKey(), entry.getValue())) {
+
+            query.executeUpdate();
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @FormatQuery(value = "DELETE FROM %s WHERE %s=%s")
     public <T> void delete(T entity) {
-        try {
-            final Query query = queryFactory.createFormatQuery(getClass().getMethod("delete", Object.class),
-                    entityClassManager.getNameTable(entity.getClass()),
-                    entityClassManager.getIdName(entity.getClass()),
-                    entityClassManager.getValueId(entity));
-            query.executeAndClose();
-        } catch (NoSuchMethodException e) {
+
+        try (final Query query = queryFactory.createQuery(
+                getClass().getMethod("delete", Object.class),
+                entityClassManager.getNameTable(entity.getClass()),
+                entityClassManager.getIdName(entity.getClass()),
+                entityClassManager.getValueId(entity))) {
+
+            query.executeUpdate();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @FormatQuery(value = "SELECT count(*) FROM %s")
     public <T> long count(Class<T> entityClass)  {
+
         int count = 0;
-        try(final Query query = queryFactory.createFormatQuery(
+        try (final Query query = queryFactory.createQuery(
                 getClass().getDeclaredMethod("count", Class.class),
-                entityClassManager.getNameTable(entityClass)
-        )) {
-            final ResultSet resultSet = query.query();
-            resultSet.next();
-            count = resultSet.getInt(1);
-            resultSet.close();
+                entityClassManager.getNameTable(entityClass))) {
+
+            query.executeQuery().next();
+            count = query.getResultSet().getInt(1);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,22 +89,19 @@ public final class EntityManager {
 
     @FormatQuery(value = "SELECT * FROM %s WHERE %s=%s")
     public <T> T find(Class<T> entityClass, int id) {
+
         AtomicReference<T> type = new AtomicReference<>();
-        try {
-            final Query query = queryFactory.createFormatQuery(
-                    getClass().getMethod("find", Class.class, int.class),
-                    entityClassManager.getNameTable(entityClass),
-                    entityClassManager.getIdName(entityClass), id);
 
-            final ResultSet resultSet = query.query();
+        try (final Query query = queryFactory.createQuery(
+                getClass().getMethod("find", Class.class, int.class),
+                entityClassManager.getNameTable(entityClass),
+                entityClassManager.getIdName(entityClass), id)) {
 
-            wrapResultSetToEntities(entityClass, resultSet)
+            wrapResultSetToEntities(entityClass, query.executeQuery())
                     .stream()
                     .findFirst()
                     .ifPresent(type::set);
 
-            resultSet.close();
-            query.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
