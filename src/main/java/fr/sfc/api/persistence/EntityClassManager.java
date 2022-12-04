@@ -8,6 +8,7 @@ import fr.sfc.api.persistence.exception.EntityNotFoundException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public final class EntityClassManager {
 
@@ -25,6 +26,21 @@ public final class EntityClassManager {
         if (classEntities.containsKey(aClass))
             return classEntities.get(aClass);
         else throw new EntityNotFoundException(aClass + " was not found");
+    }
+
+    public <T> Object getValueId(T entity) {
+        AtomicReference<Object> id = new AtomicReference<>();
+        getFieldsFromEntity(entity.getClass()).forEach((s, field) -> {
+            field.setAccessible(true);
+            if (field.isAnnotationPresent(Id.class)) {
+                try {
+                    id.set(field.get(entity));
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        return id.get();
     }
 
     public <T> String getIdName(Class<T> aClass) {

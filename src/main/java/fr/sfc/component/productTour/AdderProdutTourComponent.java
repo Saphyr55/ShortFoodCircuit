@@ -3,7 +3,7 @@ package fr.sfc.component.productTour;
 import fr.sfc.api.controlling.AutoController;
 import fr.sfc.api.controlling.Component;
 import fr.sfc.controller.productTour.AdderProductTourController;
-import fr.sfc.model.entity.ProductTour;
+import fr.sfc.entity.ProductTour;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;

@@ -1,6 +1,6 @@
 package fr.sfc.model.entity;
 
-import org.junit.jupiter.api.BeforeEach;
+import fr.sfc.entity.Admin;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

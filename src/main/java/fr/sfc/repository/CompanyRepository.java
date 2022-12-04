@@ -1,8 +1,8 @@
-package fr.sfc.model.repository;
+package fr.sfc.repository;
 
 import fr.sfc.api.persistence.EntityManager;
 import fr.sfc.api.persistence.Repository;
-import fr.sfc.model.entity.Company;
+import fr.sfc.entity.Company;
 import java.util.Set;
 import fr.sfc.api.persistence.annotation.Inject;
 

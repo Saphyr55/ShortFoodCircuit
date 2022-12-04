@@ -39,4 +39,6 @@ public interface Query extends AutoCloseable {
      */
     String getRequest();
 
+    void executeAndClose();
+
 }

@@ -55,6 +55,17 @@ public final class QueryImpl implements Query {
     }
 
     @Override
+    public void executeAndClose() {
+        try {
+            prepare();
+            execute();
+            close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public String toString() {
         return getRequest();
     }
@@ -70,8 +81,13 @@ public final class QueryImpl implements Query {
     }
 
     @Override
-    public void close() throws Exception {
-        if (statement != null)
-            statement.close();
+    public void close() {
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

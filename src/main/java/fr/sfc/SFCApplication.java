@@ -25,8 +25,8 @@ public final class SFCApplication extends Application {
 
         BackendApplicationConfiguration configuration = BackendApplicationConfiguration.Builder.of()
                 .setRoot(root)
-                .withEntityPackage("fr.sfc.model.entity")
-                .withRepositoryPackage("fr.sfc.model.repository")
+                .withEntityPackage("fr.sfc.entity")
+                .withRepositoryPackage("fr.sfc.repository")
                 .withDatabaseManager("db.ini", "sfc")
                 .build();
         configuration.configure("sfc");

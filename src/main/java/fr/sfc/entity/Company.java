@@ -1,4 +1,4 @@
-package fr.sfc.model.entity;
+package fr.sfc.entity;
 
 import fr.sfc.api.persistence.annotation.Column;
 import fr.sfc.api.persistence.annotation.Entity;
