@@ -31,15 +31,13 @@ public class Company {
     @Column(name = "SIRET")
     private String SIRET;
 
-    public Company() {
-    }
+    public Company() { }
 
-    public Company(int id, String name, String phoneNumber, String address, float longitude, float latitude) {
-        this(name, phoneNumber, address, longitude, latitude);
-        this.id = id;
-    }
-
-    public Company(String name, String phoneNumber, String address, float longitude, float latitude) {
+    public Company(String name,
+                   String phoneNumber,
+                   String address,
+                   float longitude,
+                   float latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.name = name;

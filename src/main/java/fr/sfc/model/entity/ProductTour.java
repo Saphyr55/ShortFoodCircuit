@@ -1,9 +1,6 @@
 package fr.sfc.model.entity;
 
-import fr.sfc.api.persistence.annotation.Column;
-import fr.sfc.api.persistence.annotation.Entity;
-import fr.sfc.api.persistence.annotation.Id;
-import fr.sfc.api.persistence.annotation.Table;
+import fr.sfc.api.persistence.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -14,36 +11,55 @@ public class ProductTour {
     @Id
     @Column(name = "idProductTour")
     private Integer id;
+
     @Column(name = "startDate")
     private LocalDateTime startDateTime;
+
     @Column(name = "endDate")
     private LocalDateTime endDateTime;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "weight")
     private Float weight;
 
-    public ProductTour() {
-    }
+    @ForeignKey(entity = Company.class)
+    private Integer idCompany;
 
-    public ProductTour(LocalDateTime startDate, LocalDateTime endDateTime, String name, Float weight) {
+    @Column(name = "SIRET")
+    @ForeignKey(
+            type = ForeignKey.Type.Column,
+            entity = Company.class)
+    private Integer SIRET;
+
+    @ForeignKey(entity = Vehicle.class)
+    private Integer idVehicle;
+
+    @Column(name = "matriculation")
+    @ForeignKey(
+            type = ForeignKey.Type.Column,
+            entity = Vehicle.class)
+    private String matriculation;
+
+    public ProductTour() {}
+
+    public ProductTour(LocalDateTime startDate,
+                       LocalDateTime endDateTime,
+                       String name,
+                       Float weight,
+                       Integer idCompany,
+                       Integer SIRET,
+                       Integer idVehicle,
+                       String matriculation) {
         this.startDateTime = startDate;
         this.endDateTime = endDateTime;
         this.name = name;
         this.weight = weight;
-    }
-    
-    public ProductTour(Integer id, LocalDateTime startDateTime, LocalDateTime endDateTime, String name, Float weight) {
-        this(startDateTime, endDateTime, name, weight);
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.idVehicle = idVehicle;
+        this.matriculation = matriculation;
+        this.SIRET = SIRET;
+        this.idCompany = idCompany;
     }
 
     public LocalDateTime getEndDateTime() {
@@ -62,7 +78,7 @@ public class ProductTour {
         return name;
     }
 
-    public float getWeight() {
+    public Float getWeight() {
         return weight;
     }
 
@@ -74,8 +90,47 @@ public class ProductTour {
         this.name = name;
     }
 
-    public void setWeight(float weight) {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setWeight(Float weight) {
         this.weight = weight;
     }
 
+    public Integer getIdCompany() {
+        return idCompany;
+    }
+
+    public void setIdCompany(Integer idCompany) {
+        this.idCompany = idCompany;
+    }
+
+    public Integer getSIRET() {
+        return SIRET;
+    }
+
+    public void setSIRET(Integer SIRET) {
+        this.SIRET = SIRET;
+    }
+
+    public Integer getIdVehicle() {
+        return idVehicle;
+    }
+
+    public void setIdVehicle(Integer idVehicle) {
+        this.idVehicle = idVehicle;
+    }
+
+    public String getMatriculation() {
+        return matriculation;
+    }
+
+    public void setMatriculation(String matriculation) {
+        this.matriculation = matriculation;
+    }
 }

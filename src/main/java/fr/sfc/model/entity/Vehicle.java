@@ -1,9 +1,6 @@
 package fr.sfc.model.entity;
 
-import fr.sfc.api.persistence.annotation.Column;
-import fr.sfc.api.persistence.annotation.Entity;
-import fr.sfc.api.persistence.annotation.Id;
-import fr.sfc.api.persistence.annotation.Table;
+import fr.sfc.api.persistence.annotation.*;
 
 @Entity
 @Table(name = "vehicle")
@@ -12,38 +9,70 @@ public class Vehicle {
     @Id
     @Column(name = "idVehicle")
     private Integer id;
+
     @Column(name = "matriculation")
     private String matriculation;
+
     @Column(name = "maxWeight")
     private Float maxWeight;
 
-    public Vehicle() {
-    }
+    @Column(name = "idCompany")
+    @ForeignKey(
+            type = ForeignKey.Type.Id,
+            entity = Company.class)
+    private Integer idCompany;
 
-    public Vehicle(String matriculation, Float maxWeight) {
+    @Column(name = "SIRET")
+    @ForeignKey(
+            type = ForeignKey.Type.Column,
+            entity = Company.class)
+    private Integer SIRET;
+
+    public Vehicle() { }
+
+    public Vehicle(String matriculation,
+                   Float maxWeight,
+                   Integer idCompany,
+                   Integer SIRET) {
         this.matriculation = matriculation;
         this.maxWeight = maxWeight;
+        this.SIRET = SIRET;
+        this.idCompany = idCompany;
     }
 
-    public Vehicle(Integer id, String matriculation, Float maxWeight) {
-        this(matriculation, maxWeight);
-        this.id = id;
-    }
-
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public void setMaxWeight(Float maxWeight) {
+        this.maxWeight = maxWeight;
+    }
+
+    public Integer getIdCompany() {
+        return idCompany;
+    }
+
+    public void setIdCompany(Integer idCompany) {
+        this.idCompany = idCompany;
+    }
+
+    public Integer getSIRET() {
+        return SIRET;
+    }
+
+    public void setSIRET(Integer SIRET) {
+        this.SIRET = SIRET;
     }
 
     public String getMatriculation() {
         return matriculation;
     }
 
-    public float getMaxWeight() {
+    public Float getMaxWeight() {
         return maxWeight;
     }
 
@@ -51,7 +80,4 @@ public class Vehicle {
         this.matriculation = matriculation;
     }
 
-    public void setMaxWeight(float maxWeight) {
-        this.maxWeight = maxWeight;
-    }
 }

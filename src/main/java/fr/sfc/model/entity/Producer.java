@@ -1,9 +1,6 @@
 package fr.sfc.model.entity;
 
-import fr.sfc.api.persistence.annotation.Column;
-import fr.sfc.api.persistence.annotation.Entity;
-import fr.sfc.api.persistence.annotation.Id;
-import fr.sfc.api.persistence.annotation.Table;
+import fr.sfc.api.persistence.annotation.*;
 
 @Entity
 @Table(name = "producer")
@@ -16,24 +13,28 @@ public class Producer {
     @Column(name = "password")
     private String password;
 
-    public Producer() {
-    }
+    @ForeignKey(entity = Company.class)
+    private Integer idCompany;
 
-    public Producer(String password) {
+    @Column(name = "SIRET")
+    @ForeignKey(
+            type = ForeignKey.Type.Column,
+            entity = Company.class)
+    private Integer SIRET;
+
+    public Producer() { }
+
+    public Producer(String password, Integer idCompany, Integer SIRET) {
         this.password = password;
+        this.idCompany = idCompany;
+        this.SIRET = SIRET;
     }
 
-    public Producer(int id, String password) {
-        this.id = id;
-        this.password = password;
-    }
-
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -43,5 +44,21 @@ public class Producer {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Integer getIdCompany() {
+        return idCompany;
+    }
+
+    public void setIdCompany(Integer idCompany) {
+        this.idCompany = idCompany;
+    }
+
+    public Integer getSIRET() {
+        return SIRET;
+    }
+
+    public void setSIRET(Integer SIRET) {
+        this.SIRET = SIRET;
     }
 }

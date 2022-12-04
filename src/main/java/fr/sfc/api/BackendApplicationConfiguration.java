@@ -20,7 +20,6 @@ public final class BackendApplicationConfiguration {
     private final EntityClassManager entityClassManager;
     private InjectConfiguration injectConfiguration;
     private EntityManager entityManager;
-    private Parent root;
 
     /**
      *
@@ -50,13 +49,9 @@ public final class BackendApplicationConfiguration {
 
         repositoryManager.detect();
 
-
         componentManager.detect();
         injectConfiguration = new InjectConfiguration(repositoryManager, entityManager, componentManager);
         injectConfiguration.configure();
-
-
-        componentManager.getAllControllers().forEach(Controller::setup);
     }
 
     /**
@@ -65,8 +60,9 @@ public final class BackendApplicationConfiguration {
      * @param stage stage
      * @return runtime application
      */
-    public BackendApplication createApplication(final Stage stage, final Parent root, final String title, int width, int height) {
+    public BackendApplication createApplication(final Stage stage, final Parent root, final String title, final int width, final int height) {
         BackendApplication.set(new BackendApplication(this, stage, root, title, width, height));
+        componentManager.getAllControllers().forEach(Controller::setup);
         return BackendApplication.getCurrentApplication();
     }
 

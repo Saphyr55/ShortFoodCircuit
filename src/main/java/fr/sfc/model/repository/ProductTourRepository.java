@@ -38,7 +38,8 @@ public class ProductTourRepository implements Repository<ProductTour> {
     }
 
     @Override
-    public void save(ProductTour admin) {
-        entityManager.insert(admin);
+    public void save(ProductTour entity) {
+        entityManager.insert(entity);
     }
+
 }

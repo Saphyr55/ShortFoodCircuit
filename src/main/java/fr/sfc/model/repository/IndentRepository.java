@@ -4,42 +4,42 @@ package fr.sfc.model.repository;
 import fr.sfc.api.persistence.EntityManager;
 import fr.sfc.api.persistence.Repository;
 import fr.sfc.api.persistence.annotation.Inject;
-import fr.sfc.model.entity.Indent;
+import fr.sfc.model.entity.Order;
 
 import java.util.Set;
 
-public class IndentRepository implements Repository<Indent> {
+public class IndentRepository implements Repository<Order> {
 
     @Inject
     private EntityManager entityManager;
 
     @Override
-    public Set<Indent> findAll() {
-        return entityManager.findAll(Indent.class);
+    public Set<Order> findAll() {
+        return entityManager.findAll(Order.class);
     }
 
     @Override
-    public Indent find(int id) {
-        return entityManager.find(Indent.class, id);
+    public Order find(int id) {
+        return entityManager.find(Order.class, id);
     }
 
     @Override
     public long count() {
-        return entityManager.count(Indent.class);
+        return entityManager.count(Order.class);
     }
 
     @Override
-    public void delete(Indent entity) {
+    public void delete(Order entity) {
         entityManager.delete(entity);
     }
 
     @Override
-    public void insert(Indent entity) {
+    public void insert(Order entity) {
         entityManager.insert(entity);
     }
 
     @Override
-    public void save(Indent admin) {
+    public void save(Order admin) {
         entityManager.insert(admin);
     }
 }

@@ -16,6 +16,8 @@ public final class EntityManager {
 
     private final EntityClassManager entityClassManager;
     private final Database database;
+    public final String FIND_WHERE_CONDITION_REQUEST = "SELECT * FROM %s WHERE %s=%s";
+    public final String INSERT_REQUEST = "INSERT INTO %s (%s) VALUES (%s)";
 
     public EntityManager(final Database database, final EntityClassManager entityClassManager) {
         this.entityClassManager = entityClassManager;
@@ -47,7 +49,19 @@ public final class EntityManager {
     }
 
     public <T> void insert(T entity) {
+        try {
+            Map.Entry<String, String> entry = entityClassManager.formatInsert(entity);
 
+            Query query = createQuery(String.format(INSERT_REQUEST,
+                    entityClassManager.getNameTable(entity.getClass()),
+                    entry.getKey(), entry.getValue()));
+
+            query.prepare();
+            query.execute();
+            query.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public <T> void delete(T entity) {
@@ -59,33 +73,21 @@ public final class EntityManager {
     }
 
     public <T> T find(Class<T> entityClass, int id) {
-        T type = null;
-        try (Query query = createQueryBuilder()
-                .selectAll()
-                .from(entityClass)
-                .where(getIdName(entityClass) + "=" + id) // TODO : CRITICAL : Replace this line for security
-                .build()) {
+        T type;
+        final String request = String.format(
+                FIND_WHERE_CONDITION_REQUEST,
+                entityClassManager.getNameTable(entityClass),
+                entityClassManager.getIdName(entityClass), id);
+        try {
+            Query query = createQuery(request);
             ResultSet resultSet = query.query();
             type = wrapResultSetToEntity(entityClass, resultSet);
             resultSet.close();
+            query.close();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return type;
-    }
-
-    private <T> String getIdName(Class<T> aClass) {
-        var map = entityClassManager.getFieldsFromEntity(aClass);
-        var list = map.entrySet().stream()
-                .filter(stringFieldEntry -> fieldHaveAnnotation(stringFieldEntry.getValue(), Id.class))
-                .toList();
-        if (!list.isEmpty())
-            return list.get(0).getKey();
-        return null;
-    }
-
-    public boolean fieldHaveAnnotation(Field field, Class<? extends Annotation> aClass) {
-        return field.getAnnotation(aClass) != null;
     }
 
     public <T> T wrapResultSetToEntity(Class<T> tClass, ResultSet resultSet)

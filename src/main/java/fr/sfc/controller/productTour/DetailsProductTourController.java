@@ -1,4 +1,4 @@
-package fr.sfc.controller;
+package fr.sfc.controller.productTour;
 
 import fr.sfc.api.controlling.AutoComponent;
 import fr.sfc.api.controlling.Controller;

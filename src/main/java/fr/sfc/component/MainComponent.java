@@ -1,5 +1,6 @@
 package fr.sfc.component;
 
+import fr.sfc.api.BackendApplication;
 import fr.sfc.api.controlling.AutoController;
 import fr.sfc.api.controlling.Component;
 import fr.sfc.api.controlling.SetComponent;
@@ -7,6 +8,7 @@ import fr.sfc.component.productTour.AdderProdutTourComponent;
 import fr.sfc.component.productTour.DetailsProductTourComponent;
 import fr.sfc.controller.MainController;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
 public class MainComponent extends GridPane implements Component {
 
@@ -24,7 +26,6 @@ public class MainComponent extends GridPane implements Component {
 
     @Override
     public void setup() {
-        setPrefSize(PREF_WIDTH, PREF_HEIGHT);
         adderProdutTourComponent.prefHeightProperty().bind(heightProperty());
         adderProdutTourComponent.setPrefWidth(600);
         detailsProductTourComponent.prefWidthProperty().bind(widthProperty());

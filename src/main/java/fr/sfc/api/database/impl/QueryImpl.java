@@ -59,6 +59,16 @@ public final class QueryImpl implements Query {
         return getRequest();
     }
 
+
+    @Override
+    public void execute() {
+        try {
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void close() throws Exception {
         if (statement != null)
