@@ -5,11 +5,11 @@ import fr.sfc.api.persistence.annotation.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "order")
+@Table(name = "ordering")
 public class Order {
 
     @Id
-    @Column(name = "idIndent")
+    @Column(name = "idOrder")
     private Integer id;
 
     @Column(name = "startDate")
@@ -31,7 +31,7 @@ public class Order {
 
     @ForeignKey(
             type = ForeignKey.Type.Id,
-            entity = Vehicle.class)
+            entity = Customer.class)
     private Integer idCustomer;
 
     @ForeignKey(
@@ -138,4 +138,18 @@ public class Order {
         this.SIRET = SIRET;
     }
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", wording='" + wording + '\'' +
+                ", weight=" + weight +
+                ", idProductTour=" + idProductTour +
+                ", idCustomer=" + idCustomer +
+                ", idCompany=" + idCompany +
+                ", SIRET='" + SIRET + '\'' +
+                '}';
+    }
 }

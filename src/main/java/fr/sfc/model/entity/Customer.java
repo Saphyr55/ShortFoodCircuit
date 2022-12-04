@@ -85,4 +85,17 @@ public class Customer {
     public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", address='" + address + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", idProductTour=" + idProductTour +
+                '}';
+    }
 }

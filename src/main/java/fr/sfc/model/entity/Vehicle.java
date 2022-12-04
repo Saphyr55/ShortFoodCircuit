@@ -80,4 +80,14 @@ public class Vehicle {
         this.matriculation = matriculation;
     }
 
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "id=" + id +
+                ", matriculation='" + matriculation + '\'' +
+                ", maxWeight=" + maxWeight +
+                ", idCompany=" + idCompany +
+                ", SIRET=" + SIRET +
+                '}';
+    }
 }

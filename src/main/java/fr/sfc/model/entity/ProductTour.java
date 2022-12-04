@@ -133,4 +133,20 @@ public class ProductTour {
     public void setMatriculation(String matriculation) {
         this.matriculation = matriculation;
     }
+
+    @Override
+    public String toString() {
+        return "ProductTour{" +
+                "id=" + id +
+                ", startDateTime=" + startDateTime +
+                ", endDateTime=" + endDateTime +
+                ", name='" + name + '\'' +
+                ", weight=" + weight +
+                ", idCompany=" + idCompany +
+                ", SIRET=" + SIRET +
+                ", idVehicle=" + idVehicle +
+                ", matriculation='" + matriculation + '\'' +
+                '}';
+    }
+
 }

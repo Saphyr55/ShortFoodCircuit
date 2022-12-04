@@ -8,7 +8,7 @@ import fr.sfc.model.entity.Order;
 
 import java.util.Set;
 
-public class IndentRepository implements Repository<Order> {
+public class OrderRepository implements Repository<Order> {
 
     @Inject
     private EntityManager entityManager;

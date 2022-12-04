@@ -61,4 +61,14 @@ public class Producer {
     public void setSIRET(Integer SIRET) {
         this.SIRET = SIRET;
     }
+
+    @Override
+    public String toString() {
+        return "Producer{" +
+                "id=" + id +
+                ", password='" + password + '\'' +
+                ", idCompany=" + idCompany +
+                ", SIRET=" + SIRET +
+                '}';
+    }
 }

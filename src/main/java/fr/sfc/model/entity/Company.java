@@ -13,7 +13,7 @@ public class Company {
     @Column(name = "idCompany")
     private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "nameOwner")
     private String name;
 
     @Column(name = "phoneNumber")
@@ -99,5 +99,18 @@ public class Company {
 
     public void setSIRET(String SIRET) {
         this.SIRET = SIRET;
+    }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", address='" + address + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", SIRET='" + SIRET + '\'' +
+                '}';
     }
 }

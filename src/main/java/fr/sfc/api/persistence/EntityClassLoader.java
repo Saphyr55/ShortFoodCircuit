@@ -44,30 +44,31 @@ public final class EntityClassLoader {
 
             if (foreignKey != null) {
                 switch (foreignKey.type()) {
-                    case Column -> putStringFieldMapColumn(field, column, stringFieldMap);
-                    case Id -> putStringFieldMapId(foreignKey.entity(), stringFieldMap);
+                    case Column -> putStringFieldMapColumn(field, field, column, stringFieldMap);
+                    case Id -> putStringFieldMapId(field, foreignKey.entity(), stringFieldMap);
                 }
             }
-            else putStringFieldMapColumn(field, column, stringFieldMap);
+            else putStringFieldMapColumn(field, field, column, stringFieldMap);
         }
 
         return stringFieldMap;
     }
 
-    private void putStringFieldMapId(Class<?> aClass, Map<String, Field> stringFieldMap) {
+    private void putStringFieldMapId(Field fieldClass, Class<?> aClass, Map<String, Field> stringFieldMap) {
         Arrays.stream(aClass.getDeclaredFields())
                 .filter(field -> field.isAnnotationPresent(Id.class))
                 .findFirst()
-                .ifPresent(field -> putStringFieldMapColumn(field,
+                .ifPresent(field -> putStringFieldMapColumn(
+                                fieldClass, field,
                                 field.getDeclaredAnnotation(Column.class),
                                 stringFieldMap));
     }
 
-    private void putStringFieldMapColumn(Field field, Column column, Map<String, Field> stringFieldMap) {
+    private void putStringFieldMapColumn(Field field, Field fieldWithColumn, Column column, Map<String, Field> stringFieldMap) {
         if (column != null)
             stringFieldMap.put(column.name(), field);
         else
-            stringFieldMap.put(field.getName(), field);
+            stringFieldMap.put(fieldWithColumn.getName(), field);
     }
 
 }
