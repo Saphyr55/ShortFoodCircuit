@@ -1,9 +1,9 @@
-package fr.sfc.model.repository;
+package fr.sfc.repository;
 
 import fr.sfc.api.persistence.EntityManager;
 import fr.sfc.api.persistence.Repository;
 import fr.sfc.api.persistence.annotation.Inject;
-import fr.sfc.model.entity.Admin;
+import fr.sfc.entity.Admin;
 
 import java.util.Set;
 

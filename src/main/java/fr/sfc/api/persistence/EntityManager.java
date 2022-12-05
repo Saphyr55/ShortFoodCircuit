@@ -2,121 +2,157 @@ package fr.sfc.api.persistence;
 
 import fr.sfc.api.database.Database;
 import fr.sfc.api.database.Query;
-import fr.sfc.api.database.QueryBuilder;
-import fr.sfc.api.persistence.annotation.Id;
+import fr.sfc.api.database.QueryFactory;
+import fr.sfc.api.database.annotation.FormatQuery;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public final class EntityManager {
 
     private final EntityClassManager entityClassManager;
-    private final Database database;
+    private final QueryFactory queryFactory;
 
     public EntityManager(final Database database, final EntityClassManager entityClassManager) {
         this.entityClassManager = entityClassManager;
-        this.database = database;
+        this.queryFactory = new QueryFactory(database, entityClassManager);
     }
 
-    public Query createQuery(String request) {
-        return database.createQuery(request);
-    }
-
-    public QueryBuilder createQueryBuilder() {
-        return database.createQueryBuilder();
-    }
-
+    @FormatQuery(value = "SELECT * FROM %s")
     public <T> Set<T> findAll(Class<T> aClass) {
+
         final Set<T> set = new HashSet<>();
-        try {
-            final var q = createQueryBuilder().selectAll().from(aClass).build();
-            try (ResultSet resultSet = q.query()) {
-                T t = wrapResultSetToEntity(aClass, resultSet);
-                if (t != null)
-                    set.add(t);
-            }
-            q.close();
+
+        try (final Query query = queryFactory.createQuery(
+                getClass().getMethod("findAll", Class.class),
+                entityClassManager.getNameTable(aClass))) {
+
+            set.addAll(wrapResultSetToEntities(aClass, query.executeQuery()));
         } catch (Exception e) {
             e.printStackTrace();
         }
         return set;
     }
 
+    @FormatQuery(value = "INSERT INTO %s (%s) VALUES (%s)")
     public <T> void insert(T entity) {
 
+        Map.Entry<String, String> entry = entityClassManager.formatInsert(entity);
+
+        try (final Query query = queryFactory.createQuery(
+                getClass().getMethod("insert", Object.class),
+                entityClassManager.getNameTable(entity.getClass()),
+                entry.getKey(), entry.getValue())) {
+
+            query.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+    @FormatQuery(value = "DELETE FROM %s WHERE %s=%s")
     public <T> void delete(T entity) {
 
-    }
+        try (final Query query = queryFactory.createQuery(
+                getClass().getMethod("delete", Object.class),
+                entityClassManager.getNameTable(entity.getClass()),
+                entityClassManager.getIdName(entity.getClass()),
+                entityClassManager.getValueId(entity))) {
 
-    public <T> long count(Class<T> entityClass) {
-        return 0;
-    }
-
-    public <T> T find(Class<T> entityClass, int id) {
-        T type = null;
-        try (Query query = createQueryBuilder()
-                .selectAll()
-                .from(entityClass)
-                .where(getIdName(entityClass) + "=" + id) // TODO : CRITICAL : Replace this line for security
-                .build()) {
-            ResultSet resultSet = query.query();
-            type = wrapResultSetToEntity(entityClass, resultSet);
-            resultSet.close();
+            query.executeUpdate();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-        return type;
     }
 
-    private <T> String getIdName(Class<T> aClass) {
-        var map = entityClassManager.getFieldsFromEntity(aClass);
-        var list = map.entrySet().stream()
-                .filter(stringFieldEntry -> fieldHaveAnnotation(stringFieldEntry.getValue(), Id.class))
-                .toList();
-        if (!list.isEmpty())
-            return list.get(0).getKey();
-        return null;
+    @FormatQuery(value = "SELECT count(*) FROM %s")
+    public <T> long count(Class<T> entityClass)  {
+
+        int count = 0;
+        try (final Query query = queryFactory.createQuery(
+                getClass().getDeclaredMethod("count", Class.class),
+                entityClassManager.getNameTable(entityClass))) {
+
+            query.executeQuery().next();
+            count = query.getResultSet().getInt(1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 
-    public boolean fieldHaveAnnotation(Field field, Class<? extends Annotation> aClass) {
-        return field.getAnnotation(aClass) != null;
+    @FormatQuery(value = "SELECT * FROM %s WHERE %s=%s")
+    public <T> T find(Class<T> entityClass, int id) {
+
+        AtomicReference<T> type = new AtomicReference<>();
+
+        try (final Query query = queryFactory.createQuery(
+                getClass().getMethod("find", Class.class, int.class),
+                entityClassManager.getNameTable(entityClass),
+                entityClassManager.getIdName(entityClass), id)) {
+
+            wrapResultSetToEntities(entityClass, query.executeQuery())
+                    .stream()
+                    .findFirst()
+                    .ifPresent(type::set);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return type.get();
     }
 
-    public <T> T wrapResultSetToEntity(Class<T> tClass, ResultSet resultSet)
+    public <T> Set<T> wrapResultSetToEntities(Class<T> tClass, ResultSet resultSet)
             throws SQLException, InvocationTargetException,
             InstantiationException, IllegalAccessException, NoSuchMethodException {
-        T type = null;
-
-        final Map<Field, Object> attributes = new HashMap<>();
+        final Set<T> types = new HashSet<>();
+        final Set<Map<Field, Object>> setsAttributes = new HashSet<>();
         final Map<String, Field> fields = entityClassManager.getFieldsFromEntity(tClass);
         final Set<String> nameFields = fields.keySet();
         final Iterator<String> it = nameFields.iterator();
 
         while (resultSet.next()) {
+
+            final Map<Field, Object> attributes = new HashMap<>();
+            setsAttributes.add(attributes);
+
             while (it.hasNext()) {
+
                 final String nameField = it.next();
                 final Field field = fields.get(nameField);
                 attributes.put(field, resultSet.getObject(nameField, field.getType()));
             }
         }
 
-        if (!attributes.isEmpty()) {
+        for (final Map<Field, Object> attributes : setsAttributes) {
 
-            type = tClass.getConstructor().newInstance();
+            if (!attributes.isEmpty()) {
 
-            for (final Map.Entry<String, Field> stringFieldEntry : fields.entrySet()) {
-                stringFieldEntry.getValue().setAccessible(true);
-                stringFieldEntry.getValue().set(type, attributes.get(stringFieldEntry.getValue()));
+                T type = tClass.getConstructor().newInstance();
+                for (final Map.Entry<String, Field> stringFieldEntry : fields.entrySet()) {
+
+                    stringFieldEntry.getValue().setAccessible(true);
+                    stringFieldEntry.getValue().set(type, attributes.get(stringFieldEntry.getValue()));
+                }
+
+                types.add(type);
             }
         }
 
-        return type;
+        return types;
     }
 
+    public QueryFactory getQueryFactory() {
+        return queryFactory;
+    }
+
+    public EntityClassManager getEntityClassManager() {
+        return entityClassManager;
+    }
 }

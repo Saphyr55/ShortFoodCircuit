@@ -1,50 +1,41 @@
-package fr.sfc.model.entity;
+package fr.sfc.entity;
 
-import fr.sfc.api.persistence.annotation.Column;
-import fr.sfc.api.persistence.annotation.Entity;
-import fr.sfc.api.persistence.annotation.Id;
-import fr.sfc.api.persistence.annotation.Table;
+import fr.sfc.api.persistence.annotation.*;
 
 @Entity
-@Table(name = "company")
-public class Company {
+@Table(name = "customer")
+public class Customer {
 
     @Id
-    @Column(name = "idCompany")
+    @Column(name = "idCustomer")
     private Integer id;
-
     @Column(name = "name")
     private String name;
-
     @Column(name = "phoneNumber")
     private String phoneNumber;
-
     @Column(name = "address")
     private String address;
-
     @Column(name = "longitude")
     private Float longitude;
-
     @Column(name = "latitude")
     private Float latitude;
+    @ForeignKey(entity = ProductTour.class)
+    private Integer idProductTour;
 
-    @Column(name = "SIRET")
-    private String SIRET;
-
-    public Company() {
+    public Customer() {
     }
 
-    public Company(int id, String name, String phoneNumber, String address, float longitude, float latitude) {
-        this(name, phoneNumber, address, longitude, latitude);
-        this.id = id;
-    }
-
-    public Company(String name, String phoneNumber, String address, float longitude, float latitude) {
+    public Customer(String name, String phoneNumber, String address, float longitude, float latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
+    }
+    
+    public Customer(int id, String name, String phoneNumber, String address, float longitude, float latitude) {
+        this(name, phoneNumber, address, longitude, latitude);
+        this.id = id;
     }
 
     public int getId() {
@@ -95,11 +86,16 @@ public class Company {
         this.latitude = latitude;
     }
 
-    public String getSIRET() {
-        return SIRET;
-    }
-
-    public void setSIRET(String SIRET) {
-        this.SIRET = SIRET;
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", address='" + address + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", idProductTour=" + idProductTour +
+                '}';
     }
 }

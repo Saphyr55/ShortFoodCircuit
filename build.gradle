@@ -38,12 +38,15 @@ dependencies {
     implementation "com.google.code.gson:gson:$gsonVersion"
     implementation 'com.google.guava:guava:31.1-jre'
     implementation "com.google.auto.service:auto-service:${autoService}"
+    implementation 'org.apache.commons:commons-math3:3.6.1'
 
-    implementation 'mysql:mysql-connector-java:8.0.31'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
+    implementation 'org.apache.commons:commons-math3:3.6.1'
     implementation 'org.apache.lucene:lucene-spatial:8.4.1'
     implementation 'org.ini4j:ini4j:0.5.4'
     implementation 'org.reflections:reflections:0.10.2'
     implementation 'org.jetbrains:annotations:23.0.0'
+    implementation 'org.yaml:snakeyaml:1.33'
 
 
 //  annotationProcessor "com.google.auto.service:auto-service:${autoService}"

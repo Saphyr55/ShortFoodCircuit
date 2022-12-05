@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import fr.sfc.component.MainComponent?>
+<?import javafx.scene.layout.Pane?>
+<Pane xmlns="http://javafx.com/javafx">
+    <MainComponent/>
+</Pane>

@@ -1,4 +1,4 @@
-package fr.sfc.model.entity;
+package fr.sfc.entity;
 
 import fr.sfc.api.persistence.annotation.Column;
 import fr.sfc.api.persistence.annotation.Entity;
@@ -6,28 +6,25 @@ import fr.sfc.api.persistence.annotation.Id;
 import fr.sfc.api.persistence.annotation.Table;
 
 @Entity
-@Table(name = "producer")
-public class Producer {
+@Table(name = "admin")
+public class Admin {
 
     @Id
-    @Column(name = "idProducer")
+    @Column(name = "idAdmin")
     private Integer id;
-
     @Column(name = "password")
     private String password;
 
-    public Producer() {
-    }
+    public Admin() { }
 
-    public Producer(String password) {
+    public Admin(String password) {
         this.password = password;
     }
 
-    public Producer(int id, String password) {
+    public Admin(int id, String password) {
+        this(password);
         this.id = id;
-        this.password = password;
     }
-
 
     public int getId() {
         return id;
@@ -44,4 +41,13 @@ public class Producer {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "id=" + id +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
 }
