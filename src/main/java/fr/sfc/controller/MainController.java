@@ -1,8 +1,8 @@
 package fr.sfc.controller;
 
-import fr.sfc.api.controlling.AutoComponent;
-import fr.sfc.api.controlling.Controller;
-import fr.sfc.api.persistence.annotation.Inject;
+import fr.sfc.framework.controlling.AutoComponent;
+import fr.sfc.framework.controlling.Controller;
+import fr.sfc.framework.persistence.annotation.Inject;
 import fr.sfc.component.MainComponent;
 import fr.sfc.entity.Company;
 import fr.sfc.entity.Order;
@@ -45,8 +45,12 @@ public class MainController implements Controller {
         }
 
         System.out.println(vehicleRepository.findAll());
+        System.out.println();
         System.out.println(company + "\n" + vehicle + "\n" + productTour + "\n" + order);
+        System.out.println();
         System.out.println(productTourRepository.findByVehicle(vehicle));
+        System.out.println();
+        System.out.println(productTourRepository.findByCompany(company));
     }
 
 

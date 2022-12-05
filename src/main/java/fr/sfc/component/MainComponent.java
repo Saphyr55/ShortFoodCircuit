@@ -1,8 +1,8 @@
 package fr.sfc.component;
 
-import fr.sfc.api.controlling.AutoController;
-import fr.sfc.api.controlling.Component;
-import fr.sfc.api.controlling.SetComponent;
+import fr.sfc.framework.controlling.AutoController;
+import fr.sfc.framework.controlling.Component;
+import fr.sfc.framework.controlling.SetComponent;
 import fr.sfc.component.productTour.AdderProdutTourComponent;
 import fr.sfc.component.productTour.DetailsProductTourComponent;
 import fr.sfc.controller.MainController;

@@ -1,25 +1,22 @@
 package fr.sfc;
 
-import fr.sfc.api.BackendApplicationConfiguration;
-import fr.sfc.api.Resources;
-import fr.sfc.api.controlling.PathConfiguration;
+import fr.sfc.framework.BackendApplicationConfiguration;
+import fr.sfc.framework.Resources;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-@PathConfiguration(path = SFCApplication.FILE_CONF)
 public final class SFCApplication extends Application {
 
-    public final static String FILE_CONF = "/conf.yaml";
+    public static final String FILE_CONF = "/configuration.yaml";
 
     @Override
     public void start(final Stage primaryStage) throws IOException {
 
         BackendApplicationConfiguration configuration = BackendApplicationConfiguration.File
-                .of(Resources.getFileResource(FILE_CONF)).create();
+                .of(Resources.getFileResource(FILE_CONF))
+                .create();
 
         configuration.configure();
         configuration.createApplication(primaryStage, "Short Food Circuit", 980, 620).show();

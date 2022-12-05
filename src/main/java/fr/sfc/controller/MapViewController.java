@@ -1,7 +1,7 @@
 package fr.sfc.controller;
 
 import com.google.common.io.Resources;
-import fr.sfc.api.controlling.Controller;
+import fr.sfc.framework.controlling.Controller;
 import fr.sfc.component.MainComponent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;

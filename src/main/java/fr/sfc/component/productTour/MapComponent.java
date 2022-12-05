@@ -1,13 +1,10 @@
 package fr.sfc.component.productTour;
 
-import fr.sfc.api.controlling.AutoController;
-import fr.sfc.api.controlling.Component;
+import fr.sfc.framework.controlling.AutoController;
+import fr.sfc.framework.controlling.Component;
 import fr.sfc.controller.MapController;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.WebView;
-
-import static fr.sfc.component.MainComponent.PREF_HEIGHT;
-import static fr.sfc.component.MainComponent.PREF_WIDTH;
 
 public class MapComponent extends HBox implements Component {
 

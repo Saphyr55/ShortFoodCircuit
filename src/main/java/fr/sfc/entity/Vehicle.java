@@ -1,6 +1,6 @@
 package fr.sfc.entity;
 
-import fr.sfc.api.persistence.annotation.*;
+import fr.sfc.framework.persistence.annotation.*;
 
 @Entity
 @Table(name = "vehicle")

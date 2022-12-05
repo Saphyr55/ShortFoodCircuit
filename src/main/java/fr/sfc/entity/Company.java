@@ -1,9 +1,9 @@
 package fr.sfc.entity;
 
-import fr.sfc.api.persistence.annotation.Column;
-import fr.sfc.api.persistence.annotation.Entity;
-import fr.sfc.api.persistence.annotation.Id;
-import fr.sfc.api.persistence.annotation.Table;
+import fr.sfc.framework.persistence.annotation.Column;
+import fr.sfc.framework.persistence.annotation.Entity;
+import fr.sfc.framework.persistence.annotation.Id;
+import fr.sfc.framework.persistence.annotation.Table;
 
 @Entity
 @Table(name = "company")

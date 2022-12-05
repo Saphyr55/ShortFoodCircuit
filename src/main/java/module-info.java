@@ -20,20 +20,18 @@ module fr.sfc {
     requires javafx.web;
     requires javafx.media;
 
-    requires org.jetbrains.annotations;
-
-    requires mariadb.java.client;
-    requires commons.math3;
-
-    requires lucene.core;
-
-    requires org.yaml.snakeyaml;
 
     requires ini4j;
-
-    requires com.google.common;
-
+    requires log4j;
+    requires mariadb.java.client;
+    requires commons.math3;
+    requires lucene.core;
+    requires org.yaml.snakeyaml;
     requires org.reflections;
+    requires org.jetbrains.annotations;
+    requires com.google.errorprone.annotations;
+    requires com.google.gson;
+    requires com.google.common;
 
     opens fr.sfc;
     opens fr.sfc.controller;
@@ -41,10 +39,10 @@ module fr.sfc {
     opens fr.sfc.repository;
     opens fr.sfc.entity;
 
-    opens fr.sfc.api;
-    opens fr.sfc.api.controlling;
-    opens fr.sfc.api.persistence;
-    opens fr.sfc.api.persistence.exception;
+    opens fr.sfc.framework;
+    opens fr.sfc.framework.controlling;
+    opens fr.sfc.framework.persistence;
+    opens fr.sfc.framework.persistence.exception;
     opens fr.sfc.common;
     opens fr.sfc.component.productTour;
     opens fr.sfc.controller.productTour;

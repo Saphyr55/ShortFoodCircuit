@@ -1,17 +1,15 @@
 package fr.sfc.repository;
 
-import fr.sfc.api.database.Query;
-import fr.sfc.api.database.QueryFactory;
-import fr.sfc.api.database.annotation.MagicQuery;
-import fr.sfc.api.persistence.EntityClassManager;
-import fr.sfc.api.persistence.EntityManager;
-import fr.sfc.api.persistence.Repository;
-import fr.sfc.api.persistence.annotation.Inject;
+import fr.sfc.framework.database.Query;
+import fr.sfc.framework.database.QueryFactory;
+import fr.sfc.framework.persistence.EntityClassManager;
+import fr.sfc.framework.persistence.EntityManager;
+import fr.sfc.framework.persistence.Repository;
+import fr.sfc.framework.persistence.annotation.Inject;
 import fr.sfc.entity.Company;
 import fr.sfc.entity.ProductTour;
 import fr.sfc.entity.Vehicle;
 import fr.sfc.repository.queries.ProductTourQueries;
-import org.intellij.lang.annotations.MagicConstant;
 
 import java.util.Set;
 
