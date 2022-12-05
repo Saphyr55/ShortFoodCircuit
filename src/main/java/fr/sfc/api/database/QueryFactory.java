@@ -10,6 +10,9 @@ import fr.sfc.api.persistence.EntityClassManager;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.AnnotationTypeMismatchException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class QueryFactory {
@@ -31,6 +34,7 @@ public class QueryFactory {
     }
 
     public Query createQuery(Method method, Object... values) {
+
         for (Annotation declaredAnnotation : method.getDeclaredAnnotations()) {
 
             if (declaredAnnotation.annotationType().equals(NativeQuery.class))
@@ -61,10 +65,14 @@ public class QueryFactory {
     }
 
     public Query createMagicQuery(Method method, Object... values) {
+
         final MagicQuery magicQuery = method.getAnnotation(MagicQuery.class);
+
         if (magicQuery != null) {
+
             int i = 0;
             String request = magicQuery.value();
+
             for (Class<?> aClass : magicQuery.entities()) {
                 String tableN = ":table"+i;
                 String idN = ":id"+i;
