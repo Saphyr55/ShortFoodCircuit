@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public final class QueryImpl implements Query {
@@ -15,15 +16,17 @@ public final class QueryImpl implements Query {
     private PreparedStatement statement;
     private ResultSet resultSet;
     private String request;
+    private List<Object> objects;
 
     public QueryImpl(Connection connection, String request) {
         this.request = request;
         this.connection = connection;
+        this.objects = new ArrayList<>();
     }
 
     @Override
-    public Query setParameter(String param, String value) {
-        request = request.replace(':' + param, value);
+    public Query withParameter(Object value) {
+        objects.add(value);
         return this;
     }
 
@@ -43,6 +46,7 @@ public final class QueryImpl implements Query {
     public void prepare() {
         try {
             statement = connection.prepareStatement(request);
+            setAllParams();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -95,4 +99,17 @@ public final class QueryImpl implements Query {
             }
         }
     }
+
+    private void setAllParams() {
+        try {
+            int index = 1;
+            for (Object object : objects) {
+                statement.setObject(index, object);
+                index++;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

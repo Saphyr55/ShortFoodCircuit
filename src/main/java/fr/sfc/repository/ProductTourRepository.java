@@ -7,10 +7,12 @@ import fr.sfc.api.persistence.EntityClassManager;
 import fr.sfc.api.persistence.EntityManager;
 import fr.sfc.api.persistence.Repository;
 import fr.sfc.api.persistence.annotation.Inject;
+import fr.sfc.entity.Company;
 import fr.sfc.entity.ProductTour;
 import fr.sfc.entity.Vehicle;
+import fr.sfc.repository.queries.ProductTourQueries;
+import org.intellij.lang.annotations.MagicConstant;
 
-import java.sql.ResultSet;
 import java.util.Set;
 
 public class ProductTourRepository implements Repository<ProductTour> {
@@ -54,10 +56,23 @@ public class ProductTourRepository implements Repository<ProductTour> {
         entityManager.insert(entity);
     }
 
-    @MagicQuery(value = "SELECT * FROM :table0 WHERE :id0 = %s", entities = ProductTour.class)
     public Set<ProductTour> findByVehicle(Vehicle vehicle) {
 
-        try (Query query = queryFactory.createQuery(getClass().getMethod( "findByVehicle", Vehicle.class), vehicle.getId())) {
+        try (Query query = queryFactory.createMagicQuery(
+                "findByVehicle", ProductTourQueries.class, vehicle.getId())) {
+
+            return entityManager.wrapResultSetToEntities(ProductTour.class, query.executeQuery());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Set<ProductTour> findByCompany(Company company) {
+        try (Query query = queryFactory.createMagicQuery(
+                "findByCompany",
+                ProductTourQueries.class,
+                company.getId())) {
 
             return entityManager.wrapResultSetToEntities(ProductTour.class, query.executeQuery());
         } catch (Exception e) {

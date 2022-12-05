@@ -21,6 +21,7 @@ config :
       - fr.sfc.repository.ProducerRepository
       - fr.sfc.repository.VehicleRepository
       - fr.sfc.repository.ProductTourRepository
+    others : []
   database :
     properties : db.ini
     databases :

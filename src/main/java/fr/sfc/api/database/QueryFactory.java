@@ -8,11 +8,9 @@ import fr.sfc.api.database.impl.QueryImpl;
 import fr.sfc.api.persistence.EntityClassManager;
 
 import java.lang.annotation.Annotation;
+import java.lang.annotation.AnnotationFormatError;
 import java.lang.annotation.AnnotationTypeMismatchException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 public class QueryFactory {
@@ -43,11 +41,29 @@ public class QueryFactory {
             else if (declaredAnnotation.annotationType().equals(FormatQuery.class))
                 return createFormatQuery(method, values);
 
-            else if (declaredAnnotation.annotationType().equals(MagicQuery.class))
-                return createMagicQuery(method, values);
-
         }
         return createNativeQuery(method);
+    }
+
+    public <E> Query createNativeQuery(String name,
+                                       Class<? extends Queryable<E>> qClass) {
+        try {
+
+            var formatQuery = qClass.
+                    getDeclaredField(name)
+                    .getAnnotation(NativeQuery.class);
+
+            if (formatQuery != null)
+                return createQuery(formatQuery.value());
+
+            throw new AnnotationFormatError(name + " in " +
+                                        qClass.getName() +
+                                        " not have annotation " +
+                                        MagicQuery.class.getName());
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Query createNativeQuery(Method method) {
@@ -64,24 +80,61 @@ public class QueryFactory {
         throw new AnnotationTypeMismatchException(method, FormatQuery.class.getName());
     }
 
+    public <E> Query createMagicQuery(String name,
+                                      Class<? extends Queryable<E>> qClass,
+                                      Object... values) {
+
+        try {
+            var magicQuery = qClass
+                    .getDeclaredField(name)
+                    .getAnnotation(MagicQuery.class);
+            checkMagicQuery(magicQuery, name, qClass.getName());
+            return createMagicQuery(magicQuery, values);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Query createMagicQuery(Method method, Object... values) {
+        var magicQuery = method.getAnnotation(MagicQuery.class);
+        checkMagicQuery(magicQuery, method.getName() + " not have " +
+                                    magicQuery.getClass().getName() + " annotation");
+        return createMagicQuery(magicQuery, values);
+    }
 
-        final MagicQuery magicQuery = method.getAnnotation(MagicQuery.class);
-
+    private Query createMagicQuery(MagicQuery magicQuery, Object... values) {
+        Query query = null;
         if (magicQuery != null) {
 
             int i = 0;
             String request = magicQuery.value();
 
-            for (Class<?> aClass : magicQuery.entities()) {
+            for (Class<?> aClass : magicQuery.tables()) {
                 String tableN = ":table"+i;
-                String idN = ":id"+i;
                 request = request.replace(tableN, entityClassManager.getNameTable(aClass));
-                request = request.replace(idN, Objects.requireNonNull(entityClassManager.getIdName(aClass)));
                 i++;
             }
-            return createQuery(String.format(request, values));
+
+            i = 0;
+            for (Class<?> aClass : magicQuery.ids()) {
+                String idN = ":id"+i;
+                request = request.replace(idN, Objects.requireNonNull(entityClassManager.getIdName(aClass)));
+            }
+
+            query = createQuery(request);
+            for (Object value : values)
+                query.withParameter(value);
         }
-        throw new AnnotationTypeMismatchException(method, FormatQuery.class.getName());
+        return query;
     }
+
+    private void checkMagicQuery(MagicQuery magicQuery, String name, String className) {
+       checkMagicQuery(magicQuery, name + " in " + className + " not have annotation "+ MagicQuery.class.getName());
+    }
+
+    private void checkMagicQuery(MagicQuery magicQuery, String message) {
+        if(magicQuery == null)
+            throw new AnnotationFormatError(message);
+    }
+
 }

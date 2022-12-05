@@ -8,11 +8,10 @@ import java.sql.ResultSet;
 public interface Query extends AutoCloseable {
 
     /**
-     * @param param
      * @param value
      * @return
      */
-    Query setParameter(String param, String value);
+    Query withParameter(Object value);
 
     /**
      *

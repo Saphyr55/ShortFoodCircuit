@@ -110,6 +110,7 @@ public class BackendApplicationConfigurationYaml {
         public Package packages;
         public List<String> entities;
         public List<String> repositories;
+        public List<String> others;
 
         public Persistence() { }
 
@@ -135,6 +136,14 @@ public class BackendApplicationConfigurationYaml {
 
         public void setRepositories(List<String> repositories) {
             this.repositories = repositories;
+        }
+
+        public List<String> getOthers() {
+            return others;
+        }
+
+        public void setOthers(List<String> others) {
+            this.others = others;
         }
     }
 
