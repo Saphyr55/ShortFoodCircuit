@@ -3,6 +3,7 @@ bin/
 build/
 .gradle/
 .settings/
+.vscode/
 .classpath
 .project
 db.ini
