@@ -5,7 +5,6 @@ import fr.sfc.api.controlling.Controller;
 import fr.sfc.api.persistence.annotation.Inject;
 import fr.sfc.component.productTour.AdderProdutTourComponent;
 import fr.sfc.repository.ProductTourRepository;
-import javafx.collections.ObservableList;
 
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
@@ -17,7 +16,6 @@ public class AdderProductTourController implements Controller {
 
     @Inject
     private ProductTourRepository productTourRepository;
-
 
     @Override
     public void setup() {

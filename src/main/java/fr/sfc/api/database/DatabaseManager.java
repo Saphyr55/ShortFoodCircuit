@@ -16,10 +16,6 @@ public final class DatabaseManager {
     private final DatabaseFileProperties databaseManagerFileProperties;
     private final Map<String, Database> databases;
 
-    public static DatabaseManager of(final String fileConfigDatabase, final String... databasesNames) {
-        return new DatabaseManager(fileConfigDatabase, databasesNames);
-    }
-
     public DatabaseManager(final String fileConfigDatabase, final String... databasesNames) {
         this(new File(fileConfigDatabase), Sets.newHashSet(Arrays.asList(databasesNames)));
     }
@@ -37,6 +33,7 @@ public final class DatabaseManager {
 
     public void configure() {
         try {
+
             Class.forName(databaseManagerFileProperties.getConfig().getDriver());
             fillDatabases();
         } catch (ClassNotFoundException e) {
@@ -63,7 +60,6 @@ public final class DatabaseManager {
     public Database getDatabase(String databaseName) {
         return databases.get(databaseName);
     }
-
 
     private void fillDatabases() {
         databaseNames.forEach(this::createDatabaseFromName);

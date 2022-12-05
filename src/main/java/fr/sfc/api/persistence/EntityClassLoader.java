@@ -8,28 +8,39 @@ import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public final class EntityClassLoader {
 
-    private final String entityPackage;
+    private String entityPackage;
+    private List<String> classes;
 
-    public EntityClassLoader(final String entityPackage) {
-        this.entityPackage = entityPackage;
+    public EntityClassLoader() {
+        classes = new ArrayList<>();
     }
 
     public EntityClassManager createClassManager() {
 
-        final Reflections reflections = new Reflections(new ConfigurationBuilder().forPackage(entityPackage));
         final Map<Class<?>, Map<String, Field>> classMapMapOfEntities = new HashMap<>();
-        final Set<Class<?>> classSet = reflections.getTypesAnnotatedWith(Entity.class);
 
-        for (final Class<?> aClass : classSet)
-            classMapMapOfEntities.put(aClass, hashClassEntityForFields(aClass));
+        try {
+            for (final String className : classes) {
+                final var aClass = Class.forName(className);
+                PersistenceCheck.throwHaveNotAnnotation(aClass, Entity.class);
+                classMapMapOfEntities.put(aClass, hashClassEntityForFields(aClass));
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
+        if (entityPackage != null) {
+            final Reflections reflections = new Reflections(new ConfigurationBuilder().forPackage(entityPackage));
+            final Set<Class<?>> classSet = reflections.getTypesAnnotatedWith(Entity.class);
+            for (final Class<?> aClass : classSet) {
+                if (!classMapMapOfEntities.containsKey(aClass))
+                    classMapMapOfEntities.put(aClass, hashClassEntityForFields(aClass));
+            }
+        }
         return new EntityClassManager(classMapMapOfEntities);
     }
 
@@ -71,4 +82,19 @@ public final class EntityClassLoader {
             stringFieldMap.put(fieldWithColumn.getName(), field);
     }
 
+    public String getEntityPackage() {
+        return entityPackage;
+    }
+
+    public List<String> getClasses() {
+        return classes;
+    }
+
+    public void setEntityPackage(String entityPackage) {
+        this.entityPackage = entityPackage;
+    }
+
+    public void setClassesName(List<String> classes) {
+        this.classes = classes;
+    }
 }

@@ -15,11 +15,16 @@ public class MainController implements Controller {
     @AutoComponent
     private MainComponent component;
 
-    @Inject private AdminRepository adminRepository;
-    @Inject private OrderRepository orderRepository;
-    @Inject private CompanyRepository companyRepository;
-    @Inject private ProductTourRepository productTourRepository;
-    @Inject private VehicleRepository vehicleRepository;
+    @Inject
+    private AdminRepository adminRepository;
+    @Inject
+    private OrderRepository orderRepository;
+    @Inject
+    private CompanyRepository companyRepository;
+    @Inject
+    private ProductTourRepository productTourRepository;
+    @Inject
+    private VehicleRepository vehicleRepository;
 
     @Override
     public void setup() {

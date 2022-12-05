@@ -7,6 +7,10 @@ import fr.sfc.api.persistence.InjectionConfiguration;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Permit to configure databases, repositories, components,
  * entities and inject dependence for the RuntimeApplication
@@ -20,19 +24,25 @@ public final class BackendApplicationConfiguration {
     private final EntityClassManager entityClassManager;
     private InjectionConfiguration injectionConfiguration;
     private EntityManager entityManager;
+    private Parent root;
+    private String currentDatabaseName;
 
     /**
      *
      */
-    private BackendApplicationConfiguration(final DatabaseManager databaseManager,
+    private BackendApplicationConfiguration(final Parent root,
+                                            final String currentDatabaseName,
+                                            final DatabaseManager databaseManager,
                                             final ComponentManager componentManager,
                                             final RepositoryManager repositoryManager,
                                             final EntityClassManager entityClassManager) {
 
+        this.root = root;
         this.repositoryManager = repositoryManager;
         this.componentManager = componentManager;
         this.entityClassManager = entityClassManager;
         this.databaseManager = databaseManager;
+        this.currentDatabaseName = currentDatabaseName;
     }
 
     /**
@@ -40,15 +50,19 @@ public final class BackendApplicationConfiguration {
      * Configure the database manager and connect it, detect components, repositories and controllers
      * Create an inject configuration and configure it
      *
-     * @param currentNameDatabase current name database
      */
-    public void configure(final String currentNameDatabase) {
-        databaseManager.configure();
-        databaseManager.connect();
-        entityManager = entityClassManager.createEntityManager(databaseManager.getDatabase(currentNameDatabase));
-
+    public void configure() {
+        if (databaseManager != null) {
+            if (currentDatabaseName != null) {
+                databaseManager.getDatabaseNames().stream().findFirst().ifPresentOrElse(s -> currentDatabaseName = s, () -> {
+                    throw new RuntimeException();
+                });
+            }
+            databaseManager.configure();
+            databaseManager.connect();
+            entityManager = entityClassManager.createEntityManager(databaseManager.getDatabase(currentDatabaseName));
+        }
         repositoryManager.detect();
-
         componentManager.detect();
         injectionConfiguration = new InjectionConfiguration(repositoryManager, entityManager, componentManager);
         injectionConfiguration.configure();
@@ -60,7 +74,7 @@ public final class BackendApplicationConfiguration {
      * @param stage stage
      * @return runtime application
      */
-    public BackendApplication createApplication(final Stage stage, final Parent root, final String title, final int width, final int height) {
+    public BackendApplication createApplication(final Stage stage, final String title, final int width, final int height) {
         BackendApplication.set(new BackendApplication(this, stage, root, title, width, height));
         componentManager.getAllControllers().forEach(Controller::setup);
         return BackendApplication.getCurrentApplication();
@@ -106,49 +120,83 @@ public final class BackendApplicationConfiguration {
     public ComponentManager getComponentManager() {
         return componentManager;
     }
-    
+
+    public final static class File {
+        public static BackendApplicationConfigurationFile of(final java.io.File file) {
+            try {
+                return new BackendApplicationConfigurationFile(file);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     /**
      *
      */
     public final static class Builder {
 
         private DatabaseManager databaseManager;
-        private EntityClassManager entityClassManager;
         private ComponentManager componentManager;
-        private RepositoryManager repositoryManager;
+        private final RepositoryManager repositoryManager;
+        private final EntityClassLoader entityClassLoader;
+        private Parent root;
+        private String currentDatabaseName;
 
-        private Builder() { }
+        private Builder() {
+            entityClassLoader = new EntityClassLoader();
+            repositoryManager = new RepositoryManager();
+        }
 
         public static Builder of() {
             return new Builder();
         }
 
         public Builder withDatabaseManager(final String fileConfigDatabase, final String... databasesNames) {
-            this.databaseManager = DatabaseManager.of(fileConfigDatabase, databasesNames);
+            this.databaseManager = new DatabaseManager(fileConfigDatabase, databasesNames);
             return this;
         }
 
         public Builder withEntityPackage(final String entityPackage) {
-            this.entityClassManager = new EntityClassLoader(entityPackage).createClassManager();
+            entityClassLoader.setEntityPackage(entityPackage);
+            return this;
+        }
+
+        public Builder withEntityClassesName(final List<String> entityClassesName) {
+            entityClassLoader.setClassesName(entityClassesName);
             return this;
         }
 
         public Builder withRepositoryPackage(final String repositoryPackage) {
-            this.repositoryManager = new RepositoryManager(repositoryPackage);
+            repositoryManager.setPackageRepository(repositoryPackage);
             return this;
         }
 
-        public Builder setRoot(final Parent root) {
+        public Builder withRepositoriesClassesName(final List<String> repositoriesClassesName) {
+            repositoryManager.setClassesName(repositoriesClassesName);
+            return this;
+        }
+
+        public Builder withRoot(final Parent root) {
+            this.root = root;
             this.componentManager = new ComponentLoader(root).createComponentManager();
+            return this;
+        }
+
+        public Builder withActualDatabase(String database) {
+            this.currentDatabaseName = database;
             return this;
         }
 
         public BackendApplicationConfiguration build() {
             return new BackendApplicationConfiguration(
+                    root, currentDatabaseName,
                     databaseManager, componentManager,
-                    repositoryManager, entityClassManager);
+                    repositoryManager, entityClassLoader.createClassManager());
         }
 
     }
+
+
 
 }

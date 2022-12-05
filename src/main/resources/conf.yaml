@@ -1,0 +1,29 @@
+---
+config :
+  root : /fxml/root.fxml
+  persistence :
+    packages :
+      entity : fr.sfc.entity
+      repository : fr.sfc.repository
+    entities :
+      - fr.sfc.entity.Admin
+      - fr.sfc.entity.Company
+      - fr.sfc.entity.Customer
+      - fr.sfc.entity.Order
+      - fr.sfc.entity.Producer
+      - fr.sfc.entity.ProductTour
+      - fr.sfc.entity.Vehicle
+    repositories :
+      - fr.sfc.repository.AdminRepository
+      - fr.sfc.repository.CompanyRepository
+      - fr.sfc.repository.CustomerRepository
+      - fr.sfc.repository.AdminRepository
+      - fr.sfc.repository.ProducerRepository
+      - fr.sfc.repository.VehicleRepository
+      - fr.sfc.repository.ProductTourRepository
+  database :
+    properties : db.ini
+    databases :
+      - sfc
+      - test
+    actual : sfc

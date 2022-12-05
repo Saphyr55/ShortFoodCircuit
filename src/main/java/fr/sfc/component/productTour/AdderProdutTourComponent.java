@@ -16,7 +16,7 @@ public class AdderProdutTourComponent extends GridPane implements Component {
     private AdderProductTourController controller;
 
     private TextField searchTextField;
-    private ListView<String> productTourListCell;
+    ListView<String> productTourListCell;
     private Button adderProductTourButton;
 
     @Override

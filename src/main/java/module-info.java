@@ -22,13 +22,15 @@ module fr.sfc {
 
     requires org.jetbrains.annotations;
 
-    requires mysql.connector.j;
+    requires mariadb.java.client;
+    requires commons.math3;
 
     requires lucene.core;
 
+    requires org.yaml.snakeyaml;
+
     requires ini4j;
 
-    requires com.google.protobuf;
     requires com.google.common;
 
     requires org.reflections;

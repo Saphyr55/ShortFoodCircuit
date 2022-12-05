@@ -31,10 +31,16 @@ public final class InjectionConfiguration {
     }
 
     private void setValueFieldToAll(final Field field, final Object instance) {
+
         injectValueFieldForObject(EntityManager.class, field, instance, entityManager);
+
         setValueFieldToRepository(field, instance);
-        injectValueFieldForObject(QueryFactory.class, field, instance, entityManager.getQueryFactory());
-        injectValueFieldForObject(EntityClassLoader.class, field, instance, entityManager.getEntityClassManager());
+
+        if (entityManager != null)
+            injectValueFieldForObject(QueryFactory.class, field, instance, entityManager.getQueryFactory());
+
+        if (entityManager != null)
+            injectValueFieldForObject(EntityClassLoader.class, field, instance, entityManager.getEntityClassManager());
     }
 
     private void configureFor(Iterator<?> collection) {
