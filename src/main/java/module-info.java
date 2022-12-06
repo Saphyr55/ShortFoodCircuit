@@ -20,7 +20,6 @@ module fr.sfc {
     requires javafx.web;
     requires javafx.media;
 
-
     requires ini4j;
     requires log4j;
     requires mariadb.java.client;
@@ -38,13 +37,13 @@ module fr.sfc {
     opens fr.sfc.component;
     opens fr.sfc.repository;
     opens fr.sfc.entity;
+    opens fr.sfc.common;
+    opens fr.sfc.component.productTour;
+    opens fr.sfc.controller.productTour;
 
     opens fr.sfc.framework;
     opens fr.sfc.framework.controlling;
     opens fr.sfc.framework.persistence;
     opens fr.sfc.framework.persistence.exception;
-    opens fr.sfc.common;
-    opens fr.sfc.component.productTour;
-    opens fr.sfc.controller.productTour;
 
 }

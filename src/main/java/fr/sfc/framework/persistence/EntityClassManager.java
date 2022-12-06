@@ -24,7 +24,8 @@ public final class EntityClassManager {
     public Map<String, Field> getFieldsFromEntity(final Class<?> aClass) {
         if (classEntities.containsKey(aClass))
             return classEntities.get(aClass);
-        else throw new EntityNotFoundException(aClass + " was not found");
+        else
+            throw new EntityNotFoundException(aClass + " was not found");
     }
 
     public <T> Object getValueId(T entity) {

@@ -14,15 +14,18 @@ public final class EntityClassLoader {
 
     private String entityPackage;
     private List<String> classes;
+    private final Map<Class<?>, Map<String, Field>> classMapMapOfEntities;
 
     public EntityClassLoader() {
         classes = new ArrayList<>();
+        classMapMapOfEntities = new HashMap<>();
     }
 
     public EntityClassManager createClassManager() {
+        return new EntityClassManager(classMapMapOfEntities);
+    }
 
-        final Map<Class<?>, Map<String, Field>> classMapMapOfEntities = new HashMap<>();
-
+    public void load() {
         try {
             for (final String className : classes) {
                 final var aClass = Class.forName(className);
@@ -41,7 +44,6 @@ public final class EntityClassLoader {
                     classMapMapOfEntities.put(aClass, hashClassEntityForFields(aClass));
             }
         }
-        return new EntityClassManager(classMapMapOfEntities);
     }
 
     private Map<String, Field> hashClassEntityForFields(Class<?> aClass) {
@@ -86,7 +88,7 @@ public final class EntityClassLoader {
         return entityPackage;
     }
 
-    public List<String> getClasses() {
+    public List<String> getClassesName() {
         return classes;
     }
 
@@ -97,4 +99,9 @@ public final class EntityClassLoader {
     public void setClassesName(List<String> classes) {
         this.classes = classes;
     }
+
+    public Map<Class<?>, Map<String, Field>> getClasses() {
+        return classMapMapOfEntities;
+    }
+
 }

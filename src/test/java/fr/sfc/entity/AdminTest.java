@@ -1,9 +1,8 @@
-package fr.sfc.model.entity;
+package fr.sfc.entity;
 
-import fr.sfc.entity.Admin;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AdminTest {
 
@@ -11,7 +10,7 @@ class AdminTest {
     void getId() {
         assertEquals(1, new Admin(1, "password").getId());
     }
-
+    
     @Test
     void setId() {
         var admin = new Admin( "password");

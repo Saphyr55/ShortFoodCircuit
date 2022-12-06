@@ -1,8 +1,8 @@
 package fr.sfc.framework.persistence;
 
+import fr.sfc.framework.entity.Admin;
 import fr.sfc.framework.persistence.annotation.Table;
 import fr.sfc.framework.persistence.exception.PersistenceAnnotationPresentException;
-import fr.sfc.entity.Admin;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

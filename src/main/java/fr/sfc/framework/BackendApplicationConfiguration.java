@@ -34,12 +34,13 @@ public final class BackendApplicationConfiguration {
                                             final DatabaseManager databaseManager,
                                             final ComponentManager componentManager,
                                             final RepositoryManager repositoryManager,
-                                            final EntityClassManager entityClassManager) {
+                                            final EntityClassLoader entityClassLoader) {
 
         this.root = root;
         this.repositoryManager = repositoryManager;
         this.componentManager = componentManager;
-        this.entityClassManager = entityClassManager;
+        entityClassLoader.load();
+        this.entityClassManager = entityClassLoader.createClassManager();
         this.databaseManager = databaseManager;
         this.currentDatabaseName = currentDatabaseName;
     }
@@ -191,7 +192,7 @@ public final class BackendApplicationConfiguration {
             return new BackendApplicationConfiguration(
                     root, currentDatabaseName,
                     databaseManager, componentManager,
-                    repositoryManager, entityClassLoader.createClassManager());
+                    repositoryManager, entityClassLoader);
         }
 
     }
