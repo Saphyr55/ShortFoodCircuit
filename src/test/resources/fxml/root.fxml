@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.Pane?>
+<?import fr.sfc.framework.component.ComponentTest?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <Pane xmlns="http://javafx.com/javafx">
     <AnchorPane>
         <HBox>
+            <ComponentTest>
+            </ComponentTest>
         </HBox>
     </AnchorPane>
 </Pane>

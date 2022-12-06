@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PersistenceCheckTest {
-
+    
     @Test
     void haveAnnotationTable() {
         assertTrue(PersistenceCheck.isTable(Admin.class));

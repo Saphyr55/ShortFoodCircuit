@@ -67,7 +67,7 @@ public class ComponentManager {
         countId++;
         graphComponent.put(id, Map.entry(component.getClass(), component));
     }
-
+    
     public ComponentFactory getComponentFactory() {
         return componentFactory;
     }

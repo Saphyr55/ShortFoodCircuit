@@ -10,9 +10,12 @@ import java.io.IOException;
 public final class SFCApplication extends Application {
 
     public static final String FILE_CONF = "/configuration.yaml";
+    // private static final Logger LOGGER = Logger.getLogger(SFCApplication.class);
 
     @Override
     public void start(final Stage primaryStage) throws IOException {
+
+        // LOGGER.info("Start Application");
 
         BackendApplicationConfiguration configuration = BackendApplicationConfiguration.File
                 .of(Resources.getFileResource(FILE_CONF))

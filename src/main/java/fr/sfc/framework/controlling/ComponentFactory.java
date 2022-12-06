@@ -32,7 +32,6 @@ public class ComponentFactory {
         }
     }
 
-
     public <T extends Component> void setupComponent(final String id, final T component) {
         setupComponentForFieldComponent(String.valueOf(componentManager.getCountId()), component);
         setupControllerForComponent(component);

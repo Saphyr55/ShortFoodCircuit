@@ -3,7 +3,8 @@ package fr.sfc.framework.persistence;
 import fr.sfc.framework.database.Database;
 import fr.sfc.framework.database.Query;
 import fr.sfc.framework.database.QueryFactory;
-import fr.sfc.framework.database.annotation.FormatQuery;
+import fr.sfc.framework.database.impl.QueryFactoryImpl;
+import fr.sfc.framework.database.annotation.NativeQuery;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -19,15 +20,15 @@ public final class EntityManager {
 
     public EntityManager(final Database database, final EntityClassManager entityClassManager) {
         this.entityClassManager = entityClassManager;
-        this.queryFactory = new QueryFactory(database, entityClassManager);
+        this.queryFactory = new QueryFactoryImpl(database, entityClassManager);
     }
 
-    @FormatQuery(value = "SELECT * FROM %s")
+    @NativeQuery(value = "SELECT * FROM %s")
     public <T> Set<T> findAll(Class<T> aClass) {
 
         final Set<T> set = new HashSet<>();
 
-        try (final Query query = queryFactory.createQuery(
+        try (final Query query = queryFactory.createNativeQuery(
                 getClass().getMethod("findAll", Class.class),
                 entityClassManager.getNameTable(aClass))) {
 
@@ -38,12 +39,12 @@ public final class EntityManager {
         return set;
     }
 
-    @FormatQuery(value = "INSERT INTO %s (%s) VALUES (%s)")
+    @NativeQuery(value = "INSERT INTO %s (%s) VALUES (%s)")
     public <T> void insert(T entity) {
 
         Map.Entry<String, String> entry = entityClassManager.formatInsert(entity);
 
-        try (final Query query = queryFactory.createQuery(
+        try (final Query query = queryFactory.createNativeQuery(
                 getClass().getMethod("insert", Object.class),
                 entityClassManager.getNameTable(entity.getClass()),
                 entry.getKey(), entry.getValue())) {
@@ -55,10 +56,10 @@ public final class EntityManager {
         }
     }
 
-    @FormatQuery(value = "DELETE FROM %s WHERE %s=%s")
+    @NativeQuery(value = "DELETE FROM %s WHERE %s=%s")
     public <T> void delete(T entity) {
 
-        try (final Query query = queryFactory.createQuery(
+        try (final Query query = queryFactory.createNativeQuery(
                 getClass().getMethod("delete", Object.class),
                 entityClassManager.getNameTable(entity.getClass()),
                 entityClassManager.getIdName(entity.getClass()),
@@ -70,11 +71,11 @@ public final class EntityManager {
         }
     }
 
-    @FormatQuery(value = "SELECT count(*) FROM %s")
+    @NativeQuery(value = "SELECT count(*) FROM %s")
     public <T> long count(Class<T> entityClass)  {
 
         int count = 0;
-        try (final Query query = queryFactory.createQuery(
+        try (final Query query = queryFactory.createNativeQuery(
                 getClass().getDeclaredMethod("count", Class.class),
                 entityClassManager.getNameTable(entityClass))) {
 
@@ -87,12 +88,12 @@ public final class EntityManager {
         return count;
     }
 
-    @FormatQuery(value = "SELECT * FROM %s WHERE %s=%s")
+    @NativeQuery(value = "SELECT * FROM %s WHERE %s=%s")
     public <T> T find(Class<T> entityClass, int id) {
 
         AtomicReference<T> type = new AtomicReference<>();
 
-        try (final Query query = queryFactory.createQuery(
+        try (final Query query = queryFactory.createNativeQuery(
                 getClass().getMethod("find", Class.class, int.class),
                 entityClassManager.getNameTable(entityClass),
                 entityClassManager.getIdName(entityClass), id)) {

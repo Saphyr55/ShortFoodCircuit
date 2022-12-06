@@ -15,7 +15,7 @@ class BackendApplicationConfigurationTest {
                     .create()
         );
     }
-
+    
     @Test
     void testThrowYamlFileConfig() {
         assertThrows(RuntimeException.class, () -> BackendApplicationConfiguration.File
