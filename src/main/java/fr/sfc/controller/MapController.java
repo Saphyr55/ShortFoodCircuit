@@ -1,8 +1,8 @@
 package fr.sfc.controller;
 
-import fr.sfc.api.Resources;
-import fr.sfc.api.controlling.AutoComponent;
-import fr.sfc.api.controlling.Controller;
+import fr.sfc.framework.Resources;
+import fr.sfc.framework.controlling.annotation.AutoComponent;
+import fr.sfc.framework.controlling.Controller;
 import fr.sfc.component.productTour.MapComponent;
 import javafx.scene.web.WebEngine;
 

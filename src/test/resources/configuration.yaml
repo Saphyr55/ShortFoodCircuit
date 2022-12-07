@@ -1,0 +1,16 @@
+---
+config :
+  root : /fxml/root.fxml
+  persistence :
+    packages :
+      entity : fr.sfc.framework.entity
+      repository : fr.sfc.framework.repository
+    entities : []
+    repositories : []
+    others : []
+  database :
+    properties : db.ini
+    databases :
+      - sfc
+      - test
+    actual : sfc

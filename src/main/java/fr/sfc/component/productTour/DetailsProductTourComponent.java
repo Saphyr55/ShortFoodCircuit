@@ -1,8 +1,8 @@
 package fr.sfc.component.productTour;
 
-import fr.sfc.api.controlling.AutoController;
-import fr.sfc.api.controlling.Component;
-import fr.sfc.api.controlling.SetComponent;
+import fr.sfc.framework.controlling.annotation.AutoController;
+import fr.sfc.framework.controlling.Component;
+import fr.sfc.framework.controlling.annotation.SetComponent;
 import fr.sfc.controller.productTour.DetailsProductTourController;
 import javafx.scene.layout.*;
 

@@ -1,8 +1,8 @@
 package fr.sfc.controller.productTour;
 
-import fr.sfc.api.controlling.AutoComponent;
-import fr.sfc.api.controlling.Controller;
-import fr.sfc.api.persistence.annotation.Inject;
+import fr.sfc.framework.controlling.annotation.AutoComponent;
+import fr.sfc.framework.controlling.Controller;
+import fr.sfc.framework.persistence.annotation.Inject;
 import fr.sfc.component.productTour.AdderProdutTourComponent;
 import fr.sfc.repository.ProductTourRepository;
 
@@ -20,6 +20,7 @@ public class AdderProductTourController implements Controller {
     @Override
     public void setup() {
         final var productTours = productTourRepository.findAll();
+
         component.getProductTourListView().getItems().addAll(productTours.stream()
                 .map(productTour -> productTour.getName() + " | Commenc\u00E9 le " + productTour.getStartDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE))
                 .collect(Collectors.toSet()));

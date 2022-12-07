@@ -6,5 +6,5 @@ import org.testfx.framework.junit5.ApplicationExtension;
 @ExtendWith(ApplicationExtension.class)
 class SFCApplicationTest {
 
-
+    
 }

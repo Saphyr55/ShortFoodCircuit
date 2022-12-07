@@ -1,6 +1,6 @@
 package fr.sfc.entity;
 
-import fr.sfc.api.persistence.annotation.*;
+import fr.sfc.framework.persistence.annotation.*;
 
 @Entity
 @Table(name = "producer")
@@ -18,7 +18,7 @@ public class Producer {
 
     @Column(name = "SIRET")
     @ForeignKey(
-            type = ForeignKey.Type.Column,
+            type = ForeignKey.Type.Unique,
             entity = Company.class)
     private Integer SIRET;
 

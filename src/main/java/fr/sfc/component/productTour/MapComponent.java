@@ -1,7 +1,7 @@
 package fr.sfc.component.productTour;
 
-import fr.sfc.api.controlling.AutoController;
-import fr.sfc.api.controlling.Component;
+import fr.sfc.framework.controlling.annotation.AutoController;
+import fr.sfc.framework.controlling.Component;
 import fr.sfc.controller.MapController;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.WebView;

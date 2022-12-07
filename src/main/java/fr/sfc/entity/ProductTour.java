@@ -1,6 +1,6 @@
 package fr.sfc.entity;
 
-import fr.sfc.api.persistence.annotation.*;
+import fr.sfc.framework.persistence.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -29,7 +29,7 @@ public class ProductTour {
 
     @Column(name = "SIRET")
     @ForeignKey(
-            type = ForeignKey.Type.Column,
+            type = ForeignKey.Type.Unique,
             entity = Company.class)
     private Integer SIRET;
 
@@ -38,7 +38,7 @@ public class ProductTour {
 
     @Column(name = "matriculation")
     @ForeignKey(
-            type = ForeignKey.Type.Column,
+            type = ForeignKey.Type.Unique,
             entity = Vehicle.class)
     private String matriculation;
 
