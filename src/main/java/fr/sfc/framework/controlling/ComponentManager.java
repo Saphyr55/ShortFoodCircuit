@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class ComponentManager {
 
-    private final Map<String, Map.Entry<Class<? extends Component>, Component>> graphComponent;
+    private final ComponentGraph componentGraph;
     private final Map<Component, Controller> componentControllerMap;
     private final Set<Component> components;
     private final Set<Controller> controllers;
@@ -24,9 +24,9 @@ public class ComponentManager {
     public ComponentManager(final ComponentLoader componentLoader) {
         this.components = new HashSet<>();
         this.controllers = new HashSet<>();
-        this.graphComponent = new HashMap<>();
         this.componentControllerMap = new HashMap<>();
         this.componentFactory = new ComponentFactory(this);
+        this.componentGraph = new ComponentGraph();
         this.componentLoader = componentLoader;
     }
 
@@ -38,20 +38,23 @@ public class ComponentManager {
     public void detect() {
         componentLoader.getNodes().stream()
                 .filter(node -> node instanceof Component)
-                .forEach(componentFactory::setupComponentsFromNode);
+                .forEach(componentFactory::setup);
 
-        graphComponent.forEach((aClass, c) -> components.add(c.getValue()));
+        componentGraph.getNodes().forEach(cp -> components.add(cp.getSelf()));
         componentControllerMap.forEach((aClass, c) -> controllers.add(c));
     }
 
     /**
      * Get all component from his class
      *
-     * @param id string id
+     * @param tag string id
      * @return components
      */
-    public Component getComponent(final String id) {
-        return graphComponent.get(id).getValue();
+    public <T extends Component> T getComponent(String tag) {
+        String[] ids = tag.split("\\.");
+        Arrays.stream(ids).forEach(id -> {
+
+        });
     }
 
     /**
@@ -63,11 +66,6 @@ public class ComponentManager {
         return components;
     }
 
-    public <T extends Component> void putOnComponentManager(final String id, final T component) {
-        countId++;
-        graphComponent.put(id, Map.entry(component.getClass(), component));
-    }
-    
     public ComponentFactory getComponentFactory() {
         return componentFactory;
     }
@@ -84,4 +82,7 @@ public class ComponentManager {
         return controllers;
     }
 
+    public ComponentGraph getComponentGraph() {
+        return componentGraph;
+    }
 }

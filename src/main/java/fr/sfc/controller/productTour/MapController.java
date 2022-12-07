@@ -1,4 +1,4 @@
-package fr.sfc.controller;
+package fr.sfc.controller.productTour;
 
 import fr.sfc.framework.Resources;
 import fr.sfc.framework.controlling.annotation.AutoComponent;
@@ -7,7 +7,7 @@ import fr.sfc.component.productTour.MapComponent;
 import javafx.scene.web.WebEngine;
 
 public class MapController implements Controller {
-
+    
     @AutoComponent
     private MapComponent component;
 

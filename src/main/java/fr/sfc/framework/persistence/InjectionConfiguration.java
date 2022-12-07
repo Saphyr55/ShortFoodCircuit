@@ -32,6 +32,8 @@ public final class InjectionConfiguration {
 
     private void setValueFieldToAll(final Field field, final Object instance) {
 
+        injectValueFieldForObject(ComponentManager.class, field, instance, componentManager);
+
         injectValueFieldForObject(EntityManager.class, field, instance, entityManager);
 
         setValueFieldToRepository(field, instance);
@@ -41,6 +43,7 @@ public final class InjectionConfiguration {
 
         if (entityManager != null)
             injectValueFieldForObject(EntityClassLoader.class, field, instance, entityManager.getEntityClassManager());
+
     }
 
     private void configureFor(Iterator<?> collection) {
@@ -56,8 +59,8 @@ public final class InjectionConfiguration {
             injectValueFieldForObject(repository.getClass(), field, instance, repository);
     }
 
-    private void injectValueFieldForObject(final Class<?> aClass, final Field field,
-                                                 final Object instance, final Object value) {
+    private <T> void injectValueFieldForObject(final Class<?> aClass, final Field field,
+                                                 final Object instance, final T value) {
         try {
             if (field.getType().equals(aClass)) {
                 field.setAccessible(true);

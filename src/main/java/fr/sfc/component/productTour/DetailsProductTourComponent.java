@@ -1,10 +1,10 @@
 package fr.sfc.component.productTour;
 
-import fr.sfc.framework.controlling.annotation.AutoController;
-import fr.sfc.framework.controlling.Component;
-import fr.sfc.framework.controlling.annotation.SetComponent;
 import fr.sfc.controller.productTour.DetailsProductTourController;
-import javafx.scene.layout.*;
+import fr.sfc.framework.controlling.Component;
+import fr.sfc.framework.controlling.annotation.AutoController;
+import fr.sfc.framework.controlling.annotation.SetComponent;
+import javafx.scene.layout.Pane;
 
 public class DetailsProductTourComponent extends Pane implements Component {
 

@@ -76,6 +76,7 @@ public final class BackendApplicationConfiguration {
      */
     public BackendApplication createApplication(final Stage stage, final String title, final int width, final int height) {
         BackendApplication.set(new BackendApplication(this, stage, root, title, width, height));
+        componentManager.getAllComponents().forEach(Component::setup);
         componentManager.getAllControllers().forEach(Controller::setup);
         return BackendApplication.getCurrentApplication();
     }

@@ -46,5 +46,6 @@ module fr.sfc {
     opens fr.sfc.framework.persistence;
     opens fr.sfc.framework.persistence.exception;
     opens fr.sfc.framework.controlling.annotation;
+    opens fr.sfc.framework.common;
 
 }

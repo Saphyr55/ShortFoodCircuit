@@ -1,4 +1,4 @@
-package fr.sfc.framework.common.annotation;
+package fr.sfc.framework.common;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,6 +15,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Tag {
 
-    String tag() default "";
+    String value() default "";
 
 }

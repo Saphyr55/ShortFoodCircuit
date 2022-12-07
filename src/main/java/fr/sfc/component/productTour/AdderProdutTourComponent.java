@@ -7,7 +7,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
 
 public class AdderProdutTourComponent extends GridPane implements Component {
@@ -17,11 +16,11 @@ public class AdderProdutTourComponent extends GridPane implements Component {
     private TextField searchTextField;
     private ListView<String> productTourListCell;
     private Button adderProductTourButton;
-    private ToggleButton showMap;
+    private Button showMapButton;
 
     @Override
     public void setup() {
-        showMap = new ToggleButton("Map");
+        showMapButton = new Button("Map");
         productTourListCell = new ListView<>();
         adderProductTourButton = new Button("Add Product Tour");
         searchTextField = new TextField();
@@ -29,7 +28,7 @@ public class AdderProdutTourComponent extends GridPane implements Component {
         addRow(0, searchTextField);
         addRow(1, productTourListCell);
         addRow(2, adderProductTourButton);
-        addRow(3, showMap);
+        addRow(3, showMapButton);
     }
 
     public void add(Node... nodes) {
@@ -48,4 +47,7 @@ public class AdderProdutTourComponent extends GridPane implements Component {
         return productTourListCell;
     }
 
+    public Button getShowMapButton() {
+        return showMapButton;
+    }
 }

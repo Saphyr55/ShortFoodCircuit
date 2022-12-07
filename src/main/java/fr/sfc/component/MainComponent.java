@@ -3,6 +3,7 @@ package fr.sfc.component;
 import fr.sfc.component.productTour.AdderProdutTourComponent;
 import fr.sfc.component.productTour.DetailsProductTourComponent;
 import fr.sfc.controller.MainController;
+import fr.sfc.framework.common.Tag;
 import fr.sfc.framework.controlling.Component;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.annotation.SetComponent;
@@ -15,10 +16,12 @@ public class MainComponent extends GridPane implements Component {
     private MainController mainController;
 
     @SetComponent
+    @Tag(value = "detailsProductTour")
     private DetailsProductTourComponent detailsProductTourComponent;
-
+    
     @SetComponent
-    private AdderProdutTourComponent adderProdutTourComponent;
+    @Tag(value = "adderProductTour")
+    private AdderProdutTourComponent adderProductTourComponent;
 
     @Override
     public void setup() {
@@ -26,13 +29,13 @@ public class MainComponent extends GridPane implements Component {
 
         prefHeightProperty().bind(parent.heightProperty());
         prefWidthProperty().bind(parent.widthProperty());
-        adderProdutTourComponent.prefHeightProperty().bind(heightProperty());
-        adderProdutTourComponent.prefWidthProperty().bind(widthProperty().divide(1.5d));
-        adderProdutTourComponent.setMinWidth(300);
-        adderProdutTourComponent.setMaxWidth(3 * 3 * 100);
+        adderProductTourComponent.prefHeightProperty().bind(heightProperty());
+        adderProductTourComponent.prefWidthProperty().bind(widthProperty().divide(1.5d));
+        adderProductTourComponent.setMinWidth(300);
+        adderProductTourComponent.setMaxWidth(3 * 3 * 100);
         detailsProductTourComponent.prefWidthProperty().bind(widthProperty());
         detailsProductTourComponent.prefHeightProperty().bind(heightProperty());
-        addColumn(0, adderProdutTourComponent);
+        addColumn(0, adderProductTourComponent);
         addColumn(1, detailsProductTourComponent);
     }
 

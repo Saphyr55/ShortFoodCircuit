@@ -1,5 +1,7 @@
 package fr.sfc.framework.controlling;
 
+import fr.sfc.framework.common.Tag;
+import fr.sfc.framework.common.TagManager;
 import fr.sfc.framework.controlling.annotation.AutoComponent;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.annotation.SetComponent;
@@ -17,47 +19,28 @@ public class ComponentFactory {
         this.componentManager = componentManager;
     }
 
-    /**
-     * Create a component from is class
-     *
-     * @param componentClass class component
-     * @return component
-     * @param <T> type who extends of component
-     */
-    public <T extends Component> T createComponent(final String id, final Class<T> componentClass) {
-        try {
-            final var component = componentClass.getConstructor().newInstance();
-            setupComponent(id, component);
-            return component;
-        } catch (InstantiationException | NoSuchMethodException |
-                 InvocationTargetException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+    public void setup(final Node node) {
+        setup(new ComponentProperties(null, (Component) node, "root"));
     }
 
-    public <T extends Component> void setupComponent(final String id, final T component) {
-        setupComponentForFieldComponent(String.valueOf(componentManager.getCountId()), component);
-        setupControllerForComponent(component);
-        componentManager.putOnComponentManager(id, component);
-        component.setup();
-    }
-
-    private <T extends Component> void setupComponentForFieldComponent(final String id, final T component) {
-        Arrays.stream(component.getClass().getDeclaredFields())
+    private void setup(ComponentProperties parent) {
+        setupControllerForComponent(parent.getSelf());
+        Arrays.stream(parent.getSelf().getClass().getDeclaredFields())
                 .filter(field -> field.isAnnotationPresent(SetComponent.class))
-                .forEach(field -> setFieldComponentForComponent(id, field, component));
+                .forEach(field -> setupGraph(field, parent));
     }
 
-    public <T extends Component> void setupComponentsFromNode(final Node node) {
-        setupComponent(componentManager.getCountId() + "_node", (T) node);
-    }
-
-    private <T extends Component> void setFieldComponentForComponent(final String id, final Field field, final T component) {
+    private void setupGraph(Field field, ComponentProperties parent) {
         try {
+            String tag = TagManager.getValue(field, field.getAnnotation(Tag.class));
+            Component component = (Component) field.getType().getConstructor().newInstance();
+            ComponentProperties componentProperties = new ComponentProperties(field, component, tag);
+            componentManager.getComponentGraph().newEdge(parent, componentProperties);
             field.setAccessible(true);
-            field.set(component, createComponent(id, (Class<T>) field.getType()));
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            field.set(parent.getSelf(), component);
+            setup(componentProperties);
+        }catch (Exception e) {
+            System.out.println();
         }
     }
 
@@ -70,6 +53,9 @@ public class ComponentFactory {
     private void setFieldControllerForComponent(final Field field, final Component component) {
         try {
             field.setAccessible(true);
+
+            System.out.println(field);
+
             final var controller = field.getType().getConstructor().newInstance();
 
             Arrays.stream(controller.getClass().getDeclaredFields())
