@@ -50,8 +50,8 @@ public class ComponentManager {
      * @param id string id
      * @return components
      */
-    public <T extends Component> T getComponent(final String id) {
-        return (T) graphComponent.get(id).getValue();
+    public Component getComponent(final String id) {
+        return graphComponent.get(id).getValue();
     }
 
     /**

@@ -7,8 +7,7 @@
 <Pane xmlns="http://javafx.com/javafx">
     <AnchorPane>
         <HBox>
-            <ComponentTest>
-            </ComponentTest>
+            <ComponentTest/>
         </HBox>
     </AnchorPane>
 </Pane>
