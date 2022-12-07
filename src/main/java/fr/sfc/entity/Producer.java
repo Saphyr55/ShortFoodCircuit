@@ -18,7 +18,7 @@ public class Producer {
 
     @Column(name = "SIRET")
     @ForeignKey(
-            type = ForeignKey.Type.Column,
+            type = ForeignKey.Type.Unique,
             entity = Company.class)
     private Integer SIRET;
 

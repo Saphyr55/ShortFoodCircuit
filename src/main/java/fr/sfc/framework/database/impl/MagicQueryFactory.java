@@ -33,10 +33,6 @@ public class MagicQueryFactory {
         }
     }
 
-    public Query createMagicQuery(String request, Object... values) {
-        return queryFactory.createNativeQuery(request, values);
-    }
-
     public Query createMagicQuery(Method method, Object... values) {
         return createMagicQuery(method.getAnnotation(MagicQuery.class), values);
     }
@@ -50,7 +46,7 @@ public class MagicQueryFactory {
         request = formatRequestForTable(magicQuery, magicQuery.request());
         request = formatRequestForIds(magicQuery, request);
 
-        Query query = createMagicQuery(request, values);
+        Query query = queryFactory.createNativeQuery(request, values);
 
         for (Object value : values)
             query.withParameter(value);

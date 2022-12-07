@@ -57,7 +57,7 @@ public final class EntityClassLoader {
 
             if (foreignKey != null) {
                 switch (foreignKey.type()) {
-                    case Column -> putStringFieldMapColumn(field, field, column, stringFieldMap);
+                    case Unique -> putStringFieldMapColumn(field, field, column, stringFieldMap);
                     case Id -> putStringFieldMapId(field, foreignKey.entity(), stringFieldMap);
                 }
             }

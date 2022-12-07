@@ -5,7 +5,6 @@ import fr.sfc.entity.ProductTour;
 import fr.sfc.entity.Vehicle;
 import fr.sfc.framework.database.Query;
 import fr.sfc.framework.database.QueryFactory;
-import fr.sfc.framework.persistence.EntityClassManager;
 import fr.sfc.framework.persistence.EntityManager;
 import fr.sfc.framework.persistence.Repository;
 import fr.sfc.framework.persistence.annotation.Inject;
@@ -20,9 +19,6 @@ public class ProductTourRepository implements Repository<ProductTour> {
 
     @Inject
     private QueryFactory queryFactory;
-
-    @Inject
-    private EntityClassManager entityClassManager;
 
     @Override
     public Set<ProductTour> findAll() {
@@ -67,6 +63,7 @@ public class ProductTourRepository implements Repository<ProductTour> {
     }
 
     public Set<ProductTour> findByCompany(Company company) {
+
         try (Query query = queryFactory.createMagicQuery(
                 "findByCompany",
                 ProductTourQueries.class,

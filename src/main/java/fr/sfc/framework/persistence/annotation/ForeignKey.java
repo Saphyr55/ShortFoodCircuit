@@ -11,7 +11,7 @@ public @interface ForeignKey {
 
     enum Type {
         Id,
-        Column
+        Unique
     }
     Type type() default Type.Id;
     Class<?> entity();

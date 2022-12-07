@@ -34,6 +34,7 @@ public class QueryFactoryImpl implements QueryFactory {
         return nativeQueryFactory.createNativeQuery(request, values);
     }
 
+    @Override
     public Query createNativeQuery(Method method, Object... values) {
         return nativeQueryFactory.createNativeQuery(method, values);
     }
@@ -41,11 +42,6 @@ public class QueryFactoryImpl implements QueryFactory {
     @Override
     public Query createNativeQuery(String nameField, Class<?> qClass, Object... values) {
         return nativeQueryFactory.createNativeQuery(nameField, qClass, values);
-    }
-
-    @Override
-    public Query createMagicQuery(String request, Object... values) {
-        return magicQueryFactory.createMagicQuery(request, values);
     }
 
     @Override
