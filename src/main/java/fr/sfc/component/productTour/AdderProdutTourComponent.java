@@ -1,25 +1,27 @@
 package fr.sfc.component.productTour;
 
-import fr.sfc.framework.controlling.annotation.AutoController;
-import fr.sfc.framework.controlling.Component;
 import fr.sfc.controller.productTour.AdderProductTourController;
+import fr.sfc.framework.controlling.Component;
+import fr.sfc.framework.controlling.annotation.AutoController;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
 
 public class AdderProdutTourComponent extends GridPane implements Component {
 
     @AutoController
     private AdderProductTourController controller;
-
     private TextField searchTextField;
-    ListView<String> productTourListCell;
+    private ListView<String> productTourListCell;
     private Button adderProductTourButton;
+    private ToggleButton showMap;
 
     @Override
     public void setup() {
+        showMap = new ToggleButton("Map");
         productTourListCell = new ListView<>();
         adderProductTourButton = new Button("Add Product Tour");
         searchTextField = new TextField();
@@ -27,6 +29,7 @@ public class AdderProdutTourComponent extends GridPane implements Component {
         addRow(0, searchTextField);
         addRow(1, productTourListCell);
         addRow(2, adderProductTourButton);
+        addRow(3, showMap);
     }
 
     public void add(Node... nodes) {

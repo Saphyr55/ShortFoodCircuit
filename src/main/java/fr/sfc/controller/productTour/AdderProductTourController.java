@@ -20,6 +20,7 @@ public class AdderProductTourController implements Controller {
     @Override
     public void setup() {
         final var productTours = productTourRepository.findAll();
+
         component.getProductTourListView().getItems().addAll(productTours.stream()
                 .map(productTour -> productTour.getName() + " | Commenc\u00E9 le " + productTour.getStartDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE))
                 .collect(Collectors.toSet()));

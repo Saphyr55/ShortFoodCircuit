@@ -22,10 +22,11 @@ public final class EntityClassManager {
     }
 
     public Map<String, Field> getFieldsFromEntity(final Class<?> aClass) {
+
         if (classEntities.containsKey(aClass))
             return classEntities.get(aClass);
-        else
-            throw new EntityNotFoundException(aClass + " was not found");
+
+        throw new EntityNotFoundException(aClass + " was not found");
     }
 
     public <T> Object getValueId(T entity) {
@@ -44,12 +45,15 @@ public final class EntityClassManager {
     }
 
     public <T> String getIdName(Class<T> aClass) {
+
         var map = getFieldsFromEntity(aClass);
         var list = map.entrySet().stream()
                 .filter(stringFieldEntry -> stringFieldEntry.getValue().isAnnotationPresent(Id.class))
                 .toList();
+
         if (!list.isEmpty())
             return list.get(0).getKey();
+
         return null;
     }
 
@@ -61,9 +65,11 @@ public final class EntityClassManager {
     }
 
     public <T> Map.Entry<String, String> formatInsert(T entity) {
+
         final StringBuilder values = new StringBuilder();
         final StringBuilder column = new StringBuilder();
-        this.getFieldsFromEntity(entity.getClass()).forEach((s, field) -> {
+
+        getFieldsFromEntity(entity.getClass()).forEach((s, field) -> {
             try {
                 if (!field.isAnnotationPresent(Id.class)) {
                     field.setAccessible(true);
@@ -76,6 +82,7 @@ public final class EntityClassManager {
                 throw new RuntimeException(e);
             }
         });
+
         column.deleteCharAt(column.lastIndexOf(","));
         values.deleteCharAt(values.lastIndexOf(","));
         return Map.entry(column.toString(), values.toString());
