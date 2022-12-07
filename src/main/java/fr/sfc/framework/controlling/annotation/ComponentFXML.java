@@ -1,4 +1,4 @@
-package fr.sfc.framework.controlling;
+package fr.sfc.framework.controlling.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

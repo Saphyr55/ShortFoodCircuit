@@ -2,7 +2,7 @@ package fr.sfc.framework.persistence;
 
 import fr.sfc.framework.entity.Admin;
 import fr.sfc.framework.persistence.annotation.Table;
-import fr.sfc.framework.persistence.exception.PersistenceAnnotationPresentException;
+import fr.sfc.framework.persistence.exception.PersistenceAnnotationNotPresentException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,6 +22,6 @@ class PersistenceCheckTest {
     @Test
     void throwHaveNotAnnotation() {
         assertDoesNotThrow(() -> PersistenceCheck.throwHaveNotAnnotation(Admin.class, Table.class));
-        assertThrowsExactly(PersistenceAnnotationPresentException.class, () -> PersistenceCheck.throwHaveNotAnnotation(Admin.class, SuppressWarnings.class));
+        assertThrowsExactly(PersistenceAnnotationNotPresentException.class, () -> PersistenceCheck.throwHaveNotAnnotation(Admin.class, SuppressWarnings.class));
     }
 }

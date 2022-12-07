@@ -1,6 +1,6 @@
 package fr.sfc.component.productTour;
 
-import fr.sfc.framework.controlling.AutoController;
+import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.Component;
 import fr.sfc.controller.MapController;
 import javafx.scene.layout.HBox;

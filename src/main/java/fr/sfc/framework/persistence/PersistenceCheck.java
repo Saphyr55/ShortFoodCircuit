@@ -1,7 +1,7 @@
 package fr.sfc.framework.persistence;
 
 import fr.sfc.framework.persistence.annotation.Table;
-import fr.sfc.framework.persistence.exception.PersistenceAnnotationPresentException;
+import fr.sfc.framework.persistence.exception.PersistenceAnnotationNotPresentException;
 
 import java.lang.annotation.Annotation;
 
@@ -18,7 +18,7 @@ public final class PersistenceCheck {
 
     public static boolean throwHaveNotAnnotation(Class<?> tClass, Class<? extends Annotation> annotation) {
         if (!tClass.isAnnotationPresent(annotation))
-            throw new PersistenceAnnotationPresentException(annotation.getName() + " not present in " + tClass.getName());
+            throw new PersistenceAnnotationNotPresentException(annotation.getName() + " not present in " + tClass.getName());
         return true;
     }
 

@@ -1,5 +1,8 @@
 package fr.sfc.framework.controlling;
 
+import fr.sfc.framework.controlling.annotation.AutoComponent;
+import fr.sfc.framework.controlling.annotation.AutoController;
+import fr.sfc.framework.controlling.annotation.SetComponent;
 import javafx.scene.Node;
 
 import java.lang.reflect.Field;

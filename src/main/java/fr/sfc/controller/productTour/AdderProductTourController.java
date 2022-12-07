@@ -1,6 +1,6 @@
 package fr.sfc.controller.productTour;
 
-import fr.sfc.framework.controlling.AutoComponent;
+import fr.sfc.framework.controlling.annotation.AutoComponent;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.persistence.annotation.Inject;
 import fr.sfc.component.productTour.AdderProdutTourComponent;

@@ -13,6 +13,7 @@ public @interface ForeignKey {
         Id,
         Unique
     }
+
     Type type() default Type.Id;
     Class<?> entity();
 
