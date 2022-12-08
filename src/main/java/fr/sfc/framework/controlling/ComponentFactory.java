@@ -20,24 +20,25 @@ public class ComponentFactory {
     }
 
     public void setup(final Node node) {
-        setup(new ComponentProperties(null, (Component) node, "root"));
+        setup(new ComponentProperties( (Component) node, "root"));
     }
 
     private void setup(ComponentProperties parent) {
-        setupControllerForComponent(parent.getSelf());
-        Arrays.stream(parent.getSelf().getClass().getDeclaredFields())
+        setupControllerForComponent(parent.self());
+        Arrays.stream(parent.self().getClass().getDeclaredFields())
                 .filter(field -> field.isAnnotationPresent(SetComponent.class))
                 .forEach(field -> setupGraph(field, parent));
     }
 
     private void setupGraph(Field field, ComponentProperties parent) {
         try {
-            String tag = TagManager.getValue(field, field.getAnnotation(Tag.class));
+            String tag = parent.tag() + TagManager.SEPARATOR + TagManager.getValue(field, field.getAnnotation(Tag.class));
             Component component = (Component) field.getType().getConstructor().newInstance();
-            ComponentProperties componentProperties = new ComponentProperties(field, component, tag);
+            ComponentProperties componentProperties = new ComponentProperties(component, tag);
             componentManager.getComponentGraph().newEdge(parent, componentProperties);
+            componentManager.getComponentGraph().getPathForEachComponent().put(tag, componentProperties);
             field.setAccessible(true);
-            field.set(parent.getSelf(), component);
+            field.set(parent.self(), component);
             setup(componentProperties);
         }catch (Exception e) {
             System.out.println();

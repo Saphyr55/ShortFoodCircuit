@@ -1,6 +1,9 @@
 package fr.sfc.framework.controlling;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Component's manager,
@@ -40,7 +43,7 @@ public class ComponentManager {
                 .filter(node -> node instanceof Component)
                 .forEach(componentFactory::setup);
 
-        componentGraph.getNodes().forEach(cp -> components.add(cp.getSelf()));
+        componentGraph.getNodes().forEach(cp -> components.add(cp.self()));
         componentControllerMap.forEach((aClass, c) -> controllers.add(c));
     }
 
@@ -50,11 +53,10 @@ public class ComponentManager {
      * @param tag string id
      * @return components
      */
-    public <T extends Component> T getComponent(String tag) {
-        String[] ids = tag.split("\\.");
-        Arrays.stream(ids).forEach(id -> {
-
-        });
+    public <T extends Component> T getComponent(String pathTag) {
+        var cp = componentGraph.getPathForEachComponent().get(pathTag);
+        if (cp != null) return (T) cp.self();
+        return null;
     }
 
     /**

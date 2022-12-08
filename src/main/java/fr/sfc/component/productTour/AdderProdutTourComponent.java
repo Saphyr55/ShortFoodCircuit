@@ -16,11 +16,11 @@ public class AdderProdutTourComponent extends GridPane implements Component {
     private TextField searchTextField;
     private ListView<String> productTourListCell;
     private Button adderProductTourButton;
-    private Button showMapButton;
+    private Button switcherDetailsComponentButton;
 
     @Override
     public void setup() {
-        showMapButton = new Button("Map");
+        switcherDetailsComponentButton = new Button("Show Map");
         productTourListCell = new ListView<>();
         adderProductTourButton = new Button("Add Product Tour");
         searchTextField = new TextField();
@@ -28,7 +28,7 @@ public class AdderProdutTourComponent extends GridPane implements Component {
         addRow(0, searchTextField);
         addRow(1, productTourListCell);
         addRow(2, adderProductTourButton);
-        addRow(3, showMapButton);
+        addRow(3, switcherDetailsComponentButton);
     }
 
     public void add(Node... nodes) {
@@ -47,7 +47,7 @@ public class AdderProdutTourComponent extends GridPane implements Component {
         return productTourListCell;
     }
 
-    public Button getShowMapButton() {
-        return showMapButton;
+    public Button getSwitcherDetailsComponentButton() {
+        return switcherDetailsComponentButton;
     }
 }

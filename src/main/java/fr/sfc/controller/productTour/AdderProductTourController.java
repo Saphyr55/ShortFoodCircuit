@@ -21,6 +21,7 @@ public class AdderProductTourController implements Controller {
     @Inject
     private ProductTourRepository productTourRepository;
 
+
     @Override
     public void setup() {
 
@@ -32,9 +33,9 @@ public class AdderProductTourController implements Controller {
         component.getProductTourListView().prefWidthProperty().bind(component.widthProperty());
         component.getProductTourListView().prefHeightProperty().bind(component.heightProperty().subtract(100));
 
-        component.getShowMapButton().onActionProperty().addListener((observable, oldValue, newValue) -> {
+    }
 
-        });
+    public void switchBetweenMapAndConfig() {
 
     }
 

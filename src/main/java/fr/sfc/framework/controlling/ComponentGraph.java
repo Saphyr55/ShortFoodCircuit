@@ -8,10 +8,13 @@ public class ComponentGraph {
     private final Map<ComponentProperties, ComponentProperties> edges;
     private final Map<ComponentProperties, Set<ComponentProperties>> graph;
 
+    private final Map<String, ComponentProperties> pathForEachComponent;
+
     public ComponentGraph() {
         nodes = new LinkedHashSet<>();
         edges = new LinkedHashMap<>();
         graph = new LinkedHashMap<>();
+        pathForEachComponent = new HashMap<>();
     }
 
     public void newNode(ComponentProperties cp) {
@@ -19,32 +22,8 @@ public class ComponentGraph {
         graph.put(cp, new HashSet<>());
     }
 
-    Set<String> depthFirstTraversalByTag(String root) {
-        Set<String> visited = new LinkedHashSet<>();
-        Stack<String> stack = new Stack<>();
-        stack.push(root);
-        while (!stack.isEmpty()) {
-            String tag = stack.pop();
-            if (!visited.contains(tag)) {
-                visited.add(tag);
-                for (var cp : getByTag(tag)) {
-                    stack.push(cp.getTag());
-                }
-            }
-        }
-        return visited;
-    }
-
     public Set<ComponentProperties> get(ComponentProperties cp) {
         return graph.get(cp);
-    }
-
-    public Set<ComponentProperties> getByTag(String tag) {
-        Set<ComponentProperties> rt = new HashSet<>();
-        nodes.stream()
-                .filter(cp -> cp.getTag().equals(tag))
-                .forEach(rt::add);
-        return rt;
     }
 
     public void newEdge(ComponentProperties cp1, ComponentProperties cp2) {
@@ -69,5 +48,9 @@ public class ComponentGraph {
 
     public Map<ComponentProperties, Set<ComponentProperties>> getGraph() {
         return graph;
+    }
+
+    public Map<String, ComponentProperties> getPathForEachComponent() {
+        return pathForEachComponent;
     }
 }
