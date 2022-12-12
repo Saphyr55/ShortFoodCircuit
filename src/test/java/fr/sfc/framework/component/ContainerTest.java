@@ -6,4 +6,8 @@ import javafx.scene.layout.Pane;
 
 public class ContainerTest extends Pane implements Container {
 
+    @Override
+    public void setup() {
+
+    }
 }
