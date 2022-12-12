@@ -69,7 +69,7 @@ public class ContainerManager {
      *
      * @return set of components
      */
-    public Set<Container> getAllComponents() {
+    public Set<Container> getAllContainers() {
         return containers;
     }
 

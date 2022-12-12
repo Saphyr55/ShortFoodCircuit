@@ -26,7 +26,7 @@ public final class InjectionConfiguration {
 
     public void configure() {
         configureFor(repositoryManager.getAllRepository().iterator());
-        configureFor(containerManager.getAllComponents().iterator());
+        configureFor(containerManager.getAllContainers().iterator());
         configureFor(containerManager.getAllControllers().iterator());
     }
 

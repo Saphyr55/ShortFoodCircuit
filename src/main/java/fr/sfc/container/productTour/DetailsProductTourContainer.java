@@ -21,8 +21,6 @@ public class DetailsProductTourContainer extends Pane implements Container {
     @SetContainer
     private ConfigProductTourContainer configProductTourContainer;
 
-    private Parent middle;
-
     @Override
     public void setup() {
         mapContainer.prefWidthProperty().bind(widthProperty());
@@ -50,8 +48,5 @@ public class DetailsProductTourContainer extends Pane implements Container {
         return configProductTourContainer;
     }
 
-    public void setMiddle(Parent middle) {
-        this.middle = middle;
-    }
 
 }

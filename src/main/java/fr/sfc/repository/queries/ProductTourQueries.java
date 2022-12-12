@@ -14,7 +14,7 @@ public class ProductTourQueries {
     private Void findByVehicle;
 
     @MagicQuery(
-            request = "SELECT * FROM :table0 WHERE :id0 = ? AND :id1 = ?",
+            request = "SELECT * FROM :table0 WHERE :id0 = ?",
             tables = ProductTour.class,
             ids = Company.class
     ) private Void findByCompany;
