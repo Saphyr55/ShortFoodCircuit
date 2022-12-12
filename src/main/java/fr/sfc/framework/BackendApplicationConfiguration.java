@@ -19,7 +19,7 @@ public final class BackendApplicationConfiguration {
 
     private final DatabaseManager databaseManager;
     private final RepositoryManager repositoryManager;
-    private final ComponentManager componentManager;
+    private final ContainerManager containerManager;
     private final EntityClassManager entityClassManager;
     private InjectionConfiguration injectionConfiguration;
     private EntityManager entityManager;
@@ -32,13 +32,13 @@ public final class BackendApplicationConfiguration {
     private BackendApplicationConfiguration(final Parent root,
                                             final String currentDatabaseName,
                                             final DatabaseManager databaseManager,
-                                            final ComponentManager componentManager,
+                                            final ContainerManager containerManager,
                                             final RepositoryManager repositoryManager,
                                             final EntityClassLoader entityClassLoader) {
 
         this.root = root;
         this.repositoryManager = repositoryManager;
-        this.componentManager = componentManager;
+        this.containerManager = containerManager;
         entityClassLoader.load();
         this.entityClassManager = entityClassLoader.createClassManager();
         this.databaseManager = databaseManager;
@@ -63,8 +63,8 @@ public final class BackendApplicationConfiguration {
             entityManager = entityClassManager.createEntityManager(databaseManager.getDatabase(currentDatabaseName));
         }
         repositoryManager.detect();
-        componentManager.detect();
-        injectionConfiguration = new InjectionConfiguration(repositoryManager, entityManager, componentManager);
+        containerManager.detect();
+        injectionConfiguration = new InjectionConfiguration(repositoryManager, entityManager, containerManager);
         injectionConfiguration.configure();
     }
 
@@ -76,8 +76,8 @@ public final class BackendApplicationConfiguration {
      */
     public BackendApplication createApplication(final Stage stage, final String title, final int width, final int height) {
         BackendApplication.set(new BackendApplication(this, stage, root, title, width, height));
-        componentManager.getAllComponents().forEach(Component::setup);
-        componentManager.getAllControllers().forEach(Controller::setup);
+        containerManager.getAllComponents().forEach(Container::setup);
+        containerManager.getAllControllers().forEach(Controller::setup);
         return BackendApplication.getCurrentApplication();
     }
 
@@ -114,12 +114,12 @@ public final class BackendApplicationConfiguration {
     }
 
 
-    public ComponentFactory getComponentFactory() {
+    public ContainerFactory getComponentFactory() {
         return getComponentManager().getComponentFactory();
     }
 
-    public ComponentManager getComponentManager() {
-        return componentManager;
+    public ContainerManager getComponentManager() {
+        return containerManager;
     }
 
     public final static class File {
@@ -138,7 +138,7 @@ public final class BackendApplicationConfiguration {
     public final static class Builder {
 
         private DatabaseManager databaseManager;
-        private ComponentManager componentManager;
+        private ContainerManager containerManager;
         private final RepositoryManager repositoryManager;
         private final EntityClassLoader entityClassLoader;
         private Parent root;
@@ -180,7 +180,7 @@ public final class BackendApplicationConfiguration {
 
         public Builder withRoot(final Parent root) {
             this.root = root;
-            this.componentManager = new ComponentLoader(root).createComponentManager();
+            this.containerManager = new ContainerLoader(root).createComponentManager();
             return this;
         }
 
@@ -192,7 +192,7 @@ public final class BackendApplicationConfiguration {
         public BackendApplicationConfiguration build() {
             return new BackendApplicationConfiguration(
                     root, currentDatabaseName,
-                    databaseManager, componentManager,
+                    databaseManager, containerManager,
                     repositoryManager, entityClassLoader);
         }
 

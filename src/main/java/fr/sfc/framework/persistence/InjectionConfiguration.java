@@ -1,6 +1,6 @@
 package fr.sfc.framework.persistence;
 
-import fr.sfc.framework.controlling.ComponentManager;
+import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.database.QueryFactory;
 import fr.sfc.framework.persistence.annotation.Inject;
 
@@ -13,26 +13,26 @@ public final class InjectionConfiguration {
 
     private final EntityManager entityManager;
     private final RepositoryManager repositoryManager;
-    private final ComponentManager componentManager;
+    private final ContainerManager containerManager;
 
     public InjectionConfiguration(final RepositoryManager repositoryManager,
                                   final EntityManager entityManager,
-                                  final ComponentManager componentManager) {
+                                  final ContainerManager containerManager) {
 
         this.entityManager = entityManager;
         this.repositoryManager = repositoryManager;
-        this.componentManager = componentManager;
+        this.containerManager = containerManager;
     }
 
     public void configure() {
         configureFor(repositoryManager.getAllRepository().iterator());
-        configureFor(componentManager.getAllComponents().iterator());
-        configureFor(componentManager.getAllControllers().iterator());
+        configureFor(containerManager.getAllComponents().iterator());
+        configureFor(containerManager.getAllControllers().iterator());
     }
 
     private void setValueFieldToAll(final Field field, final Object instance) {
 
-        injectValueFieldForObject(ComponentManager.class, field, instance, componentManager);
+        injectValueFieldForObject(ContainerManager.class, field, instance, containerManager);
 
         injectValueFieldForObject(EntityManager.class, field, instance, entityManager);
 

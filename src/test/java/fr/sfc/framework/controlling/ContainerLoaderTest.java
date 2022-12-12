@@ -9,19 +9,19 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ComponentLoaderTest {
+class ContainerLoaderTest {
 
-    ComponentLoader componentLoader;
+    ContainerLoader containerLoader;
 
     @BeforeEach
     void setUp() throws IOException {
-        componentLoader = new ComponentLoader(
+        containerLoader = new ContainerLoader(
                 FXMLLoader.load(Resources.getResource("/fxml/root.fxml")));
     }
 
     @Test
     void containsNode() {
-        assertFalse(componentLoader.getNodes().isEmpty());
+        assertFalse(containerLoader.getNodes().isEmpty());
     }
 
 

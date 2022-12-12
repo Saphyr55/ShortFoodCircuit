@@ -1,33 +1,33 @@
-package fr.sfc.component.productTour;
+package fr.sfc.container.productTour;
 
 import fr.sfc.controller.productTour.DetailsProductTourController;
 import fr.sfc.framework.common.Tag;
-import fr.sfc.framework.controlling.Component;
+import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
-import fr.sfc.framework.controlling.annotation.SetComponent;
+import fr.sfc.framework.controlling.annotation.SetContainer;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 
-public class DetailsProductTourComponent extends Pane implements Component {
+public class DetailsProductTourContainer extends Pane implements Container {
 
     @AutoController
     private DetailsProductTourController controller;
-
+    
     @Tag(value = "map")
-    @SetComponent
-    private MapComponent mapComponent;
+    @SetContainer
+    private MapContainer mapContainer;
 
     @Tag(value = "configComponent")
-    @SetComponent
-    private ConfigProductTourComponent configProductTourComponent;
+    @SetContainer
+    private ConfigProductTourContainer configProductTourContainer;
 
     private Parent middle;
 
     @Override
     public void setup() {
-        mapComponent.prefWidthProperty().bind(widthProperty());
-        mapComponent.prefHeightProperty().bind(heightProperty());
-        getChildren().setAll(configProductTourComponent);
+        mapContainer.prefWidthProperty().bind(widthProperty());
+        mapContainer.prefHeightProperty().bind(heightProperty());
+        getChildren().setAll(configProductTourContainer);
     }
 
     public void setFor(Parent parent) {
@@ -42,12 +42,12 @@ public class DetailsProductTourComponent extends Pane implements Component {
         this.controller = controller;
     }
 
-    public MapComponent getMapComponent() {
-        return mapComponent;
+    public MapContainer getMapContainer() {
+        return mapContainer;
     }
 
-    public ConfigProductTourComponent getConfigProductTourComponent() {
-        return configProductTourComponent;
+    public ConfigProductTourContainer getConfigProductTourContainer() {
+        return configProductTourContainer;
     }
 
     public void setMiddle(Parent middle) {

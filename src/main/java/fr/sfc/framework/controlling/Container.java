@@ -6,7 +6,7 @@ import javafx.fxml.FXMLLoader;
  * To create component, we need to implement this interface
  * It permit to be detected through the ComponentClassLoader
  */
-public interface Component {
+public interface Container {
 
     /**
      * At override if we use fxml loader
@@ -18,6 +18,6 @@ public interface Component {
         return null;
     }
 
-    default void setup() { }
+    void setup();
 
 }
