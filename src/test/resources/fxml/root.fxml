@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import fr.sfc.framework.component.ComponentTest?>
+<?import fr.sfc.framework.container.ContainerTest?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <Pane xmlns="http://javafx.com/javafx">
     <AnchorPane>
         <HBox>
-            <ComponentTest/>
+            <ContainerTest/>
         </HBox>
     </AnchorPane>
 </Pane>

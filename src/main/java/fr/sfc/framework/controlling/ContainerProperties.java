@@ -1,7 +1,7 @@
 package fr.sfc.framework.controlling;
 
-public record ComponentProperties(
-        Component self,
+public record ContainerProperties(
+        Container self,
         String tag
 ) {
 

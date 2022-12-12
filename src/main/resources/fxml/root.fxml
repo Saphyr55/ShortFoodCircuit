@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import fr.sfc.component.MainComponent?>
+<?import fr.sfc.container.MainContainer?>
 <?import javafx.scene.layout.Pane?>
+<?import fr.sfc.container.admin.MainAdminContainer?>
 <Pane xmlns="http://javafx.com/javafx">
-    <MainComponent/>
+    <MainAdminContainer/>
 </Pane>

@@ -1,22 +1,21 @@
 package fr.sfc.controller.productTour;
 
-import fr.sfc.component.productTour.AdderProdutTourComponent;
-import fr.sfc.framework.controlling.ComponentManager;
-import fr.sfc.framework.controlling.annotation.AutoComponent;
+import fr.sfc.container.productTour.AdderProdutTourContainer;
+import fr.sfc.container.productTour.DetailsProductTourContainer;
+import fr.sfc.framework.controlling.ContainerManager;
+import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.controlling.Controller;
-import fr.sfc.component.productTour.DetailsProductTourComponent;
 import fr.sfc.framework.persistence.annotation.Inject;
 
 public class DetailsProductTourController implements Controller {
 
-    @AutoComponent
-    private DetailsProductTourComponent self;
+    @AutoContainer
+    private DetailsProductTourContainer self;
 
     private State state = State.Config;
 
     @Inject
-    private ComponentManager componentManager;
-
+    private ContainerManager containerManager;
 
     @Override
     public void setup() {
@@ -24,17 +23,19 @@ public class DetailsProductTourController implements Controller {
     }
 
     public void switchBetweenMapAndConfig() {
-        AdderProdutTourComponent adder = componentManager.getComponent("root.adderProductTour");
+
+        AdderProdutTourContainer adder = containerManager.getContainer("root.adderProductTour");
+
         adder.getSwitcherDetailsComponentButton().setOnAction(event -> {
             switch (state) {
                 case Config -> {
                     adder.getSwitcherDetailsComponentButton().setText("Show Config");
-                    self.setFor(self.getMapComponent());
+                    self.setFor(self.getMapContainer());
                     state = State.Map;
                 }
                 case Map -> {
                     adder.getSwitcherDetailsComponentButton().setText("Show Map");
-                    self.setFor(self.getConfigProductTourComponent());
+                    self.setFor(self.getConfigProductTourContainer());
                     state = State.Config;
                 }
             }

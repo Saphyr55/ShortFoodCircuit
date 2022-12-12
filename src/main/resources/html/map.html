@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base target="_top">
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+          crossorigin=""/>
+
+    <style>
+        html,body,#map {
+            height:100%;
+            margin:0;
+            padding:0;
+        }
+
+        #map {
+            position:relative;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+</body>
+<script type="text/javascript"
+        src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+        crossorigin=""></script>
+<script type="text/javascript">
+
+
+    function createMap(latitude, longitude) {
+
+        const $map = L.map('map').setView([latitude, longitude], 13);
+
+        const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo($map);
+
+        const marker = L.marker([latitude, longitude])
+            .addTo($map)
+            .bindPopup('<b>Hello world!</b><br />I am a popup.')
+            .openPopup()
+
+        const popup = L.popup()
+            .setLatLng([latitude, longitude])
+            .setContent('I am a standalone popup.')
+            .openOn($map);
+
+        function onMapClick(e) {
+            popup
+                .setLatLng(e.latlng)
+                .setContent(`You clicked the map at ${e.latlng.toString()}`)
+                .openOn($map);
+        }
+
+        $map.on('click', onMapClick);
+
+        return $map;
+    }
+</script>
+</html>

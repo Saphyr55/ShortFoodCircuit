@@ -5,20 +5,20 @@ import javafx.scene.Parent;
 
 import java.util.List;
 
-public final class ComponentLoader {
+public final class ContainerLoader {
 
     private final List<Node> nodes;
 
-    public ComponentLoader(final Parent parent) {
+    public ContainerLoader(final Parent parent) {
         this(ParkourNodes.getAllNodes(parent));
     }
 
-    private ComponentLoader(final List<Node> nodes) {
+    private ContainerLoader(final List<Node> nodes) {
         this.nodes = nodes;
     }
 
-    public ComponentManager createComponentManager() {
-        return new ComponentManager(this);
+    public ContainerManager createContainerManager() {
+        return new ContainerManager(this);
     }
 
     public List<Node> getNodes() {
