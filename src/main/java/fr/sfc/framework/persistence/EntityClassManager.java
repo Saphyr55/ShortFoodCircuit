@@ -25,7 +25,7 @@ public final class EntityClassManager {
 
         if (classEntities.containsKey(aClass))
             return classEntities.get(aClass);
-
+        
         throw new EntityNotFoundException(aClass + " was not found");
     }
 
@@ -46,8 +46,7 @@ public final class EntityClassManager {
 
     public <T> String getIdName(Class<T> aClass) {
 
-        var map = getFieldsFromEntity(aClass);
-        var list = map.entrySet().stream()
+        var list = getFieldsFromEntity(aClass).entrySet().stream()
                 .filter(stringFieldEntry -> stringFieldEntry.getValue().isAnnotationPresent(Id.class))
                 .toList();
 

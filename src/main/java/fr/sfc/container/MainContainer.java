@@ -4,7 +4,6 @@ import fr.sfc.container.productTour.AdderProdutTourContainer;
 import fr.sfc.container.productTour.DetailsProductTourContainer;
 import fr.sfc.container.productTour.MapContainer;
 import fr.sfc.controller.MainController;
-import fr.sfc.framework.common.Tag;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.annotation.AutoController;
@@ -19,11 +18,9 @@ public class MainContainer extends GridPane implements Container {
     private MainController mainController;
 
     @SetContainer
-    @Tag(value = "detailsProductTour")
     private DetailsProductTourContainer detailsProductTour;
-    
+
     @SetContainer
-    @Tag(value = "adderProductTour")
     private AdderProdutTourContainer adderProductTour;
 
     @Inject

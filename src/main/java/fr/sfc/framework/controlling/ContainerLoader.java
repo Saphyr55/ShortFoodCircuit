@@ -17,7 +17,7 @@ public final class ContainerLoader {
         this.nodes = nodes;
     }
 
-    public ContainerManager createComponentManager() {
+    public ContainerManager createContainerManager() {
         return new ContainerManager(this);
     }
 

@@ -180,7 +180,7 @@ public final class BackendApplicationConfiguration {
 
         public Builder withRoot(final Parent root) {
             this.root = root;
-            this.containerManager = new ContainerLoader(root).createComponentManager();
+            this.containerManager = new ContainerLoader(root).createContainerManager();
             return this;
         }
 

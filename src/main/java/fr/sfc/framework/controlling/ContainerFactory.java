@@ -55,8 +55,6 @@ public class ContainerFactory {
         try {
             field.setAccessible(true);
 
-            System.out.println(field);
-
             final var controller = field.getType().getConstructor().newInstance();
 
             Arrays.stream(controller.getClass().getDeclaredFields())

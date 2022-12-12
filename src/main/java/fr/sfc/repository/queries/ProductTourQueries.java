@@ -5,7 +5,7 @@ import fr.sfc.entity.ProductTour;
 import fr.sfc.entity.Vehicle;
 import fr.sfc.framework.database.annotation.MagicQuery;
 
-public class ProductTourQueries {
+public final class ProductTourQueries {
 
     @MagicQuery(
             request = "SELECT * FROM :table0 WHERE :id0 = ?",

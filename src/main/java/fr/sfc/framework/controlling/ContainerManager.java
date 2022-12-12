@@ -43,6 +43,11 @@ public class ContainerManager {
                 .filter(node -> node instanceof Container)
                 .forEach(containerFactory::setup);
 
+        containerLoader.getNodes().stream()
+                .filter(node -> node instanceof Container)
+                .findFirst().ifPresent(c -> containerGraph.getPathForEachComponent()
+                        .put("root", new ContainerProperties((Container) c, "root")));
+
         containerGraph.getNodes().forEach(cp -> containers.add(cp.self()));
         containerControllerMap.forEach((aClass, c) -> controllers.add(c));
     }
