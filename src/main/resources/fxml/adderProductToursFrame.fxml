@@ -1,34 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.sfc.controller.productTour.ProductToursFrameController">
+
+<VBox fx:id="vBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.sfc.controller.productTour.ProductToursFrameController">
     <children>
-        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+        <AnchorPane fx:id="anchorPane">
             <children>
-                <TextField fx:id="tFName" layoutX="320.0" layoutY="14.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tFWeight" layoutX="320.0" layoutY="116.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tFIdCompany" layoutX="319.0" layoutY="150.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tfSIRETCompany" layoutX="319.0" layoutY="184.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tFVehicleId" layoutX="319.0" layoutY="218.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tFMatriculation" layoutX="319.0" layoutY="252.0" prefHeight="34.0" prefWidth="298.0" />
-                <Label layoutX="20.0" layoutY="14.0" prefHeight="34.0" prefWidth="298.0" text="name" />
-                <Label layoutX="20.0" layoutY="48.0" prefHeight="34.0" prefWidth="298.0" text="Start date" />
-                <Label layoutX="20.0" layoutY="82.0" prefHeight="34.0" prefWidth="298.0" text="End date" />
-                <Label layoutX="20.0" layoutY="116.0" prefHeight="34.0" prefWidth="298.0" text="weight" />
-                <Label layoutX="20.0" layoutY="150.0" prefHeight="34.0" prefWidth="298.0" text="id company" />
-                <Label layoutX="20.0" layoutY="184.0" prefHeight="34.0" prefWidth="298.0" text="SIRET Company" />
-                <Label layoutX="20.0" layoutY="218.0" prefHeight="34.0" prefWidth="298.0" text="Vehicle id" />
-                <Label layoutX="20.0" layoutY="252.0" prefHeight="34.0" prefWidth="298.0" text="Matriculation" />
-                <Button layoutX="20.0" layoutY="286.0" onAction="#EventButtonAddProductToursFinishAction" prefHeight="34.0" prefWidth="100.0" text="Finish" />
-            <DatePicker fx:id="startDate" layoutX="320.0" layoutY="48.0" prefHeight="34.0" prefWidth="298.0" />
-            <DatePicker fx:id="endDate" layoutX="320.0" layoutY="82.0" prefHeight="34.0" prefWidth="298.0" />
+                <TextField fx:id="tFName" layoutX="320.0" layoutY="14.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="298.0">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </TextField>
+                <TextField fx:id="tFWeight" layoutX="320.0" layoutY="116.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="298.0">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </TextField>
+                <TextField fx:id="tfSIRETCompany" layoutX="320.0" layoutY="150.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="298.0">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </TextField>
+                <TextField fx:id="tFMatriculation" layoutX="320.0" layoutY="182.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="298.0">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </TextField>
+                <Label layoutX="20.0" layoutY="14.0" prefHeight="34.0" prefWidth="298.0" text="name">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+                <Label layoutX="20.0" layoutY="48.0" prefHeight="34.0" prefWidth="298.0" text="Start date">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+                <Label layoutX="20.0" layoutY="82.0" prefHeight="34.0" prefWidth="298.0" text="End date">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+                <Label layoutX="20.0" layoutY="116.0" prefHeight="34.0" prefWidth="298.0" text="weight">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+                <Label layoutX="20.0" layoutY="150.0" prefHeight="34.0" prefWidth="298.0" text="SIRET Company">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+                <Label layoutX="20.0" layoutY="182.0" prefHeight="34.0" prefWidth="298.0" text="Matriculation">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+                <Button layoutX="20.0" layoutY="216.0" onAction="#EventButtonAddProductToursFinishAction" prefHeight="34.0" prefWidth="100.0" text="Finish">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+            <DatePicker fx:id="startDate" layoutX="320.0" layoutY="48.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="298.0" />
+            <DatePicker fx:id="endDate" layoutX="320.0" layoutY="82.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="298.0" />
             </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
         </AnchorPane>
     </children>
 </VBox>

@@ -22,13 +22,14 @@ public class ProductTourFrame extends GridPane implements Container {
 
     private final FXMLLoader loader = new FXMLLoader();
 
-    private Stage frame = new Stage();
+    private  Stage frame = new Stage();
     private Scene scene;
 
     public ProductTourFrame() {
         try {
             Parent root = loader.load(Resources.getResource("/fxml/adderProductToursFrame.fxml"));
             scene = new Scene(root);
+            frame.setResizable(false);
             frame.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();

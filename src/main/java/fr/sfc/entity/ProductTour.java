@@ -49,8 +49,6 @@ public class ProductTour {
                        String name,
                        Float weight,
                        Integer idCompany,
-                       Integer SIRET,
-                       Integer idVehicle,
                        String matriculation) {
         this.startDateTime = startDate;
         this.endDateTime = endDateTime;
