@@ -16,9 +16,8 @@ import java.io.IOException;
 @ContainerFXML
 public class ProductTourFrame extends GridPane implements Container {
 
-
     @AutoController
-    private ProductToursFrameController control;
+    private ProductToursFrameController control = new ProductToursFrameController();
 
     private final FXMLLoader loader = new FXMLLoader();
 
@@ -29,7 +28,7 @@ public class ProductTourFrame extends GridPane implements Container {
         try {
             Parent root = loader.load(Resources.getResource("/fxml/adderProductToursFrame.fxml"));
             scene = new Scene(root);
-            frame.setResizable(false);
+            //frame.setResizable(false);
             frame.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
