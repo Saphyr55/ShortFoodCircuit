@@ -3,6 +3,7 @@ package fr.sfc.container.productTour;
 import fr.sfc.controller.productTour.AdderProductTourController;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
+import fr.sfc.framework.controlling.annotation.SetContainer;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -13,10 +14,15 @@ public class AdderProdutTourContainer extends GridPane implements Container {
 
     @AutoController
     private AdderProductTourController controller;
+    @SetContainer
+    private ProductTourFrame productTourFrame;
+
     private TextField searchTextField;
     private ListView<String> productTourListCell;
     private Button adderProductTourButton;
     private Button switcherDetailsComponentButton;
+
+
 
     @Override
     public void setup() {
@@ -33,6 +39,10 @@ public class AdderProdutTourContainer extends GridPane implements Container {
 
     public void add(Node... nodes) {
         getChildren().addAll(nodes);
+    }
+
+    public ProductTourFrame getProductTourFrame() {
+        return productTourFrame;
     }
 
     public TextField getSearchTextField() {
