@@ -46,7 +46,7 @@ public class ContainerFactory {
         }
     }
 
-    private <T extends Container> void setupControllerForComponent(final T container) {
+    private void setupControllerForComponent(final Container container) {
         Arrays.stream(container.getClass().getDeclaredFields())
                 .filter(field -> field.isAnnotationPresent(AutoController.class))
                 .forEach(field -> setFieldControllerForComponent(field, container));
@@ -55,7 +55,8 @@ public class ContainerFactory {
     private void setFieldControllerForComponent(final Field field, final Container container) {
         try {
             field.setAccessible(true);
-            final Controller controller;
+
+            Controller controller;
             if (container.getClass().isAnnotationPresent(ContainerFXML.class)) {
                 controller = container.getLoader().getController();
             }
@@ -65,6 +66,7 @@ public class ContainerFactory {
             Arrays.stream(controller.getClass().getDeclaredFields())
                     .filter(fieldController -> fieldController.isAnnotationPresent(AutoContainer.class))
                     .forEach(fieldController -> setFieldComponentForController(fieldController, controller, container));
+
             containerManager.getComponentControllerMap().put(container, controller);
 
             field.set(container, controller);

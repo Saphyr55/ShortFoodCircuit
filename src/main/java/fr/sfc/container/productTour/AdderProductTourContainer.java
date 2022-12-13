@@ -10,10 +10,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-public class AdderProdutTourContainer extends GridPane implements Container {
+public class AdderProductTourContainer extends GridPane implements Container {
 
     @AutoController
     private AdderProductTourController controller;
+
     @SetContainer
     private ProductTourFrame productTourFrame;
 

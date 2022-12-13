@@ -10,19 +10,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.stream.Collectors;
 
 public class ProductToursFrameController implements Controller {
+
     @FXML
-    private VBox vBox;
+    private VBox containerLabel;
     @FXML
-    private AnchorPane anchorPane;
+    private VBox containerTextField;
     @FXML
     private TextField tFName;
     @FXML
@@ -48,35 +46,37 @@ public class ProductToursFrameController implements Controller {
 
     @Override
     public void setup() {
-        System.out.println("test1");
-        final var productTours = productTourRepository.findAll();
-        System.out.println("test2");
-        anchorPane.prefHeightProperty().bind(vBox.heightProperty());
-        anchorPane.prefWidthProperty().bind(vBox.widthProperty());
-        tFName.prefWidthProperty().bind(anchorPane.widthProperty().divide(2));
-        tfSIRETCompany.prefWidthProperty().bind(anchorPane.widthProperty().divide(2));
-        tFWeight.prefWidthProperty().bind(anchorPane.widthProperty().divide(2));
-        tFMatriculation.prefWidthProperty().bind(anchorPane.widthProperty().divide(2));
-        startDate.prefWidthProperty().bind(anchorPane.widthProperty().divide(2));
-        endDate.prefWidthProperty().bind(anchorPane.widthProperty().divide(2));
-        buttonFinish.prefWidthProperty().bind(anchorPane.widthProperty().divide(2));
+        // final var productTours = productTourRepository.findAll(); // Pas besoin pour le moment
 
+        // Bindings container labels
+        containerLabel.prefWidthProperty().bind(container.widthProperty().divide(2));
+        containerLabel.prefHeightProperty().bind(container.heightProperty());
 
+        // Bindings container text fields
+        containerTextField.prefWidthProperty().bind(container.widthProperty().divide(2));
+        containerTextField.prefHeightProperty().bind(container.heightProperty());
 
+        // Bindings text fields and date pickers
+        tFName.prefWidthProperty().bind(containerTextField.widthProperty());
+        tfSIRETCompany.prefWidthProperty().bind(containerTextField.widthProperty());
+        tFWeight.prefWidthProperty().bind(containerTextField.widthProperty());
+        tFMatriculation.prefWidthProperty().bind(containerTextField.widthProperty());
+        startDate.prefWidthProperty().bind(containerLabel.widthProperty());
+        endDate.prefWidthProperty().bind(containerLabel.widthProperty());
+
+        // TODO: A bind correctement en fonction de ou te veux le placer
+        buttonFinish.prefWidthProperty().bind(containerLabel.widthProperty());
     }
 
     @FXML
     public void EventButtonAddProductToursFinishAction() {
-        LocalDateTime localStartDate = this.startDate.getValue().atStartOfDay();
-        LocalDateTime localEndDate = this.endDate.getValue().atStartOfDay();
+        LocalDateTime localStartDate = startDate.getValue().atStartOfDay();
+        LocalDateTime localEndDate = endDate.getValue().atStartOfDay();
         Float weight = Float.valueOf(tFWeight.getText());
-        Integer SIRET = Integer.parseInt(this.tfSIRETCompany.getText());
-        ProductTour newprodTour = new ProductTour(localStartDate,
-                localEndDate,
-                this.tFName.getText(),
-                weight,
-                SIRET,
-                this.tFMatriculation.getText());
+        Integer SIRET = Integer.parseInt(tfSIRETCompany.getText());
+        ProductTour newprodTour = new ProductTour(
+                localStartDate, localEndDate, tFName.getText(),
+                weight, SIRET, tFMatriculation.getText());
         productTourRepository.insert(newprodTour);
 
     }
