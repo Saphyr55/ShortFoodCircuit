@@ -63,7 +63,8 @@ public class ProductToursFrameController implements Controller {
                 SIRET,
                 idVehicle,
                 this.tFMatriculation.getText());
-        System.out.println(newprodTour.toString());
+        productTourRepository.insert(newprodTour);
+
     }
 
 }
