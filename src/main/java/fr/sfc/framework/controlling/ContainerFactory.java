@@ -4,6 +4,7 @@ import fr.sfc.framework.common.Tag;
 import fr.sfc.framework.common.TagManager;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.controlling.annotation.AutoController;
+import fr.sfc.framework.controlling.annotation.ContainerFXML;
 import fr.sfc.framework.controlling.annotation.SetContainer;
 import javafx.scene.Node;
 
@@ -45,22 +46,26 @@ public class ContainerFactory {
         }
     }
 
-    private <T extends Container> void setupControllerForComponent(final T component) {
-        Arrays.stream(component.getClass().getDeclaredFields())
+    private <T extends Container> void setupControllerForComponent(final T container) {
+        Arrays.stream(container.getClass().getDeclaredFields())
                 .filter(field -> field.isAnnotationPresent(AutoController.class))
-                .forEach(field -> setFieldControllerForComponent(field, component));
+                .forEach(field -> setFieldControllerForComponent(field, container));
     }
 
     private void setFieldControllerForComponent(final Field field, final Container container) {
         try {
             field.setAccessible(true);
-
-            final var controller = field.getType().getConstructor().newInstance();
-
+            final Controller controller;
+            if (container.getClass().isAnnotationPresent(ContainerFXML.class)) {
+                controller = container.getLoader().getController();
+            }
+            else {
+                controller = (Controller) field.getType().getConstructor().newInstance();
+            }
             Arrays.stream(controller.getClass().getDeclaredFields())
                     .filter(fieldController -> fieldController.isAnnotationPresent(AutoContainer.class))
                     .forEach(fieldController -> setFieldComponentForController(fieldController, controller, container));
-            containerManager.getComponentControllerMap().put(container, (Controller) controller);
+            containerManager.getComponentControllerMap().put(container, controller);
 
             field.set(container, controller);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
