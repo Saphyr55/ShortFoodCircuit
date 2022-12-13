@@ -22,19 +22,18 @@ public class MainAdminContainer extends GridPane implements Container {
     @SetContainer
     private SpecificsProducerTextContainer specificsProducerText;
 
+    private final HBox detailsGridPane = new HBox();
     private Pane parent;
 
     @Override
     public void setup() {
         parent = (Pane) getParent();
-        HBox detailsGridPane = new HBox();
-        responsive(detailsGridPane);
-
+        responsive();
         addColumn(0, listProducer);
         addColumn(1, detailsGridPane);
     }
 
-    private void responsive(HBox detailsGridPane) {
+    private void responsive() {
         detailsGridPane.getChildren().add(specificsProducerText);
         detailsGridPane.getChildren().add(specificsProducer);
 
