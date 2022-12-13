@@ -44,9 +44,6 @@ public class MainContainer extends GridPane implements Container {
 
         addColumn(0, adderProductTour);
         addColumn(1, detailsProductTour);
-
-        MapContainer mapContainer = containerManager.getContainer("root.detailsProductTour.map");
-
     }
 
     public DetailsProductTourContainer getDetailsProductTour() {

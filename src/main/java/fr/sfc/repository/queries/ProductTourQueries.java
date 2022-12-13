@@ -20,5 +20,10 @@ public final class ProductTourQueries {
     ) private Void findByCompany;
 
 
+    @MagicQuery(
+            request = "SELECT Count(*) FROM :table0 WHERE :id0 = ? ",
+            tables = ProductTour.class,
+            ids = Company.class
+    ) private Void countProductTourByCompany;
 
 }

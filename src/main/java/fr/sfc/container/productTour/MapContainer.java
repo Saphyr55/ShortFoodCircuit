@@ -25,10 +25,6 @@ public class MapContainer extends HBox implements Container {
         wwMap.prefWidthProperty().bind(widthProperty());
         wwMap.prefHeightProperty().bind(heightProperty());
         getChildren().add(wwMap);
-
-
-        MainContainer mainComponent = containerManager.getContainer("");
-
     }
 
     public WebView getWwMap() {

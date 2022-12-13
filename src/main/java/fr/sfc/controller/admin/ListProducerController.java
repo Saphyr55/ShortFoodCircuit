@@ -25,7 +25,7 @@ public class ListProducerController implements Controller {
     private ContainerManager containerManager;
 
     private List<Producer> producers;
-    private Producer currentProducerSelected;
+    private Producer producerSelected;
 
     @Override
     public void setup() {
@@ -37,14 +37,13 @@ public class ListProducerController implements Controller {
 
         // Rempli les données du producteur en cliquant sur un element de la liste
         container.getProducerListCell().getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
-            currentProducerSelected = producers.get(newValue.intValue());
+            producerSelected = producers.get(newValue.intValue());
             MainAdminContainer mainAdminContainer = containerManager.getContainer("root");
-            mainAdminContainer.getController().setCurrentProducer(currentProducerSelected);
+            mainAdminContainer.getController().setCurrentProducer(producerSelected);
             mainAdminContainer.getController().fillData();
         });
-
-
     }
+
 
     private String formatProducerToString(Producer producer) {
         return producer.getLastname().toUpperCase() + " " + producer.getFirstname() + " (SIRET : " + producer.getSIRET() + ")";

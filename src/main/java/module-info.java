@@ -22,7 +22,7 @@ module fr.sfc {
 
     requires ini4j;
     requires log4j;
-    requires mariadb.java.client;
+    requires org.mariadb.jdbc;
     requires commons.math3;
     requires lucene.core;
     requires org.yaml.snakeyaml;
@@ -31,6 +31,7 @@ module fr.sfc {
     requires com.google.errorprone.annotations;
     requires com.google.gson;
     requires com.google.common;
+    requires libphonenumber;
 
     opens fr.sfc;
     opens fr.sfc.controller;

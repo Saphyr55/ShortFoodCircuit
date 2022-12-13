@@ -81,4 +81,18 @@ public class ProductTourRepository implements Repository<ProductTour> {
         return null;
     }
 
+    public Integer countProductTourByCompany(Company company) {
+
+        try (Query query = queryFactory.createMagicQuery(
+                "countProductTourByCompany",
+                ProductTourQueries.class,
+                company.getId())) {
+            ResultSet rs = query.executeQuery();
+            rs.next();
+            return  rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

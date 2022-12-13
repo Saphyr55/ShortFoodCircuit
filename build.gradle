@@ -20,7 +20,7 @@ application {
 ext {
     junitVersion = '5.9.0'
     autoService = '1.0.1'
-    gsonVersion = '2.9.1'
+    gsonVersion = '2.10'
 }
 
 javafx {
@@ -35,10 +35,10 @@ dependencies {
 
     implementation "com.google.code.gson:gson:$gsonVersion"
     implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'com.googlecode.libphonenumber:libphonenumber:8.13.1'
     implementation "com.google.auto.service:auto-service:${autoService}"
     implementation 'org.apache.commons:commons-math3:3.6.1'
-
-    implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.6'
     implementation 'org.apache.commons:commons-math3:3.6.1'
     implementation 'org.apache.lucene:lucene-spatial:8.4.1'
     implementation 'org.ini4j:ini4j:0.5.4'

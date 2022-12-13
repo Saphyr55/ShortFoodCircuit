@@ -17,7 +17,7 @@ public class DetailsProductTourContainer extends Pane implements Container {
     @SetContainer
     private MapContainer mapContainer;
 
-    @Tag(value = "configComponent")
+    @Tag(value = "config")
     @SetContainer
     private ConfigProductTourContainer configProductTourContainer;
 
