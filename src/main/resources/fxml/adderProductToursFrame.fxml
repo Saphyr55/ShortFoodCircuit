@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,8 +12,6 @@
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
             <children>
                 <TextField fx:id="tFName" layoutX="320.0" layoutY="14.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tFStartDate" layoutX="320.0" layoutY="48.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tFEndDate" layoutX="320.0" layoutY="82.0" prefHeight="34.0" prefWidth="298.0" />
                 <TextField fx:id="tFWeight" layoutX="320.0" layoutY="116.0" prefHeight="34.0" prefWidth="298.0" />
                 <TextField fx:id="tFIdCompany" layoutX="319.0" layoutY="150.0" prefHeight="34.0" prefWidth="298.0" />
                 <TextField fx:id="tfSIRETCompany" layoutX="319.0" layoutY="184.0" prefHeight="34.0" prefWidth="298.0" />
@@ -27,6 +26,8 @@
                 <Label layoutX="20.0" layoutY="218.0" prefHeight="34.0" prefWidth="298.0" text="Vehicle id" />
                 <Label layoutX="20.0" layoutY="252.0" prefHeight="34.0" prefWidth="298.0" text="Matriculation" />
                 <Button layoutX="20.0" layoutY="286.0" onAction="#EventButtonAddProductToursFinishAction" prefHeight="34.0" prefWidth="100.0" text="Finish" />
+            <DatePicker fx:id="startDate" layoutX="320.0" layoutY="48.0" prefHeight="34.0" prefWidth="298.0" />
+            <DatePicker fx:id="endDate" layoutX="320.0" layoutY="82.0" prefHeight="34.0" prefWidth="298.0" />
             </children>
         </AnchorPane>
     </children>
