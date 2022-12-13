@@ -10,6 +10,7 @@ import fr.sfc.framework.persistence.Repository;
 import fr.sfc.framework.persistence.annotation.Inject;
 import fr.sfc.repository.queries.ProductTourQueries;
 
+import java.sql.ResultSet;
 import java.util.Set;
 
 public class ProductTourRepository implements Repository<ProductTour> {
@@ -52,8 +53,12 @@ public class ProductTourRepository implements Repository<ProductTour> {
 
     public Set<ProductTour> findByVehicle(Vehicle vehicle) {
 
-        try (Query query = queryFactory.createMagicQuery(
-                "findByVehicle", ProductTourQueries.class, vehicle.getId())) {
+        try (Query query =
+                     queryFactory.createMagicQuery(
+                             "findByVehicle",
+                             ProductTourQueries.class,
+                             vehicle.getId()
+                     )) {
 
             return entityManager.wrapResultSetToEntities(ProductTour.class, query.executeQuery());
         } catch (Exception e) {
@@ -76,4 +81,18 @@ public class ProductTourRepository implements Repository<ProductTour> {
         return null;
     }
 
+    public Integer countProductTourByCompany(Company company) {
+
+        try (Query query = queryFactory.createMagicQuery(
+                "countProductTourByCompany",
+                ProductTourQueries.class,
+                company.getId())) {
+            ResultSet rs = query.executeQuery();
+            rs.next();
+            return  rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

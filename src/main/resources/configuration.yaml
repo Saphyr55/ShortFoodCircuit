@@ -26,5 +26,4 @@ config :
     properties : db.ini
     databases :
       - sfc
-      - test
     actual : sfc

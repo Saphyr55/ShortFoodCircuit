@@ -1,5 +1,7 @@
 package fr.sfc.framework.database.annotation;
 
+import fr.sfc.framework.persistence.DefaultEntity;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -11,9 +13,9 @@ public @interface MagicQuery {
 
     String request();
 
-    Class<?>[] tables() default Class.class;
+    Class<?>[] tables() default DefaultEntity.class;
 
-    Class<?>[] ids() default Class.class;
+    Class<?>[] ids() default DefaultEntity.class;
 
 }
 

@@ -14,6 +14,6 @@ public interface Controller extends Initializable {
     @Override
     default void initialize(URL location, ResourceBundle resources) { }
 
-    default void setup() { }
+    void setup();
 
 }

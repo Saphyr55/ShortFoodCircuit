@@ -10,8 +10,11 @@ public class Producer {
     @Column(name = "idProducer")
     private Integer id;
 
-    @Column(name = "password")
     private String password;
+
+    private String lastname;
+
+    private String firstname;
 
     @ForeignKey(entity = Company.class)
     private Integer idCompany;
@@ -24,8 +27,14 @@ public class Producer {
 
     public Producer() { }
 
-    public Producer(String password, Integer idCompany, Integer SIRET) {
+    public Producer(String password,
+                    String lastname,
+                    String firstname,
+                    Integer idCompany,
+                    Integer SIRET) {
         this.password = password;
+        this.lastname = lastname;
+        this.firstname = firstname;
         this.idCompany = idCompany;
         this.SIRET = SIRET;
     }
@@ -62,11 +71,29 @@ public class Producer {
         this.SIRET = SIRET;
     }
 
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
     @Override
     public String toString() {
         return "Producer{" +
                 "id=" + id +
                 ", password='" + password + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", firstname='" + firstname + '\'' +
                 ", idCompany=" + idCompany +
                 ", SIRET=" + SIRET +
                 '}';

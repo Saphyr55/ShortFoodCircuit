@@ -1,7 +1,7 @@
-package fr.sfc.component.productTour;
+package fr.sfc.container.productTour;
 
 import fr.sfc.controller.productTour.AdderProductTourController;
-import fr.sfc.framework.controlling.Component;
+import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -9,7 +9,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-public class AdderProdutTourComponent extends GridPane implements Component {
+public class AdderProdutTourContainer extends GridPane implements Container {
 
     @AutoController
     private AdderProductTourController controller;
