@@ -15,47 +15,66 @@ public class MainAdminContainer extends GridPane implements Container {
 
     @SetContainer
     private ListProducerContainer listProducer;
-
     @SetContainer
-    private SpecificsProducerContainer specificsProducer;
-
+    private SpecificsProducerDataContainer specificsDataProducer;
     @SetContainer
-    private SpecificsProducerTextContainer specificsProducerText;
+    private SpecificsProducerTextContainer specificsTextProducer;
+    @SetContainer
+    private SpecificsCustomerTextContainer specificsTextCustomer;
+    @SetContainer
+    private SpecifiesCustomerDataContainer specificsDataCustomer;
 
+    private final Pane detailsPane = new Pane();
+    private final HBox detailsProducer = new HBox();
+    private final HBox detailsCustomer = new HBox();
     private Pane parent;
 
     @Override
     public void setup() {
         parent = (Pane) getParent();
-        HBox detailsGridPane = new HBox();
-        responsive(detailsGridPane);
+
+        // Producer container
+        detailsProducer.getChildren().add(specificsTextProducer);
+        detailsProducer.getChildren().add(specificsDataProducer);
+
+        // Customer container
+        detailsCustomer.getChildren().add(specificsTextCustomer);
+        detailsCustomer.getChildren().add(specificsDataCustomer);
+
+        detailsPane.getChildren().setAll(detailsProducer);
+
+        responsive();
 
         addColumn(0, listProducer);
-        addColumn(1, detailsGridPane);
+        addColumn(1, detailsPane);
     }
 
-    private void responsive(HBox detailsGridPane) {
-        detailsGridPane.getChildren().add(specificsProducerText);
-        detailsGridPane.getChildren().add(specificsProducer);
+    private void responsive() {
 
         prefHeightProperty().bind(parent.heightProperty());
         prefWidthProperty().bind(parent.widthProperty());
 
-        detailsGridPane.minHeightProperty().bind(heightProperty());
-        detailsGridPane.prefWidthProperty().bind(widthProperty().divide(1));
+        detailsPane.prefHeightProperty().bind(heightProperty());
+        detailsPane.prefWidthProperty().bind(widthProperty());
 
-        specificsProducer.minHeightProperty().bind(detailsGridPane.heightProperty());
-        specificsProducer.prefWidthProperty().bind(detailsGridPane.widthProperty().divide(2));
+        detailsProducer.minHeightProperty().bind(detailsPane.heightProperty());
+        detailsProducer.prefWidthProperty().bind(detailsPane.widthProperty());
+        specificsDataProducer.minHeightProperty().bind(detailsProducer.heightProperty());
+        specificsDataProducer.prefWidthProperty().bind(detailsProducer.widthProperty().divide(2));
+        specificsTextProducer.minHeightProperty().bind(detailsProducer.heightProperty());
+        specificsTextProducer.prefWidthProperty().bind(detailsProducer.widthProperty().divide(2));
 
-        specificsProducerText.minHeightProperty().bind(detailsGridPane.heightProperty());
-        specificsProducerText.prefWidthProperty().bind(detailsGridPane.widthProperty().divide(2));
+        detailsCustomer.minHeightProperty().bind(detailsPane.heightProperty());
+        detailsCustomer.prefWidthProperty().bind(detailsPane.widthProperty());
+        specificsDataCustomer.minHeightProperty().bind(detailsCustomer.heightProperty());
+        specificsDataCustomer.prefWidthProperty().bind(detailsCustomer.widthProperty().divide(2));
+        specificsTextCustomer.minHeightProperty().bind(detailsCustomer.heightProperty());
+        specificsTextCustomer.prefWidthProperty().bind(detailsCustomer.widthProperty().divide(2));
 
         listProducer.prefHeightProperty().bind(heightProperty());
-        listProducer.prefWidthProperty().bind(widthProperty().divide(1.5d));
+        listProducer.prefWidthProperty().bind(widthProperty().divide(3.5d));
         listProducer.setMinWidth(300);
 
-        detailsGridPane.prefWidthProperty().bind(widthProperty());
-        detailsGridPane.prefHeightProperty().bind(heightProperty());
     }
 
     public MainAdminController getController() {
@@ -66,12 +85,33 @@ public class MainAdminContainer extends GridPane implements Container {
         return listProducer;
     }
 
-    public SpecificsProducerContainer getSpecificsProducer() {
-        return specificsProducer;
+    public SpecificsProducerDataContainer getSpecificsDataProducer() {
+        return specificsDataProducer;
     }
 
-    public SpecificsProducerTextContainer getSpecificsProducerText() {
-        return specificsProducerText;
+    public SpecificsProducerTextContainer getSpecificsTextProducer() {
+        return specificsTextProducer;
+    }
+
+
+    public Pane getDetailsPane() {
+        return detailsPane;
+    }
+
+    public SpecificsCustomerTextContainer getSpecificsTextCustomer() {
+        return specificsTextCustomer;
+    }
+
+    public SpecifiesCustomerDataContainer getSpecificsDataCustomer() {
+        return specificsDataCustomer;
+    }
+
+    public HBox getDetailsCustomer() {
+        return detailsCustomer;
+    }
+
+    public HBox getDetailsProducer() {
+        return detailsProducer;
     }
 
 }

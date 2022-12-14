@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-public final class DatabaseFileProperties {
+final class DatabaseFileProperties {
 
     private static final String sectionNameConfig = "config";
     private Map<String, Database.Properties> propertiesMap;

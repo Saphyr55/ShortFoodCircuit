@@ -1,8 +1,7 @@
 package fr.sfc.container;
 
-import fr.sfc.container.productTour.AdderProdutTourContainer;
+import fr.sfc.container.productTour.AdderProductTourContainer;
 import fr.sfc.container.productTour.DetailsProductTourContainer;
-import fr.sfc.container.productTour.MapContainer;
 import fr.sfc.controller.MainController;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.ContainerManager;
@@ -21,7 +20,7 @@ public class MainContainer extends GridPane implements Container {
     private DetailsProductTourContainer detailsProductTour;
 
     @SetContainer
-    private AdderProdutTourContainer adderProductTour;
+    private AdderProductTourContainer adderProductTour;
 
     @Inject
     private ContainerManager containerManager;
