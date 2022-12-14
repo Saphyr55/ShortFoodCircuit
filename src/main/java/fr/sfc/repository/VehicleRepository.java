@@ -1,13 +1,12 @@
 package fr.sfc.repository;
 
-import fr.sfc.entity.Company;
+import fr.sfc.entity.Vehicle;
 import fr.sfc.framework.database.Query;
 import fr.sfc.framework.database.QueryFactory;
 import fr.sfc.framework.persistence.EntityManager;
 import fr.sfc.framework.persistence.Repository;
 import fr.sfc.framework.persistence.annotation.Inject;
-import fr.sfc.entity.Vehicle;
-import fr.sfc.repository.queries.CompanyQueries;
+import fr.sfc.repository.queries.VehicleQueries;
 
 import java.util.Optional;
 import java.util.Set;
@@ -45,13 +44,15 @@ public class VehicleRepository implements Repository<Vehicle> {
     }
 
     @Override
-    public void save(Vehicle admin) {
-        entityManager.insert(admin);
+    public void save(Vehicle entity) {
+        entityManager.insert(entity);
     }
+
+
     public Optional<Vehicle> findByMatriculation(String matriculation) {
 
         try (Query query = queryFactory.createMagicQuery(
-                "findByMatriculation", CompanyQueries.class, matriculation)) {
+                "findByMatriculation", VehicleQueries.class, matriculation)) {
 
             return entityManager.wrapResultSetToEntities(Vehicle.class, query.executeQuery()).stream().findFirst();
         } catch (Exception e) {

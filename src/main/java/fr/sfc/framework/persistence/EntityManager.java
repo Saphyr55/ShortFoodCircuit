@@ -44,13 +44,13 @@ public final class EntityManager {
 
         Map.Entry<String, String> entry = entityClassManager.formatInsert(entity);
 
-        try (final Query query = queryFactory.createNativeQuery(
+        try (Query query = queryFactory.createNativeQuery(
                 getClass().getMethod("insert", Object.class),
                 entityClassManager.getNameTable(entity.getClass()),
                 entry.getKey(), entry.getValue())) {
 
+            query.prepare();
             query.executeUpdate();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,7 +64,7 @@ public final class EntityManager {
                 entityClassManager.getNameTable(entity.getClass()),
                 entityClassManager.getIdName(entity.getClass()),
                 entityClassManager.getValueId(entity))) {
-
+            query.prepare();
             query.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

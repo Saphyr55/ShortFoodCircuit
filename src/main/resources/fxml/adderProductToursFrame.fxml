@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root prefHeight="192.0" prefWidth="262.0" type="HBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.sfc.controller.productTour.ProductToursFrameController">
+<fx:root prefHeight="192.0" prefWidth="262.0" type="HBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.sfc.controller.productTour.ProductTourFrameController">
     <children>
         <VBox fx:id="containerLabel" prefHeight="142.0" prefWidth="83.0">
             <Label prefHeight="30.0" text="name" />
