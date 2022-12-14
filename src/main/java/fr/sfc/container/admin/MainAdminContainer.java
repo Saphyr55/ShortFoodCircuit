@@ -34,6 +34,7 @@ public class MainAdminContainer extends GridPane implements Container {
     }
 
     private void responsive() {
+
         detailsGridPane.getChildren().add(specificsProducerText);
         detailsGridPane.getChildren().add(specificsProducer);
 

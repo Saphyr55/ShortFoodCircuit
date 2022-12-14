@@ -2,51 +2,130 @@ package fr.sfc.controller.admin;
 
 import fr.sfc.container.admin.ListProducerContainer;
 import fr.sfc.container.admin.MainAdminContainer;
+import fr.sfc.entity.Customer;
 import fr.sfc.entity.Producer;
 import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.persistence.annotation.Inject;
+import fr.sfc.repository.CustomerRepository;
 import fr.sfc.repository.ProducerRepository;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ListProducerController implements Controller {
+
+    public enum State {
+        Customer,
+        Producer
+    }
 
     @AutoContainer
     private ListProducerContainer container;
 
     @Inject
     private ProducerRepository producerRepository;
-
+    @Inject
+    private CustomerRepository customerRepository;
     @Inject
     private ContainerManager containerManager;
 
-    private List<Producer> producers;
+    private List<Customer> customers = new ArrayList<>();
+    private Customer customerSelected;
+    private List<Producer> producers = new ArrayList<>();
     private Producer producerSelected;
+    private State state = State.Producer;
 
     @Override
     public void setup() {
 
-        // Ajoute tous les producteurs la liste vue
-        producers = new ArrayList<>(producerRepository.findAll());
-        final var namesProducer = producers.stream().map(this::formatProducerToString).collect(Collectors.toSet());
-        container.getProducerListCell().getItems().addAll(namesProducer);
+        fillListView();
+
+        // Switch entre list de client et de producteur
+        container.getSwitchProducerCustomer().setOnAction(this::switchProducerCustomerInListEvent);
 
         // Rempli les données du producteur en cliquant sur un element de la liste
-        container.getProducerListCell().getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
-            producerSelected = producers.get(newValue.intValue());
-            MainAdminContainer mainAdminContainer = containerManager.getContainer("root");
-            mainAdminContainer.getController().setCurrentProducer(producerSelected);
-            mainAdminContainer.getController().fillData();
-        });
+        container.getListCell().getSelectionModel().selectedIndexProperty().addListener(this::selectedList);
+
     }
 
+    public void selectedList(ObservableValue<? extends Number> observableV,
+                             Number oldV,
+                             Number newV) {
+
+        // Si on n'a rien sélectionné on quitte la methode
+        if (newV.intValue() == -1) return;
+
+        // Clear tout avant de faire la selection
+        customerSelected = null;
+        producerSelected = null;
+
+        // Changement de producteur et customer a la selection
+        switchProducerCustomerSelected(containerManager.getContainer("root"), newV.intValue());
+    }
+
+    private void switchProducerCustomerSelected(MainAdminContainer container, int index) {
+        switch (state) {
+            case Producer -> {
+                System.out.println("Salut");
+                producerSelected = producers.get(index);
+                container.getController().setCurrentProducer(producerSelected);
+                container.getController().fillDataProducer();
+            }
+            case Customer -> {
+                customerSelected = customers.get(index);
+                container.getController().setCurrentCustomer(customerSelected);
+            }
+        }
+    }
+
+    private void switchProducerCustomerInListEvent(ActionEvent event) {
+        switchState();
+        fillListView();
+    }
+
+    public void fillListView() {
+        container.getListCell().getItems().clear();
+        container.getListCell().getItems().addAll(getListStringFromDbInFunctionOfState());
+        container.getListCell().refresh();
+    }
+
+    public void switchState() {
+        switch (state) {
+            case Customer -> state = State.Producer;
+            case Producer -> state = State.Customer;
+        }
+    }
+
+    private Set<String> getListStringFromDbInFunctionOfState() {
+        switch (state) {
+            // Ajoute tous les producteurs dans la liste vue
+            case Producer -> {
+                producers = new ArrayList<>(producerRepository.findAll());
+                return producers.stream().map(this::formatProducerToString).collect(Collectors.toSet());
+            }
+            // Ajoute tous les clients dans la liste vue
+            case Customer -> {
+                customers = new ArrayList<>(customerRepository.findAll());
+                return customers.stream().map(this::formatCustomerToString).collect(Collectors.toSet());
+            }
+            default -> throw new NullPointerException("State is null");
+        }
+    }
+
+    private String formatCustomerToString(Customer customer) {
+        return customer.getName().toUpperCase();
+    }
 
     private String formatProducerToString(Producer producer) {
-        return producer.getLastname().toUpperCase() + " " + producer.getFirstname() + " (SIRET : " + producer.getSIRET() + ")";
+        return producer.getLastname().toUpperCase() + " " +
+                producer.getFirstname() +
+                " (SIRET : " + producer.getSIRET() + ")";
     }
 
 }

@@ -1,7 +1,6 @@
 package fr.sfc.container.admin;
 
 import fr.sfc.controller.admin.ListProducerController;
-import fr.sfc.entity.Producer;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import javafx.scene.control.Button;
@@ -9,39 +8,40 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class ListProducerContainer extends GridPane implements Container {
 
     @AutoController
     private ListProducerController controller;
 
-    private TextField searchTextField = new TextField();
-    private ListView<String> producerListCell = new ListView<>();
-    private Button switchProducerClient = new Button();
+    private final TextField searchTextField = new TextField();
+    private final ListView<String> listCell = new ListView<>();
+    private final Button switchProducerCustomer = new Button();
 
     @Override
     public void setup() {
 
-        producerListCell.prefHeightProperty().bind(heightProperty());
-        producerListCell.prefWidthProperty().bind(widthProperty());
+        listCell.prefHeightProperty().bind(heightProperty());
+        listCell.prefWidthProperty().bind(widthProperty());
 
-        switchProducerClient.prefWidthProperty().bind(widthProperty());
-        switchProducerClient.prefHeightProperty().bind(heightProperty().divide(10));
+        switchProducerCustomer.prefWidthProperty().bind(widthProperty());
+        switchProducerCustomer.prefHeightProperty().bind(heightProperty().divide(10));
 
         searchTextField.setPromptText("Search producer");
 
         addRow(0, searchTextField);
-        addRow(1, producerListCell);
-        addRow(2, switchProducerClient);
+        addRow(1, listCell);
+        addRow(2, switchProducerCustomer);
     }
 
-    public ListView<String> getProducerListCell() {
-        return producerListCell;
+    public ListView<String> getListCell() {
+        return listCell;
     }
 
     public TextField getSearchTextField() {
         return searchTextField;
+    }
+
+    public Button getSwitchProducerCustomer() {
+        return switchProducerCustomer;
     }
 }

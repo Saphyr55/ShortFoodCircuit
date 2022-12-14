@@ -86,6 +86,10 @@ public class Customer {
         this.latitude = latitude;
     }
 
+    public Integer getIdProductTour() {
+        return idProductTour;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
