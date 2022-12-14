@@ -29,7 +29,6 @@ public class MainAdminController implements Controller {
 
     @Override
     public void setup() {
-
     }
 
     /**
