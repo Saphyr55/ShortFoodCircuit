@@ -27,9 +27,9 @@
             <DatePicker fx:id="startDate" prefHeight="29.0" prefWidth="175.0" />
             <DatePicker fx:id="endDate" prefHeight="30.0" prefWidth="175.0" />
             <TextField fx:id="tFWeight" prefHeight="30.0" prefWidth="181.0" />
-            <TextField fx:id="tfSIRETCompany" prefHeight="30.0" prefWidth="181.0" />
-            <TextField fx:id="tFMatriculation" prefHeight="30.0" prefWidth="181.0" />
-         <VBox prefHeight="30.0" prefWidth="181.0" />
+            <TextField fx:id="tfSIRETCompany" prefHeight="30.0" prefWidth="181.0" promptText="need" />
+            <TextField fx:id="tFMatriculation" prefHeight="30.0" prefWidth="181.0" promptText="need" />
+         <Label fx:id="labelError" prefHeight="30.0" prefWidth="190.0" text="need information" textFill="RED" />
 
         </VBox>
         <VBox />

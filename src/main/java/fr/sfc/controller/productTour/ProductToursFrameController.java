@@ -9,6 +9,7 @@ import fr.sfc.repository.ProductTourRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -35,6 +36,9 @@ public class ProductToursFrameController implements Controller {
     private TextField tFMatriculation;
     @FXML
     private Button buttonFinish;
+    @FXML
+    private Label labelError;
+
 
     @AutoContainer
     private ProductTourFrame container;
@@ -70,15 +74,28 @@ public class ProductToursFrameController implements Controller {
 
     @FXML
     public void EventButtonAddProductToursFinishAction() {
-        LocalDateTime localStartDate = startDate.getValue().atStartOfDay();
-        LocalDateTime localEndDate = endDate.getValue().atStartOfDay();
-        Float weight = Float.valueOf(tFWeight.getText());
-        Integer SIRET = Integer.parseInt(tfSIRETCompany.getText());
-        ProductTour newprodTour = new ProductTour(
-                localStartDate, localEndDate, tFName.getText(),
-                weight, SIRET, tFMatriculation.getText());
-        productTourRepository.insert(newprodTour);
-
+        if (tfSIRETCompany.getText() == "" || tFMatriculation.getText() == ""){
+            this.labelError.setText("need information");
+        }
+        else {
+            this.labelError.setText("");
+            ProductTour newProdTour = new ProductTour();
+            newProdTour.setSIRET(Integer.parseInt(tfSIRETCompany.getText()));
+            newProdTour.setMatriculation(tFMatriculation.getText());
+            if( ! startDate.getValue().atStartOfDay().isEqual(null)){
+                newProdTour.setStartDateTime(startDate.getValue().atStartOfDay());
+            }
+            if( ! endDate.getValue().atStartOfDay().isEqual(null)){
+                newProdTour.setEndDateTime(endDate.getValue().atStartOfDay());
+            }
+            if( ! tFWeight.getText().trim().isEmpty()){
+                newProdTour.setWeight(Float.valueOf(tFWeight.getText()));
+            }
+            if( ! tFName.getText().trim().isEmpty()){
+                newProdTour.setName((tFName.getText()));
+            }
+            productTourRepository.insert(newProdTour);
+        }
     }
 
 }
