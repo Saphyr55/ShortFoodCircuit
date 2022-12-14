@@ -1,17 +1,11 @@
 package fr.sfc.controller.productTour;
 
-import fr.sfc.container.admin.MainAdminContainer;
 import fr.sfc.container.productTour.ProductTourFrame;
-import fr.sfc.entity.Company;
-import fr.sfc.entity.Producer;
 import fr.sfc.entity.ProductTour;
-import fr.sfc.entity.Vehicle;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.persistence.annotation.Inject;
-import fr.sfc.repository.CompanyRepository;
 import fr.sfc.repository.ProductTourRepository;
-import fr.sfc.repository.VehicleRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -21,7 +15,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 public class ProductToursFrameController implements Controller {
 
@@ -53,12 +46,6 @@ public class ProductToursFrameController implements Controller {
     @Inject
     private ProductTourRepository productTourRepository;
     @Inject
-    private MainAdminContainer adminContainer;
-    @Inject
-    private CompanyRepository companyRepository;
-    @Inject
-    private VehicleRepository vehicleRepository;
-    @Inject
     private Stage stage;
 
     @Override
@@ -87,39 +74,27 @@ public class ProductToursFrameController implements Controller {
 
     @FXML
     public void EventButtonAddProductToursFinishAction() {
-        final int[] idCompany = {-1};
-        final int[] idVehicle = {-1};
-        String matriculation = tFMatriculation.getText().toUpperCase();
-        if (tfSIRETCompany.getText() == "" || matriculation == ""){
+        if (tfSIRETCompany.getText() == "" || tFMatriculation.getText() == ""){
             this.labelError.setText("need information");
         }
         else {
             this.labelError.setText("");
-            companyRepository.findBySIRET(Integer.valueOf(tfSIRETCompany.getText())).ifPresent(company -> idCompany[0] = Integer.parseInt(adminContainer.getSpecificsProducer().getId()));
-            vehicleRepository.findByMatriculation(matriculation).ifPresent(vehicle -> idVehicle[0] = Integer.parseInt(adminContainer.getSpecificsProducer().getId()));
-            if( idVehicle[0]==-1 || idCompany[0]==-1){
-                this.labelError.setText("company or vehicle doesn't exist");
+            ProductTour newProdTour = new ProductTour();
+            newProdTour.setSIRET(Integer.parseInt(tfSIRETCompany.getText()));
+            newProdTour.setMatriculation(tFMatriculation.getText());
+            if( ! startDate.getValue().atStartOfDay().isEqual(null)){
+                newProdTour.setStartDateTime(startDate.getValue().atStartOfDay());
             }
-            else {
-                ProductTour newProdTour = new ProductTour();
-                newProdTour.setIdCompany(idCompany[0]);
-                newProdTour.setIdVehicle(idVehicle[0]);
-                newProdTour.setSIRET(Integer.parseInt(tfSIRETCompany.getText()));
-                newProdTour.setMatriculation(matriculation);
-                if (!startDate.getValue().atStartOfDay().isEqual(null)) {
-                    newProdTour.setStartDateTime(startDate.getValue().atStartOfDay());
-                }
-                if (!endDate.getValue().atStartOfDay().isEqual(null)) {
-                    newProdTour.setEndDateTime(endDate.getValue().atStartOfDay());
-                }
-                if (!tFWeight.getText().trim().isEmpty()) {
-                    newProdTour.setWeight(Float.valueOf(tFWeight.getText()));
-                }
-                if (!tFName.getText().trim().isEmpty()) {
-                    newProdTour.setName((tFName.getText()));
-                }
-                productTourRepository.insert(newProdTour);
+            if( ! endDate.getValue().atStartOfDay().isEqual(null)){
+                newProdTour.setEndDateTime(endDate.getValue().atStartOfDay());
             }
+            if( ! tFWeight.getText().trim().isEmpty()){
+                newProdTour.setWeight(Float.valueOf(tFWeight.getText()));
+            }
+            if( ! tFName.getText().trim().isEmpty()){
+                newProdTour.setName((tFName.getText()));
+            }
+            productTourRepository.insert(newProdTour);
         }
     }
 
