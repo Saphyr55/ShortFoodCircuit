@@ -1,43 +1,44 @@
 package fr.sfc.container.productTour;
 
-import fr.sfc.controller.productTour.ProductToursFrameController;
+import fr.sfc.controller.productTour.ProductTourFrameController;
 import fr.sfc.framework.Resources;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.annotation.ContainerFXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 @ContainerFXML
-public class ProductTourFrame extends GridPane implements Container {
-
+public class ProductTourFrame extends HBox implements Container {
 
     @AutoController
-    private ProductToursFrameController control;
+    private ProductTourFrameController control;
 
-    private final FXMLLoader loader = new FXMLLoader();
+    private FXMLLoader loader;
 
-    private Stage frame = new Stage();
+    private Stage frame;
     private Scene scene;
 
     public ProductTourFrame() {
         try {
-            Parent root = loader.load(Resources.getResource("/fxml/adderProductToursFrame.fxml"));
-            scene = new Scene(root);
-            frame.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
+            frame = new Stage();
+            loader = new FXMLLoader(Resources.getResource("/fxml/adderProductToursFrame.fxml"));
+            loader.setRoot(this);
+            loader.load();
+            scene = new Scene(this, 750, 500);
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
+
     }
 
     @Override
     public void setup() {
-
+        frame.setScene(scene);
     }
 
     public Stage getFrame() {

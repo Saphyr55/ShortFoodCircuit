@@ -1,6 +1,6 @@
 package fr.sfc.controller.productTour;
 
-import fr.sfc.container.productTour.AdderProdutTourContainer;
+import fr.sfc.container.productTour.AdderProductTourContainer;
 import fr.sfc.container.productTour.DetailsProductTourContainer;
 import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
@@ -24,7 +24,7 @@ public class DetailsProductTourController implements Controller {
 
     public void switchBetweenMapAndConfig() {
 
-        AdderProdutTourContainer adder = containerManager.getContainer("root.adderProductTour");
+        AdderProductTourContainer adder = containerManager.getContainer("root.adderProductTour");
 
         adder.getSwitcherDetailsComponentButton().setOnAction(event -> {
             switch (state) {

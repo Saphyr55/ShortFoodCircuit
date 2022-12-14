@@ -4,31 +4,34 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.sfc.controller.productTour.ProductToursFrameController">
+<fx:root prefHeight="192.0" prefWidth="262.0" type="HBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.sfc.controller.productTour.ProductTourFrameController">
     <children>
-        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+        <VBox fx:id="containerLabel" prefHeight="142.0" prefWidth="83.0">
+            <Label prefHeight="30.0" text="name" />
+            <Label prefHeight="30.0" text="Start date" />
+            <Label prefHeight="30.0" text="End date" />
+            <Label prefHeight="30.0" text="weight" />
+            <Label prefHeight="30.0" text="SIRET Company" />
+            <Label prefHeight="30.0" text="Matriculation" />
+         <VBox prefHeight="30.0" prefWidth="82.0">
             <children>
-                <TextField fx:id="tFName" layoutX="320.0" layoutY="14.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tFWeight" layoutX="320.0" layoutY="116.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tFIdCompany" layoutX="319.0" layoutY="150.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tfSIRETCompany" layoutX="319.0" layoutY="184.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tFVehicleId" layoutX="319.0" layoutY="218.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tFMatriculation" layoutX="319.0" layoutY="252.0" prefHeight="34.0" prefWidth="298.0" />
-                <Label layoutX="20.0" layoutY="14.0" prefHeight="34.0" prefWidth="298.0" text="name" />
-                <Label layoutX="20.0" layoutY="48.0" prefHeight="34.0" prefWidth="298.0" text="Start date" />
-                <Label layoutX="20.0" layoutY="82.0" prefHeight="34.0" prefWidth="298.0" text="End date" />
-                <Label layoutX="20.0" layoutY="116.0" prefHeight="34.0" prefWidth="298.0" text="weight" />
-                <Label layoutX="20.0" layoutY="150.0" prefHeight="34.0" prefWidth="298.0" text="id company" />
-                <Label layoutX="20.0" layoutY="184.0" prefHeight="34.0" prefWidth="298.0" text="SIRET Company" />
-                <Label layoutX="20.0" layoutY="218.0" prefHeight="34.0" prefWidth="298.0" text="Vehicle id" />
-                <Label layoutX="20.0" layoutY="252.0" prefHeight="34.0" prefWidth="298.0" text="Matriculation" />
-                <Button layoutX="20.0" layoutY="286.0" onAction="#EventButtonAddProductToursFinishAction" prefHeight="34.0" prefWidth="100.0" text="Finish" />
-            <DatePicker fx:id="startDate" layoutX="320.0" layoutY="48.0" prefHeight="34.0" prefWidth="298.0" />
-            <DatePicker fx:id="endDate" layoutX="320.0" layoutY="82.0" prefHeight="34.0" prefWidth="298.0" />
+                  <Button fx:id="buttonFinish" onAction="#EventButtonAddProductToursFinishAction" prefHeight="46.0" prefWidth="82.0" text="Finish" />
             </children>
-        </AnchorPane>
+         </VBox>
+        </VBox>
+        <VBox fx:id="containerTextField" prefHeight="192.0" prefWidth="182.0">
+            <TextField fx:id="tFName" prefHeight="30.0" prefWidth="181.0" />
+            <DatePicker fx:id="startDate" prefHeight="29.0" prefWidth="175.0" />
+            <DatePicker fx:id="endDate" prefHeight="30.0" prefWidth="175.0" />
+            <TextField fx:id="tFWeight" prefHeight="30.0" prefWidth="181.0" />
+            <TextField fx:id="tfSIRETCompany" prefHeight="30.0" prefWidth="181.0" promptText="need" />
+            <TextField fx:id="tFMatriculation" prefHeight="30.0" prefWidth="181.0" promptText="need" />
+         <Label fx:id="labelError" prefHeight="30.0" prefWidth="190.0" text="" textFill="RED" />
+
+        </VBox>
+        <VBox />
     </children>
-</VBox>
+</fx:root>

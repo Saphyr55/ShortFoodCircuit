@@ -1,6 +1,6 @@
 package fr.sfc.controller.productTour;
 
-import fr.sfc.container.productTour.AdderProdutTourContainer;
+import fr.sfc.container.productTour.AdderProductTourContainer;
 import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class AdderProductTourController implements Controller {
 
     @AutoContainer
-    private AdderProdutTourContainer container;
+    private AdderProductTourContainer container;
 
     @Inject
     private ContainerManager containerManager;
