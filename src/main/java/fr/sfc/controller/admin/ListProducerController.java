@@ -12,6 +12,9 @@ import fr.sfc.repository.CustomerRepository;
 import fr.sfc.repository.ProducerRepository;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
