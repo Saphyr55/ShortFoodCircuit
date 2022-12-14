@@ -39,9 +39,4 @@ public class AdderProductTourController implements Controller {
 
     }
 
-    public void switchBetweenMapAndConfig() {
-
-    }
-
-
 }

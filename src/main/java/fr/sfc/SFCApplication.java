@@ -18,8 +18,7 @@ public final class SFCApplication extends Application {
         // LOGGER.info("Start Application");
 
         BackendApplicationConfiguration configuration = BackendApplicationConfiguration.File
-                .of(Resources.getFileResource(FILE_CONF))
-                .create();
+                .of(Resources.getFileResource(FILE_CONF)).create();
 
         configuration.configure();
         configuration.createApplication(primaryStage, "Short Food Circuit", 980, 620).show();

@@ -18,6 +18,9 @@ public interface Container {
         return null;
     }
 
+    /**
+     * Constructor with zero parameters
+     */
     void setup();
 
 }
