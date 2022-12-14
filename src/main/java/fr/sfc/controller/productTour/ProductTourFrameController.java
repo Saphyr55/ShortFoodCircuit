@@ -81,13 +81,13 @@ public class ProductTourFrameController implements Controller {
 
         String matriculation = tFMatriculation.getText().toUpperCase();
 
-        companyRepository.findBySIRET(Integer.valueOf(tfSIRETCompany.getText())).ifPresent(currentCompany::set);
-        vehicleRepository.findByMatriculation(matriculation).ifPresent(vehicle::set);
-
         if (tfSIRETCompany.getText().equals("") || matriculation.equals("")){
             labelError.setText("need information");
             return;
         }
+
+        companyRepository.findBySIRET(Integer.valueOf(tfSIRETCompany.getText())).ifPresent(currentCompany::set);
+        vehicleRepository.findByMatriculation(matriculation).ifPresent(vehicle::set);
 
         if (startDate.getValue() == null || endDate.getValue() == null) {
             labelError.setText("You need to specifies the date");
