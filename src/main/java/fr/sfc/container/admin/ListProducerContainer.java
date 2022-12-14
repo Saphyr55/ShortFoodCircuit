@@ -16,6 +16,8 @@ public class ListProducerContainer extends GridPane implements Container {
     @AutoController
     private ListProducerController controller;
 
+    private final GridPane containerBottomButtons = new GridPane();
+    private final Button adderButton = new Button("+");
     private final Button switchProducerCustomer = new Button();
     private final TextField searchTextField = new TextField();
     private ListView<String> listCell;
@@ -28,17 +30,24 @@ public class ListProducerContainer extends GridPane implements Container {
         filteredList = new FilteredList<>(observableList);
         listCell = new ListView<>(filteredList);
 
+        containerBottomButtons.addColumn(1, switchProducerCustomer);
+        containerBottomButtons.addColumn(2, adderButton);
         listCell.prefHeightProperty().bind(heightProperty());
         listCell.prefWidthProperty().bind(widthProperty());
 
-        switchProducerCustomer.prefWidthProperty().bind(widthProperty());
-        switchProducerCustomer.prefHeightProperty().bind(heightProperty().divide(10));
+        containerBottomButtons.prefWidthProperty().bind(widthProperty());
+        containerBottomButtons.prefHeightProperty().bind(heightProperty().divide(10));
+
+        switchProducerCustomer.prefHeightProperty().bind(containerBottomButtons.heightProperty());
+        switchProducerCustomer.prefWidthProperty().bind(containerBottomButtons.widthProperty().divide(0.75));
+        adderButton.prefHeightProperty().bind(containerBottomButtons.heightProperty());
+        adderButton.prefWidthProperty().bind(containerBottomButtons.widthProperty());
 
         searchTextField.setPromptText("Search producer");
 
         addRow(0, searchTextField);
         addRow(1, listCell);
-        addRow(2, switchProducerCustomer);
+        addRow(2, containerBottomButtons);
     }
 
     public ListView<String> getListCell() {

@@ -46,6 +46,7 @@ public class ListProducerController implements Controller {
 
         fillListView();
 
+        // Filtre la liste en fonction de l'observation du text field
         container.getSearchTextField().textProperty().addListener(observable -> {
             String filter = container.getSearchTextField().getText();
             if(filter == null || filter.length() == 0)
@@ -98,6 +99,9 @@ public class ListProducerController implements Controller {
         fillListView();
     }
 
+    /**
+     * Rafraîchie la vue liste et la met à jour
+     */
     public void fillListView() {
         container.getObservableList().setAll(getListStringFromDbInFunctionOfState());
         container.getListCell().refresh();
