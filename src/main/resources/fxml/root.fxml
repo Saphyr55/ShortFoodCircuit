@@ -4,5 +4,5 @@
 <?import javafx.scene.layout.Pane?>
 <?import fr.sfc.container.admin.MainAdminContainer?>
 <Pane xmlns="http://javafx.com/javafx">
-    <MainContainer/>
+    <MainAdminContainer/>
 </Pane>

@@ -3,18 +3,25 @@ package fr.sfc.container.admin;
 import fr.sfc.controller.admin.ListProducerController;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
+import fr.sfc.framework.controlling.annotation.SetContainer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class ListProducerContainer extends GridPane implements Container {
 
     @AutoController
     private ListProducerController controller;
+
+    @SetContainer
+    private AdderProducerContainer adderProducerContainer;
 
     private final GridPane containerBottomButtons = new GridPane();
     private final Button adderButton = new Button("+");
@@ -24,8 +31,15 @@ public class ListProducerContainer extends GridPane implements Container {
     private FilteredList<String> filteredList;
     private ObservableList<String> observableList;
 
+    private Stage stage = new Stage();
+    private Scene scene;
+
     @Override
     public void setup() {
+        scene = new Scene(adderProducerContainer, 800, 600);
+        stage.setScene(scene);
+
+
         observableList = FXCollections.observableArrayList();
         filteredList = new FilteredList<>(observableList);
         listCell = new ListView<>(filteredList);
@@ -50,6 +64,10 @@ public class ListProducerContainer extends GridPane implements Container {
         addRow(2, containerBottomButtons);
     }
 
+    public Stage getStage() {
+        return stage;
+    }
+
     public ListView<String> getListCell() {
         return listCell;
     }
@@ -69,4 +87,9 @@ public class ListProducerContainer extends GridPane implements Container {
     public ObservableList<String> getObservableList() {
         return observableList;
     }
+
+    public Button getAdderButton() {
+        return adderButton;
+    }
+
 }
