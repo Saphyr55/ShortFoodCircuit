@@ -3,6 +3,7 @@ package fr.sfc.container.admin;
 import fr.sfc.controller.admin.ListProducerController;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
+import fr.sfc.framework.controlling.annotation.SetContainer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -15,6 +16,9 @@ public class ListProducerContainer extends GridPane implements Container {
 
     @AutoController
     private ListProducerController controller;
+
+    @SetContainer
+    private AdderProducerContainer adderProducerContainer;
 
     private final GridPane containerBottomButtons = new GridPane();
     private final Button adderButton = new Button("+");

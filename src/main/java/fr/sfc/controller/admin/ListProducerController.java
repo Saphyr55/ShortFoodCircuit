@@ -44,6 +44,8 @@ public class ListProducerController implements Controller {
     @Override
     public void setup() {
 
+        container.getAdderButton().setOnAction((event) -> container.getStage().show());
+
         fillListView();
 
         // Filtre la liste en fonction de l'observation du text field
