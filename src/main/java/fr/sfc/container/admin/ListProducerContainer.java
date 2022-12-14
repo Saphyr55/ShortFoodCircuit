@@ -3,6 +3,9 @@ package fr.sfc.container.admin;
 import fr.sfc.controller.admin.ListProducerController;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -13,12 +16,17 @@ public class ListProducerContainer extends GridPane implements Container {
     @AutoController
     private ListProducerController controller;
 
-    private final TextField searchTextField = new TextField();
-    private final ListView<String> listCell = new ListView<>();
     private final Button switchProducerCustomer = new Button();
+    private final TextField searchTextField = new TextField();
+    private ListView<String> listCell;
+    private FilteredList<String> filteredList;
+    private ObservableList<String> observableList;
 
     @Override
     public void setup() {
+        observableList = FXCollections.observableArrayList();
+        filteredList = new FilteredList<>(observableList);
+        listCell = new ListView<>(filteredList);
 
         listCell.prefHeightProperty().bind(heightProperty());
         listCell.prefWidthProperty().bind(widthProperty());
@@ -43,5 +51,13 @@ public class ListProducerContainer extends GridPane implements Container {
 
     public Button getSwitchProducerCustomer() {
         return switchProducerCustomer;
+    }
+
+    public FilteredList<String> getFilteredList() {
+        return filteredList;
+    }
+
+    public ObservableList<String> getObservableList() {
+        return observableList;
     }
 }

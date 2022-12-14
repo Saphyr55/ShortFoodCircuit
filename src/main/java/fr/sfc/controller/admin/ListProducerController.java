@@ -46,6 +46,14 @@ public class ListProducerController implements Controller {
 
         fillListView();
 
+        container.getSearchTextField().textProperty().addListener(observable -> {
+            String filter = container.getSearchTextField().getText();
+            if(filter == null || filter.length() == 0)
+                container.getFilteredList().setPredicate(s -> true);
+            else
+                container.getFilteredList().setPredicate(s -> s.contains(filter));
+        });
+
         // Switch entre list de client et de producteur
         container.getSwitchProducerCustomer().setOnAction(this::switchProducerCustomerInListEvent);
 
@@ -54,7 +62,7 @@ public class ListProducerController implements Controller {
 
     }
 
-    public void selectedList(ObservableValue<? extends Number> observableV,
+    private void selectedList(ObservableValue<? extends Number> observableV,
                              Number oldV,
                              Number newV) {
 
@@ -72,7 +80,6 @@ public class ListProducerController implements Controller {
     private void switchProducerCustomerSelected(MainAdminContainer container, int index) {
         switch (state) {
             case Producer -> {
-                System.out.println("Salut");
                 producerSelected = producers.get(index);
                 container.getController().setCurrentProducer(producerSelected);
                 container.getController().fillDataProducer();
@@ -80,6 +87,8 @@ public class ListProducerController implements Controller {
             case Customer -> {
                 customerSelected = customers.get(index);
                 container.getController().setCurrentCustomer(customerSelected);
+                container.getController().fillDataCustomer();
+
             }
         }
     }
@@ -90,15 +99,24 @@ public class ListProducerController implements Controller {
     }
 
     public void fillListView() {
-        container.getListCell().getItems().clear();
-        container.getListCell().getItems().addAll(getListStringFromDbInFunctionOfState());
+        container.getObservableList().setAll(getListStringFromDbInFunctionOfState());
         container.getListCell().refresh();
     }
 
     public void switchState() {
+        MainAdminContainer mainAdminContainer =
+                containerManager.getContainer("root");
         switch (state) {
-            case Customer -> state = State.Producer;
-            case Producer -> state = State.Customer;
+            case Customer -> {
+                state = State.Producer;
+                mainAdminContainer.getDetailsPane().getChildren()
+                        .setAll(mainAdminContainer.getDetailsProducer());
+            }
+            case Producer -> {
+                state = State.Customer;
+                mainAdminContainer.getDetailsPane().getChildren()
+                        .setAll(mainAdminContainer.getDetailsCustomer());
+            }
         }
     }
 
