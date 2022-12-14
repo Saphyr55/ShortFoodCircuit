@@ -38,7 +38,6 @@ public class ListProducerContainer extends GridPane implements Container {
         scene = new Scene(adderProducerContainer, 800, 600);
         stage.setScene(scene);
 
-
         observableList = FXCollections.observableArrayList();
         filteredList = new FilteredList<>(observableList);
         listCell = new ListView<>(filteredList);
