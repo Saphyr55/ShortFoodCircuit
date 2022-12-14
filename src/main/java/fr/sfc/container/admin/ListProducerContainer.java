@@ -27,7 +27,6 @@ public class ListProducerContainer extends GridPane implements Container {
 
         addRow(0, searchTextField);
         addRow(1, producerListCell);
-
     }
 
     public ListView<String> getProducerListCell() {

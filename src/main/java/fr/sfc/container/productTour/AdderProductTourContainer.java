@@ -23,8 +23,6 @@ public class AdderProductTourContainer extends GridPane implements Container {
     private Button adderProductTourButton;
     private Button switcherDetailsComponentButton;
 
-
-
     @Override
     public void setup() {
         switcherDetailsComponentButton = new Button("Show Map");
