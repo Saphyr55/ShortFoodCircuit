@@ -14,8 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.time.LocalDateTime;
-
 public class ProductToursFrameController implements Controller {
 
     @FXML
@@ -68,34 +66,35 @@ public class ProductToursFrameController implements Controller {
         startDate.prefWidthProperty().bind(containerLabel.widthProperty());
         endDate.prefWidthProperty().bind(containerLabel.widthProperty());
 
-        // TODO: A bind correctement en fonction de ou te veux le placer
         buttonFinish.prefWidthProperty().bind(containerLabel.widthProperty());
     }
 
     @FXML
     public void EventButtonAddProductToursFinishAction() {
-        if (tfSIRETCompany.getText() == "" || tFMatriculation.getText() == ""){
-            this.labelError.setText("need information");
+
+        if (tfSIRETCompany.getText().isBlank() || tFMatriculation.getText().isBlank()) {
+            labelError.setText("need information");
+            return;
         }
-        else {
-            this.labelError.setText("");
-            ProductTour newProdTour = new ProductTour();
-            newProdTour.setSIRET(Integer.parseInt(tfSIRETCompany.getText()));
-            newProdTour.setMatriculation(tFMatriculation.getText());
-            if( ! startDate.getValue().atStartOfDay().isEqual(null)){
-                newProdTour.setStartDateTime(startDate.getValue().atStartOfDay());
-            }
-            if( ! endDate.getValue().atStartOfDay().isEqual(null)){
-                newProdTour.setEndDateTime(endDate.getValue().atStartOfDay());
-            }
-            if( ! tFWeight.getText().trim().isEmpty()){
-                newProdTour.setWeight(Float.valueOf(tFWeight.getText()));
-            }
-            if( ! tFName.getText().trim().isEmpty()){
-                newProdTour.setName((tFName.getText()));
-            }
-            productTourRepository.insert(newProdTour);
+
+        labelError.setText("");
+
+        ProductTour productTour = new ProductTour();
+        productTour.setSIRET(Integer.parseInt(tfSIRETCompany.getText()));
+        productTour.setMatriculation(tFMatriculation.getText());
+
+        if (startDate.getValue() != null) {
+            productTour.setStartDateTime(startDate.getValue().atStartOfDay());
+            productTour.setEndDateTime(endDate.getValue().atStartOfDay());
         }
+
+        if (!tFWeight.getText().trim().isBlank())
+            productTour.setWeight(Float.valueOf(tFWeight.getText()));
+
+        if (!tFName.getText().trim().isBlank())
+            productTour.setName((tFName.getText()));
+
+        productTourRepository.insert(productTour);
     }
 
 }
