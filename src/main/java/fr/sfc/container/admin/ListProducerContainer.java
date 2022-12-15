@@ -45,7 +45,6 @@ public class ListProducerContainer extends GridPane implements Container {
         containerBottomButtons.addColumn(1, switchProducerCustomer);
         containerBottomButtons.addColumn(2, adderButton);
         listView.prefHeightProperty().bind(heightProperty());
-        listView.prefWidthProperty().bind(widthProperty());
 
         containerBottomButtons.prefWidthProperty().bind(widthProperty());
         containerBottomButtons.prefHeightProperty().bind(heightProperty().divide(10));

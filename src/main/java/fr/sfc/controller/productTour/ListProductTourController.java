@@ -1,5 +1,6 @@
 package fr.sfc.controller.productTour;
 
+import fr.sfc.common.Pack;
 import fr.sfc.container.productTour.ListProductTourContainer;
 import fr.sfc.container.productTour.SpecifiesProductTourContainer;
 import fr.sfc.entity.Order;
@@ -13,7 +14,6 @@ import fr.sfc.repository.ProductTourRepository;
 import javafx.beans.value.ObservableValue;
 
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -68,13 +68,18 @@ public class ListProductTourController implements Controller {
         if (newV.intValue() == -1) return;
 
         ProductTour ptSelected = container.getProductTourList().get(newV.intValue());
+
         Set<Order> orders =  orderRepository.findByProductTour(ptSelected);
+
+        Set<Pack<Order>> packsOrder = orders.stream()
+                .map(order -> Pack.of(order, Order::getWording))
+                .collect(Collectors.toSet());
 
         SpecifiesProductTourContainer specifiesProductTourContainer =
                 containerManager.getContainer("root.details.specifies");
 
         specifiesProductTourContainer.getController().setProductTour(ptSelected);
-        specifiesProductTourContainer.getController().setOrders(new ArrayList<>(orders));
+        specifiesProductTourContainer.getController().getOrderListView().getItems().addAll(packsOrder);
         specifiesProductTourContainer.getController().refresh();
     }
 
