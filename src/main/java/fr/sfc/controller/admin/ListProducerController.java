@@ -1,10 +1,5 @@
 package fr.sfc.controller.admin;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import fr.sfc.container.admin.ListProducerContainer;
 import fr.sfc.container.admin.MainAdminContainer;
 import fr.sfc.entity.Customer;
@@ -15,8 +10,14 @@ import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.persistence.annotation.Inject;
 import fr.sfc.repository.CustomerRepository;
 import fr.sfc.repository.ProducerRepository;
+import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ListProducerController implements Controller {
 
@@ -35,9 +36,9 @@ public class ListProducerController implements Controller {
     @Inject
     private ContainerManager containerManager;
 
+    private List<Producer> producers = new ArrayList<>();
     private List<Customer> customers = new ArrayList<>();
     private Customer customerSelected;
-    private List<Producer> producers = new ArrayList<>();
     private Producer producerSelected;
     private State state = State.Producer;
 
@@ -49,13 +50,7 @@ public class ListProducerController implements Controller {
         fillListView();
 
         // Filtre la liste en fonction de l'observation du text field
-        container.getSearchTextField().textProperty().addListener(observable -> {
-            String filter = container.getSearchTextField().getText();
-            if(filter == null || filter.length() == 0)
-                container.getFilteredList().setPredicate(s -> true);
-            else
-                container.getFilteredList().setPredicate(s -> s.contains(filter));
-        });
+        container.getSearchTextField().textProperty().addListener(this::filterProducerListView);
 
         // Switch entre list de client et de producteur
         container.getSwitchProducerCustomer().setOnAction(this::switchProducerCustomerInListEvent);
@@ -65,9 +60,21 @@ public class ListProducerController implements Controller {
 
     }
 
-    private void selectedList(ObservableValue<? extends Number> observableV,
-                             Number oldV,
-                             Number newV) {
+    private void filterProducerListView(Observable observable) {
+
+        String filter = container.getSearchTextField().getText();
+
+        if(filter == null || filter.length() == 0) {
+            container.getFilteredList().setPredicate(s -> true);
+            return;
+        }
+
+        container.getFilteredList().setPredicate(s -> s.contains(filter));
+    }
+
+    private void selectedList(final ObservableValue<? extends Number> observableV,
+                              final Number oldV,
+                              final Number newV) {
 
         // Si on n'a rien sélectionné on quitte la methode
         if (newV.intValue() == -1) return;
@@ -110,34 +117,37 @@ public class ListProducerController implements Controller {
     }
 
     public void switchState() {
-        MainAdminContainer mainAdminContainer =
-                containerManager.getContainer("root");
+
+        MainAdminContainer mainAdminContainer = containerManager.getContainer("root");
+
         switch (state) {
             case Customer -> {
                 state = State.Producer;
-                mainAdminContainer.getDetailsPane().getChildren()
-                        .setAll(mainAdminContainer.getDetailsProducer());
+                mainAdminContainer.getDetailsPane().getChildren().setAll(mainAdminContainer.getDetailsProducer());
             }
             case Producer -> {
                 state = State.Customer;
-                mainAdminContainer.getDetailsPane().getChildren()
-                        .setAll(mainAdminContainer.getDetailsCustomer());
+                mainAdminContainer.getDetailsPane().getChildren().setAll(mainAdminContainer.getDetailsCustomer());
             }
         }
     }
 
     private Set<String> getListStringFromDbInFunctionOfState() {
+
         switch (state) {
+
             // Ajoute tous les producteurs dans la liste vue
             case Producer -> {
                 producers = new ArrayList<>(producerRepository.findAll());
                 return producers.stream().map(this::formatProducerToString).collect(Collectors.toSet());
             }
+
             // Ajoute tous les clients dans la liste vue
             case Customer -> {
                 customers = new ArrayList<>(customerRepository.findAll());
                 return customers.stream().map(this::formatCustomerToString).collect(Collectors.toSet());
             }
+
             default -> throw new NullPointerException("State is null");
         }
     }

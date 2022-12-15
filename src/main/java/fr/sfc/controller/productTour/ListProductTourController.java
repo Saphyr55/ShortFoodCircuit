@@ -1,5 +1,6 @@
 package fr.sfc.controller.productTour;
 
+import fr.sfc.IconsType;
 import fr.sfc.common.Pack;
 import fr.sfc.container.productTour.ListProductTourContainer;
 import fr.sfc.container.productTour.SpecifiesProductTourContainer;
@@ -11,8 +12,14 @@ import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.persistence.annotation.Inject;
 import fr.sfc.repository.OrderRepository;
 import fr.sfc.repository.ProductTourRepository;
+import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,40 +41,57 @@ public class ListProductTourController implements Controller {
     @Override
     public void setup() {
 
-        // on récupère les tournées
-        container.getProductTourList().addAll(productTourRepository.findAll());
+        // On récupère les tournées et les ajoute dans la liste
+        container.getObservableList().addAll(productTourRepository.findAll().stream()
+                        .map(productTour -> Pack.of(productTour, this::toStringPt))
+                        .collect(Collectors.toSet()));
 
-        // On ajoute les tournées dans la liste
-        container.getProductTourListView().getItems().addAll(
-                container.getProductTourList().stream()
-                .map(this::toStringPt)
-                .collect(Collectors.toSet()));
+        // Met les icons dans la liste
+        refresh();
 
         // on récupère la selection
-        container.getProductTourListView().getSelectionModel().selectedIndexProperty().addListener(this::selectItem);
+        container.getProductTourListView().getSelectionModel().selectedItemProperty().addListener(this::selectItem);
 
-        // responsive
-        container.getProductTourListView().prefWidthProperty().bind(container.widthProperty());
-        container.getProductTourListView().prefHeightProperty().bind(container.heightProperty().subtract(100));
+        // Filtre la liste en fonction de l'observation du text field
+        container.getSearchTextField().textProperty().addListener(this::filtre);
 
         // Ouvre la fenêtre d'ajout de tournée en appuyant sur le button
         container.getAdderProductTourButton().setOnAction(event -> container.getProductTourFrame().getFrame().show());
 
     }
 
-    private String toStringPt(ProductTour productTour) {
-        return productTour.getName() + " | Commenc\u00E9 le " +
-                productTour.getStartDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE);
+    private void filtre(Observable observable) {
+
+        String filter = container.getSearchTextField().getText();
+
+        if (filter == null || filter.length() == 0) {
+            container.getFilteredList().setPredicate(productTourPack -> true);
+            return;
+        }
+
+        container.getFilteredList().setPredicate(
+                productTourPack -> productTourPack.toString().contains(filter));
     }
 
-    private void selectItem(ObservableValue<? extends Number> observableV,
-                            Number oldV,
-                            Number newV) {
+    private String toStringPt(ProductTour productTour) {
+        return  productTour.getName() + " | Commenc\u00E9 le " +
+                productTour.getStartDateTime()
+                        .format(DateTimeFormatter.ISO_LOCAL_DATE);
+    }
+
+    private void refresh() {
+        container.getProductTourListView().setCellFactory(this::returnListCellWithImage);
+        container.getProductTourListView().refresh();
+    }
+
+    private void selectItem(ObservableValue<? extends Pack<ProductTour>> observableV,
+                            Pack<ProductTour> oldV,
+                            Pack<ProductTour> newV) {
 
         // Si on n'a rien sélectionné on quitte la methode
-        if (newV.intValue() == -1) return;
+        if (newV == null || newV.get() == null) return;
 
-        ProductTour ptSelected = container.getProductTourList().get(newV.intValue());
+        ProductTour ptSelected = newV.get();
 
         Set<Order> orders =  orderRepository.findByProductTour(ptSelected);
 
@@ -81,6 +105,36 @@ public class ListProductTourController implements Controller {
         specifiesProductTourContainer.getController().setProductTour(ptSelected);
         specifiesProductTourContainer.getController().getOrderListView().getItems().addAll(packsOrder);
         specifiesProductTourContainer.getController().refresh();
+    }
+
+    private ListCell<Pack<ProductTour>> returnListCellWithImage(ListView<Pack<ProductTour>> lv) {
+        return new ListCell<>() {
+
+            private final ImageView imageView = new ImageView();
+
+            @Override
+            public void updateItem(Pack<ProductTour> productTourPack, boolean empty) {
+                super.updateItem(productTourPack, empty);
+
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                    return;
+                }
+
+                ProductTour productTour = productTourPack.get();
+                Image image = IconsType.WARNING_16x16;
+
+                if (productTour.getEndDateTime() != null &&
+                        productTour.getEndDateTime().isBefore(LocalDateTime.now())) {
+                    image = IconsType.WARNING_16x16;
+                }
+
+                imageView.setImage(image);
+                setGraphic(imageView);
+                setText(productTourPack.toString());
+            }
+        };
     }
 
 }

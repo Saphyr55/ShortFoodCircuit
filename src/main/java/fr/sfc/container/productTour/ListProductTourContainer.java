@@ -1,19 +1,20 @@
 package fr.sfc.container.productTour;
 
+import fr.sfc.common.Pack;
 import fr.sfc.controller.productTour.ListProductTourController;
 import fr.sfc.entity.ProductTour;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.annotation.SetContainer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ListProductTourContainer extends GridPane implements Container {
 
@@ -22,34 +23,40 @@ public class ListProductTourContainer extends GridPane implements Container {
 
     @SetContainer
     private ProductTourFrameContainer productTourFrameContainer;
-    private TextField searchTextField;
-    private List<ProductTour> productTourList;
-    private ListView<String> productTourListCell;
-    private HBox hBox;
-    private Button adderProductTourButton;
-    private Button switcherDetailsComponentButton;
+
+    private final TextField searchTextField;
+    private final FilteredList<Pack<ProductTour>> filteredList;
+    private final ObservableList<Pack<ProductTour>> observableList;
+    private final ListView<Pack<ProductTour>> productTourListView;
+    private final HBox hBox;
+    private final Button adderProductTourButton;
+    private final Button switcherDetailsComponentButton;
+
+    public ListProductTourContainer() {
+        hBox = new HBox();
+        observableList = FXCollections.observableArrayList();
+        filteredList = new FilteredList<>(observableList);
+        productTourListView = new ListView<>(filteredList);
+        switcherDetailsComponentButton = new Button("Show Map");
+        adderProductTourButton = new Button("Add Product Tour");
+        searchTextField = new TextField();
+    }
 
     @Override
     public void setup() {
-        hBox = new HBox();
-        productTourList = new ArrayList<>();
-        switcherDetailsComponentButton = new Button("Show Map");
-        productTourListCell = new ListView<>();
-        adderProductTourButton = new Button("Add Product Tour");
-        searchTextField = new TextField();
         searchTextField.setPromptText("Search for product tour");
         hBox.getChildren().addAll(adderProductTourButton, switcherDetailsComponentButton);
         addRow(0, searchTextField);
-        addRow(1, productTourListCell);
+        addRow(1, productTourListView);
         addRow(2, hBox);
+
+        // responsive
+        productTourListView.prefWidthProperty().bind(widthProperty());
+        productTourListView.prefHeightProperty().bind(heightProperty().subtract(100));
     }
 
     public void add(Node... nodes) {
         getChildren().addAll(nodes);
-    }
-
-    public List<ProductTour> getProductTourList() {
-        return productTourList;
     }
 
     public ProductTourFrameContainer getProductTourFrame() {
@@ -64,8 +71,8 @@ public class ListProductTourContainer extends GridPane implements Container {
         return adderProductTourButton;
     }
 
-    public ListView<String> getProductTourListView() {
-        return productTourListCell;
+    public ListView<Pack<ProductTour>> getProductTourListView() {
+        return productTourListView;
     }
 
     public Button getSwitcherDetailsComponentButton() {
@@ -80,7 +87,11 @@ public class ListProductTourContainer extends GridPane implements Container {
         return productTourFrameContainer;
     }
 
-    public ListView<String> getProductTourListCell() {
-        return productTourListCell;
+    public FilteredList<Pack<ProductTour>> getFilteredList() {
+        return filteredList;
+    }
+
+    public ObservableList<Pack<ProductTour>> getObservableList() {
+        return observableList;
     }
 }

@@ -29,7 +29,6 @@ public class ListProducerContainer extends GridPane implements Container {
     private ListView<String> listView;
     private FilteredList<String> filteredList;
     private ObservableList<String> observableList;
-
     private Stage stage = new Stage();
     private Scene scene;
 

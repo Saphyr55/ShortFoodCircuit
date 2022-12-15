@@ -9,8 +9,13 @@ import fr.sfc.framework.persistence.annotation.Inject;
 
 public class DetailsProductTourController implements Controller {
 
+    public enum State {
+        Map,
+        Config
+    }
+
     @AutoContainer
-    private DetailsProductTourContainer self;
+    private DetailsProductTourContainer container;
 
     private State state = State.Config;
 
@@ -29,22 +34,17 @@ public class DetailsProductTourController implements Controller {
         adder.getSwitcherDetailsComponentButton().setOnAction(event -> {
             switch (state) {
                 case Config -> {
-                    adder.getSwitcherDetailsComponentButton().setText("Show Config");
-                    self.setFor(self.getMapContainer());
                     state = State.Map;
+                    adder.getSwitcherDetailsComponentButton().setText("Show Config");
+                    container.setFor(container.getMapContainer());
                 }
                 case Map -> {
-                    adder.getSwitcherDetailsComponentButton().setText("Show Map");
-                    self.setFor(self.getSpecifiesProductTourContainer());
                     state = State.Config;
+                    adder.getSwitcherDetailsComponentButton().setText("Show Map");
+                    container.setFor(container.getSpecifiesProductTourContainer());
                 }
             }
         });
-    }
-
-    public enum State {
-        Map,
-        Config
     }
 
     public State getState() {

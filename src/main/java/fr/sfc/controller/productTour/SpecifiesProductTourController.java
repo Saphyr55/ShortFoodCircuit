@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class SpecifiesProductTourController implements Controller {
@@ -77,9 +78,9 @@ public class SpecifiesProductTourController implements Controller {
                                 Pack<Order> newV) {
 
         // Si on n'a rien sélectionné on quitte la methode
-        if (newV == null || newV.getType() == null) return;
+        if (newV == null || newV.get() == null) return;
 
-        setTextForDataOrderTextField(newV.getType());
+        setTextForDataOrderTextField(newV.get());
     }
 
     private void responsive() {
@@ -138,8 +139,14 @@ public class SpecifiesProductTourController implements Controller {
     }
 
     public void refresh() {
+        orderListView.setCellFactory(this::returnListCellWithImage);
+        orderListView.refresh();
+        setDataProductTourTextField();
+    }
 
-        orderListView.setCellFactory(e -> new ListCell<>() {
+
+    private ListCell<Pack<Order>> returnListCellWithImage(ListView<Pack<Order>> lv) {
+        return new ListCell<>() {
 
             private final ImageView imageView = new ImageView();
 
@@ -153,22 +160,25 @@ public class SpecifiesProductTourController implements Controller {
                     return;
                 }
 
-                Order order = orderPack.getType();
+                Order order = orderPack.get();
                 Image image = IconsType.LOADING_16x16;
 
                 if (order.getEndLocalDateTime() != null) {
+
                     image = IconsType.CORRECT_16x16;
+
+                    if (order.getEndLocalDateTime().isAfter(LocalDateTime.now()))
+                        image = IconsType.WARNING_16x16;
+
                 }
+
 
                 imageView.setImage(image);
                 setGraphic(imageView);
                 setText(orderPack.toString());
 
             }
-        });
-
-        orderListView.refresh();
-        setDataProductTourTextField();
+        };
     }
 
     private void setDataProductTourTextField() {

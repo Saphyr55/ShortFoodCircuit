@@ -17,7 +17,7 @@ public class Pack<T> {
         this.toString = toString;
     }
 
-    public T getType() {
+    public T get() {
         return type;
     }
 
