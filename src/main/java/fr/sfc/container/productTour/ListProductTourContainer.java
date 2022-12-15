@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,21 +25,23 @@ public class ListProductTourContainer extends GridPane implements Container {
     private TextField searchTextField;
     private List<ProductTour> productTourList;
     private ListView<String> productTourListCell;
+    private HBox hBox;
     private Button adderProductTourButton;
     private Button switcherDetailsComponentButton;
 
     @Override
     public void setup() {
+        hBox = new HBox();
         productTourList = new ArrayList<>();
         switcherDetailsComponentButton = new Button("Show Map");
         productTourListCell = new ListView<>();
         adderProductTourButton = new Button("Add Product Tour");
         searchTextField = new TextField();
         searchTextField.setPromptText("Search for product tour");
+        hBox.getChildren().addAll(adderProductTourButton, switcherDetailsComponentButton);
         addRow(0, searchTextField);
         addRow(1, productTourListCell);
-        addRow(2, adderProductTourButton);
-        addRow(3, switcherDetailsComponentButton);
+        addRow(2, hBox);
     }
 
     public void add(Node... nodes) {

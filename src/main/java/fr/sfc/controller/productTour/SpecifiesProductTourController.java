@@ -1,5 +1,7 @@
 package fr.sfc.controller.productTour;
 
+import fr.sfc.IconsType;
+import fr.sfc.common.Pack;
 import fr.sfc.container.productTour.SpecifiesProductTourContainer;
 import fr.sfc.entity.Customer;
 import fr.sfc.entity.Order;
@@ -11,13 +13,15 @@ import fr.sfc.repository.CustomerRepository;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class SpecifiesProductTourController implements Controller {
 
@@ -51,9 +55,8 @@ public class SpecifiesProductTourController implements Controller {
     @FXML private HBox containerNameTextFieldHBox;
     @FXML private VBox containerHBoxVBox;
     @FXML private HBox containerDataTextFieldHBox;
-    @FXML private ListView<String> orderListView;
+    @FXML private ListView<Pack<Order>> orderListView;
 
-    private List<Order> orders;
     private ProductTour productTour;
 
     @Inject
@@ -65,22 +68,18 @@ public class SpecifiesProductTourController implements Controller {
         setTextForNameProductTourTextField();
         setTextForNameOrderTextField();
 
-        orderListView
-                .getSelectionModel()
-                .selectedIndexProperty()
-                .addListener(this::onActionSelectElementListView);
+        orderListView.getSelectionModel().selectedItemProperty().addListener(this::onActionSelectElementListView);
     }
 
     private void onActionSelectElementListView(
-                                ObservableValue<? extends Number> observableV,
-                                Number oldV,
-                                Number newV) {
+                                ObservableValue<? extends Pack<Order>> observableV,
+                                Pack<Order> oldV,
+                                Pack<Order> newV) {
 
         // Si on n'a rien sélectionné on quitte la methode
-        if (newV.intValue() == -1) return;
+        if (newV == null || newV.getType() == null) return;
 
-        setTextForNameOrderTextField(orders.get(newV.intValue()));
-
+        setTextForDataOrderTextField(newV.getType());
     }
 
     private void responsive() {
@@ -112,7 +111,7 @@ public class SpecifiesProductTourController implements Controller {
         nameWeightOrderTextField.setText("Weight (kg)");
     }
 
-    private void setTextForNameOrderTextField(Order order) {
+    private void setTextForDataOrderTextField(Order order) {
 
         Customer customer = customerRepository.find(order.getIdCustomer());
 
@@ -138,16 +137,36 @@ public class SpecifiesProductTourController implements Controller {
         this.productTour = productTour;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
     public void refresh() {
-        orderListView.getItems().setAll(orders.stream().map(Order::getWording).toList());
+
+        orderListView.setCellFactory(e -> new ListCell<>() {
+
+            private final ImageView imageView = new ImageView();
+
+            @Override
+            public void updateItem(Pack<Order> orderPack, boolean empty) {
+                super.updateItem(orderPack, empty);
+
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                    return;
+                }
+
+                Order order = orderPack.getType();
+                Image image = IconsType.LOADING_16x16;
+
+                if (order.getEndLocalDateTime() != null) {
+                    image = IconsType.CORRECT_16x16;
+                }
+
+                imageView.setImage(image);
+                setGraphic(imageView);
+                setText(orderPack.toString());
+
+            }
+        });
+
         orderListView.refresh();
         setDataProductTourTextField();
     }
@@ -162,4 +181,7 @@ public class SpecifiesProductTourController implements Controller {
         dataMatriculationVehicleProductTourTextField.setText(productTour.getMatriculation());
     }
 
+    public ListView<Pack<Order>> getOrderListView() {
+        return orderListView;
+    }
 }
