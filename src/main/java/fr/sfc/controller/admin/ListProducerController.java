@@ -1,5 +1,10 @@
 package fr.sfc.controller.admin;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import fr.sfc.container.admin.ListProducerContainer;
 import fr.sfc.container.admin.MainAdminContainer;
 import fr.sfc.entity.Customer;
@@ -12,14 +17,6 @@ import fr.sfc.repository.CustomerRepository;
 import fr.sfc.repository.ProducerRepository;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class ListProducerController implements Controller {
 
@@ -64,7 +61,7 @@ public class ListProducerController implements Controller {
         container.getSwitchProducerCustomer().setOnAction(this::switchProducerCustomerInListEvent);
 
         // Rempli les données du producteur en cliquant sur un element de la liste
-        container.getListCell().getSelectionModel().selectedIndexProperty().addListener(this::selectedList);
+        container.getListView().getSelectionModel().selectedIndexProperty().addListener(this::selectedList);
 
     }
 
@@ -109,7 +106,7 @@ public class ListProducerController implements Controller {
      */
     public void fillListView() {
         container.getObservableList().setAll(getListStringFromDbInFunctionOfState());
-        container.getListCell().refresh();
+        container.getListView().refresh();
     }
 
     public void switchState() {

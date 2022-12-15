@@ -1,8 +1,9 @@
 package fr.sfc.controller.productTour;
 
-import fr.sfc.container.productTour.ProductTourFrame;
+import java.util.concurrent.atomic.AtomicReference;
+
+import fr.sfc.container.productTour.ProductTourFrameContainer;
 import fr.sfc.entity.Company;
-import fr.sfc.entity.ProductTour;
 import fr.sfc.entity.Vehicle;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
@@ -17,33 +18,21 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 public class ProductTourFrameController implements Controller {
 
     @AutoContainer
-    private ProductTourFrame container;
+    private ProductTourFrameContainer container;
 
-    @FXML
-    private VBox containerLabel;
-    @FXML
-    private VBox containerTextField;
-    @FXML
-    private TextField tFName;
-    @FXML
-    private DatePicker startDate;
-    @FXML
-    private DatePicker endDate;
-    @FXML
-    private TextField tFWeight;
-    @FXML
-    private TextField tfSIRETCompany;
-    @FXML
-    private TextField tFMatriculation;
-    @FXML
-    private Button buttonFinish;
-    @FXML
-    private Label labelError;
+    @FXML private VBox containerLabel;
+    @FXML private VBox containerTextField;
+    @FXML private TextField tFName;
+    @FXML private DatePicker startDate;
+    @FXML private DatePicker endDate;
+    @FXML private TextField tFWeight;
+    @FXML private TextField tfSIRETCompany;
+    @FXML private TextField tFMatriculation;
+    @FXML private Button buttonFinish;
+    @FXML private Label labelError;
 
     @Inject
     private ProductTourRepository productTourRepository;
@@ -81,13 +70,13 @@ public class ProductTourFrameController implements Controller {
 
         String matriculation = tFMatriculation.getText().toUpperCase();
 
-        companyRepository.findBySIRET(Integer.valueOf(tfSIRETCompany.getText())).ifPresent(currentCompany::set);
-        vehicleRepository.findByMatriculation(matriculation).ifPresent(vehicle::set);
-
         if (tfSIRETCompany.getText().equals("") || matriculation.equals("")){
             labelError.setText("need information");
             return;
         }
+
+        companyRepository.findBySIRET(Integer.valueOf(tfSIRETCompany.getText())).ifPresent(currentCompany::set);
+        vehicleRepository.findByMatriculation(matriculation).ifPresent(vehicle::set);
 
         if (startDate.getValue() == null || endDate.getValue() == null) {
             labelError.setText("You need to specifies the date");

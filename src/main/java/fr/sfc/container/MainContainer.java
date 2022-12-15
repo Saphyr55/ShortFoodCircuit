@@ -1,8 +1,9 @@
 package fr.sfc.container;
 
-import fr.sfc.container.productTour.AdderProductTourContainer;
 import fr.sfc.container.productTour.DetailsProductTourContainer;
+import fr.sfc.container.productTour.ListProductTourContainer;
 import fr.sfc.controller.MainController;
+import fr.sfc.framework.common.Tag;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.annotation.AutoController;
@@ -17,10 +18,11 @@ public class MainContainer extends GridPane implements Container {
     private MainController mainController;
 
     @SetContainer
+    @Tag("details")
     private DetailsProductTourContainer detailsProductTour;
 
     @SetContainer
-    private AdderProductTourContainer adderProductTour;
+    private ListProductTourContainer adderProductTour;
 
     @Inject
     private ContainerManager containerManager;
@@ -32,8 +34,8 @@ public class MainContainer extends GridPane implements Container {
         prefHeightProperty().bind(parent.heightProperty());
         prefWidthProperty().bind(parent.widthProperty());
 
-        adderProductTour.prefHeightProperty().bind(this.heightProperty());
-        adderProductTour.prefWidthProperty().bind(this.widthProperty().divide(1.5d));
+        adderProductTour.prefHeightProperty().bind(heightProperty());
+        adderProductTour.prefWidthProperty().bind(widthProperty().divide(1.5d));
 
         adderProductTour.setMinWidth(300);
         adderProductTour.setMaxWidth(3 * 3 * 100);

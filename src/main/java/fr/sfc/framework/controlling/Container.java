@@ -2,6 +2,8 @@ package fr.sfc.framework.controlling;
 
 import javafx.fxml.FXMLLoader;
 
+import java.io.IOException;
+
 /**
  * To create component, we need to implement this interface
  * It permit to be detected through the ComponentClassLoader

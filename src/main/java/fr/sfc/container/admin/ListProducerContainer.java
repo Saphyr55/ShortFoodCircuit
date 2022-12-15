@@ -1,15 +1,15 @@
 package fr.sfc.container.admin;
 
+import javax.swing.text.html.ListView;
+
 import fr.sfc.controller.admin.ListProducerController;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.annotation.SetContainer;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -26,7 +26,7 @@ public class ListProducerContainer extends GridPane implements Container {
     private final Button adderButton = new Button("+");
     private final Button switchProducerCustomer = new Button();
     private final TextField searchTextField = new TextField();
-    private ListView<String> listCell;
+    private ListView<String> listView;
     private FilteredList<String> filteredList;
     private ObservableList<String> observableList;
 
@@ -38,15 +38,13 @@ public class ListProducerContainer extends GridPane implements Container {
         scene = new Scene(adderProducerContainer, 800, 600);
         stage.setScene(scene);
 
-
         observableList = FXCollections.observableArrayList();
         filteredList = new FilteredList<>(observableList);
-        listCell = new ListView<>(filteredList);
+        listView = new ListView<>(filteredList);
 
         containerBottomButtons.addColumn(1, switchProducerCustomer);
         containerBottomButtons.addColumn(2, adderButton);
-        listCell.prefHeightProperty().bind(heightProperty());
-        listCell.prefWidthProperty().bind(widthProperty());
+        listView.prefHeightProperty().bind(heightProperty());
 
         containerBottomButtons.prefWidthProperty().bind(widthProperty());
         containerBottomButtons.prefHeightProperty().bind(heightProperty().divide(10));
@@ -59,7 +57,7 @@ public class ListProducerContainer extends GridPane implements Container {
         searchTextField.setPromptText("Search producer");
 
         addRow(0, searchTextField);
-        addRow(1, listCell);
+        addRow(1, listView);
         addRow(2, containerBottomButtons);
     }
 
@@ -67,8 +65,8 @@ public class ListProducerContainer extends GridPane implements Container {
         return stage;
     }
 
-    public ListView<String> getListCell() {
-        return listCell;
+    public ListView<String> getListView() {
+        return listView;
     }
 
     public TextField getSearchTextField() {
