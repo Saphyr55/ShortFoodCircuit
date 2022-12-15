@@ -20,7 +20,6 @@ public class MainAdminController implements Controller {
 
     @Inject
     private CompanyRepository companyRepository;
-
     @Inject
     private ProductTourRepository productTourRepository;
 
@@ -28,8 +27,7 @@ public class MainAdminController implements Controller {
     private Customer currentCustomer;
 
     @Override
-    public void setup() {
-    }
+    public void setup() { }
 
     /**
      * Rempli les champs de texte avec les données du producteur courant sélectionner

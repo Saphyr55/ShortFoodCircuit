@@ -17,15 +17,21 @@ public class DetailsProductTourContainer extends Pane implements Container {
     @SetContainer
     private MapContainer mapContainer;
 
-    @Tag(value = "config")
+    @Tag(value = "specifies")
     @SetContainer
-    private ConfigProductTourContainer configProductTourContainer;
+    private SpecifiesProductTourContainer specifiesProductTourContainer;
 
     @Override
     public void setup() {
+
+        // Responsive
         mapContainer.prefWidthProperty().bind(widthProperty());
         mapContainer.prefHeightProperty().bind(heightProperty());
-        getChildren().setAll(configProductTourContainer);
+        specifiesProductTourContainer.prefWidthProperty().bind(widthProperty());
+        specifiesProductTourContainer.prefHeightProperty().bind(heightProperty());
+
+        // By default, we set for specifies container
+        getChildren().setAll(specifiesProductTourContainer);
     }
 
     public void setFor(Parent parent) {
@@ -44,8 +50,8 @@ public class DetailsProductTourContainer extends Pane implements Container {
         return mapContainer;
     }
 
-    public ConfigProductTourContainer getConfigProductTourContainer() {
-        return configProductTourContainer;
+    public SpecifiesProductTourContainer getSpecifiesProductTourContainer() {
+        return specifiesProductTourContainer;
     }
 
 

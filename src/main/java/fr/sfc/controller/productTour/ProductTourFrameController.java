@@ -1,6 +1,6 @@
 package fr.sfc.controller.productTour;
 
-import fr.sfc.container.productTour.ProductTourFrame;
+import fr.sfc.container.productTour.ProductTourFrameContainer;
 import fr.sfc.entity.Company;
 import fr.sfc.entity.ProductTour;
 import fr.sfc.entity.Vehicle;
@@ -22,28 +22,18 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ProductTourFrameController implements Controller {
 
     @AutoContainer
-    private ProductTourFrame container;
+    private ProductTourFrameContainer container;
 
-    @FXML
-    private VBox containerLabel;
-    @FXML
-    private VBox containerTextField;
-    @FXML
-    private TextField tFName;
-    @FXML
-    private DatePicker startDate;
-    @FXML
-    private DatePicker endDate;
-    @FXML
-    private TextField tFWeight;
-    @FXML
-    private TextField tfSIRETCompany;
-    @FXML
-    private TextField tFMatriculation;
-    @FXML
-    private Button buttonFinish;
-    @FXML
-    private Label labelError;
+    @FXML private VBox containerLabel;
+    @FXML private VBox containerTextField;
+    @FXML private TextField tFName;
+    @FXML private DatePicker startDate;
+    @FXML private DatePicker endDate;
+    @FXML private TextField tFWeight;
+    @FXML private TextField tfSIRETCompany;
+    @FXML private TextField tFMatriculation;
+    @FXML private Button buttonFinish;
+    @FXML private Label labelError;
 
     @Inject
     private ProductTourRepository productTourRepository;

@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 @ContainerFXML
-public class ProductTourFrame extends HBox implements Container {
+public class ProductTourFrameContainer extends HBox implements Container {
 
     @AutoController
     private ProductTourFrameController control;
@@ -23,7 +23,7 @@ public class ProductTourFrame extends HBox implements Container {
     private Stage frame;
     private Scene scene;
 
-    public ProductTourFrame() {
+    public ProductTourFrameContainer() {
         try {
             frame = new Stage();
             loader = new FXMLLoader(Resources.getResource("/fxml/adderProductToursFrame.fxml"));
