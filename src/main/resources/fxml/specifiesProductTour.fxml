@@ -18,37 +18,37 @@
                <VBox>
                   <children>
                      <TextField fx:id="nameTitleProductTourTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true" />
 
                      <TextField fx:id="nameProductTourTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true" />
 
                      <TextField fx:id="nameStartDateProductTourTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>
 
                      <TextField fx:id="nameEndDateProductTourTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>
 
                      <TextField fx:id="nameWeightProductTourTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>
 
                      <TextField fx:id="nameMatriculationVehicleProductTourTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>
@@ -57,37 +57,37 @@
                </VBox>
                <VBox>
                   <children>
-                     <TextField font="${defaultFont}"
+                     <TextField font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true" />
 
                      <TextField fx:id="dataProductTourTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>
 
                      <TextField fx:id="dataStartDateProductTourTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>
 
                      <TextField fx:id="dataEndDateProductTourTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>
 
                      <TextField fx:id="dataWeightProductTourTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>
 
                      <TextField fx:id="dataMatriculationVehicleProductTourTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>
@@ -101,37 +101,37 @@
                <VBox>
                   <children>
                      <TextField fx:id="nameTitleOrderTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true" />
 
                      <TextField fx:id="nameOrderTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true" />
 
                      <TextField fx:id="nameStartDateOrderTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>
 
                      <TextField fx:id="nameEndDateOrderTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>
 
                      <TextField fx:id="nameWeightOrderTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>
 
                      <TextField fx:id="nameCustomerOrderTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>
@@ -140,37 +140,37 @@
                </VBox>
                <VBox>
                   <children>
-                     <TextField font="${defaultFont}"
+                     <TextField font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true" />
 
                      <TextField fx:id="dataOrderTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true" />
 
                      <TextField fx:id="dataStartDateOrderTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>
 
                      <TextField fx:id="dataEntDateOrderTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>
 
                      <TextField fx:id="dataWeightOrderTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>
 
                      <TextField fx:id="dataCustomerOrderTextField"
-                                font="${defaultFont}"
+                                font="$defaultFont"
                                 prefHeight="${containerNameTextFieldHBox.height}"
                                 prefWidth="${containerNameTextFieldHBox.width}"
                                 disable="true"/>

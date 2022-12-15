@@ -78,7 +78,7 @@ public class SpecifiesProductTourController implements Controller {
                                 Pack<Order> newV) {
 
         // Si on n'a rien sélectionné on quitte la methode
-        if (newV == null || newV.get() == null) return;
+        if (newV == null) return;
 
         setTextForDataOrderTextField(newV.get());
     }

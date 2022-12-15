@@ -10,6 +10,7 @@ import fr.sfc.framework.persistence.annotation.Inject;
 import fr.sfc.repository.CompanyRepository;
 import fr.sfc.repository.ProductTourRepository;
 import fr.sfc.repository.VehicleRepository;
+import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -24,7 +25,7 @@ public class ProductTourFrameController implements Controller {
     @AutoContainer
     private ProductTourFrameContainer container;
 
-    @FXML private VBox containerLabel;
+    @FXML private VBox containerNameTextField;
     @FXML private VBox containerTextField;
     @FXML private TextField tFName;
     @FXML private DatePicker startDate;
@@ -34,6 +35,8 @@ public class ProductTourFrameController implements Controller {
     @FXML private TextField tFMatriculation;
     @FXML private Button buttonFinish;
     @FXML private Label labelError;
+    @FXML private DoubleProperty textFieldWidth;
+    @FXML private DoubleProperty textFieldHeight;
 
     @Inject
     private ProductTourRepository productTourRepository;
@@ -44,9 +47,12 @@ public class ProductTourFrameController implements Controller {
 
     @Override
     public void setup() {
+        textFieldWidth.bind(container.widthProperty().multiply(0.50));
+        textFieldHeight.bind(container.heightProperty());
+
         // Bindings container labels
-        containerLabel.prefWidthProperty().bind(container.widthProperty().divide(2));
-        containerLabel.prefHeightProperty().bind(container.heightProperty());
+        containerNameTextField.prefWidthProperty().bind(container.widthProperty().divide(2));
+        containerNameTextField.prefHeightProperty().bind(container.heightProperty());
 
         // Bindings container text fields
         containerTextField.prefWidthProperty().bind(container.widthProperty().divide(2));
@@ -57,10 +63,10 @@ public class ProductTourFrameController implements Controller {
         tfSIRETCompany.prefWidthProperty().bind(containerTextField.widthProperty());
         tFWeight.prefWidthProperty().bind(containerTextField.widthProperty());
         tFMatriculation.prefWidthProperty().bind(containerTextField.widthProperty());
-        startDate.prefWidthProperty().bind(containerLabel.widthProperty());
-        endDate.prefWidthProperty().bind(containerLabel.widthProperty());
+        startDate.prefWidthProperty().bind(containerNameTextField.widthProperty());
+        endDate.prefWidthProperty().bind(containerNameTextField.widthProperty());
 
-        buttonFinish.prefWidthProperty().bind(containerLabel.widthProperty());
+        buttonFinish.prefWidthProperty().bind(containerNameTextField.widthProperty());
     }
 
     @FXML
@@ -107,5 +113,30 @@ public class ProductTourFrameController implements Controller {
 
 
     }
+
+    public double getTextFieldWidth() {
+        return textFieldWidth.get();
+    }
+
+    public DoubleProperty textFieldWidthProperty() {
+        return textFieldWidth;
+    }
+
+    public void setTextFieldWidth(double width) {
+        textFieldWidth.set(width);
+    }
+
+    public double getTextFieldHeight() {
+        return textFieldHeight.get();
+    }
+
+    public DoubleProperty textFieldHeightProperty() {
+        return textFieldHeight;
+    }
+
+    public void setTextFieldHeight(double width) {
+        textFieldHeight.set(width);
+    }
+
 
 }

@@ -1,37 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.beans.property.SimpleDoubleProperty?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.lang.Double?>
+<fx:root type="HBox" xmlns="http://javafx.com/javafx/19"
+         xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="fr.sfc.controller.productTour.ProductTourFrameController">
+    <fx:define>
+        <Font fx:id="defaultFont" size="20" name="Arial"/>
+    </fx:define>
+    <fx:define>
+        <SimpleDoubleProperty fx:id="textFieldWidth">
+            <value>
+                <Double fx:value="0"/>
+            </value>
+        </SimpleDoubleProperty>
+    </fx:define>
+    <fx:define>
+        <SimpleDoubleProperty fx:id="textFieldHeight">
+            <value>
+                <Double fx:value="0"/>
+            </value>
+        </SimpleDoubleProperty>
+    </fx:define>
+    <VBox fx:id="containerNameTextField" prefHeight="142.0" prefWidth="83.0">
 
-<fx:root prefHeight="192.0" prefWidth="262.0" type="HBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.sfc.controller.productTour.ProductTourFrameController">
-    <children>
-        <VBox fx:id="containerLabel" prefHeight="142.0" prefWidth="83.0">
-            <Label prefHeight="30.0" text="name" />
-            <Label prefHeight="30.0" text="Start date" />
-            <Label prefHeight="30.0" text="End date" />
-            <Label prefHeight="30.0" text="Weight" />
-            <Label prefHeight="30.0" text="SIRET Company" />
-            <Label prefHeight="30.0" text="Matriculation" />
-         <VBox prefHeight="30.0" prefWidth="82.0">
-            <children>
-                  <Button fx:id="buttonFinish" onAction="#EventButtonAddProductToursFinishAction" prefHeight="46.0" prefWidth="82.0" text="Finish" />
-            </children>
-         </VBox>
-        </VBox>
-        <VBox fx:id="containerTextField" prefHeight="192.0" prefWidth="182.0">
-            <TextField fx:id="tFName" prefHeight="30.0" prefWidth="181.0" />
-            <DatePicker fx:id="startDate" prefHeight="29.0" prefWidth="175.0" />
-            <DatePicker fx:id="endDate" prefHeight="30.0" prefWidth="175.0" />
-            <TextField fx:id="tFWeight" prefHeight="30.0" prefWidth="181.0" />
-            <TextField fx:id="tfSIRETCompany" prefHeight="30.0" prefWidth="181.0" promptText="need" />
-            <TextField fx:id="tFMatriculation" prefHeight="30.0" prefWidth="181.0" promptText="need" />
-         <Label fx:id="labelError" prefHeight="30.0" prefWidth="190.0" textFill="RED" />
+        <TextField prefWidth="${controller.textFieldWidth}"
+                   prefHeight="${controller.textFieldHeight}"
+                   disable="true"
+                   font="$defaultFont"
+                   text="name"/>
 
+        <TextField prefWidth="${controller.textFieldWidth}"
+                   prefHeight="${controller.textFieldHeight}"
+                   disable="true"
+                   font="$defaultFont"
+                   text="Start date"/>
+
+        <TextField prefWidth="${controller.textFieldWidth}"
+                   prefHeight="${controller.textFieldHeight}"
+                   disable="true"
+                   font="$defaultFont"
+                   text="End date"/>
+
+        <TextField prefWidth="${controller.textFieldWidth}"
+                   prefHeight="${controller.textFieldHeight}"
+                   disable="true"
+                   font="$defaultFont"
+                   text="Weight"/>
+
+        <TextField prefWidth="${controller.textFieldWidth}"
+                   prefHeight="${controller.textFieldHeight}"
+                   disable="true"
+                   font="$defaultFont"
+                   text="SIRET Company"/>
+
+        <TextField prefWidth="${controller.textFieldWidth}"
+                   prefHeight="${controller.textFieldHeight}"
+                   disable="true"
+                   font="$defaultFont"
+                   text="Matriculation"/>
+
+        <VBox>
+            <Button fx:id="buttonFinish"
+                    font="$defaultFont"
+                    onAction="#EventButtonAddProductToursFinishAction"
+                    text="Finish"/>
         </VBox>
-        <VBox />
-    </children>
+    </VBox>
+    <VBox fx:id="containerTextField">
+
+        <TextField fx:id="tFName"
+                   font="$defaultFont"
+                   prefWidth="${controller.textFieldWidth}"
+                   prefHeight="${controller.textFieldHeight}"/>
+
+        <DatePicker fx:id="startDate"
+                    prefWidth="${controller.textFieldWidth}"
+                    prefHeight="${controller.textFieldHeight}"/>
+
+        <DatePicker fx:id="endDate"
+                    prefWidth="${controller.textFieldWidth}"
+                    prefHeight="${controller.textFieldHeight}"/>
+
+        <TextField fx:id="tFWeight"
+                   font="$defaultFont"
+                   prefWidth="${controller.textFieldWidth}"
+                   prefHeight="${controller.textFieldHeight}"/>
+
+        <TextField fx:id="tfSIRETCompany"
+                   font="$defaultFont"
+                   prefWidth="${controller.textFieldWidth}"
+                   prefHeight="${controller.textFieldHeight}"
+                   promptText="need"/>
+
+        <TextField fx:id="tFMatriculation"
+                   font="$defaultFont"
+                   prefWidth="${controller.textFieldWidth}"
+                   prefHeight="${controller.textFieldHeight}"
+                   promptText="need"/>
+
+        <Label fx:id="labelError"
+               font="$defaultFont"
+               textFill="RED"/>
+    </VBox>
 </fx:root>

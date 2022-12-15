@@ -23,7 +23,7 @@ public class ListProductTourContainer extends GridPane implements Container {
 
     @SetContainer
     private ProductTourFrameContainer productTourFrameContainer;
-
+    
     private final TextField searchTextField;
     private final FilteredList<Pack<ProductTour>> filteredList;
     private final ObservableList<Pack<ProductTour>> observableList;
@@ -51,8 +51,10 @@ public class ListProductTourContainer extends GridPane implements Container {
         addRow(2, hBox);
 
         // responsive
+        searchTextField.prefWidthProperty().bind(widthProperty());
+        searchTextField.prefHeightProperty().bind(heightProperty().multiply(0.05));
         productTourListView.prefWidthProperty().bind(widthProperty());
-        productTourListView.prefHeightProperty().bind(heightProperty().subtract(100));
+        productTourListView.prefHeightProperty().bind(heightProperty());
     }
 
     public void add(Node... nodes) {

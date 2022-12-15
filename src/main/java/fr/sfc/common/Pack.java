@@ -1,32 +1,35 @@
 package fr.sfc.common;
 
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
-public class Pack<T> {
+public final class Pack<T> {
 
     private final Function<T, String> toString;
     private final T type;
 
-    public static <T> Pack<T> of(T type, Function<T, String> toString) {
+    public static <T> Pack<T> of(@NotNull final T type,
+                                 @NotNull final Function<T, String> toString) {
         return new Pack<>(type, toString);
     }
 
-    private Pack(T type, Function<T, String> toString) {
+    private Pack(@NotNull final T type,
+                 @NotNull final Function<T, String> toString) {
         this.type = type;
         this.toString = toString;
     }
 
-    public T get() {
+    public @NotNull T get() {
         return type;
     }
 
-    public Function<T, String> getToString() {
+    public @NotNull Function<T, String> getToString() {
         return toString;
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return toString.apply(type);
     }
 

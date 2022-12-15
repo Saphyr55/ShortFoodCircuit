@@ -1,6 +1,5 @@
 package fr.sfc.container.productTour;
 
-import fr.sfc.common.LocalResources;
 import fr.sfc.controller.productTour.ProductTourFrameController;
 import fr.sfc.framework.Resources;
 import fr.sfc.framework.controlling.Container;
@@ -24,17 +23,12 @@ public class ProductTourFrameContainer extends HBox implements Container {
     private Stage frame;
     private Scene scene;
 
-    public ProductTourFrameContainer() {
-        try {
-            frame = new Stage();
-            loader = new FXMLLoader(Resources.getResource("/fxml/adderProductToursFrame.fxml"), LocalResources.getBundle());
-            loader.setRoot(this);
-            loader.load();
-            scene = new Scene(this, 750, 500);
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-
+    public ProductTourFrameContainer() throws IOException {
+        frame = new Stage();
+        loader = new FXMLLoader(Resources.getResource("/fxml/adderProductToursFrame.fxml"));
+        loader.setRoot(this);
+        loader.load();
+        scene = new Scene(this, 750, 500);
     }
 
     @Override
