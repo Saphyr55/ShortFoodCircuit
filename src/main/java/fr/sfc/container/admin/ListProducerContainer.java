@@ -1,15 +1,15 @@
 package fr.sfc.container.admin;
 
-import javax.swing.text.html.ListView;
-
 import fr.sfc.controller.admin.ListProducerController;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.annotation.SetContainer;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;

@@ -1,9 +1,8 @@
 package fr.sfc.controller.productTour;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import fr.sfc.container.productTour.ProductTourFrameContainer;
 import fr.sfc.entity.Company;
+import fr.sfc.entity.ProductTour;
 import fr.sfc.entity.Vehicle;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
@@ -17,6 +16,8 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ProductTourFrameController implements Controller {
 
