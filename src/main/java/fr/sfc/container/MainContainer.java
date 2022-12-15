@@ -1,7 +1,7 @@
 package fr.sfc.container;
 
-import fr.sfc.container.productTour.DetailsProductTourContainer;
 import fr.sfc.container.productTour.ListProductTourContainer;
+import fr.sfc.container.productTour.DetailsProductTourContainer;
 import fr.sfc.controller.MainController;
 import fr.sfc.framework.common.Tag;
 import fr.sfc.framework.controlling.Container;

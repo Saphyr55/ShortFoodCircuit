@@ -11,7 +11,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-<<<<<<<< HEAD:src/main/java/fr/sfc/container/productTour/ListProductTourContainer.java
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,15 +21,6 @@ public class ListProductTourContainer extends GridPane implements Container {
 
     @SetContainer
     private ProductTourFrameContainer productTourFrameContainer;
-========
-public class AdderProductTourContainer extends GridPane implements Container {
-
-    @AutoController
-    private AdderProductTourController controller;
-
-    @SetContainer
-    private ProductTourFrame productTourFrame;
->>>>>>>> master:src/main/java/fr/sfc/container/productTour/AdderProductTourContainer.java
 
     private TextField searchTextField;
     private List<ProductTour> productTourList;
@@ -56,17 +46,12 @@ public class AdderProductTourContainer extends GridPane implements Container {
         getChildren().addAll(nodes);
     }
 
-<<<<<<<< HEAD:src/main/java/fr/sfc/container/productTour/ListProductTourContainer.java
     public List<ProductTour> getProductTourList() {
         return productTourList;
     }
 
     public ProductTourFrameContainer getProductTourFrame() {
         return productTourFrameContainer;
-========
-    public ProductTourFrame getProductTourFrame() {
-        return productTourFrame;
->>>>>>>> master:src/main/java/fr/sfc/container/productTour/AdderProductTourContainer.java
     }
 
     public TextField getSearchTextField() {
