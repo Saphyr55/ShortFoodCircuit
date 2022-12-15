@@ -1,10 +1,10 @@
 package fr.sfc.controller.productTour;
 
-import fr.sfc.container.productTour.ListProductTourContainer;
 import fr.sfc.container.productTour.DetailsProductTourContainer;
+import fr.sfc.container.productTour.ListProductTourContainer;
 import fr.sfc.framework.controlling.ContainerManager;
-import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.controlling.Controller;
+import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.persistence.annotation.Inject;
 
 public class DetailsProductTourController implements Controller {
