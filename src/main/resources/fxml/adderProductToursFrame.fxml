@@ -13,7 +13,7 @@
             <Label prefHeight="30.0" text="name" />
             <Label prefHeight="30.0" text="Start date" />
             <Label prefHeight="30.0" text="End date" />
-            <Label prefHeight="30.0" text="weight" />
+            <Label prefHeight="30.0" text="Weight" />
             <Label prefHeight="30.0" text="SIRET Company" />
             <Label prefHeight="30.0" text="Matriculation" />
          <VBox prefHeight="30.0" prefWidth="82.0">
@@ -29,7 +29,7 @@
             <TextField fx:id="tFWeight" prefHeight="30.0" prefWidth="181.0" />
             <TextField fx:id="tfSIRETCompany" prefHeight="30.0" prefWidth="181.0" promptText="need" />
             <TextField fx:id="tFMatriculation" prefHeight="30.0" prefWidth="181.0" promptText="need" />
-         <Label fx:id="labelError" prefHeight="30.0" prefWidth="190.0" text="" textFill="RED" />
+         <Label fx:id="labelError" prefHeight="30.0" prefWidth="190.0" textFill="RED" />
 
         </VBox>
         <VBox />
