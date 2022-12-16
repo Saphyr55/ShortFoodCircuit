@@ -56,7 +56,7 @@ public class ListProductTourController implements Controller {
         container.getSearchTextField().textProperty().addListener(this::filtre);
 
         // Ouvre la fenêtre d'ajout de tournée en appuyant sur le button
-        container.getAdderProductTourButton().setOnAction(event -> container.getProductTourFrame().getFrame().show());
+        container.getAdderProductTourButton().setOnAction(event -> container.getProductTourFrame().getStage().show());
 
     }
 
@@ -89,7 +89,7 @@ public class ListProductTourController implements Controller {
                             Pack<ProductTour> newV) {
 
         // Si on n'a rien sélectionné on quitte la methode
-        if (newV == null || newV.get() == null) return;
+        if (newV == null) return;
 
         ProductTour ptSelected = newV.get();
 

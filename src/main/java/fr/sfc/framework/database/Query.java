@@ -21,7 +21,7 @@ public interface Query extends AutoCloseable {
     void prepare();
 
     /**
-     * Prepare la requête, l'exécute et retourne le result set
+     * Prepare la requête, l'exécute puis retourne le result set
      *
      * @return result set
      */

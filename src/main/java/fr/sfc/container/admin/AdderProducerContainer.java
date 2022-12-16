@@ -9,19 +9,15 @@ import javafx.scene.text.Font;
 
 public class AdderProducerContainer extends HBox implements Container {
 
-    private TextField lastnameTextField = new TextField();
-    private TextField firstnameTextField = new TextField();
-    private TextField siretTextField = new TextField();
-
-    private VBox textFieldContainerVBox = new VBox();
-
-    private TextField lastnameTextTextField = new TextField();
-    private TextField firstnameTextTextField = new TextField();
-    private TextField siretTextTextField = new TextField();
-
-    private VBox textFieldTextContainerVBox = new VBox();
-
-    private Button addProducerButton = new Button();
+    private final TextField lastnameTextField = new TextField();
+    private final TextField firstnameTextField = new TextField();
+    private final TextField siretTextField = new TextField();
+    private final VBox textFieldContainerVBox = new VBox();
+    private final TextField lastnameTextTextField = new TextField();
+    private final TextField firstnameTextTextField = new TextField();
+    private final TextField siretTextTextField = new TextField();
+    private final VBox textFieldTextContainerVBox = new VBox();
+    private final Button addProducerButton = new Button();
 
     @Override
     public void setup() {
@@ -51,8 +47,8 @@ public class AdderProducerContainer extends HBox implements Container {
         siretTextTextField.setFont(Font.font("Arial", 30));
         addProducerButton.setFont(Font.font("Arial", 20));
 
-        this.getChildren().add(textFieldContainerVBox);
-        this.getChildren().add(textFieldTextContainerVBox);
+        getChildren().add(textFieldContainerVBox);
+        getChildren().add(textFieldTextContainerVBox);
     }
 
     public TextField getLastnameTextField() {

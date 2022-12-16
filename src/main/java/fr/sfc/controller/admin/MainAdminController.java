@@ -37,7 +37,7 @@ public class MainAdminController implements Controller {
         companyRepository.findBySIRET(currentProducer.getSIRET()).ifPresent(company -> {
             container.getSpecificsDataProducer().getLastnameProducer().setText(currentProducer.getLastname().toUpperCase());
             container.getSpecificsDataProducer().getFirstnameProducer().setText(currentProducer.getFirstname());
-            container.getSpecificsDataProducer().getSIRETCompany().setText(company.getSIRET());
+            container.getSpecificsDataProducer().getSIRETCompany().setText(company.getSIRET().toString());
             container.getSpecificsDataProducer().getAddressCompany().setText(company.getAddress());
             container.getSpecificsDataProducer().getPhoneNumber().setText(formatPhoneNumber(company.getPhoneNumber()));
             container.getSpecificsDataProducer().getCountProductTour().setText(countProductTourByCompany(company));

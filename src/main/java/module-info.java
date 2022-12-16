@@ -19,18 +19,22 @@ module fr.sfc {
     requires javafx.fxml;
     requires javafx.web;
     requires javafx.media;
+    requires javafx.swing;
+    requires com.jfoenix;
+
+    requires org.slf4j;
+    requires org.apache.logging.log4j;
+    requires org.apache.logging.log4j.slf4j;
+    requires org.apache.logging.log4j.core;
 
     requires ini4j;
-    requires log4j;
     requires org.mariadb.jdbc;
     requires commons.math3;
     requires lucene.core;
     requires org.yaml.snakeyaml;
     requires org.reflections;
     requires org.jetbrains.annotations;
-    requires com.google.errorprone.annotations;
     requires com.google.gson;
-    requires com.google.common;
     requires libphonenumber;
 
     opens fr.sfc;
@@ -50,5 +54,6 @@ module fr.sfc {
     opens fr.sfc.framework.common;
     opens fr.sfc.container.admin;
     opens fr.sfc.controller.admin;
+    opens fr.sfc.container.common;
 
 }

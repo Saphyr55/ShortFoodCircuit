@@ -1,6 +1,6 @@
 package fr.sfc.container.productTour;
 
-import fr.sfc.controller.productTour.ProductTourFrameController;
+import fr.sfc.controller.productTour.AdderProductTourController;
 import fr.sfc.framework.Resources;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
@@ -16,7 +16,7 @@ import java.io.IOException;
 public class ProductTourFrame extends HBox implements Container {
 
     @AutoController
-    private ProductTourFrameController control;
+    private AdderProductTourController control;
 
     private FXMLLoader loader;
 

@@ -17,7 +17,6 @@ public class ContainerManager {
     private final Set<Controller> controllers;
     private final ContainerFactory containerFactory;
     private final ContainerLoader containerLoader;
-    private int countId = 0;
 
     /**
      * Create a component manager
@@ -63,6 +62,7 @@ public class ContainerManager {
      * @param pathTag chemin
      * @return container
      */
+    @SuppressWarnings("unchecked")
     public <T extends Container> T getContainer(String pathTag) {
         var cp = containerGraph.getPathForEachComponent().get(pathTag);
         if (cp != null) return (T) cp.self();
@@ -84,10 +84,6 @@ public class ContainerManager {
 
     public Map<Container, Controller> getComponentControllerMap() {
         return containerControllerMap;
-    }
-
-    public int getCountId() {
-        return countId;
     }
 
     public Set<Controller> getAllControllers() {

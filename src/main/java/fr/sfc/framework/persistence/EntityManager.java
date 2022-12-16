@@ -3,8 +3,10 @@ package fr.sfc.framework.persistence;
 import fr.sfc.framework.database.Database;
 import fr.sfc.framework.database.Query;
 import fr.sfc.framework.database.QueryFactory;
-import fr.sfc.framework.database.impl.QueryFactoryImpl;
 import fr.sfc.framework.database.annotation.NativeQuery;
+import fr.sfc.framework.database.impl.QueryFactoryImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -15,10 +17,14 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public final class EntityManager {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(EntityManager.class);
+
     private final EntityClassManager entityClassManager;
     private final QueryFactory queryFactory;
 
-    public EntityManager(final Database database, final EntityClassManager entityClassManager) {
+    public EntityManager(final Database database,
+                         final EntityClassManager entityClassManager) {
+
         this.entityClassManager = entityClassManager;
         this.queryFactory = new QueryFactoryImpl(database, entityClassManager);
     }
@@ -26,15 +32,15 @@ public final class EntityManager {
     @NativeQuery(value = "SELECT * FROM %s")
     public <T> Set<T> findAll(Class<T> aClass) {
 
-        final Set<T> set = new HashSet<>();
+        Set<T> set = null;
 
-        try (final Query query = queryFactory.createNativeQuery(
+        try (Query query = queryFactory.createNativeQuery(
                 getClass().getMethod("findAll", Class.class),
                 entityClassManager.getNameTable(aClass))) {
 
-            set.addAll(wrapResultSetToEntities(aClass, query.executeQuery()));
+            set = wrapResultSetToEntities(aClass, query.executeQuery());
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error with find all request", e);
         }
         return set;
     }
@@ -52,7 +58,7 @@ public final class EntityManager {
             query.prepare();
             query.executeUpdate();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error with insert request", e);
         }
     }
 
@@ -67,7 +73,7 @@ public final class EntityManager {
             query.prepare();
             query.executeUpdate();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error with delete request", e);
         }
     }
 
@@ -83,7 +89,7 @@ public final class EntityManager {
             count = query.getResultSet().getInt(1);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error with count request", e);
         }
         return count;
     }
@@ -104,31 +110,32 @@ public final class EntityManager {
                     .ifPresent(type::set);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error with find by id request", e);
+
         }
         return type.get();
     }
 
-    public <T> Set<T> wrapResultSetToEntities(Class<T> tClass, ResultSet resultSet)
-            throws SQLException, InvocationTargetException,
-            InstantiationException, IllegalAccessException, NoSuchMethodException {
-        final Set<T> types = new HashSet<>();
-        final Set<Map<Field, Object>> setsAttributes = new HashSet<>();
+    public <T> Set<T> wrapResultSetToEntities(Class<T> tClass, ResultSet resultSet) throws
+            SQLException, InvocationTargetException,
+            InstantiationException, IllegalAccessException,
+            NoSuchMethodException {
+
+        final List<T> types = new ArrayList<>();
+        final List<Map<Field, Object>> setsAttributes = new ArrayList<>();
         final Map<String, Field> fields = entityClassManager.getFieldsFromEntity(tClass);
         final Set<String> nameFields = fields.keySet();
-        final Iterator<String> it = nameFields.iterator();
 
         while (resultSet.next()) {
 
             final Map<Field, Object> attributes = new HashMap<>();
             setsAttributes.add(attributes);
 
-            while (it.hasNext()) {
-
-                final String nameField = it.next();
+            for (String nameField : nameFields) {
                 final Field field = fields.get(nameField);
                 attributes.put(field, resultSet.getObject(nameField, field.getType()));
             }
+
         }
 
         for (final Map<Field, Object> attributes : setsAttributes) {
@@ -146,7 +153,7 @@ public final class EntityManager {
             }
         }
 
-        return types;
+        return new HashSet<>(types);
     }
 
     public QueryFactory getQueryFactory() {

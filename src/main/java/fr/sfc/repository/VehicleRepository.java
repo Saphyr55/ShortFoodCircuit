@@ -1,5 +1,6 @@
 package fr.sfc.repository;
 
+import fr.sfc.entity.Company;
 import fr.sfc.entity.Vehicle;
 import fr.sfc.framework.database.Query;
 import fr.sfc.framework.database.QueryFactory;
@@ -8,6 +9,7 @@ import fr.sfc.framework.persistence.Repository;
 import fr.sfc.framework.persistence.annotation.Inject;
 import fr.sfc.repository.queries.VehicleQueries;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -60,4 +62,17 @@ public class VehicleRepository implements Repository<Vehicle> {
         }
         return Optional.empty();
     }
+
+    public Set<Vehicle> findByCompany(Company company) {
+
+        try (Query query = queryFactory.createMagicQuery(
+                "findByCompany", VehicleQueries.class, company.getId())) {
+
+            return entityManager.wrapResultSetToEntities(Vehicle.class, query.executeQuery());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new HashSet<>();
+    }
+
 }

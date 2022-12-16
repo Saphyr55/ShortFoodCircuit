@@ -22,7 +22,7 @@ public class ListProductTourContainer extends GridPane implements Container {
     private ListProductTourController controller;
 
     @SetContainer
-    private ProductTourFrameContainer productTourFrameContainer;
+    private AdderProductTourContainer adderProductTourContainer;
     
     private final TextField searchTextField;
     private final FilteredList<Pack<ProductTour>> filteredList;
@@ -61,8 +61,8 @@ public class ListProductTourContainer extends GridPane implements Container {
         getChildren().addAll(nodes);
     }
 
-    public ProductTourFrameContainer getProductTourFrame() {
-        return productTourFrameContainer;
+    public AdderProductTourContainer getProductTourFrame() {
+        return adderProductTourContainer;
     }
 
     public TextField getSearchTextField() {
@@ -85,8 +85,8 @@ public class ListProductTourContainer extends GridPane implements Container {
         return controller;
     }
 
-    public ProductTourFrameContainer getProductTourFrameContainer() {
-        return productTourFrameContainer;
+    public AdderProductTourContainer getProductTourFrameContainer() {
+        return adderProductTourContainer;
     }
 
     public FilteredList<Pack<ProductTour>> getFilteredList() {

@@ -1,10 +1,15 @@
 package fr.sfc.framework.database;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public final class Database implements AutoCloseable {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(Database.class);
 
     private Connection connection;
     private final Database.Properties properties;
@@ -19,8 +24,9 @@ public final class Database implements AutoCloseable {
     }
 
     public void connect() throws SQLException {
-        this.url = "jdbc:" + configuration.getDBMS() + "://" + properties.host + ":" + properties.port + "/" + name;
-        this.connection = DriverManager.getConnection(url, properties.user, properties.password);
+        url = "jdbc:" + configuration.getDBMS() + "://" + properties.host + ":" + properties.port + "/" + name;
+        connection = DriverManager.getConnection(url, properties.user, properties.password);
+        LOGGER.info("Database URL={} connected", url);
     }
 
     public Connection getConnection() {

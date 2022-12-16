@@ -29,10 +29,9 @@ public class Company {
     private Float latitude;
 
     @Column(name = "SIRET")
-    private String SIRET;
+    private Integer SIRET;
 
-    public Company() {
-    }
+    public Company() { }
 
     public Company(String name,
                    String phoneNumber,
@@ -94,11 +93,11 @@ public class Company {
         this.latitude = latitude;
     }
 
-    public String getSIRET() {
+    public Integer getSIRET() {
         return SIRET;
     }
 
-    public void setSIRET(String SIRET) {
+    public void setSIRET(Integer SIRET) {
         this.SIRET = SIRET;
     }
 

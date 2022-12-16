@@ -1,29 +1,33 @@
 package fr.sfc.container.productTour;
 
-import fr.sfc.controller.productTour.ProductTourFrameController;
+import fr.sfc.common.Pack;
+import fr.sfc.container.common.ListSearchDialog;
+import fr.sfc.controller.productTour.AdderProductTourController;
+import fr.sfc.entity.Vehicle;
 import fr.sfc.framework.Resources;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.annotation.ContainerFXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 @ContainerFXML
-public class ProductTourFrameContainer extends HBox implements Container {
+public class AdderProductTourContainer extends VBox implements Container {
 
     @AutoController
-    private ProductTourFrameController control;
+    private AdderProductTourController controller;
 
-    private FXMLLoader loader;
+    private final ListSearchDialog<Pack<Vehicle>> searchMatriculationDialog;
+    private final FXMLLoader loader;
+    private final Stage frame;
+    private final Scene scene;
 
-    private Stage frame;
-    private Scene scene;
-
-    public ProductTourFrameContainer() throws IOException {
+    public AdderProductTourContainer() throws IOException {
+        searchMatriculationDialog = new ListSearchDialog<>();
         frame = new Stage();
         loader = new FXMLLoader(Resources.getResource("/fxml/adderProductToursFrame.fxml"));
         loader.setRoot(this);
@@ -36,7 +40,11 @@ public class ProductTourFrameContainer extends HBox implements Container {
         frame.setScene(scene);
     }
 
-    public Stage getFrame() {
+    public ListSearchDialog<Pack<Vehicle>> getSearchMatriculationDialog() {
+        return searchMatriculationDialog;
+    }
+
+    public Stage getStage() {
         return frame;
     }
 

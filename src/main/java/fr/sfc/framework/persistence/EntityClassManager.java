@@ -68,6 +68,7 @@ public final class EntityClassManager {
         final StringBuilder values = new StringBuilder();
         final StringBuilder column = new StringBuilder();
 
+        // TODO: Replace this for a StingJoiner
         getFieldsFromEntity(entity.getClass()).forEach((s, field) -> {
             try {
                 if (!field.isAnnotationPresent(Id.class)) {
