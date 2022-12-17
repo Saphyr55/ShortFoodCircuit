@@ -24,7 +24,7 @@ public interface QueryFactory {
 
     /**
      * Créer un query native, depuis une requête.<br>
-     * Pouvant remplacer les `?` par les valeurs.
+     * Pouvant remplacer les %s par les valeurs.
      *
      * @param request requête
      * @param values valeurs
@@ -34,7 +34,7 @@ public interface QueryFactory {
 
     /**
      * Créer une query, depuis une methode contenant l'annotation NativeQuery.<br>
-     * Pouvant remplacer les `?` par les valeurs.
+     * Pouvant remplacer les %s par les valeurs.
      *
      * @param method methode avec l'annotation native query
      * @param values valeurs
@@ -45,7 +45,7 @@ public interface QueryFactory {
     /**
      * Créer un query native, depuis le nom de l'attribut contenant l'annotation NativeQuery.<br>
      * Associer avec le class de l'attribut.<br>
-     * Pouvant remplacer les `?` par les valeurs.
+     * Pouvant remplacer les %s par les valeurs.
      *
      * @param nameField nom de l'attribut avec l'annotation native query
      * @param qClass la classe contenant l'attribut

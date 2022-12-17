@@ -1,6 +1,6 @@
 package fr.sfc.controller.productTour;
 
-import fr.sfc.IconsType;
+import fr.sfc.common.IconsType;
 import fr.sfc.common.Pack;
 import fr.sfc.container.productTour.SpecifiesProductTourContainer;
 import fr.sfc.entity.Customer;
@@ -65,10 +65,14 @@ public class SpecifiesProductTourController implements Controller {
 
     @Override
     public void setup() {
+
         responsive();
+
+        // Set text
         setTextForNameProductTourTextField();
         setTextForNameOrderTextField();
 
+        // Rempli les données de la commande en cliquant sur une commande
         orderListView.getSelectionModel().selectedItemProperty().addListener(this::onActionSelectElementListView);
     }
 
@@ -81,17 +85,14 @@ public class SpecifiesProductTourController implements Controller {
         if (newV == null) return;
 
         setTextForDataOrderTextField(newV.get());
+
     }
 
     private void responsive() {
         listContainerVBox.prefWidthProperty().bind(container.widthProperty().divide(1.5));
         listContainerVBox.prefHeightProperty().bind(container.heightProperty());
-        containerHBoxVBox.prefHeightProperty().bind(container.heightProperty());
-        containerHBoxVBox.prefWidthProperty().bind(container.widthProperty().divide(1.5));
-        containerHBoxVBox.prefHeightProperty().bind(container.heightProperty());
-        containerHBoxVBox.prefWidthProperty().bind(container.widthProperty());
-        containerNameTextFieldHBox.prefWidthProperty().bind(containerHBoxVBox.widthProperty().divide(2));
-        containerDataTextFieldHBox.prefWidthProperty().bind(containerHBoxVBox.widthProperty().divide(2));
+        containerNameTextFieldHBox.prefWidthProperty().bind(containerHBoxVBox.widthProperty().multiply(0.50));
+        containerDataTextFieldHBox.prefWidthProperty().bind(containerHBoxVBox.widthProperty().multiply(0.50));
     }
 
     private void setTextForNameProductTourTextField() {

@@ -98,7 +98,6 @@ public class ListProducerController implements Controller {
                 customerSelected = customers.get(index);
                 container.getController().setCurrentCustomer(customerSelected);
                 container.getController().fillDataCustomer();
-
             }
         }
     }

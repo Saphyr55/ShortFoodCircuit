@@ -1,6 +1,6 @@
 package fr.sfc.controller.productTour;
 
-import fr.sfc.IconsType;
+import fr.sfc.common.IconsType;
 import fr.sfc.common.Pack;
 import fr.sfc.container.productTour.ListProductTourContainer;
 import fr.sfc.container.productTour.SpecifiesProductTourContainer;
@@ -41,15 +41,10 @@ public class ListProductTourController implements Controller {
     @Override
     public void setup() {
 
-        // On récupère les tournées et les ajoute dans la liste
-        container.getObservableList().addAll(productTourRepository.findAll().stream()
-                        .map(productTour -> Pack.of(productTour, this::toStringPt))
-                        .collect(Collectors.toSet()));
-
-        // Met les icons dans la liste
+        // On récupère les tournées et les ajoute dans la liste, Met les icons dans la liste
         refresh();
 
-        // on récupère la selection
+        // on récupère la selection des tournées
         container.getProductTourListView().getSelectionModel().selectedItemProperty().addListener(this::selectItem);
 
         // Filtre la liste en fonction de l'observation du text field
@@ -79,7 +74,10 @@ public class ListProductTourController implements Controller {
                         .format(DateTimeFormatter.ISO_LOCAL_DATE);
     }
 
-    private void refresh() {
+    public void refresh() {
+        container.getObservableList().setAll(productTourRepository.findAll().stream()
+                .map(productTour -> Pack.of(productTour, this::toStringPt))
+                .collect(Collectors.toSet()));
         container.getProductTourListView().setCellFactory(this::returnListCellWithImage);
         container.getProductTourListView().refresh();
     }
@@ -103,7 +101,7 @@ public class ListProductTourController implements Controller {
                 containerManager.getContainer("root.details.specifies");
 
         specifiesProductTourContainer.getController().setProductTour(ptSelected);
-        specifiesProductTourContainer.getController().getOrderListView().getItems().addAll(packsOrder);
+        specifiesProductTourContainer.getController().getOrderListView().getItems().setAll(packsOrder);
         specifiesProductTourContainer.getController().refresh();
     }
 

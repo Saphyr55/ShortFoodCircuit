@@ -29,13 +29,11 @@ public class ListProducerContainer extends GridPane implements Container {
     private ListView<String> listView;
     private FilteredList<String> filteredList;
     private ObservableList<String> observableList;
-    private Stage stage = new Stage();
-    private Scene scene;
+    private final Stage stage = new Stage();
 
     @Override
     public void setup() {
-        scene = new Scene(adderProducerContainer, 800, 600);
-        stage.setScene(scene);
+        stage.setScene(new Scene(adderProducerContainer, 800, 600));
 
         observableList = FXCollections.observableArrayList();
         filteredList = new FilteredList<>(observableList);

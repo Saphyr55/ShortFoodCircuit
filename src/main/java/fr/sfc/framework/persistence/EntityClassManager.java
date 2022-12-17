@@ -7,6 +7,7 @@ import fr.sfc.framework.persistence.exception.EntityNotFoundException;
 
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.concurrent.atomic.AtomicReference;
 
 public final class EntityClassManager {
@@ -32,8 +33,8 @@ public final class EntityClassManager {
     public <T> Object getValueId(T entity) {
         AtomicReference<Object> id = new AtomicReference<>();
         getFieldsFromEntity(entity.getClass()).forEach((s, field) -> {
-            field.setAccessible(true);
             if (field.isAnnotationPresent(Id.class)) {
+                field.setAccessible(true);
                 try {
                     id.set(field.get(entity));
                 } catch (IllegalAccessException e) {
@@ -63,29 +64,28 @@ public final class EntityClassManager {
         return aClass.getSimpleName().toLowerCase();
     }
 
-    public <T> Map.Entry<String, String> formatInsert(T entity) {
+    public <T> String replaceExceptId(Class<T> entity, String by) {
 
-        final StringBuilder values = new StringBuilder();
-        final StringBuilder column = new StringBuilder();
+        final StringJoiner column = new StringJoiner(",");
 
-        // TODO: Replace this for a StingJoiner
-        getFieldsFromEntity(entity.getClass()).forEach((s, field) -> {
-            try {
-                if (!field.isAnnotationPresent(Id.class)) {
-                    field.setAccessible(true);
-                    column.append(s);
-                    values.append('\'').append(field.get(entity)).append('\'');
-                    column.append(',');
-                    values.append(',');
-                }
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
+        getFieldsFromEntity(entity).forEach((s, field) -> {
+            if (!field.isAnnotationPresent(Id.class))
+                column.add(by);
         });
 
-        column.deleteCharAt(column.lastIndexOf(","));
-        values.deleteCharAt(values.lastIndexOf(","));
-        return Map.entry(column.toString(), values.toString());
+        return column.toString();
+    }
+
+    public <T> String formatColumnExceptId(Class<T> entity) {
+
+        final StringJoiner column = new StringJoiner(",");
+
+        getFieldsFromEntity(entity).forEach((s, field) -> {
+            if (!field.isAnnotationPresent(Id.class))
+                column.add(s);
+        });
+
+        return column.toString();
     }
 
     public Map<Class<?>, Map<String, Field>> getClassEntities() {

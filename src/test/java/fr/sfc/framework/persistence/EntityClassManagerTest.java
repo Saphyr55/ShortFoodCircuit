@@ -51,14 +51,14 @@ class EntityClassManagerTest {
     void formatInsert() {
         User user = new User("myUsername");
         user.setId(1);
-        var entry = entityClassManager.formatInsert(user);
+        var entry = entityClassManager.replaceExceptId(user);
         assertEquals("username", entry.getKey());
         assertEquals("'myUsername'", entry.getValue());
     }
 
     @Test
     void testFormatInsertThrow() {
-        assertThrows(RuntimeException.class, () -> entityClassManager.formatInsert(new Object()));
+        assertThrows(RuntimeException.class, () -> entityClassManager.replaceExceptId(new Object()));
     }
 
     @Test

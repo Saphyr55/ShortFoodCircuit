@@ -2,9 +2,12 @@ package fr.sfc.controller.productTour;
 
 import fr.sfc.common.Pack;
 import fr.sfc.container.productTour.AdderProductTourContainer;
+import fr.sfc.container.productTour.ListProductTourContainer;
 import fr.sfc.entity.Company;
 import fr.sfc.entity.ProductTour;
 import fr.sfc.entity.Vehicle;
+import fr.sfc.framework.controlling.SimpleAlertUtils;
+import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.persistence.annotation.Inject;
@@ -14,6 +17,7 @@ import fr.sfc.repository.VehicleRepository;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -21,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -39,6 +44,8 @@ public class AdderProductTourController implements Controller {
     @FXML private TextField tFWeight;
     @FXML private TextField tFMatriculation;
 
+    @Inject
+    private ContainerManager containerManager;
     @Inject
     private ProductTourRepository productTourRepository;
     @Inject
@@ -102,63 +109,74 @@ public class AdderProductTourController implements Controller {
     @FXML
     public void buttonAddProductTourEvent() {
 
+        AtomicBoolean quit = new AtomicBoolean(false);
         AtomicReference<Vehicle> vehicle = new AtomicReference<>();
 
         String matriculation = tFMatriculation.getText().trim();
 
         vehicleRepository.findByMatriculation(matriculation).ifPresent(vehicle::set);
 
-        if (tFName.getText().trim().isBlank() ||
-            startDate.getValue() == null ||
-            endDate.getValue() == null ||
-            vehicle.get() == null ||
-            tFWeight.getText().trim().isBlank() ||
-            tFName.getText().trim().isBlank()) {
+        SimpleAlertUtils.createAlertErrorConditional(
+                "Error Form",
+                "You need to specifies all fields",
+                 fieldsIsNotEmpty(vehicle.get()))
+                .ifPresent(alert -> {
+                    alert.showAndWait();
+                    quit.set(true);
+                });
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error Form");
-            alert.setHeaderText(null);
-            alert.setContentText("You need to specifies all fields");
-            alert.showAndWait();
-            return;
-        }
+        if (quit.get()) return;
 
-        ProductTour productTour = new ProductTour();
+        ProductTour productTour = new ProductTour(
+                startDate.getValue().atStartOfDay(),
+                endDate.getValue().atStartOfDay(),
+                tFName.getText(),
+                Float.valueOf(tFWeight.getText()),
+                currentCompany.getSIRET(),
+                matriculation);
         productTour.setIdCompany(currentCompany.getId());
         productTour.setIdVehicle(vehicle.get().getId());
-        productTour.setMatriculation(matriculation);
-        productTour.setStartDateTime(startDate.getValue().atStartOfDay());
-        productTour.setEndDateTime(endDate.getValue().atStartOfDay());
-        productTour.setSIRET(currentCompany.getSIRET());
-        productTour.setWeight(Float.valueOf(tFWeight.getText()));
-        productTour.setName(tFName.getText());
 
         try {
-            productTourRepository.insert(productTour);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Successful");
             alert.setHeaderText(null);
-            alert.setContentText("Product Tour has been");
-            alert.showAndWait();
+            alert.setContentText("Do you want to create a product tour");
+            alert.showAndWait().ifPresent(buttonType -> {
+                if (buttonType == ButtonType.OK)
+                    productTourRepository.insert(productTour);
+            });
 
             container.getStage().close();
 
-            LOGGER.info("Product Tour {} id={} has been created by {} id={}",
-                    productTour.getName(), productTour.getId(),
-                    currentCompany.getName(), currentCompany.getId());
+            // Rafraichi la liste de tournées
+            ListProductTourContainer listProductTourContainer = containerManager.getContainer("root.list");
+            listProductTourContainer.getController().refresh();
+
+            LOGGER.info("Product Tour {} has been created by {} id={}",
+                    productTour.getName(),
+                    currentCompany.getName(),
+                    currentCompany.getId());
 
         } catch (Exception e) {
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error Form");
-            alert.setHeaderText(null);
-            alert.setContentText(matriculation + " is already used");
-            alert.showAndWait();
-
+            SimpleAlertUtils.createAlertError(
+                    "Error Form",
+                    matriculation + " is already used")
+                    .showAndWait();
             LOGGER.error(matriculation + " is already used", e);
         }
 
+    }
+
+    private boolean fieldsIsNotEmpty(Vehicle vehicle) {
+        return  tFName.getText().trim().isBlank() ||
+                startDate.getValue() == null ||
+                endDate.getValue() == null ||
+                vehicle == null ||
+                tFWeight.getText().trim().isBlank() ||
+                tFName.getText().trim().isBlank();
     }
 
     @FXML

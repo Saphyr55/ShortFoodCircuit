@@ -29,7 +29,7 @@ public class DetailsProductTourController implements Controller {
 
     public void switchBetweenMapAndConfig() {
 
-        ListProductTourContainer adder = containerManager.getContainer("root.adderProductTour");
+        ListProductTourContainer adder = containerManager.getContainer("root.list");
 
         adder.getSwitcherDetailsComponentButton().setOnAction(event -> {
             switch (state) {

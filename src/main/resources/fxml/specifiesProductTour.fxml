@@ -4,184 +4,172 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<fx:root type="HBox" xmlns="http://javafx.com/javafx/18"
+<fx:root fx:id="root" type="HBox" xmlns="http://javafx.com/javafx/18"
          xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="fr.sfc.controller.productTour.SpecifiesProductTourController">
-   <children>
-      <VBox fx:id="containerHBoxVBox">
-         <HBox fx:id="containerNameTextFieldHBox"
-               prefHeight="${containerHBoxVBox.height}">
-            <fx:define>
-               <Font fx:id="defaultFont" size="20" name="Arial"/>
-            </fx:define>
-            <children>
-               <VBox>
-                  <children>
-                     <TextField fx:id="nameTitleProductTourTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true" />
+   <VBox fx:id="containerHBoxVBox"
+         prefWidth="${root.width}"
+         prefHeight="${root.height}">
+      <HBox fx:id="containerNameTextFieldHBox"
+            prefHeight="${containerHBoxVBox.height}">
+         <fx:define>
+            <Font fx:id="defaultFont" size="20" name="Arial"/>
+         </fx:define>
+         <VBox>
+            <TextField fx:id="nameTitleProductTourTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="nameProductTourTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true" />
+            <TextField fx:id="nameProductTourTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="nameStartDateProductTourTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
+            <TextField fx:id="nameStartDateProductTourTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="nameEndDateProductTourTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
+            <TextField fx:id="nameEndDateProductTourTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="nameWeightProductTourTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
+            <TextField fx:id="nameWeightProductTourTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="nameMatriculationVehicleProductTourTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
+            <TextField fx:id="nameMatriculationVehicleProductTourTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                  </children>
-               </VBox>
-               <VBox>
-                  <children>
-                     <TextField font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true" />
+         </VBox>
+         <VBox>
+            <TextField font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="dataProductTourTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
+            <TextField fx:id="dataProductTourTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="dataStartDateProductTourTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
+            <TextField fx:id="dataStartDateProductTourTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="dataEndDateProductTourTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
+            <TextField fx:id="dataEndDateProductTourTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="dataWeightProductTourTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
+            <TextField fx:id="dataWeightProductTourTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="dataMatriculationVehicleProductTourTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
-                  </children>
-               </VBox>
-            </children>
-         </HBox>
-         <HBox fx:id="containerDataTextFieldHBox"
-               prefHeight="${containerHBoxVBox.height}">
-            <children>
-               <VBox>
-                  <children>
-                     <TextField fx:id="nameTitleOrderTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true" />
+            <TextField fx:id="dataMatriculationVehicleProductTourTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
+         </VBox>
+      </HBox>
+      <HBox fx:id="containerDataTextFieldHBox"
+            prefHeight="${containerHBoxVBox.height}">
+         <VBox>
+            <TextField fx:id="nameTitleOrderTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="nameOrderTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true" />
+            <TextField fx:id="nameOrderTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="nameStartDateOrderTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
+            <TextField fx:id="nameStartDateOrderTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="nameEndDateOrderTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
+            <TextField fx:id="nameEndDateOrderTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="nameWeightOrderTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
+            <TextField fx:id="nameWeightOrderTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="nameCustomerOrderTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
+            <TextField fx:id="nameCustomerOrderTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                  </children>
-               </VBox>
-               <VBox>
-                  <children>
-                     <TextField font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true" />
+         </VBox>
+         <VBox>
+            <TextField font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="dataOrderTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true" />
+            <TextField fx:id="dataOrderTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="dataStartDateOrderTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
+            <TextField fx:id="dataStartDateOrderTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="dataEntDateOrderTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
+            <TextField fx:id="dataEntDateOrderTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="dataWeightOrderTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
+            <TextField fx:id="dataWeightOrderTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
 
-                     <TextField fx:id="dataCustomerOrderTextField"
-                                font="$defaultFont"
-                                prefHeight="${containerNameTextFieldHBox.height}"
-                                prefWidth="${containerNameTextFieldHBox.width}"
-                                disable="true"/>
-                  </children>
-               </VBox>
-            </children>
-         </HBox>
-      </VBox>
-      <VBox fx:id="listContainerVBox">
-         <ListView fx:id="orderListView" prefWidth="${listContainerVBox.width}" prefHeight="${listContainerVBox.height}"/>
-         <Button fx:id="addOrderButton" text="Add Order" prefWidth="${listContainerVBox.width}"/>
-      </VBox>
-   </children>
+            <TextField fx:id="dataCustomerOrderTextField"
+                       font="$defaultFont"
+                       prefHeight="${containerNameTextFieldHBox.height}"
+                       prefWidth="${containerNameTextFieldHBox.width}"
+                       disable="true"/>
+         </VBox>
+      </HBox>
+   </VBox>
+   <VBox fx:id="listContainerVBox">
+      <ListView fx:id="orderListView" prefWidth="${listContainerVBox.width}" prefHeight="${listContainerVBox.height}"/>
+      <Button fx:id="addOrderButton" text="Add Order" prefWidth="${listContainerVBox.width}"/>
+   </VBox>
 </fx:root>

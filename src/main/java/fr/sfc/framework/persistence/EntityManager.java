@@ -5,6 +5,7 @@ import fr.sfc.framework.database.Query;
 import fr.sfc.framework.database.QueryFactory;
 import fr.sfc.framework.database.annotation.NativeQuery;
 import fr.sfc.framework.database.impl.QueryFactoryImpl;
+import fr.sfc.framework.persistence.annotation.Id;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 public final class EntityManager {
 
@@ -48,13 +50,13 @@ public final class EntityManager {
     @NativeQuery(value = "INSERT INTO %s (%s) VALUES (%s)")
     public <T> void insert(T entity) {
 
-        Map.Entry<String, String> entry = entityClassManager.formatInsert(entity);
-
         try (Query query = queryFactory.createNativeQuery(
                 getClass().getMethod("insert", Object.class),
                 entityClassManager.getNameTable(entity.getClass()),
-                entry.getKey(), entry.getValue())) {
+                entityClassManager.formatColumnExceptId(entity.getClass()),
+                entityClassManager.replaceExceptId(entity.getClass(), "?"))) {
 
+            getPropertiesEntityExceptId(entity).forEach(query::withParameter);
             query.prepare();
             query.executeUpdate();
         } catch (Exception e) {
@@ -68,8 +70,9 @@ public final class EntityManager {
         try (final Query query = queryFactory.createNativeQuery(
                 getClass().getMethod("delete", Object.class),
                 entityClassManager.getNameTable(entity.getClass()),
-                entityClassManager.getIdName(entity.getClass()),
-                entityClassManager.getValueId(entity))) {
+                entityClassManager.getIdName(entity.getClass()), "?")) {
+
+            query.withParameter(entityClassManager.getValueId(entity));
             query.prepare();
             query.executeUpdate();
         } catch (Exception e) {
@@ -102,8 +105,8 @@ public final class EntityManager {
         try (final Query query = queryFactory.createNativeQuery(
                 getClass().getMethod("find", Class.class, int.class),
                 entityClassManager.getNameTable(entityClass),
-                entityClassManager.getIdName(entityClass), id)) {
-
+                entityClassManager.getIdName(entityClass), "?")) {
+            query.withParameter(id);
             wrapResultSetToEntities(entityClass, query.executeQuery())
                     .stream()
                     .findFirst()
@@ -154,6 +157,19 @@ public final class EntityManager {
         }
 
         return new HashSet<>(types);
+    }
+
+    public <T> List<Object> getPropertiesEntityExceptId(T entity) {
+        return entityClassManager.getFieldsFromEntity(entity.getClass()).values().stream()
+                .filter(field -> !field.isAnnotationPresent(Id.class))
+                .map(field -> {
+                    try {
+                        field.setAccessible(true);
+                        return field.get(entity);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).collect(Collectors.toList());
     }
 
     public QueryFactory getQueryFactory() {
