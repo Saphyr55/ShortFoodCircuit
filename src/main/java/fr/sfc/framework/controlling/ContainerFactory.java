@@ -14,7 +14,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
-public class ContainerFactory {
+public final class ContainerFactory {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ContainerFactory.class);
 

@@ -2,7 +2,7 @@ package fr.sfc.framework;
 
 import java.util.List;
 
-public class BackendApplicationConfigurationYaml {
+public final class BackendApplicationConfigurationYaml {
 
     public Config config;
 

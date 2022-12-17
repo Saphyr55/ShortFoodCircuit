@@ -6,9 +6,9 @@ import fr.sfc.container.productTour.ListProductTourContainer;
 import fr.sfc.entity.Company;
 import fr.sfc.entity.ProductTour;
 import fr.sfc.entity.Vehicle;
-import fr.sfc.framework.controlling.SimpleAlertUtils;
 import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
+import fr.sfc.framework.controlling.SimpleAlertUtils;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.persistence.annotation.Inject;
 import fr.sfc.repository.CompanyRepository;
@@ -16,8 +16,6 @@ import fr.sfc.repository.ProductTourRepository;
 import fr.sfc.repository.VehicleRepository;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -109,65 +107,84 @@ public class AdderProductTourController implements Controller {
     @FXML
     public void buttonAddProductTourEvent() {
 
-        AtomicBoolean quit = new AtomicBoolean(false);
         AtomicReference<Vehicle> vehicle = new AtomicReference<>();
-
         String matriculation = tFMatriculation.getText().trim();
-
         vehicleRepository.findByMatriculation(matriculation).ifPresent(vehicle::set);
 
-        SimpleAlertUtils.createAlertErrorConditional(
-                "Error Form",
-                "You need to specifies all fields",
-                 fieldsIsNotEmpty(vehicle.get()))
-                .ifPresent(alert -> {
-                    alert.showAndWait();
-                    quit.set(true);
-                });
+        // quitte la methode si un des champs est vide
+        if (createAlertFieldsEmpty(vehicle.get())) return;
 
-        if (quit.get()) return;
-
-        ProductTour productTour = new ProductTour(
-                startDate.getValue().atStartOfDay(),
-                endDate.getValue().atStartOfDay(),
-                tFName.getText(),
-                Float.valueOf(tFWeight.getText()),
-                currentCompany.getSIRET(),
-                matriculation);
-        productTour.setIdCompany(currentCompany.getId());
-        productTour.setIdVehicle(vehicle.get().getId());
+        ProductTour productTour = createProductTourFromTextField(vehicle.get());
 
         try {
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Successful");
-            alert.setHeaderText(null);
-            alert.setContentText("Do you want to create a product tour");
-            alert.showAndWait().ifPresent(buttonType -> {
-                if (buttonType == ButtonType.OK)
-                    productTourRepository.insert(productTour);
-            });
-
-            container.getStage().close();
+            // confirme l'insertion de la tournée, quitte la methode si cancel
+            if (createAlertConfirmationCreationProductTour(productTour)) return;
 
             // Rafraichi la liste de tournées
             ListProductTourContainer listProductTourContainer = containerManager.getContainer("root.list");
+            assert listProductTourContainer != null;
             listProductTourContainer.getController().refresh();
 
-            LOGGER.info("Product Tour {} has been created by {} id={}",
+            LOGGER.info( "Product Tour {} has been created by {} id={}" ,
                     productTour.getName(),
                     currentCompany.getName(),
                     currentCompany.getId());
 
         } catch (Exception e) {
 
-            SimpleAlertUtils.createAlertError(
-                    "Error Form",
-                    matriculation + " is already used")
-                    .showAndWait();
+            createAlertCreationError();
             LOGGER.error(matriculation + " is already used", e);
         }
 
+        container.getStage().close();
+
+    }
+
+    private boolean createAlertConfirmationCreationProductTour(ProductTour productTour) {
+        AtomicBoolean quit = new AtomicBoolean(false);
+        SimpleAlertUtils.createAlertConfirmation()
+                .withTitle( "Successful" )
+                .withContentText( "Do you want to create a product tour" )
+                .withOnOkButton( alert -> productTourRepository.insert(productTour) )
+                .withOnCancelButton( alert -> quit.set(true) )
+                .buildShowAndWait();
+        return quit.get();
+    }
+
+    private boolean createAlertFieldsEmpty(Vehicle vehicle) {
+        AtomicBoolean quit = new AtomicBoolean(false);
+        SimpleAlertUtils.createAlertErrorConditional(fieldsIsNotEmpty(vehicle))
+                .ifPresent(simpleAlertBuilder -> { simpleAlertBuilder
+                        .withTitle( "Error Form" )
+                        .withContentText( "You need to specifies all fields" )
+                        .buildShowAndWait();
+                    quit.set(true);
+                });
+        return quit.get();
+    }
+
+    private void createAlertCreationError() {
+        SimpleAlertUtils.createAlertError()
+                .withTitle( "Error Form" )
+                .withContentText( "Error while creation product tour" )
+                .buildShowAndWait();
+    }
+
+    private ProductTour createProductTourFromTextField(Vehicle vehicle) {
+
+        var pt = new ProductTour(
+                startDate.getValue().atStartOfDay(),
+                endDate.getValue().atStartOfDay(),
+                tFName.getText(),
+                Float.valueOf(tFWeight.getText()),
+                currentCompany.getSIRET(),
+                vehicle.getMatriculation());
+
+        pt.setIdCompany(currentCompany.getId());
+        pt.setIdVehicle(vehicle.getId());
+
+        return pt;
     }
 
     private boolean fieldsIsNotEmpty(Vehicle vehicle) {

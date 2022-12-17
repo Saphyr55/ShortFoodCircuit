@@ -31,6 +31,8 @@ public class DetailsProductTourController implements Controller {
 
         ListProductTourContainer adder = containerManager.getContainer("root.list");
 
+        assert adder != null;
+
         adder.getSwitcherDetailsComponentButton().setOnAction(event -> {
             switch (state) {
                 case Config -> {

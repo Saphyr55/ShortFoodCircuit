@@ -16,12 +16,11 @@ import java.io.IOException;
 public class ProductTourFrame extends HBox implements Container {
 
     @AutoController
-    private AdderProductTourController control;
+    private AdderProductTourController controller;
 
-    private FXMLLoader loader;
-
-    private Stage frame;
-    private Scene scene;
+    private final FXMLLoader loader;
+    private final Stage frame;
+    private final Scene scene;
 
     public ProductTourFrame() throws IOException {
         frame = new Stage();

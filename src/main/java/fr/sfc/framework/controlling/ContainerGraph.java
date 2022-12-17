@@ -2,7 +2,7 @@ package fr.sfc.framework.controlling;
 
 import java.util.*;
 
-public class ContainerGraph {
+public final class ContainerGraph {
 
     private final Set<ContainerProperties> nodes;
     private final Map<ContainerProperties, ContainerProperties> edges;

@@ -10,7 +10,7 @@ import javafx.scene.control.TabPane;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParkourNodes {
+public final class ParkourNodes {
 
     public static List<Node> getAllNodes(final Styleable root) {
         final ArrayList<Node> nodes = new ArrayList<>();

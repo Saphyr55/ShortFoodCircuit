@@ -1,5 +1,7 @@
 package fr.sfc.framework.controlling;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -9,7 +11,7 @@ import java.util.Set;
  * Component's manager,
  * Can save all object who implement component
  */
-public class ContainerManager {
+public final class ContainerManager {
 
     private final ContainerGraph containerGraph;
     private final Map<Container, Controller> containerControllerMap;
@@ -63,7 +65,7 @@ public class ContainerManager {
      * @return container
      */
     @SuppressWarnings("unchecked")
-    public <T extends Container> T getContainer(String pathTag) {
+    public <T extends Container> @Nullable T getContainer(String pathTag) {
         var cp = containerGraph.getPathForEachComponent().get(pathTag);
         if (cp != null) return (T) cp.self();
         return null;

@@ -6,25 +6,26 @@ import java.util.Optional;
 
 public final class SimpleAlertUtils {
 
-    public static Alert createAlertConfirmation(String title, String content) {
-        return createAlert(Alert.AlertType.CONFIRMATION, title, content);
+    public static SimpleAlertBuilder createAlertConfirmation() {
+        return createAlert(Alert.AlertType.CONFIRMATION);
     }
 
-    public static Alert createAlertError(String title, String content) {
-        return createAlert(Alert.AlertType.ERROR, title, content);
+    public static SimpleAlertBuilder createAlertError() {
+        return createAlert(Alert.AlertType.ERROR);
     }
 
-    public static Alert createAlert(Alert.AlertType alertType, String title, String content) {
-        return SimpleAlertBuilder.of()
-                .withAlertType(alertType)
-                .withContentText(content)
-                .withTitle(title)
-                .build();
+    public static SimpleAlertBuilder createAlert(Alert.AlertType alertType) {
+        return SimpleAlertBuilder.of().withAlertType(alertType);
     }
 
-    public static Optional<Alert> createAlertErrorConditional(String title, String content, boolean condition) {
+    public static Optional<SimpleAlertBuilder> createAlertErrorConditional(boolean condition) {
+        if (condition) return Optional.of(createAlertError());
+        return Optional.empty();
+    }
+
+    public static Optional<SimpleAlertBuilder> createAlertConfirmationConditional(boolean condition) {
         if (condition)
-            return Optional.of(createAlertError(title, content));
+            return Optional.of(createAlertError());
         return Optional.empty();
     }
 
