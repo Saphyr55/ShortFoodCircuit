@@ -11,13 +11,16 @@ public final class Database implements AutoCloseable {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(Database.class);
 
-    private Connection connection;
     private final Database.Properties properties;
     private final Database.Configuration configuration;
     private final String name;
+    private Connection connection;
     private String url;
 
-    public Database(final String name, final Database.Configuration configuration, final Database.Properties properties) {
+    public Database(final String name,
+                    final Database.Configuration configuration,
+                    final Database.Properties properties) {
+
         this.name = name;
         this.configuration = configuration;
         this.properties = properties;

@@ -74,7 +74,7 @@ public final class ContainerManager {
     /**
      * Squash all components into a single list
      *
-     * @return set of components
+     * @return component set
      */
     public Set<Container> getAllContainers() {
         return containers;

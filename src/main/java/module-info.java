@@ -51,9 +51,9 @@ module fr.sfc {
     opens fr.sfc.framework.persistence;
     opens fr.sfc.framework.persistence.exception;
     opens fr.sfc.framework.controlling.annotation;
-    opens fr.sfc.framework.common;
     opens fr.sfc.container.admin;
     opens fr.sfc.controller.admin;
     opens fr.sfc.container.common;
+    opens fr.sfc.framework.item;
 
 }

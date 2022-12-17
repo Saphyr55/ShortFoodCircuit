@@ -1,7 +1,7 @@
 package fr.sfc.framework.controlling;
 
-import fr.sfc.framework.common.Tag;
-import fr.sfc.framework.common.TagManager;
+import fr.sfc.framework.item.Tag;
+import fr.sfc.framework.item.TagManager;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.annotation.ContainerFXML;
@@ -38,7 +38,7 @@ public final class ContainerFactory {
     private void setupGraph(Field field, ContainerProperties parent) {
 
         String tag = parent.tag() +
-                TagManager.SEPARATOR +
+                TagManager.DELIMITER +
                 TagManager.getValue(field, field.getAnnotation(Tag.class));
 
         try {

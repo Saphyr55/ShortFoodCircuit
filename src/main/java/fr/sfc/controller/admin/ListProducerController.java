@@ -4,6 +4,7 @@ import fr.sfc.container.admin.ListProducerContainer;
 import fr.sfc.container.admin.MainAdminContainer;
 import fr.sfc.entity.Customer;
 import fr.sfc.entity.Producer;
+import fr.sfc.framework.item.Tag;
 import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
@@ -28,6 +29,10 @@ public class ListProducerController implements Controller {
 
     @AutoContainer
     private ListProducerContainer container;
+
+    @Inject
+    @Tag("container.root")
+    private MainAdminContainer mainAdminContainer;
 
     @Inject
     private ProducerRepository producerRepository;
@@ -84,7 +89,7 @@ public class ListProducerController implements Controller {
         producerSelected = null;
 
         // Changement de producteur et customer a la selection
-        switchProducerCustomerSelected(containerManager.getContainer("root"), newV.intValue());
+        switchProducerCustomerSelected(mainAdminContainer, newV.intValue());
     }
 
     private void switchProducerCustomerSelected(MainAdminContainer container, int index) {
@@ -116,8 +121,6 @@ public class ListProducerController implements Controller {
     }
 
     public void switchState() {
-
-        MainAdminContainer mainAdminContainer = containerManager.getContainer("root");
 
         switch (state) {
             case Customer -> {

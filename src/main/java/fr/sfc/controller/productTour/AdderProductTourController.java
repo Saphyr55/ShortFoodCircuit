@@ -1,11 +1,12 @@
 package fr.sfc.controller.productTour;
 
-import fr.sfc.common.Pack;
+import fr.sfc.common.Custom;
 import fr.sfc.container.productTour.AdderProductTourContainer;
 import fr.sfc.container.productTour.ListProductTourContainer;
 import fr.sfc.entity.Company;
 import fr.sfc.entity.ProductTour;
 import fr.sfc.entity.Vehicle;
+import fr.sfc.framework.item.Tag;
 import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.SimpleAlertUtils;
@@ -52,6 +53,9 @@ public class AdderProductTourController implements Controller {
     private CompanyRepository companyRepository;
     @Inject
     private VehicleRepository vehicleRepository;
+    @Inject
+    @Tag("container.root.list")
+    private ListProductTourContainer listProductTourContainer;
 
     private Company currentCompany; // TODO: A enlever quand la page de connexion sera faite
 
@@ -80,9 +84,9 @@ public class AdderProductTourController implements Controller {
 
     }
 
-    private void listenSelectedPackVehicle(ObservableValue<? extends Pack<Vehicle>> o,
-                                           Pack<Vehicle> old,
-                                           Pack<Vehicle> current) {
+    private void listenSelectedPackVehicle(ObservableValue<? extends Custom<Vehicle>> o,
+                                           Custom<Vehicle> old,
+                                           Custom<Vehicle> current) {
         if (current == null) return;
 
         tFMatriculation.setText(current.get().getMatriculation());
@@ -101,8 +105,8 @@ public class AdderProductTourController implements Controller {
         tFMatriculation.setDisable(current == null || current.isBlank());
     }
 
-    private Pack<Vehicle> vehiclePack(Vehicle vehicle) {
-        return Pack.of(vehicle, vehicle1 ->
+    private Custom<Vehicle> vehiclePack(Vehicle vehicle) {
+        return Custom.of(vehicle, vehicle1 ->
                 vehicle1.getMatriculation() + " " +
                 vehicle1.getMaxWeight() + "kg");
     }
@@ -125,8 +129,6 @@ public class AdderProductTourController implements Controller {
             if (createConfirmAlertInsertProductTour(productTour)) return;
 
             // Rafraichi la liste de tournées
-            ListProductTourContainer listProductTourContainer = containerManager.getContainer("root.list");
-            assert listProductTourContainer != null;
             listProductTourContainer.getController().refresh();
 
             LOGGER.info( "Product Tour {} has been created by {} id={}" ,

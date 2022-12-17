@@ -6,18 +6,18 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PackTest {
+class CustomTest {
 
-    private Pack<AdminTest> adminTestPack;
+    private Custom<AdminTest> adminTestCustom;
 
     @BeforeEach
     void setUp() {
-        adminTestPack = Pack.of(new AdminTest(), adminTest1 -> "test");
+        adminTestCustom = Custom.of(new AdminTest(), adminTest1 -> "test");
     }
 
     @Test
     void testToString() {
-        assertEquals(adminTestPack.toString(), "test");
+        assertEquals(adminTestCustom.toString(), "test");
     }
 
 }

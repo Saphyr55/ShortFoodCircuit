@@ -1,6 +1,6 @@
 package fr.sfc.container.productTour;
 
-import fr.sfc.common.Pack;
+import fr.sfc.common.Custom;
 import fr.sfc.controller.productTour.ListProductTourController;
 import fr.sfc.entity.ProductTour;
 import fr.sfc.framework.controlling.Container;
@@ -25,9 +25,9 @@ public class ListProductTourContainer extends GridPane implements Container {
     private AdderProductTourContainer adderProductTourContainer;
     
     private final TextField searchTextField;
-    private final FilteredList<Pack<ProductTour>> filteredList;
-    private final ObservableList<Pack<ProductTour>> observableList;
-    private final ListView<Pack<ProductTour>> productTourListView;
+    private final FilteredList<Custom<ProductTour>> filteredList;
+    private final ObservableList<Custom<ProductTour>> observableList;
+    private final ListView<Custom<ProductTour>> productTourListView;
     private final HBox hBox;
     private final Button adderProductTourButton;
     private final Button switcherDetailsComponentButton;
@@ -44,8 +44,12 @@ public class ListProductTourContainer extends GridPane implements Container {
 
     @Override
     public void setup() {
+
         searchTextField.setPromptText("Search for product tour");
-        hBox.getChildren().addAll(adderProductTourButton, switcherDetailsComponentButton);
+        hBox.getChildren().addAll(
+                adderProductTourButton,
+                switcherDetailsComponentButton
+        );
         addRow(0, searchTextField);
         addRow(1, productTourListView);
         addRow(2, hBox);
@@ -73,7 +77,7 @@ public class ListProductTourContainer extends GridPane implements Container {
         return adderProductTourButton;
     }
 
-    public ListView<Pack<ProductTour>> getProductTourListView() {
+    public ListView<Custom<ProductTour>> getProductTourListView() {
         return productTourListView;
     }
 
@@ -89,11 +93,13 @@ public class ListProductTourContainer extends GridPane implements Container {
         return adderProductTourContainer;
     }
 
-    public FilteredList<Pack<ProductTour>> getFilteredList() {
+    public FilteredList<Custom<ProductTour>> getFilteredList() {
         return filteredList;
     }
 
-    public ObservableList<Pack<ProductTour>> getObservableList() {
+    public ObservableList<Custom<ProductTour>> getObservableList() {
         return observableList;
     }
+
+
 }

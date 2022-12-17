@@ -5,6 +5,7 @@ import fr.sfc.container.productTour.ListProductTourContainer;
 import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
+import fr.sfc.framework.item.Tag;
 import fr.sfc.framework.persistence.annotation.Inject;
 
 public class DetailsProductTourController implements Controller {
@@ -16,6 +17,10 @@ public class DetailsProductTourController implements Controller {
 
     @AutoContainer
     private DetailsProductTourContainer container;
+
+    @Inject
+    @Tag("container.root.list")
+    private ListProductTourContainer listProductTourContainer;
 
     private State state = State.Config;
 
@@ -29,20 +34,16 @@ public class DetailsProductTourController implements Controller {
 
     public void switchBetweenMapAndConfig() {
 
-        ListProductTourContainer adder = containerManager.getContainer("root.list");
-
-        assert adder != null;
-
-        adder.getSwitcherDetailsComponentButton().setOnAction(event -> {
+        listProductTourContainer.getSwitcherDetailsComponentButton().setOnAction(event -> {
             switch (state) {
                 case Config -> {
                     state = State.Map;
-                    adder.getSwitcherDetailsComponentButton().setText("Show Config");
+                    listProductTourContainer.getSwitcherDetailsComponentButton().setText("Show Config");
                     container.setFor(container.getMapContainer());
                 }
                 case Map -> {
                     state = State.Config;
-                    adder.getSwitcherDetailsComponentButton().setText("Show Map");
+                    listProductTourContainer.getSwitcherDetailsComponentButton().setText("Show Map");
                     container.setFor(container.getSpecifiesProductTourContainer());
                 }
             }

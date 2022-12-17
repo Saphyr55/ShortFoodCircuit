@@ -3,7 +3,6 @@ package fr.sfc.framework;
 import fr.sfc.framework.controlling.*;
 import fr.sfc.framework.persistence.*;
 import fr.sfc.framework.database.DatabaseManager;
-import fr.sfc.framework.persistence.InjectionConfiguration;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
@@ -17,13 +16,13 @@ import java.util.List;
  */
 public final class BackendApplicationConfiguration {
 
+    private final Parent root;
     private final DatabaseManager databaseManager;
     private final RepositoryManager repositoryManager;
     private final ContainerManager containerManager;
     private final EntityClassManager entityClassManager;
     private InjectionConfiguration injectionConfiguration;
     private EntityManager entityManager;
-    private Parent root;
     private String currentDatabaseName;
 
     /**
@@ -54,9 +53,10 @@ public final class BackendApplicationConfiguration {
     public void configure() {
         if (databaseManager != null) {
             if (currentDatabaseName != null) {
-                databaseManager.getDatabaseNames().stream().findFirst().ifPresentOrElse(s -> currentDatabaseName = s, () -> {
-                    throw new RuntimeException();
-                });
+                databaseManager.getDatabaseNames().stream().findFirst().ifPresentOrElse(
+                        s -> currentDatabaseName = s,
+                        () -> { throw new RuntimeException(); }
+                );
             }
             databaseManager.configure();
             databaseManager.connect();

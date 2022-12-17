@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import fr.sfc.framework.controlling.TimeTextField?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
@@ -34,10 +35,22 @@
                        text="Start date"/>
 
             <TextField prefWidth="${containerNameTextField.width}"
+                           prefHeight="${containerNameTextField.height}"
+                           disable="true"
+                           font="$defaultFont"
+                           text="Start hour"/>
+
+            <TextField prefWidth="${containerNameTextField.width}"
                        prefHeight="${containerNameTextField.height}"
                        disable="true"
                        font="$defaultFont"
                        text="End date"/>
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                           prefHeight="${containerNameTextField.height}"
+                           disable="true"
+                           font="$defaultFont"
+                           text="End hour"/>
 
             <TextField prefWidth="${containerNameTextField.width}"
                        prefHeight="${containerNameTextField.height}"
@@ -47,13 +60,33 @@
         </VBox>
         <VBox fx:id="containerDataTextField">
 
-            <TextField prefWidth="${containerNameTextField.width}"
+            <TextField fx:id="dataWording"
+                       prefWidth="${containerNameTextField.width}"
                        prefHeight="${containerNameTextField.height}"
                        font="$defaultFont"/>
 
-            <TextField prefWidth="${containerNameTextField.width}"
+            <TextField fx:id="dataWeight"
+                       prefWidth="${containerNameTextField.width}"
                        prefHeight="${containerNameTextField.height}"
                        font="$defaultFont"/>
+
+            <DatePicker fx:id="dataStartDate"
+                        prefWidth="${containerNameTextField.width}"
+                        prefHeight="${containerNameTextField.height}"/>
+
+            <TimeTextField fx:id="dataStartHour"
+                           prefWidth="${containerNameTextField.width}"
+                           prefHeight="${containerNameTextField.height}"
+                           font="$defaultFont"/>
+
+            <DatePicker fx:id="dataEndDate"
+                        prefWidth="${containerNameTextField.width}"
+                        prefHeight="${containerNameTextField.height}"/>
+
+            <TimeTextField fx:id="dataEndHour"
+                           prefWidth="${containerNameTextField.width}"
+                           prefHeight="${containerNameTextField.height}"
+                           font="$defaultFont"/>
 
             <TextField fx:id="dataCustomerTextField"
                        prefWidth="${containerNameTextField.width}"
@@ -65,5 +98,6 @@
     </HBox>
     <Button font="$defaultFont"
             prefWidth="${root.width}"
+            onAction="#sendOrder"
             text="Add"/>
 </fx:root>

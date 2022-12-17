@@ -1,7 +1,7 @@
 package fr.sfc.controller.productTour;
 
 import fr.sfc.common.IconsType;
-import fr.sfc.common.Pack;
+import fr.sfc.common.Custom;
 import fr.sfc.container.productTour.SpecifiesProductTourContainer;
 import fr.sfc.entity.Customer;
 import fr.sfc.entity.Order;
@@ -55,7 +55,7 @@ public class SpecifiesProductTourController implements Controller {
     @FXML private HBox containerNameTextFieldHBox;
     @FXML private VBox containerHBoxVBox;
     @FXML private HBox containerDataTextFieldHBox;
-    @FXML private ListView<Pack<Order>> orderListView;
+    @FXML private ListView<Custom<Order>> orderListView;
 
     private ProductTour productTour;
 
@@ -82,9 +82,9 @@ public class SpecifiesProductTourController implements Controller {
 
 
     private void onActionSelectElementListView(
-                                ObservableValue<? extends Pack<Order>> observableV,
-                                Pack<Order> oldV,
-                                Pack<Order> newV) {
+                                ObservableValue<? extends Custom<Order>> observableV,
+                                Custom<Order> oldV,
+                                Custom<Order> newV) {
 
         // Si on n'a rien sélectionné on quitte la methode
         if (newV == null) return;
@@ -151,14 +151,14 @@ public class SpecifiesProductTourController implements Controller {
     }
 
 
-    private ListCell<Pack<Order>> returnListCellWithImage(ListView<Pack<Order>> lv) {
+    private ListCell<Custom<Order>> returnListCellWithImage(ListView<Custom<Order>> lv) {
         return new ListCell<>() {
 
             private final ImageView imageView = new ImageView();
 
             @Override
-            public void updateItem(Pack<Order> orderPack, boolean empty) {
-                super.updateItem(orderPack, empty);
+            public void updateItem(Custom<Order> orderCustom, boolean empty) {
+                super.updateItem(orderCustom, empty);
 
                 if (empty) {
                     setText(null);
@@ -166,7 +166,7 @@ public class SpecifiesProductTourController implements Controller {
                     return;
                 }
 
-                Order order = orderPack.get();
+                Order order = orderCustom.get();
                 Image image = IconsType.LOADING_16x16;
 
                 if (order.getEndLocalDateTime() != null) {
@@ -181,7 +181,7 @@ public class SpecifiesProductTourController implements Controller {
 
                 imageView.setImage(image);
                 setGraphic(imageView);
-                setText(orderPack.toString());
+                setText(orderCustom.toString());
 
             }
         };
@@ -197,7 +197,7 @@ public class SpecifiesProductTourController implements Controller {
         dataMatriculationVehicleProductTourTextField.setText(productTour.getMatriculation());
     }
 
-    public ListView<Pack<Order>> getOrderListView() {
+    public ListView<Custom<Order>> getOrderListView() {
         return orderListView;
     }
 }

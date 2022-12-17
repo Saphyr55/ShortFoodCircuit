@@ -1,7 +1,7 @@
 package fr.sfc.controller.productTour;
 
+import fr.sfc.common.Custom;
 import fr.sfc.common.IconsType;
-import fr.sfc.common.Pack;
 import fr.sfc.container.productTour.ListProductTourContainer;
 import fr.sfc.container.productTour.SpecifiesProductTourContainer;
 import fr.sfc.entity.Order;
@@ -9,10 +9,13 @@ import fr.sfc.entity.ProductTour;
 import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
+import fr.sfc.framework.item.Tag;
 import fr.sfc.framework.persistence.annotation.Inject;
 import fr.sfc.repository.OrderRepository;
 import fr.sfc.repository.ProductTourRepository;
 import javafx.beans.Observable;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -31,16 +34,20 @@ public class ListProductTourController implements Controller {
 
     @Inject
     private ContainerManager containerManager;
-
     @Inject
     private ProductTourRepository productTourRepository;
-
     @Inject
     private OrderRepository orderRepository;
+    @Inject
+    @Tag("container.root.details.specifies")
+    private SpecifiesProductTourContainer specifiesProductTourContainer;
+
+    private ObjectProperty<ProductTour> currentProductTour;
 
     @Override
     public void setup() {
 
+        currentProductTour = new SimpleObjectProperty<>();
         // On récupère les tournées et les ajoute dans la liste, Met les icons dans la liste
         refresh();
 
@@ -76,43 +83,40 @@ public class ListProductTourController implements Controller {
 
     public void refresh() {
         container.getObservableList().setAll(productTourRepository.findAll().stream()
-                .map(productTour -> Pack.of(productTour, this::toStringPt))
+                .map(productTour -> Custom.of(productTour, this::toStringPt))
                 .collect(Collectors.toSet()));
         container.getProductTourListView().setCellFactory(this::returnListCellWithImage);
         container.getProductTourListView().refresh();
     }
 
-    private void selectItem(ObservableValue<? extends Pack<ProductTour>> observableV,
-                            Pack<ProductTour> oldV,
-                            Pack<ProductTour> newV) {
+    private void selectItem(ObservableValue<? extends Custom<ProductTour>> observableV,
+                            Custom<ProductTour> oldV,
+                            Custom<ProductTour> newV) {
 
         // Si on n'a rien sélectionné on quitte la methode
         if (newV == null) return;
 
-        ProductTour ptSelected = newV.get();
+        currentProductTour.set(newV.get());
 
-        Set<Order> orders =  orderRepository.findByProductTour(ptSelected);
+        Set<Order> orders =  orderRepository.findByProductTour(currentProductTour.get());
 
-        Set<Pack<Order>> packsOrder = orders.stream()
-                .map(order -> Pack.of(order, Order::getWording))
+        Set<Custom<Order>> packsOrder = orders.stream()
+                .map(order -> Custom.of(order, Order::getWording))
                 .collect(Collectors.toSet());
 
-        SpecifiesProductTourContainer specifiesProductTourContainer =
-                containerManager.getContainer("root.details.specifies");
-
-        specifiesProductTourContainer.getController().setProductTour(ptSelected);
+        specifiesProductTourContainer.getController().setProductTour(currentProductTour.get());
         specifiesProductTourContainer.getController().getOrderListView().getItems().setAll(packsOrder);
         specifiesProductTourContainer.getController().refresh();
     }
 
-    private ListCell<Pack<ProductTour>> returnListCellWithImage(ListView<Pack<ProductTour>> lv) {
+    private ListCell<Custom<ProductTour>> returnListCellWithImage(ListView<Custom<ProductTour>> lv) {
         return new ListCell<>() {
 
             private final ImageView imageView = new ImageView();
 
             @Override
-            public void updateItem(Pack<ProductTour> productTourPack, boolean empty) {
-                super.updateItem(productTourPack, empty);
+            public void updateItem(Custom<ProductTour> productTourCustom, boolean empty) {
+                super.updateItem(productTourCustom, empty);
 
                 if (empty) {
                     setText(null);
@@ -120,19 +124,27 @@ public class ListProductTourController implements Controller {
                     return;
                 }
 
-                ProductTour productTour = productTourPack.get();
+                ProductTour productTour = productTourCustom.get();
                 Image image = IconsType.WARNING_16x16;
 
-                if (productTour.getEndDateTime() != null &&
+                if (    productTour.getEndDateTime() != null &&
                         productTour.getEndDateTime().isBefore(LocalDateTime.now())) {
-                    image = IconsType.WARNING_16x16;
+
+                    image = IconsType.LOADING_16x16;
                 }
 
                 imageView.setImage(image);
                 setGraphic(imageView);
-                setText(productTourPack.toString());
+                setText(productTourCustom.toString());
             }
         };
     }
 
+    public ObjectProperty<ProductTour> currentProductTourProperty() {
+        return currentProductTour;
+    }
+
+    public ProductTour getCurrentProductTour() {
+        return currentProductTour.get();
+    }
 }
