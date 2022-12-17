@@ -22,7 +22,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class SpecifiesProductTourController implements Controller {
 
@@ -76,6 +75,12 @@ public class SpecifiesProductTourController implements Controller {
         orderListView.getSelectionModel().selectedItemProperty().addListener(this::onActionSelectElementListView);
     }
 
+    @FXML
+    public void openAdderOrderContainer() {
+        container.getAdderOrderContainer().getStage().show();
+    }
+
+
     private void onActionSelectElementListView(
                                 ObservableValue<? extends Pack<Order>> observableV,
                                 Pack<Order> oldV,
@@ -118,11 +123,11 @@ public class SpecifiesProductTourController implements Controller {
         Customer customer = customerRepository.find(order.getIdCustomer());
 
         dataStartDateOrderTextField.setText(order.getStartLocalDateTime()
-                .format(DateTimeFormatter.ISO_LOCAL_DATE));
+                .toString().replace('T', ' '));
 
         if (order.getEndLocalDateTime() != null)
             dataEntDateOrderTextField.setText(order.getEndLocalDateTime()
-                .format(DateTimeFormatter.ISO_LOCAL_DATE));
+                    .toString().replace('T', ' '));
         else
             dataEntDateOrderTextField.setText("Not finish");
 
@@ -186,9 +191,9 @@ public class SpecifiesProductTourController implements Controller {
         dataProductTourTextField.setText(productTour.getName());
         dataWeightProductTourTextField.setText(productTour.getWeight().toString());
         dataStartDateProductTourTextField.setText(productTour.getStartDateTime()
-                .format(DateTimeFormatter.ISO_LOCAL_DATE));
+                .toString().replace('T', ' '));
         dataEndDateProductTourTextField.setText(productTour.getEndDateTime()
-                .format(DateTimeFormatter.ISO_LOCAL_DATE));
+                .toString().replace('T', ' '));
         dataMatriculationVehicleProductTourTextField.setText(productTour.getMatriculation());
     }
 

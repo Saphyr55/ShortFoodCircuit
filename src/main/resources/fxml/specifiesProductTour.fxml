@@ -169,7 +169,12 @@
       </HBox>
    </VBox>
    <VBox fx:id="listContainerVBox">
-      <ListView fx:id="orderListView" prefWidth="${listContainerVBox.width}" prefHeight="${listContainerVBox.height}"/>
-      <Button fx:id="addOrderButton" text="Add Order" prefWidth="${listContainerVBox.width}"/>
+      <ListView fx:id="orderListView"
+                prefWidth="${listContainerVBox.width}"
+                prefHeight="${listContainerVBox.height}"/>
+      <Button fx:id="addOrderButton"
+              text="Add Order"
+              prefWidth="${listContainerVBox.width}"
+              onAction="#openAdderOrderContainer"/>
    </VBox>
 </fx:root>

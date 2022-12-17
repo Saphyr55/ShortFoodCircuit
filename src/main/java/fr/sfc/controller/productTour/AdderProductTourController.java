@@ -9,6 +9,7 @@ import fr.sfc.entity.Vehicle;
 import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.SimpleAlertUtils;
+import fr.sfc.framework.controlling.TimeTextField;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.persistence.annotation.Inject;
 import fr.sfc.repository.CompanyRepository;
@@ -22,7 +23,6 @@ import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -41,6 +41,8 @@ public class AdderProductTourController implements Controller {
     @FXML private DatePicker endDate;
     @FXML private TextField tFWeight;
     @FXML private TextField tFMatriculation;
+    @FXML private TimeTextField endHourTextField;
+    @FXML private TimeTextField startHourTextField;
 
     @Inject
     private ContainerManager containerManager;
@@ -90,18 +92,19 @@ public class AdderProductTourController implements Controller {
                                        String old,
                                        String current) {
 
-        Set<Pack<Vehicle>> vehicles = vehicleRepository
-                .findByCompany(currentCompany)
-                .stream()
+        container.getSearchMatriculationDialog().getObservableList().setAll(
+                vehicleRepository.findByCompany(currentCompany).stream()
                 .filter(this::checkVehicleWeight)
-                .map(vehicle -> Pack.of(vehicle,
-                                vehicle1 -> vehicle1.getMatriculation() + " " +
-                                vehicle1.getMaxWeight() + "kg"))
-                .collect(Collectors.toSet());
-
-        container.getSearchMatriculationDialog().getObservableList().setAll(vehicles);
+                .map(this::vehiclePack)
+                .collect(Collectors.toSet()));
 
         tFMatriculation.setDisable(current == null || current.isBlank());
+    }
+
+    private Pack<Vehicle> vehiclePack(Vehicle vehicle) {
+        return Pack.of(vehicle, vehicle1 ->
+                vehicle1.getMatriculation() + " " +
+                vehicle1.getMaxWeight() + "kg");
     }
 
     @FXML
@@ -119,7 +122,7 @@ public class AdderProductTourController implements Controller {
         try {
 
             // confirme l'insertion de la tournée, quitte la methode si cancel
-            if (createAlertConfirmationCreationProductTour(productTour)) return;
+            if (createConfirmAlertInsertProductTour(productTour)) return;
 
             // Rafraichi la liste de tournées
             ListProductTourContainer listProductTourContainer = containerManager.getContainer("root.list");
@@ -141,7 +144,13 @@ public class AdderProductTourController implements Controller {
 
     }
 
-    private boolean createAlertConfirmationCreationProductTour(ProductTour productTour) {
+    @FXML
+    public void onClickMatriculationTextField() {
+        container.getSearchMatriculationDialog().getListView().refresh();
+        container.getSearchMatriculationDialog().show();
+    }
+
+    private boolean createConfirmAlertInsertProductTour(ProductTour productTour) {
         AtomicBoolean quit = new AtomicBoolean(false);
         SimpleAlertUtils.createAlertConfirmation()
                 .withTitle( "Successful" )
@@ -155,7 +164,8 @@ public class AdderProductTourController implements Controller {
     private boolean createAlertFieldsEmpty(Vehicle vehicle) {
         AtomicBoolean quit = new AtomicBoolean(false);
         SimpleAlertUtils.createAlertErrorConditional(fieldsIsNotEmpty(vehicle))
-                .ifPresent(simpleAlertBuilder -> { simpleAlertBuilder
+                .ifPresent(simpleAlertBuilder -> {
+                    simpleAlertBuilder
                         .withTitle( "Error Form" )
                         .withContentText( "You need to specifies all fields" )
                         .buildShowAndWait();
@@ -174,11 +184,25 @@ public class AdderProductTourController implements Controller {
     private ProductTour createProductTourFromTextField(Vehicle vehicle) {
 
         var pt = new ProductTour(
-                startDate.getValue().atStartOfDay(),
-                endDate.getValue().atStartOfDay(),
+
+                startDate.getValue().atStartOfDay()
+                        .toLocalDate().atTime(
+                        startHourTextField.getHours(),
+                        startHourTextField.getMinutes(),
+                        startHourTextField.getSeconds()),
+
+                endDate.getValue().atStartOfDay()
+                        .toLocalDate().atTime(
+                        endHourTextField.getHours(),
+                        endHourTextField.getMinutes(),
+                        endHourTextField.getSeconds()),
+
                 tFName.getText(),
+
                 Float.valueOf(tFWeight.getText()),
+
                 currentCompany.getSIRET(),
+
                 vehicle.getMatriculation());
 
         pt.setIdCompany(currentCompany.getId());
@@ -193,13 +217,9 @@ public class AdderProductTourController implements Controller {
                 endDate.getValue() == null ||
                 vehicle == null ||
                 tFWeight.getText().trim().isBlank() ||
-                tFName.getText().trim().isBlank();
-    }
-
-    @FXML
-    public void onClickMatriculationTextField() {
-        container.getSearchMatriculationDialog().getListView().refresh();
-        container.getSearchMatriculationDialog().show();
+                tFName.getText().trim().isBlank() ||
+                endHourTextField.getText().trim().isBlank() ||
+                startHourTextField.getText().trim().isBlank();
     }
 
     private boolean checkVehicleWeight(Vehicle vehicle) {

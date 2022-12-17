@@ -1,9 +1,5 @@
 package fr.sfc.controller.admin;
 
-import com.google.i18n.phonenumbers.NumberParseException;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber;
-
 import fr.sfc.container.admin.MainAdminContainer;
 import fr.sfc.entity.Company;
 import fr.sfc.entity.Customer;
@@ -13,6 +9,8 @@ import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.persistence.annotation.Inject;
 import fr.sfc.repository.CompanyRepository;
 import fr.sfc.repository.ProductTourRepository;
+
+import static fr.sfc.common.Phones.formatPhoneNumberFR;
 
 public class MainAdminController implements Controller {
 
@@ -39,32 +37,22 @@ public class MainAdminController implements Controller {
             container.getSpecificsDataProducer().getFirstnameProducer().setText(currentProducer.getFirstname());
             container.getSpecificsDataProducer().getSIRETCompany().setText(company.getSIRET().toString());
             container.getSpecificsDataProducer().getAddressCompany().setText(company.getAddress());
-            container.getSpecificsDataProducer().getPhoneNumber().setText(formatPhoneNumber(company.getPhoneNumber()));
+            container.getSpecificsDataProducer().getPhoneNumber().setText(formatPhoneNumberFR(company.getPhoneNumber()));
             container.getSpecificsDataProducer().getCountProductTour().setText(countProductTourByCompany(company));
         });
     }
 
     public void fillDataCustomer() {
-        container.getSpecificsDataCustomer().getPhoneNumber().setText(formatPhoneNumber(currentCustomer.getPhoneNumber()));
+        container.getSpecificsDataCustomer().getPhoneNumber().setText(formatPhoneNumberFR(currentCustomer.getPhoneNumber()));
         container.getSpecificsDataCustomer().getAddress().setText(currentCustomer.getAddress());
         container.getSpecificsDataCustomer().getName().setText(currentCustomer.getName());
     }
-
 
     private String countProductTourByCompany(Company company) {
         return String.valueOf(productTourRepository.countProductTourByCompany(company));
     }
 
-    private String formatPhoneNumber(String phone) {
-        try {
-            Phonenumber.PhoneNumber phoneNumber = PhoneNumberUtil.getInstance()
-                    .parse(phone, "FR");
-            return  PhoneNumberUtil.getInstance().format(phoneNumber,
-                    PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
-        } catch (NumberParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 
     public Producer getCurrentProducer() {
         return currentProducer;

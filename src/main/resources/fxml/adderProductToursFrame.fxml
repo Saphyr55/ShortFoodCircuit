@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
+<?import fr.sfc.framework.controlling.TimeTextField?>
 <fx:root fx:id="root" type="VBox" xmlns="http://javafx.com/javafx/19"
          xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="fr.sfc.controller.productTour.AdderProductTourController">
@@ -29,7 +30,19 @@
                        prefHeight="${containerNameTextField.height}"
                        disable="true"
                        font="$defaultFont"
+                       text="Start hour"/>
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       disable="true"
+                       font="$defaultFont"
                        text="End date"/>
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       disable="true"
+                       font="$defaultFont"
+                       text="End hour"/>
 
             <TextField prefWidth="${containerNameTextField.width}"
                        prefHeight="${containerNameTextField.height}"
@@ -54,9 +67,19 @@
                         prefWidth="${containerDataTextField.width}"
                         prefHeight="${containerDataTextField.height}"/>
 
+            <TimeTextField fx:id="startHourTextField"
+                       font="$defaultFont"
+                       prefWidth="${containerDataTextField.width}"
+                       prefHeight="${containerDataTextField.height}"/>
+
             <DatePicker fx:id="endDate"
                         prefWidth="${containerDataTextField.width}"
                         prefHeight="${containerDataTextField.height}"/>
+
+            <TimeTextField fx:id="endHourTextField"
+                       font="$defaultFont"
+                       prefWidth="${containerDataTextField.width}"
+                       prefHeight="${containerDataTextField.height}"/>
 
             <TextField fx:id="tFWeight"
                        font="$defaultFont"
@@ -76,5 +99,5 @@
     <Button font="$defaultFont"
             prefWidth="${root.width}"
             onAction="#buttonAddProductTourEvent"
-            text="Finish"/>
+            text="Add"/>
 </fx:root>

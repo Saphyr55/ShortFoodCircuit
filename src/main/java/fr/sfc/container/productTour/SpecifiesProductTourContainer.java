@@ -5,6 +5,7 @@ import fr.sfc.framework.Resources;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.annotation.ContainerFXML;
+import fr.sfc.framework.controlling.annotation.SetContainer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,9 @@ public class SpecifiesProductTourContainer extends HBox implements Container {
 
     @AutoController
     private SpecifiesProductTourController controller;
+
+    @SetContainer
+    private AdderOrderContainer adderOrderContainer;
 
     private final FXMLLoader loader;
     private final ObservableList<String> orderObservableList;
@@ -31,6 +35,10 @@ public class SpecifiesProductTourContainer extends HBox implements Container {
     @Override
     public void setup()  {
 
+    }
+
+    public AdderOrderContainer getAdderOrderContainer() {
+        return adderOrderContainer;
     }
 
     public ObservableList<String> getOrderObservableList() {
