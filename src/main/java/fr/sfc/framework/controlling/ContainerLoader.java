@@ -13,10 +13,6 @@ public final class ContainerLoader {
         this(ParkourNodes.getAllNodes(parent));
     }
 
-    public static ContainerManager createContainerManager(final Parent parent) {
-        return new ContainerLoader(parent).createContainerManager();
-    }
-
     private ContainerLoader(final List<Node> nodes) {
         this.nodes = nodes;
     }

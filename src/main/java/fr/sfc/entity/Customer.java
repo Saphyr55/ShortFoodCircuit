@@ -22,8 +22,7 @@ public class Customer {
     @ForeignKey(entity = ProductTour.class)
     private Integer idProductTour;
 
-    public Customer() {
-    }
+    public Customer() { }
 
     public Customer(String name, String phoneNumber, String address, float longitude, float latitude) {
         this.longitude = longitude;
