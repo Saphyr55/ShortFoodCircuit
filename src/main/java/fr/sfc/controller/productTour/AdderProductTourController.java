@@ -2,6 +2,7 @@ package fr.sfc.controller.productTour;
 
 import fr.sfc.common.Custom;
 import fr.sfc.container.productTour.AdderProductTourContainer;
+import fr.sfc.controller.MainProductTourController;
 import fr.sfc.entity.Company;
 import fr.sfc.entity.ProductTour;
 import fr.sfc.entity.Vehicle;
@@ -55,13 +56,16 @@ public class AdderProductTourController implements Controller {
     @Inject
     @Tag("controller:root.list")
     private ListProductTourController listProductTourController;
+    @Inject
+    @Tag("controller:root")
+    private MainProductTourController mainProductTourController;
 
-    private Company currentCompany; // TODO: A enlever quand la page de connexion sera faite
+    private Company currentCompany;
 
     @Override
     public void setup() {
 
-        currentCompany = companyRepository.find(1);
+        currentCompany = mainProductTourController.getCurrentCompany();
 
         // Listen the current company and vehicle
         container.getSearchMatriculationDialog().currentSelectedProperty().addListener(this::listenSelectedPackVehicle);
@@ -132,7 +136,7 @@ public class AdderProductTourController implements Controller {
 
             LOGGER.info( "Product Tour {} has been created by {} id={}" ,
                     productTour.getName(),
-                    currentCompany.getName(),
+                    currentCompany.getNameOwner(),
                     currentCompany.getId());
 
         } catch (Exception e) {
@@ -234,8 +238,4 @@ public class AdderProductTourController implements Controller {
         return is;
     }
 
-    // TODO: a enlever quand page de connexion sera faite
-    public Company getCurrentCompany() {
-        return currentCompany;
-    }
 }

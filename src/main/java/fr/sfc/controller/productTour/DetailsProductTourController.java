@@ -2,17 +2,16 @@ package fr.sfc.controller.productTour;
 
 import fr.sfc.container.productTour.DetailsProductTourContainer;
 import fr.sfc.container.productTour.ListProductTourContainer;
-import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
-import fr.sfc.framework.item.Tag;
 import fr.sfc.framework.injection.Inject;
+import fr.sfc.framework.item.Tag;
 
 public class DetailsProductTourController implements Controller {
 
     public enum State {
         Map,
-        Config
+        Specifies
     }
 
     @AutoContainer
@@ -22,10 +21,11 @@ public class DetailsProductTourController implements Controller {
     @Tag("container:root.list")
     private ListProductTourContainer listProductTourContainer;
 
-    private State state = State.Config;
-
     @Inject
-    private ContainerManager containerManager;
+    @Tag("controller:root.details.map")
+    private MapController mapController;
+
+    private State state = State.Specifies;
 
     @Override
     public void setup() {
@@ -35,14 +35,18 @@ public class DetailsProductTourController implements Controller {
     public void switchBetweenMapAndConfig() {
 
         listProductTourContainer.getSwitcherDetailsComponentButton().setOnAction(event -> {
+
+            if (listProductTourContainer.getController().getCurrentProductTour() == null) return;
+
             switch (state) {
-                case Config -> {
+                case Specifies -> {
                     state = State.Map;
-                    listProductTourContainer.getSwitcherDetailsComponentButton().setText("Show Config");
+                    listProductTourContainer.getSwitcherDetailsComponentButton().setText("Show Specifies");
                     container.setFor(container.getMapContainer());
+                    mapController.loadMap();
                 }
                 case Map -> {
-                    state = State.Config;
+                    state = State.Specifies;
                     listProductTourContainer.getSwitcherDetailsComponentButton().setText("Show Map");
                     container.setFor(container.getSpecifiesProductTourContainer());
                 }
@@ -50,7 +54,5 @@ public class DetailsProductTourController implements Controller {
         });
     }
 
-    public State getState() {
-        return state;
-    }
+
 }

@@ -20,9 +20,9 @@ public final class BackendApplicationConfiguration {
     private final Parent root;
     private final DatabaseManager databaseManager;
     private final RepositoryManager repositoryManager;
-    private final ContainerManager containerManager;
     private final EntityClassManager entityClassManager;
     private DependencyInjection dependencyInjection;
+    private ContainerManager containerManager;
     private EntityManager entityManager;
     private String currentDatabaseName;
 
@@ -32,13 +32,11 @@ public final class BackendApplicationConfiguration {
     private BackendApplicationConfiguration(final Parent root,
                                             final String currentDatabaseName,
                                             final DatabaseManager databaseManager,
-                                            final ContainerManager containerManager,
                                             final RepositoryManager repositoryManager,
                                             final EntityClassLoader entityClassLoader) {
 
         this.root = root;
         this.repositoryManager = repositoryManager;
-        this.containerManager = containerManager;
         entityClassLoader.load();
         this.entityClassManager = entityClassLoader.createClassManager();
         this.databaseManager = databaseManager;
@@ -63,10 +61,20 @@ public final class BackendApplicationConfiguration {
             databaseManager.connect();
             entityManager = entityClassManager.createEntityManager(databaseManager.getDatabase(currentDatabaseName));
         }
+
         repositoryManager.detect();
+
+        dependencyInjection = new DependencyInjection(repositoryManager, entityManager);
+        repositoryManager.getAllRepository().forEach(dependencyInjection::defaultInjection);
+
+        containerManager = new ContainerManager(dependencyInjection, new ContainerLoader(root));
+        dependencyInjection.setContainerManager(containerManager);
+
         containerManager.detect();
-        dependencyInjection = new DependencyInjection(repositoryManager, entityManager, containerManager);
-        dependencyInjection.configure();
+        containerManager.getAllContainers().forEach(dependencyInjection::injectionByTag);
+        containerManager.getAllControllers().forEach(dependencyInjection::injectionByTag);
+        containerManager.getAllContainers().forEach(Container::setup);
+        containerManager.getAllControllers().forEach(Controller::setup);
     }
 
     /**
@@ -77,8 +85,6 @@ public final class BackendApplicationConfiguration {
      */
     public BackendApplication createApplication(final Stage stage, final String title, final int width, final int height) {
         BackendApplication.set(new BackendApplication(this, stage, root, title, width, height));
-        containerManager.getAllContainers().forEach(Container::setup);
-        containerManager.getAllControllers().forEach(Controller::setup);
         return BackendApplication.getCurrentApplication();
     }
 
@@ -181,7 +187,6 @@ public final class BackendApplicationConfiguration {
 
         public Builder withRoot(final Parent root) {
             this.root = root;
-            this.containerManager = new ContainerLoader(root).createContainerManager();
             return this;
         }
 
@@ -192,9 +197,7 @@ public final class BackendApplicationConfiguration {
 
         public BackendApplicationConfiguration build() {
             return new BackendApplicationConfiguration(
-                    root, currentDatabaseName,
-                    databaseManager, containerManager,
-                    repositoryManager, entityClassLoader);
+                    root, currentDatabaseName, databaseManager, repositoryManager, entityClassLoader);
         }
 
     }

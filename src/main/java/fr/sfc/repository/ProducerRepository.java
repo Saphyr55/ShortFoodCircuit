@@ -23,7 +23,7 @@ public class ProducerRepository implements Repository<Producer>  {
 
     @Override
     public Producer find(int id) {
-        return entityManager.find(Producer.class,id);
+        return entityManager.find(Producer.class, id);
     }
 
     @Override

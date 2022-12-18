@@ -36,9 +36,12 @@ public final class RepositoryManager {
 
                 for (final var subClasses : reflections.getSubTypesOf(Repository.class)) {
 
-                    if (!repositories.containsKey(subClasses))
+                    if (!repositories.containsKey(subClasses)) {
                         repositories.put((Class<? extends Repository<?>>) subClasses,
                                 subClasses.getConstructor().newInstance());
+
+                        LOGGER.info("Repository {} has been loaded", subClasses);
+                    }
                 }
                 repositories.forEach((aClass, repository) -> setRepositories.add(repository));
             }
@@ -51,6 +54,9 @@ public final class RepositoryManager {
                     try {
                         final var newaClass = (Class<? extends Repository<?>>) aClass;
                         repositories.put(newaClass, newaClass.getConstructor().newInstance());
+
+                        LOGGER.info("Repository {} has been loaded", newaClass);
+
                     } catch (ClassCastException e) {
                         LOGGER.trace(aClass + " does not inherit from repository", e);
                         throw new RuntimeException(e);

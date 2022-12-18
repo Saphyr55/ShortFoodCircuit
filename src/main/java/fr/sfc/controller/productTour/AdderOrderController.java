@@ -2,6 +2,7 @@ package fr.sfc.controller.productTour;
 
 import fr.sfc.common.Custom;
 import fr.sfc.container.productTour.AdderOrderContainer;
+import fr.sfc.controller.MainProductTourController;
 import fr.sfc.entity.Company;
 import fr.sfc.entity.Customer;
 import fr.sfc.entity.Order;
@@ -43,8 +44,8 @@ public class AdderOrderController implements Controller {
     private ContainerManager containerManager;
 
     @Inject
-    @Tag("controller:root.list.adder")
-    private AdderProductTourController adderProductTourController;
+    @Tag("controller:root")
+    private MainProductTourController mainProductTourController;
     @Inject
     @Tag("controller:root.list")
     private ListProductTourController listProductTourController;
@@ -105,7 +106,7 @@ public class AdderOrderController implements Controller {
 
         Customer customer = customerObservableValue.get().get();
         ProductTour productTour = listProductTourController.getCurrentProductTour();
-        Company company = adderProductTourController.getCurrentCompany();
+        Company company = mainProductTourController.getCurrentCompany();
         Order order = createOrder(customer, productTour, company);
 
         Set<Order> allOrder = orderRepository.findByProductTour(productTour);

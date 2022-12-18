@@ -1,6 +1,8 @@
 package fr.sfc.controller;
 
 import fr.sfc.container.productTour.MainProductTourContainer;
+import fr.sfc.entity.Company;
+import fr.sfc.entity.Producer;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.injection.Inject;
@@ -12,23 +14,25 @@ public class MainProductTourController implements Controller {
     private MainProductTourContainer component;
 
     @Inject
-    private AdminRepository adminRepository;
-    @Inject
-    private OrderRepository orderRepository;
+    private ProducerRepository producerRepository;
     @Inject
     private CompanyRepository companyRepository;
-    @Inject
-    private ProductTourRepository productTourRepository;
-    @Inject
-    private VehicleRepository vehicleRepository;
+
+    private Producer currentProducer;
+    private Company currentCompany;
 
     @Override
     public void setup() {
-
-
+        currentProducer = producerRepository.find(3);
+        currentCompany = companyRepository.find(currentProducer.getIdCompany());
+        System.out.println(currentCompany);
     }
 
+    public Company getCurrentCompany() {
+        return currentCompany;
+    }
 
-
-
+    public Producer getCurrentProducer() {
+        return currentProducer;
+    }
 }

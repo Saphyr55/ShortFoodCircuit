@@ -134,8 +134,10 @@ public final class EntityManager {
             final Map<Field, Object> attributes = new HashMap<>();
             setsAttributes.add(attributes);
 
-            for (String nameField : nameFields) {
+            for (final String nameField : nameFields) {
+
                 final Field field = fields.get(nameField);
+
                 attributes.put(field, resultSet.getObject(nameField, field.getType()));
             }
 
@@ -145,7 +147,7 @@ public final class EntityManager {
 
             if (!attributes.isEmpty()) {
 
-                T type = tClass.getConstructor().newInstance();
+                final T type = tClass.getConstructor().newInstance();
                 for (final Map.Entry<String, Field> stringFieldEntry : fields.entrySet()) {
 
                     stringFieldEntry.getValue().setAccessible(true);

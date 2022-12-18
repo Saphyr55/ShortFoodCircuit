@@ -14,7 +14,7 @@ public class Company {
     private Integer id;
 
     @Column(name = "nameOwner")
-    private String name;
+    private String nameOwner;
 
     @Column(name = "phoneNumber")
     private String phoneNumber;
@@ -33,14 +33,15 @@ public class Company {
 
     public Company() { }
 
-    public Company(String name,
+    public Company(String nameOwner,
                    String phoneNumber,
                    String address,
                    float longitude,
                    float latitude) {
+
         this.longitude = longitude;
         this.latitude = latitude;
-        this.name = name;
+        this.nameOwner = nameOwner;
         this.phoneNumber = phoneNumber;
         this.address = address;
     }
@@ -53,12 +54,12 @@ public class Company {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNameOwner() {
+        return nameOwner;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameOwner(String nameOwner) {
+        this.nameOwner = nameOwner;
     }
 
     public String getPhoneNumber() {
@@ -105,7 +106,7 @@ public class Company {
     public String toString() {
         return "Company{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", nameOwner='" + nameOwner + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
                 ", longitude=" + longitude +

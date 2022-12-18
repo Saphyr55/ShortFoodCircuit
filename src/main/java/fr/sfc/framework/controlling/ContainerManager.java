@@ -1,11 +1,9 @@
 package fr.sfc.framework.controlling;
 
+import fr.sfc.framework.injection.DependencyInjection;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Component's manager,
@@ -17,19 +15,21 @@ public final class ContainerManager {
     private final ContainerLoader containerLoader;
     private final ContainerTree containerTree;
     private final Map<Container, Controller> containerControllerMap;
-    private final Set<Container> containers;
-    private final Set<Controller> controllers;
+    private final List<Container> containers;
+    private final List<Controller> controllers;
 
     /**
      * Create a component manager
      *
      * @param containerLoader class loader
      */
-    public ContainerManager(final ContainerLoader containerLoader) {
-        this.containers = new HashSet<>();
-        this.controllers = new HashSet<>();
+    public ContainerManager(final DependencyInjection dependencyInjection,
+                            final ContainerLoader containerLoader) {
+
+        this.containers = new ArrayList<>();
+        this.controllers = new ArrayList<>();
         this.containerControllerMap = new HashMap<>();
-        this.containerFactory = new ContainerFactory(this);
+        this.containerFactory = new ContainerFactory(dependencyInjection, this);
         this.containerTree = new ContainerTree();
         this.containerLoader = containerLoader;
     }
@@ -51,6 +51,7 @@ public final class ContainerManager {
 
         containerTree.getNodes().forEach(cp -> containers.add(cp.self()));
         containerControllerMap.forEach((aClass, c) -> controllers.add(c));
+
     }
 
     /**
@@ -92,7 +93,7 @@ public final class ContainerManager {
      *
      * @return component set
      */
-    public Set<Container> getAllContainers() {
+    public List<Container> getAllContainers() {
         return containers;
     }
 
@@ -104,7 +105,7 @@ public final class ContainerManager {
         return containerControllerMap;
     }
 
-    public Set<Controller> getAllControllers() {
+    public List<Controller> getAllControllers() {
         return controllers;
     }
 

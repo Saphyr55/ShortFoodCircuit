@@ -17,10 +17,6 @@ public final class ContainerLoader {
         this.nodes = nodes;
     }
 
-    public ContainerManager createContainerManager() {
-        return new ContainerManager(this);
-    }
-
     public List<Node> getNodes() {
         return nodes;
     }

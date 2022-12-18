@@ -23,41 +23,25 @@ public final class DependencyInjection {
 
     private final EntityManager entityManager;
     private final RepositoryManager repositoryManager;
-    private final ContainerManager containerManager;
-
+    private ContainerManager containerManager;
 
     public DependencyInjection(final RepositoryManager repositoryManager,
-                               final EntityManager entityManager,
-                               final ContainerManager containerManager) {
+                               final EntityManager entityManager) {
 
         this.entityManager = entityManager;
         this.repositoryManager = repositoryManager;
-        this.containerManager = containerManager;
     }
 
-    /**
-     *
-     */
-    public void configure() {
-
-        configureFor(repositoryManager.getAllRepository());
-        configureFor(containerManager.getAllContainers());
-        configureFor(containerManager.getAllControllers());
-    }
-
-    /**
-     *
-     * @param collection
-     */
-    private void configureFor(Collection<?> collection) {
-
-        collection.forEach(o -> Arrays.stream(o.getClass().getDeclaredFields())
+    public void defaultInjection(Object o) {
+        Arrays.stream(o.getClass().getDeclaredFields())
                 .filter(field -> field.isAnnotationPresent(Inject.class) && !field.isAnnotationPresent(Tag.class))
-                .forEach(field -> setValueFieldToAll(field, o)));
+                .forEach(field -> setValueFieldToAll(field, o));
+    }
 
-        collection.forEach(o -> Arrays.stream(o.getClass().getDeclaredFields())
+    public void injectionByTag(Object o) {
+        Arrays.stream(o.getClass().getDeclaredFields())
                 .filter(field -> field.isAnnotationPresent(Inject.class) && field.isAnnotationPresent(Tag.class))
-                .forEach(field -> setValueFromTagPath(field, o)));
+                .forEach(field -> setValueFromTagPath(field, o));
     }
 
     /**
@@ -68,7 +52,6 @@ public final class DependencyInjection {
      */
     private <T> void setValueFieldToAll(final Field field, final T instance) {
 
-        injectValueFieldForObject(ContainerManager.class, field, instance, containerManager);
         injectValueFieldForObject(EntityManager.class, field, instance, entityManager);
 
         setValueFieldToRepository(field, instance);
@@ -143,5 +126,7 @@ public final class DependencyInjection {
         }
     }
 
-
+    public void setContainerManager(ContainerManager containerManager) {
+        this.containerManager = containerManager;
+    }
 }

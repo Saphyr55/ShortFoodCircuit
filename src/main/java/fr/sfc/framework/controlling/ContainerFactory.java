@@ -1,5 +1,6 @@
 package fr.sfc.framework.controlling;
 
+import fr.sfc.framework.injection.DependencyInjection;
 import fr.sfc.framework.item.Tag;
 import fr.sfc.framework.item.TagManager;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
@@ -19,9 +20,13 @@ public final class ContainerFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(ContainerFactory.class);
 
     private final ContainerManager containerManager;
+    private final DependencyInjection dependencyInjection;
 
-    public ContainerFactory(final ContainerManager containerManager) {
+    public ContainerFactory(final DependencyInjection dependencyInjection,
+                            final ContainerManager containerManager) {
+
         this.containerManager = containerManager;
+        this.dependencyInjection = dependencyInjection;
     }
 
     public void setup(final Node node) {
@@ -54,6 +59,8 @@ public final class ContainerFactory {
 
             LOGGER.info("Container '{}' has been set with pathTag='{}'", parent.self(), tag);
 
+            dependencyInjection.defaultInjection(container);
+
             setup(containerProperties);
         }catch (Exception e) {
             LOGGER.error("{}, {}", tag, e);
@@ -83,6 +90,8 @@ public final class ContainerFactory {
             LOGGER.info("Controller '{}' has been set on the field '{}'", controller, field);
 
             containerManager.getComponentControllerMap().put(container, controller);
+
+            dependencyInjection.defaultInjection(controller);
 
             field.set(container, controller);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
