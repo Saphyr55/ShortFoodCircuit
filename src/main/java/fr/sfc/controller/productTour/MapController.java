@@ -21,7 +21,7 @@ public class MapController implements Controller {
     private JavaConnector javaConnector = new JavaConnector();
 
     @Inject
-    @Tag("container:root")
+    @Tag("container:root.producer")
     private MainProductTourContainer mainProductTourContainer;
 
     @Override

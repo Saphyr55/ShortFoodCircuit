@@ -31,7 +31,7 @@ public class ListProducerController implements Controller {
     private ListProducerContainer container;
 
     @Inject
-    @Tag("container:root")
+    @Tag("container:root.admin")
     private MainAdminContainer mainAdminContainer;
 
     @Inject

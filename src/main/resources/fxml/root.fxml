@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import fr.sfc.container.MainContainer?>
 <?import javafx.scene.layout.Pane?>
-<?import fr.sfc.container.admin.MainAdminContainer?>
 <?import fr.sfc.container.ConnectionContainer?>
 <Pane xmlns="http://javafx.com/javafx">
     <ConnectionContainer/>

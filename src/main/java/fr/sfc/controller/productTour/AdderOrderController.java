@@ -43,10 +43,10 @@ public class AdderOrderController implements Controller {
     private ContainerManager containerManager;
 
     @Inject
-    @Tag("controller:root.list.adder")
+    @Tag("controller:root.producer.list.adder")
     private AdderProductTourController adderProductTourController;
     @Inject
-    @Tag("controller:root.list")
+    @Tag("controller:root.producer.list")
     private ListProductTourController listProductTourController;
 
     private ObjectProperty<Custom<Customer>> customerObservableValue;

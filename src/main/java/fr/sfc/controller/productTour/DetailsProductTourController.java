@@ -19,7 +19,7 @@ public class DetailsProductTourController implements Controller {
     private DetailsProductTourContainer container;
 
     @Inject
-    @Tag("container:root.list")
+    @Tag("container:root.producer.list")
     private ListProductTourContainer listProductTourContainer;
 
     private State state = State.Config;

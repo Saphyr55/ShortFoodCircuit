@@ -53,7 +53,7 @@ public class AdderProductTourController implements Controller {
     @Inject
     private VehicleRepository vehicleRepository;
     @Inject
-    @Tag("controller:root.list")
+    @Tag("controller:root.producer.list")
     private ListProductTourController listProductTourController;
 
     private Company currentCompany; // TODO: A enlever quand la page de connexion sera faite

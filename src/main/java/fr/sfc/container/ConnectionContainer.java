@@ -8,10 +8,12 @@ import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.annotation.ContainerFXML;
 import fr.sfc.framework.controlling.annotation.SetContainer;
+import fr.sfc.framework.item.Tag;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 
 @ContainerFXML
@@ -31,9 +33,11 @@ public class ConnectionContainer extends GridPane implements Container {
     private Scene mainProducttourScene;
 
     @SetContainer
+    @Tag("admin")
     private MainAdminContainer mainAdminContainer;
 
     @SetContainer
+    @Tag("producer")
     private MainProductTourContainer mainProductTourContainer;
 
     public ConnectionContainer() {
