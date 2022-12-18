@@ -1,9 +1,12 @@
 package fr.sfc.controller.productTour;
 
+import fr.sfc.container.productTour.MainProductTourContainer;
 import fr.sfc.container.productTour.MapContainer;
 import fr.sfc.framework.Resources;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
+import fr.sfc.framework.injection.Inject;
+import fr.sfc.framework.item.Tag;
 import javafx.concurrent.Worker;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
@@ -16,6 +19,10 @@ public class MapController implements Controller {
     private WebEngine engine;
     private JSObject js;
     private JavaConnector javaConnector = new JavaConnector();
+
+    @Inject
+    @Tag("container:root")
+    private MainProductTourContainer mainProductTourContainer;
 
     @Override
     public void setup() {

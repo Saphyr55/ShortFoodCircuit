@@ -14,8 +14,8 @@ public final class QueryImpl implements Query {
     private final Connection connection;
     private PreparedStatement statement;
     private ResultSet resultSet;
-    private String request;
-    private List<Object> objects;
+    private final String request;
+    private final List<Object> objects;
 
     public QueryImpl(Connection connection, String request) {
         this.request = request;
@@ -89,13 +89,16 @@ public final class QueryImpl implements Query {
 
     @Override
     public void close() {
-        if (statement != null) {
-            try {
+        try {
+
+            if (resultSet != null)
                 resultSet.close();
+
+            if (statement != null)
                 statement.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

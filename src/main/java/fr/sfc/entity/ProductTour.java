@@ -48,18 +48,14 @@ public class ProductTour {
                        LocalDateTime endDateTime,
                        String name,
                        Float weight,
-                       Integer idCompany,
                        Integer SIRET,
-                       Integer idVehicle,
                        String matriculation) {
         this.startDateTime = startDate;
         this.endDateTime = endDateTime;
         this.name = name;
         this.weight = weight;
-        this.idVehicle = idVehicle;
         this.matriculation = matriculation;
         this.SIRET = SIRET;
-        this.idCompany = idCompany;
     }
 
     public LocalDateTime getEndDateTime() {

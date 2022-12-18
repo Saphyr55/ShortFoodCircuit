@@ -1,9 +1,10 @@
 package fr.sfc.repository;
 
+import fr.sfc.entity.Producer;
+import fr.sfc.framework.database.QueryFactory;
 import fr.sfc.framework.persistence.EntityManager;
 import fr.sfc.framework.persistence.Repository;
-import fr.sfc.framework.persistence.annotation.Inject;
-import fr.sfc.entity.Producer;
+import fr.sfc.framework.injection.Inject;
 
 import java.util.Set;
 
@@ -11,6 +12,9 @@ public class ProducerRepository implements Repository<Producer>  {
 
     @Inject
     private EntityManager entityManager;
+
+    @Inject
+    private QueryFactory queryFactory;
 
     @Override
     public Set<Producer> findAll() {

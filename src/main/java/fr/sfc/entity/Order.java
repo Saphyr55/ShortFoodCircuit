@@ -13,10 +13,10 @@ public class Order {
     private Integer id;
 
     @Column(name = "startDate")
-    private LocalDateTime startTime;
+    private LocalDateTime startLocalDateTime;
 
     @Column(name = "endDate")
-    private LocalDateTime endTime;
+    private LocalDateTime endLocalDateTime;
 
     @Column(name = "wording")
     private String wording;
@@ -43,20 +43,20 @@ public class Order {
     @ForeignKey(
             type = ForeignKey.Type.Unique,
             entity = Company.class)
-    private String SIRET;
+    private Integer SIRET;
 
     public Order() { }
 
-    public Order(LocalDateTime startTime,
-                 LocalDateTime endTime,
+    public Order(LocalDateTime startLocalDateTime,
+                 LocalDateTime endLocalDateTime,
                  String wording,
                  Float weight,
                  Integer idProductTour,
                  Integer idCustomer,
                  Integer idCompany,
-                 String SIRET) {
-        this.startTime = startTime;
-        this.endTime = endTime;
+                 Integer SIRET) {
+        this.startLocalDateTime = startLocalDateTime;
+        this.endLocalDateTime = endLocalDateTime;
         this.wording = wording;
         this.weight = weight;
         this.idProductTour = idProductTour;
@@ -73,12 +73,12 @@ public class Order {
         this.id = id;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public LocalDateTime getStartLocalDateTime() {
+        return startLocalDateTime;
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
+    public LocalDateTime getEndLocalDateTime() {
+        return endLocalDateTime;
     }
 
     public String getWording() {
@@ -89,12 +89,12 @@ public class Order {
         return weight;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    public void setStartLocalDateTime(LocalDateTime startLocalDateTime) {
+        this.startLocalDateTime = startLocalDateTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
+    public void setEndLocalDateTime(LocalDateTime endLocalDateTime) {
+        this.endLocalDateTime = endLocalDateTime;
     }
 
     public void setWording(String wording) {
@@ -130,11 +130,11 @@ public class Order {
         this.idCompany = idCompany;
     }
 
-    public String getSIRET() {
+    public Integer getSIRET() {
         return SIRET;
     }
 
-    public void setSIRET(String SIRET) {
+    public void setSIRET(Integer SIRET) {
         this.SIRET = SIRET;
     }
 
@@ -142,8 +142,8 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
+                ", startTime=" + startLocalDateTime +
+                ", endTime=" + endLocalDateTime +
                 ", wording='" + wording + '\'' +
                 ", weight=" + weight +
                 ", idProductTour=" + idProductTour +
@@ -152,4 +152,5 @@ public class Order {
                 ", SIRET='" + SIRET + '\'' +
                 '}';
     }
+
 }

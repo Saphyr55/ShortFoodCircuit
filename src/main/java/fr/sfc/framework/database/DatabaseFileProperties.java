@@ -1,13 +1,17 @@
 package fr.sfc.framework.database;
 
 import org.ini4j.Ini;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-public final class DatabaseFileProperties {
+final class DatabaseFileProperties {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseManager.class);
 
     private static final String sectionNameConfig = "config";
     private Map<String, Database.Properties> propertiesMap;
@@ -23,17 +27,18 @@ public final class DatabaseFileProperties {
             this.configuration = parse(ini.get(sectionNameConfig), Database.Configuration.class);
             dbNames.forEach(s -> this.propertiesMap.put(s, parse(ini.get(s), Database.Properties.class)));
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("", e);
         }
     }
 
     /**
-     * Convert a section to a class
+     * Convert an ini section to a class
      *
      * @param section section
      * @param tClass  class
      * @return T
      */
+    @SuppressWarnings("unchecked")
     public static <T> T parse(Ini.Section section, Class<T> tClass) {
         try {
             final List<String> contentSection = new ArrayList<>();
@@ -44,8 +49,9 @@ public final class DatabaseFileProperties {
 
             return (T) tClass.getDeclaredConstructors()[0].newInstance(valueSection.toArray());
 
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException |
+                 InvocationTargetException e) {
+            LOGGER.error("Impossible to convert an ini section to a class",e);
         }
 
         return null;

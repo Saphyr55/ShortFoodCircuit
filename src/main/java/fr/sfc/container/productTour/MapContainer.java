@@ -1,23 +1,17 @@
 package fr.sfc.container.productTour;
 
-import fr.sfc.container.MainContainer;
-import fr.sfc.framework.controlling.ContainerManager;
+import fr.sfc.controller.productTour.MapController;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
-import fr.sfc.controller.productTour.MapController;
-import fr.sfc.framework.persistence.annotation.Inject;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.web.WebView;
 
-public class MapContainer extends HBox implements Container {
+public class MapContainer extends Pane implements Container {
 
     @AutoController
     private MapController controller;
 
     private WebView wwMap;
-
-    @Inject
-    private ContainerManager containerManager;
 
     @Override
     public void setup() {
@@ -27,8 +21,8 @@ public class MapContainer extends HBox implements Container {
         getChildren().add(wwMap);
     }
 
-    public WebView getWwMap() {
-        return wwMap;
-    }
+   public WebView getWwMap() {
+       return wwMap;
+   }
 
 }

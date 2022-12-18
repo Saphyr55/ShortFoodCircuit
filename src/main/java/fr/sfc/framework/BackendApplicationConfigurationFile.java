@@ -6,7 +6,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.*;
 
-public class BackendApplicationConfigurationFile {
+public final class BackendApplicationConfigurationFile {
 
     private final File file;
     private final Yaml yaml;

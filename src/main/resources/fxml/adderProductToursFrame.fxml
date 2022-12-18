@@ -1,34 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.sfc.controller.productTour.ProductToursFrameController">
-    <children>
-        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-            <children>
-                <TextField fx:id="tFName" layoutX="320.0" layoutY="14.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tFWeight" layoutX="320.0" layoutY="116.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tFIdCompany" layoutX="319.0" layoutY="150.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tfSIRETCompany" layoutX="319.0" layoutY="184.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tFVehicleId" layoutX="319.0" layoutY="218.0" prefHeight="34.0" prefWidth="298.0" />
-                <TextField fx:id="tFMatriculation" layoutX="319.0" layoutY="252.0" prefHeight="34.0" prefWidth="298.0" />
-                <Label layoutX="20.0" layoutY="14.0" prefHeight="34.0" prefWidth="298.0" text="name" />
-                <Label layoutX="20.0" layoutY="48.0" prefHeight="34.0" prefWidth="298.0" text="Start date" />
-                <Label layoutX="20.0" layoutY="82.0" prefHeight="34.0" prefWidth="298.0" text="End date" />
-                <Label layoutX="20.0" layoutY="116.0" prefHeight="34.0" prefWidth="298.0" text="weight" />
-                <Label layoutX="20.0" layoutY="150.0" prefHeight="34.0" prefWidth="298.0" text="id company" />
-                <Label layoutX="20.0" layoutY="184.0" prefHeight="34.0" prefWidth="298.0" text="SIRET Company" />
-                <Label layoutX="20.0" layoutY="218.0" prefHeight="34.0" prefWidth="298.0" text="Vehicle id" />
-                <Label layoutX="20.0" layoutY="252.0" prefHeight="34.0" prefWidth="298.0" text="Matriculation" />
-                <Button layoutX="20.0" layoutY="286.0" onAction="#EventButtonAddProductToursFinishAction" prefHeight="34.0" prefWidth="100.0" text="Finish" />
-            <DatePicker fx:id="startDate" layoutX="320.0" layoutY="48.0" prefHeight="34.0" prefWidth="298.0" />
-            <DatePicker fx:id="endDate" layoutX="320.0" layoutY="82.0" prefHeight="34.0" prefWidth="298.0" />
-            </children>
-        </AnchorPane>
-    </children>
-</VBox>
+<?import fr.sfc.framework.controlling.TimeTextField?>
+<fx:root fx:id="root" type="VBox" xmlns="http://javafx.com/javafx/19"
+         xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="fr.sfc.controller.productTour.AdderProductTourController">
+    <fx:define>
+        <Font fx:id="defaultFont" size="20" name="Arial"/>
+    </fx:define>
+    <HBox>
+        <VBox fx:id="containerNameTextField">
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       disable="true"
+                       font="$defaultFont"
+                       text="Name"/>
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       disable="true"
+                       font="$defaultFont"
+                       text="Start date"/>
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       disable="true"
+                       font="$defaultFont"
+                       text="Start hour"/>
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       disable="true"
+                       font="$defaultFont"
+                       text="End date"/>
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       disable="true"
+                       font="$defaultFont"
+                       text="End hour"/>
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       disable="true"
+                       font="$defaultFont"
+                       text="Weight"/>
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       disable="true"
+                       font="$defaultFont"
+                       text="Matriculation"/>
+        </VBox>
+        <VBox fx:id="containerDataTextField">
+
+            <TextField fx:id="tFName"
+                       font="$defaultFont"
+                       prefWidth="${containerDataTextField.width}"
+                       prefHeight="${containerDataTextField.height}"/>
+
+            <DatePicker fx:id="startDate"
+                        prefWidth="${containerDataTextField.width}"
+                        prefHeight="${containerDataTextField.height}"/>
+
+            <TimeTextField fx:id="startHourTextField"
+                       font="$defaultFont"
+                       prefWidth="${containerDataTextField.width}"
+                       prefHeight="${containerDataTextField.height}"/>
+
+            <DatePicker fx:id="endDate"
+                        prefWidth="${containerDataTextField.width}"
+                        prefHeight="${containerDataTextField.height}"/>
+
+            <TimeTextField fx:id="endHourTextField"
+                       font="$defaultFont"
+                       prefWidth="${containerDataTextField.width}"
+                       prefHeight="${containerDataTextField.height}"/>
+
+            <TextField fx:id="tFWeight"
+                       font="$defaultFont"
+                       prefWidth="${containerDataTextField.width}"
+                       prefHeight="${containerDataTextField.height}"/>
+
+            <TextField fx:id="tFMatriculation"
+                       font="$defaultFont"
+                       prefWidth="${containerDataTextField.width}"
+                       prefHeight="${containerDataTextField.height}"
+                       disable="true"
+                       onMouseClicked="#onClickMatriculationTextField"
+                       promptText="need"/>
+
+        </VBox>
+    </HBox>
+    <Button font="$defaultFont"
+            prefWidth="${root.width}"
+            onAction="#buttonAddProductTourEvent"
+            text="Add"/>
+</fx:root>

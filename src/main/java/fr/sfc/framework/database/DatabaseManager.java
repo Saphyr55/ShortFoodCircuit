@@ -1,15 +1,15 @@
 package fr.sfc.framework.database;
 
-import com.google.common.collect.Sets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public final class DatabaseManager {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseManager.class);
 
     private final File fileConfigDatabase;
     private final Set<String> databaseNames;
@@ -17,11 +17,11 @@ public final class DatabaseManager {
     private final Map<String, Database> databases;
 
     public DatabaseManager(final String fileConfigDatabase, final String... databasesNames) {
-        this(new File(fileConfigDatabase), Sets.newHashSet(Arrays.asList(databasesNames)));
+        this(new File(fileConfigDatabase), new HashSet<>(Arrays.asList(databasesNames)));
     }
 
     public DatabaseManager(final File fileConfigDatabase, final String... databasesNames) {
-        this(fileConfigDatabase, Sets.newHashSet(Arrays.asList(databasesNames)));
+        this(fileConfigDatabase, new HashSet<>(Arrays.asList(databasesNames)));
     }
 
     public DatabaseManager(final File fileConfigDatabase, final Set<String> databaseNames) {
@@ -33,11 +33,11 @@ public final class DatabaseManager {
 
     public void configure() {
         try {
-
             Class.forName(databaseManagerFileProperties.getConfig().getDriver());
             fillDatabases();
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Driver jdbc not found", e);
+            LOGGER.error("Driver jdbc not found");
+            throw new RuntimeException(e);
         }
     }
 
@@ -49,12 +49,15 @@ public final class DatabaseManager {
         try {
             getDatabase(databaseName).connect();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Impossible to connect to the database", e);
         }
     }
 
     public void shutdown() {
-        databases.forEach((key, value) -> value.close());
+        databases.forEach((key, value) -> {
+            value.close();
+            LOGGER.info("Database {} has been closed", key);
+        });
     }
 
     public Database getDatabase(String databaseName) {
@@ -66,10 +69,14 @@ public final class DatabaseManager {
     }
 
     private void createDatabaseFromName(String name) {
+
         databases.put(name, new Database(name,
                 databaseManagerFileProperties.getConfiguration(),
                 databaseManagerFileProperties.getPropertiesByName(name))
         );
+
+        LOGGER.info("Database {} has been created and configured", name);
+
     }
 
     public File getFileConfigDatabase() {

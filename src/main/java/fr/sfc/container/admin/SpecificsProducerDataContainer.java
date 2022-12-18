@@ -1,16 +1,14 @@
 package fr.sfc.container.admin;
 
-import fr.sfc.framework.controlling.Container;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-public class SpecificsProducerContainer extends AbstractSpecificsProducerContainer {
+public class SpecificsProducerDataContainer extends AbstractSpecificsProducerContainer {
 
     @Override
     public void setup() {
 
-        titleProducer = new TextField("-----------------------");
+        titleProducer = new TextField();
         titleProducer.setFont(Font.font("Arial", 30));
         titleProducer.setDisable(true);
 
@@ -22,7 +20,7 @@ public class SpecificsProducerContainer extends AbstractSpecificsProducerContain
         firstnameProducer.setFont(Font.font("Arial", 30));
         firstnameProducer.setDisable(true);
 
-        titleCompany = new TextField("-----------------------");
+        titleCompany = new TextField();
         titleCompany.setFont(Font.font("Arial", 30));
         titleCompany.setDisable(true);
 

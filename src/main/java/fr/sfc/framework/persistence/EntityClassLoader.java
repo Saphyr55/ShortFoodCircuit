@@ -6,11 +6,15 @@ import fr.sfc.framework.persistence.annotation.ForeignKey;
 import fr.sfc.framework.persistence.annotation.Id;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.*;
 
 public final class EntityClassLoader {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EntityClassLoader.class);
 
     private String entityPackage;
     private List<String> classes;
@@ -31,17 +35,23 @@ public final class EntityClassLoader {
                 final var aClass = Class.forName(className);
                 PersistenceCheck.throwHaveNotAnnotation(aClass, Entity.class);
                 classMapMapOfEntities.put(aClass, hashClassEntityForFields(aClass));
+
+                LOGGER.info("Entity {} has been loaded", className);
             }
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+
+            LOGGER.error("Class not found", e);
         }
 
         if (entityPackage != null) {
             final Reflections reflections = new Reflections(new ConfigurationBuilder().forPackage(entityPackage));
             final Set<Class<?>> classSet = reflections.getTypesAnnotatedWith(Entity.class);
             for (final Class<?> aClass : classSet) {
-                if (!classMapMapOfEntities.containsKey(aClass))
+                if (!classMapMapOfEntities.containsKey(aClass)) {
                     classMapMapOfEntities.put(aClass, hashClassEntityForFields(aClass));
+
+                    LOGGER.info("Entity {} has been loaded", aClass);
+                }
             }
         }
     }

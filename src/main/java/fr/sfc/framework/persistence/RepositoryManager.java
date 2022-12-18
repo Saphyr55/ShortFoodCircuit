@@ -1,15 +1,19 @@
 package fr.sfc.framework.persistence;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.reflections.Reflections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
 public final class RepositoryManager {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryManager.class);
 
     private final Map<Class<? extends Repository<?>>, Repository<?>> repositories;
     private final List<Repository<?>> setRepositories;
@@ -17,11 +21,12 @@ public final class RepositoryManager {
     private List<String> classesName;
 
     public RepositoryManager() {
-        this.repositories = Maps.newIdentityHashMap();
-        this.setRepositories = Lists.newArrayList();
-        this.classesName = Lists.newArrayList();
+        this.repositories = new HashMap<>();
+        this.setRepositories =new ArrayList<>();
+        this.classesName = new ArrayList<>();
     }
 
+    @SuppressWarnings("unchecked")
     public void detect() {
 
         try {
@@ -47,7 +52,8 @@ public final class RepositoryManager {
                         final var newaClass = (Class<? extends Repository<?>>) aClass;
                         repositories.put(newaClass, newaClass.getConstructor().newInstance());
                     } catch (ClassCastException e) {
-                        throw new RuntimeException(aClass + " does not inherit from repository", e);
+                        LOGGER.trace(aClass + " does not inherit from repository", e);
+                        throw new RuntimeException(e);
                     }
                 }
             }
@@ -57,7 +63,7 @@ public final class RepositoryManager {
                  InvocationTargetException |
                  ClassNotFoundException e) {
 
-            e.printStackTrace();
+            LOGGER.error("Impossible to detect repository", e);
         } catch (NoSuchMethodException e) {
 
             throw new RuntimeException("We need an empty constructor", e);
@@ -69,6 +75,7 @@ public final class RepositoryManager {
         return setRepositories;
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T getRepository(Class<T> rClass) {
         return (T) repositories.get(rClass);
     }

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import fr.sfc.framework.controlling.TimeTextField?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<fx:root fx:id="root" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         fx:controller="fr.sfc.controller.productTour.AdderOrderController"
+         type="VBox">
+
+    <fx:define>
+        <Font fx:id="defaultFont" size="20" name="Arial"/>
+    </fx:define>
+
+    <HBox>
+        <VBox fx:id="containerNameTextField">
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       disable="true"
+                       font="$defaultFont"
+                       text="Wording"/>
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       disable="true"
+                       font="$defaultFont"
+                       text="Weight (kg)"/>
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       disable="true"
+                       font="$defaultFont"
+                       text="Start date"/>
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                           prefHeight="${containerNameTextField.height}"
+                           disable="true"
+                           font="$defaultFont"
+                           text="Start hour"/>
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       disable="true"
+                       font="$defaultFont"
+                       text="End date"/>
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                           prefHeight="${containerNameTextField.height}"
+                           disable="true"
+                           font="$defaultFont"
+                           text="End hour"/>
+
+            <TextField prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       disable="true"
+                       font="$defaultFont"
+                       text="Customer"/>
+        </VBox>
+        <VBox fx:id="containerDataTextField">
+
+            <TextField fx:id="dataWording"
+                       prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       font="$defaultFont"/>
+
+            <TextField fx:id="dataWeight"
+                       prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       font="$defaultFont"/>
+
+            <DatePicker fx:id="dataStartDate"
+                        prefWidth="${containerNameTextField.width}"
+                        prefHeight="${containerNameTextField.height}"/>
+
+            <TimeTextField fx:id="dataStartHour"
+                           prefWidth="${containerNameTextField.width}"
+                           prefHeight="${containerNameTextField.height}"
+                           font="$defaultFont"/>
+
+            <DatePicker fx:id="dataEndDate"
+                        prefWidth="${containerNameTextField.width}"
+                        prefHeight="${containerNameTextField.height}"/>
+
+            <TimeTextField fx:id="dataEndHour"
+                           prefWidth="${containerNameTextField.width}"
+                           prefHeight="${containerNameTextField.height}"
+                           font="$defaultFont"/>
+
+            <TextField fx:id="dataCustomerTextField"
+                       prefWidth="${containerNameTextField.width}"
+                       prefHeight="${containerNameTextField.height}"
+                       onMousePressed="#openListCustomer"
+                       font="$defaultFont"/>
+
+        </VBox>
+    </HBox>
+    <Button font="$defaultFont"
+            prefWidth="${root.width}"
+            onAction="#sendOrder"
+            text="Add"/>
+</fx:root>

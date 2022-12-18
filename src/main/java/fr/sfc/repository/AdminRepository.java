@@ -2,7 +2,7 @@ package fr.sfc.repository;
 
 import fr.sfc.framework.persistence.EntityManager;
 import fr.sfc.framework.persistence.Repository;
-import fr.sfc.framework.persistence.annotation.Inject;
+import fr.sfc.framework.injection.Inject;
 import fr.sfc.entity.Admin;
 
 import java.util.Set;

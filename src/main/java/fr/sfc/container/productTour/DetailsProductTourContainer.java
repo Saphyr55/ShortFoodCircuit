@@ -1,7 +1,7 @@
 package fr.sfc.container.productTour;
 
 import fr.sfc.controller.productTour.DetailsProductTourController;
-import fr.sfc.framework.common.Tag;
+import fr.sfc.framework.item.Tag;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.annotation.SetContainer;
@@ -12,40 +12,39 @@ public class DetailsProductTourContainer extends Pane implements Container {
 
     @AutoController
     private DetailsProductTourController controller;
-    
-    @Tag(value = "map")
+
+    @Tag("map")
     @SetContainer
     private MapContainer mapContainer;
 
-    @Tag(value = "config")
+    @Tag("specifies")
     @SetContainer
-    private ConfigProductTourContainer configProductTourContainer;
+    private SpecifiesProductTourContainer specifiesProductTourContainer;
 
     @Override
     public void setup() {
+        responsive();
+        // By default, we set for specifies container
+        getChildren().setAll(specifiesProductTourContainer);
+    }
+
+    private void responsive() {
         mapContainer.prefWidthProperty().bind(widthProperty());
         mapContainer.prefHeightProperty().bind(heightProperty());
-        getChildren().setAll(configProductTourContainer);
+        specifiesProductTourContainer.prefWidthProperty().bind(widthProperty());
+        specifiesProductTourContainer.prefHeightProperty().bind(heightProperty());
     }
 
     public void setFor(Parent parent) {
         getChildren().setAll(parent);
     }
 
-    public DetailsProductTourController getController() {
-        return controller;
-    }
-
-    public void setController(DetailsProductTourController controller) {
-        this.controller = controller;
-    }
-
     public MapContainer getMapContainer() {
         return mapContainer;
     }
 
-    public ConfigProductTourContainer getConfigProductTourContainer() {
-        return configProductTourContainer;
+    public SpecifiesProductTourContainer getSpecifiesProductTourContainer() {
+        return specifiesProductTourContainer;
     }
 
 

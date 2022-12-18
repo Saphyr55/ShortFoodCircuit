@@ -1,17 +1,15 @@
 package fr.sfc.repository;
 
-import fr.sfc.entity.ProductTour;
+import fr.sfc.entity.Company;
 import fr.sfc.framework.database.Query;
 import fr.sfc.framework.database.QueryFactory;
 import fr.sfc.framework.persistence.EntityManager;
 import fr.sfc.framework.persistence.Repository;
-import fr.sfc.entity.Company;
+import fr.sfc.framework.injection.Inject;
+import fr.sfc.repository.queries.CompanyQueries;
 
 import java.util.Optional;
 import java.util.Set;
-import fr.sfc.framework.persistence.annotation.Inject;
-import fr.sfc.repository.queries.CompanyQueries;
-import fr.sfc.repository.queries.ProductTourQueries;
 
 
 public class CompanyRepository implements Repository<Company> {
