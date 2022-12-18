@@ -8,12 +8,12 @@ class ResourcesTest {
 
     @Test
     void testExistResource() {
-        assertTrue(Resources.getFileResource("/configuration.yaml").exists());
+        assertTrue(ResourcesUtils.getFileResource("/configuration.yaml").exists());
     }
     
     @Test
     void testNotExistResource() {
-        assertFalse(Resources.getFileResource("/fileWhoNotExist.c").exists());
+        assertFalse(ResourcesUtils.getFileResource("/fileWhoNotExist.c").exists());
     }
 
 }

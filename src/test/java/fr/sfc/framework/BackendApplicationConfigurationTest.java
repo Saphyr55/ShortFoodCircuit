@@ -11,7 +11,7 @@ class BackendApplicationConfigurationTest {
     @Test
     void testYamlFileConfig() {
         assertDoesNotThrow(() -> BackendApplicationConfiguration.File
-                    .of(Resources.getFileResource("/configuration.yaml"))
+                    .of(ResourcesUtils.getFileResource("/configuration.yaml"))
                     .create()
         );
     }
@@ -19,7 +19,7 @@ class BackendApplicationConfigurationTest {
     @Test
     void testThrowYamlFileConfig() {
         assertThrows(RuntimeException.class, () -> BackendApplicationConfiguration.File
-                .of(Resources.getFileResource("fileWhoDoesntExist.yaml"))
+                .of(ResourcesUtils.getFileResource("fileWhoDoesntExist.yaml"))
                 .create()
         );
     }

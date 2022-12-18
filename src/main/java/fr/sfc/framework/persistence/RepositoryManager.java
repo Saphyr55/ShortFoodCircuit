@@ -80,12 +80,8 @@ public final class RepositoryManager {
         return (T) repositories.get(rClass);
     }
 
-    public Map<Class<? extends Repository<?>>, Repository<?>> getRepositories() {
+    public Map<Class<? extends Repository<?>>, Repository<?>> getClassesMapRepositories() {
         return repositories;
-    }
-
-    public List<Repository<?>> getSetRepositories() {
-        return setRepositories;
     }
 
     public String getPackageRepository() {
