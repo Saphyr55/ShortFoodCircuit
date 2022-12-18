@@ -7,7 +7,7 @@ import fr.sfc.framework.BackendApplication;
 import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
-import fr.sfc.framework.persistence.annotation.Inject;
+import fr.sfc.framework.injection.Inject;
 import fr.sfc.repository.AdminRepository;
 import fr.sfc.repository.ProducerRepository;
 import javafx.fxml.FXML;
@@ -40,9 +40,11 @@ public class ConnectionController implements Controller {
         var entity = getEntity(getDataIdTextField());
         if(entity instanceof Admin admin && admin.getPassword().equals(passwordTextField.getText())){
             BackendApplication.getCurrentApplication().getPrimaryStage().hide();
+            container.getMainAdminStage().show();
             System.out.println(passwordTextField.getText());
         } else if (entity instanceof Producer producer && producer.getPassword().equals(passwordTextField.getText()) ){
             BackendApplication.getCurrentApplication().getPrimaryStage().hide();
+            container.getMainProducttourStage().show();
         }
 
     }

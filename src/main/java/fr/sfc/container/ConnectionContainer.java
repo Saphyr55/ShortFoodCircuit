@@ -1,6 +1,7 @@
 package fr.sfc.container;
 
 import fr.sfc.container.admin.MainAdminContainer;
+import fr.sfc.container.productTour.MainProductTourContainer;
 import fr.sfc.controller.ConnectionController;
 import fr.sfc.framework.Resources;
 import fr.sfc.framework.controlling.Container;
@@ -19,15 +20,25 @@ public class ConnectionContainer extends GridPane implements Container {
     @AutoController
     private ConnectionController controller;
 
-    private final FXMLLoader loader;
+    private FXMLLoader loader;
+
+    private Stage mainAdminStage;
+
+    private Scene mainAdminScene;
+
+    private Stage mainProducttourStage;
+
+    private Scene mainProducttourScene;
 
     @SetContainer
     private MainAdminContainer mainAdminContainer;
 
+    @SetContainer
+    private MainProductTourContainer mainProductTourContainer;
 
     public ConnectionContainer() {
-        loader = new FXMLLoader(Resources.getResource("/fxml/connection.fxml"));
         try {
+            loader = new FXMLLoader(Resources.getResource("/fxml/connection.fxml"));
             loader.setRoot(this);
             loader.load();
         } catch (IOException e) {
@@ -37,7 +48,10 @@ public class ConnectionContainer extends GridPane implements Container {
 
     @Override
     public void setup() {
-
+        mainAdminStage = new Stage();
+        mainProducttourStage = new Stage();
+        mainAdminScene = new Scene(mainAdminContainer);
+        mainProducttourScene = new Scene(mainProductTourContainer);
     }
 
     @Override
@@ -45,4 +59,19 @@ public class ConnectionContainer extends GridPane implements Container {
         return loader;
     }
 
+    public MainAdminContainer getMainAdminContainer() {
+        return mainAdminContainer;
+    }
+
+    public MainProductTourContainer getMainProductTourContainer() {
+        return mainProductTourContainer;
+    }
+
+    public Stage getMainAdminStage() {
+        return mainAdminStage;
+    }
+
+    public Stage getMainProducttourStage() {
+        return mainProducttourStage;
+    }
 }
