@@ -1,4 +1,4 @@
-package fr.sfc.controller;
+package fr.sfc.controller.productTour;
 
 import fr.sfc.container.productTour.MainProductTourContainer;
 import fr.sfc.entity.Company;

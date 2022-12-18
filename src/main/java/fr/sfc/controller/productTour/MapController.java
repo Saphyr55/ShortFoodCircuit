@@ -1,7 +1,6 @@
 package fr.sfc.controller.productTour;
 
 import fr.sfc.container.productTour.MapContainer;
-import fr.sfc.controller.MainProductTourController;
 import fr.sfc.entity.Customer;
 import fr.sfc.entity.Order;
 import fr.sfc.framework.Resources;

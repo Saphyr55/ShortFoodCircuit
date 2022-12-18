@@ -20,7 +20,7 @@ module fr.sfc {
     requires javafx.web;
     requires javafx.media;
     requires javafx.swing;
-    requires com.jfoenix;
+    requires dom4j;
 
     requires org.slf4j;
     requires org.apache.logging.log4j;
@@ -38,7 +38,6 @@ module fr.sfc {
     requires libphonenumber;
 
     opens fr.sfc;
-    opens fr.sfc.controller;
     opens fr.sfc.container;
     opens fr.sfc.repository;
     opens fr.sfc.entity;

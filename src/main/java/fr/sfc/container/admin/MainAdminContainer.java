@@ -20,9 +20,9 @@ public class MainAdminContainer extends GridPane implements Container {
     @SetContainer
     private SpecificsProducerTextContainer specificsTextProducer;
     @SetContainer
-    private SpecificsCustomerTextContainer specificsTextCustomer;
+    private SpecificsCustomerDataContainer specificsDataCustomer;
     @SetContainer
-    private SpecifiesCustomerDataContainer specificsDataCustomer;
+    private SpecificsCustomerTextContainer specificsTextCustomer;
 
     private final Pane detailsPane = new Pane();
     private final HBox detailsProducer = new HBox();
@@ -102,7 +102,7 @@ public class MainAdminContainer extends GridPane implements Container {
         return specificsTextCustomer;
     }
 
-    public SpecifiesCustomerDataContainer getSpecificsDataCustomer() {
+    public SpecificsCustomerDataContainer getSpecificsDataCustomer() {
         return specificsDataCustomer;
     }
 

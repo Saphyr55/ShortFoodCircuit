@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import fr.sfc.container.productTour.MainProductTourContainer?>
+<?import fr.sfc.container.admin.MainAdminContainer?>
 <?import javafx.scene.layout.Pane?>
-
 <Pane fx:id="root"
       xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml/1">
+    <MainAdminContainer prefHeight="${root.height}"
+                        prefWidth="${root.height}"/>
 
-    <MainProductTourContainer prefHeight="${root.height}"
-                              prefWidth="${root.height}"/>
 
 </Pane>

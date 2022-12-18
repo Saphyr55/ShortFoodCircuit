@@ -1,6 +1,6 @@
 package fr.sfc.container.productTour;
 
-import fr.sfc.controller.MainProductTourController;
+import fr.sfc.controller.productTour.MainProductTourController;
 import fr.sfc.framework.item.Tag;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;

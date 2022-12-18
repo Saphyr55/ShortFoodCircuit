@@ -34,9 +34,7 @@ javafx {
 
 dependencies {
 
-    implementation 'com.jfoenix:jfoenix:9.0.10'
-
-    implementation "com.google.code.gson:gson:$gsonVersion"
+    implementation 'org.dom4j:dom4j:2.1.0'
 
     implementation 'com.googlecode.libphonenumber:libphonenumber:8.13.2'
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.6'

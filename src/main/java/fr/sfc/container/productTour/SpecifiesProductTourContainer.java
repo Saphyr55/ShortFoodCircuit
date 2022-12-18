@@ -6,6 +6,7 @@ import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.annotation.ContainerFXML;
 import fr.sfc.framework.controlling.annotation.SetContainer;
+import fr.sfc.framework.item.Tag;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,7 @@ public class SpecifiesProductTourContainer extends HBox implements Container {
     @AutoController
     private SpecifiesProductTourController controller;
 
+    @Tag("tag")
     @SetContainer
     private AdderOrderContainer adderOrderContainer;
 

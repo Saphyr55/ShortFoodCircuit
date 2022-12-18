@@ -3,7 +3,7 @@ package fr.sfc.container.admin;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 
-public class SpecifiesCustomerDataContainer extends AbstractSpecificsCustomerContainer {
+public class SpecificsCustomerDataContainer extends AbstractSpecificsCustomerContainer {
 
     @Override
     public void setup() {

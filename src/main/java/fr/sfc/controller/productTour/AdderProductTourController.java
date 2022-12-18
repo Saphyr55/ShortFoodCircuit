@@ -2,7 +2,6 @@ package fr.sfc.controller.productTour;
 
 import fr.sfc.common.Custom;
 import fr.sfc.container.productTour.AdderProductTourContainer;
-import fr.sfc.controller.MainProductTourController;
 import fr.sfc.entity.Company;
 import fr.sfc.entity.ProductTour;
 import fr.sfc.entity.Vehicle;
