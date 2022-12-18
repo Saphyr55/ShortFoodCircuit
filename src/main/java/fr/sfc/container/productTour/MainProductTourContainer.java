@@ -1,12 +1,11 @@
 package fr.sfc.container.productTour;
 
-import fr.sfc.controller.productTour.MainProductTourController;
-import fr.sfc.framework.item.Tag;
+import fr.sfc.controller.MainProductTourController;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.annotation.SetContainer;
+import fr.sfc.framework.item.Tag;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 
 public class MainProductTourContainer extends GridPane implements Container {
 
@@ -23,10 +22,6 @@ public class MainProductTourContainer extends GridPane implements Container {
 
     @Override
     public void setup() {
-        final Pane parent = (Pane) getParent();
-
-        prefHeightProperty().bind(parent.heightProperty());
-        prefWidthProperty().bind(parent.widthProperty());
 
         listProductTourContainer.prefHeightProperty().bind(heightProperty());
         listProductTourContainer.prefWidthProperty().bind(widthProperty().divide(1.5d));

@@ -38,7 +38,7 @@ public class ListProductTourController implements Controller {
     @Inject
     private OrderRepository orderRepository;
     @Inject
-    @Tag("container:root.details.specifies")
+    @Tag("container:root.producer.details.specifies")
     private SpecifiesProductTourContainer specifiesProductTourContainer;
 
     private ObjectProperty<ProductTour> currentProductTour;

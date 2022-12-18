@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import fr.sfc.container.admin.MainAdminContainer?>
 <?import javafx.scene.layout.Pane?>
-<Pane fx:id="root"
-      xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml/1">
-    <MainAdminContainer prefHeight="${root.height}"
-                        prefWidth="${root.height}"/>
-
-
+<?import fr.sfc.container.ConnectionContainer?>
+<Pane xmlns="http://javafx.com/javafx">
+    <ConnectionContainer/>
 </Pane>

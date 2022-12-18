@@ -27,11 +27,9 @@ public class MainAdminContainer extends GridPane implements Container {
     private final Pane detailsPane = new Pane();
     private final HBox detailsProducer = new HBox();
     private final HBox detailsCustomer = new HBox();
-    private Pane parent;
 
     @Override
     public void setup() {
-        parent = (Pane) getParent();
 
         // Producer container
         detailsProducer.getChildren().add(specificsTextProducer);
@@ -50,9 +48,6 @@ public class MainAdminContainer extends GridPane implements Container {
     }
 
     private void responsive() {
-
-        prefHeightProperty().bind(parent.heightProperty());
-        prefWidthProperty().bind(parent.widthProperty());
 
         detailsPane.prefHeightProperty().bind(heightProperty());
         detailsPane.prefWidthProperty().bind(widthProperty());

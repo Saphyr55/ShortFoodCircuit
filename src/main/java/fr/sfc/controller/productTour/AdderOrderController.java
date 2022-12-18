@@ -43,10 +43,10 @@ public class AdderOrderController implements Controller {
     private ContainerManager containerManager;
 
     @Inject
-    @Tag("controller:root")
-    private MainProductTourController mainProductTourController;
+    @Tag("controller:root.producer.list.adder")
+    private AdderProductTourController adderProductTourController;
     @Inject
-    @Tag("controller:root.list")
+    @Tag("controller:root.producer.list")
     private ListProductTourController listProductTourController;
 
     private ObjectProperty<Custom<Customer>> customerObservableValue;
@@ -105,7 +105,7 @@ public class AdderOrderController implements Controller {
 
         Customer customer = customerObservableValue.get().get();
         ProductTour productTour = listProductTourController.getCurrentProductTour();
-        Company company = mainProductTourController.getCurrentCompany();
+        Company company = adderProductTourController.getCurrentCompany();
         Order order = createOrder(customer, productTour, company);
 
         Set<Order> allOrder = orderRepository.findByProductTour(productTour);
