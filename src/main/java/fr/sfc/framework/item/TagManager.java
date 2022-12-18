@@ -4,7 +4,7 @@ import java.lang.reflect.Member;
 
 public final class TagManager {
 
-
+    public static final String ROOT = "root";
     public static final char DELIMITER = '.';
     public static final String DELIMITER_PREFIX = ":";
     public static final String ITEM = "item";

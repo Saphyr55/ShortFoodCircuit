@@ -15,6 +15,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
+import static fr.sfc.framework.item.TagManager.ROOT;
+
 public final class ContainerFactory {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ContainerFactory.class);
@@ -30,7 +32,8 @@ public final class ContainerFactory {
     }
 
     public void setup(final Node node) {
-        setup(new ContainerProperties( (Container) node, "root"));
+        if (node instanceof Container container)
+            setup(new ContainerProperties(container, ROOT));
     }
 
     private void setup(ContainerProperties parent) {

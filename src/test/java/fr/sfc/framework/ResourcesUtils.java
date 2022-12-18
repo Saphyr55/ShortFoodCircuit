@@ -3,11 +3,12 @@ package fr.sfc.framework;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-public final class Resources {
+public final class ResourcesUtils {
 
     public static final File FOLDER_RESOURCE = getResourceFolder();
-
 
     public static URL getResource(String path) {
         try {
@@ -21,8 +22,10 @@ public final class Resources {
         return new File(FOLDER_RESOURCE + path);
     }
 
-    private static File getResourceFolder()  {
-        return new File(ClassLoader.getSystemResource("fxml").getPath()).getParentFile();
+    private static File getResourceFolder() {
+        Path path = Paths.get("src/test/resources");
+        System.out.println(path.toFile().getAbsoluteFile());
+        return path.toFile().getAbsoluteFile();
     }
 
 }
