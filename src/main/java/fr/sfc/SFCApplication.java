@@ -24,7 +24,6 @@ public final class SFCApplication extends Application {
 
         LOGGER.info("Start Configuration");
 
-
         configuration.configure();
         configuration.createApplication(primaryStage, "Short Food Circuit", 980, 620).show();
     }

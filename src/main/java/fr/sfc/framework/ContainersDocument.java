@@ -15,11 +15,11 @@ public final class ContainersDocument {
     public static final String ATTRIBUTE_TYPE = "type";
     public static final String ATTRIBUTE_CONTROLLER = "controller";
 
-    private final Document document;
-    private final Element root;
+    private Document document;
+    private Element root;
 
     public ContainersDocument(String resource) {
-
+        /*
         document = readDOM("/containers.xml");
         root = document.getRootElement();
 
@@ -33,9 +33,11 @@ public final class ContainersDocument {
 
 
         });
+        */
     }
 
     private void switchCaseElement(Element element) {
+        /*
         switch (element.getName().toLowerCase()) {
             case ELEMENT_CONTAINER -> {
                 element.attributes().forEach(attribute -> {
@@ -49,6 +51,8 @@ public final class ContainersDocument {
 
             }
         }
+
+         */
     }
 
     private void switchCaseAttribute(Attribute attribute) {

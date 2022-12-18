@@ -34,7 +34,6 @@ module fr.sfc {
     requires org.yaml.snakeyaml;
     requires org.reflections;
     requires org.jetbrains.annotations;
-    requires com.google.gson;
     requires libphonenumber;
 
     opens fr.sfc;
