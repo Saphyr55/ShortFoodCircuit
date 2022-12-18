@@ -1,6 +1,7 @@
 package fr.sfc.framework;
 
 import fr.sfc.framework.controlling.*;
+import fr.sfc.framework.injection.DependencyInjection;
 import fr.sfc.framework.persistence.*;
 import fr.sfc.framework.database.DatabaseManager;
 import javafx.scene.Parent;
@@ -21,7 +22,7 @@ public final class BackendApplicationConfiguration {
     private final RepositoryManager repositoryManager;
     private final ContainerManager containerManager;
     private final EntityClassManager entityClassManager;
-    private InjectionConfiguration injectionConfiguration;
+    private DependencyInjection dependencyInjection;
     private EntityManager entityManager;
     private String currentDatabaseName;
 
@@ -64,8 +65,8 @@ public final class BackendApplicationConfiguration {
         }
         repositoryManager.detect();
         containerManager.detect();
-        injectionConfiguration = new InjectionConfiguration(repositoryManager, entityManager, containerManager);
-        injectionConfiguration.configure();
+        dependencyInjection = new DependencyInjection(repositoryManager, entityManager, containerManager);
+        dependencyInjection.configure();
     }
 
     /**
@@ -109,8 +110,8 @@ public final class BackendApplicationConfiguration {
      *
      * @return
      */
-    public InjectionConfiguration getInjectConfiguration() {
-        return injectionConfiguration;
+    public DependencyInjection getInjectConfiguration() {
+        return dependencyInjection;
     }
 
 

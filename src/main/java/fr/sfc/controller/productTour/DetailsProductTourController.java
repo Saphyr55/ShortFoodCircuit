@@ -6,7 +6,7 @@ import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.item.Tag;
-import fr.sfc.framework.persistence.annotation.Inject;
+import fr.sfc.framework.injection.Inject;
 
 public class DetailsProductTourController implements Controller {
 
@@ -19,7 +19,7 @@ public class DetailsProductTourController implements Controller {
     private DetailsProductTourContainer container;
 
     @Inject
-    @Tag("container.root.list")
+    @Tag("container:root.list")
     private ListProductTourContainer listProductTourContainer;
 
     private State state = State.Config;

@@ -6,7 +6,7 @@ import fr.sfc.entity.Customer;
 import fr.sfc.entity.Producer;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
-import fr.sfc.framework.persistence.annotation.Inject;
+import fr.sfc.framework.injection.Inject;
 import fr.sfc.repository.CompanyRepository;
 import fr.sfc.repository.ProductTourRepository;
 

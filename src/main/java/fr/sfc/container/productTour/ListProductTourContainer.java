@@ -6,6 +6,7 @@ import fr.sfc.entity.ProductTour;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.annotation.SetContainer;
+import fr.sfc.framework.item.Tag;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -22,6 +23,7 @@ public class ListProductTourContainer extends GridPane implements Container {
     private ListProductTourController controller;
 
     @SetContainer
+    @Tag("adder")
     private AdderProductTourContainer adderProductTourContainer;
     
     private final TextField searchTextField;

@@ -1,6 +1,6 @@
 package fr.sfc.container.productTour;
 
-import fr.sfc.controller.MainController;
+import fr.sfc.controller.MainProductTourController;
 import fr.sfc.framework.item.Tag;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 public class MainProductTourContainer extends GridPane implements Container {
 
     @AutoController
-    private MainController mainController;
+    private MainProductTourController mainProductTourController;
 
     @SetContainer
     @Tag("details")

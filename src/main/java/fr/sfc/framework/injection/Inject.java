@@ -1,4 +1,4 @@
-package fr.sfc.framework.persistence.annotation;
+package fr.sfc.framework.injection;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

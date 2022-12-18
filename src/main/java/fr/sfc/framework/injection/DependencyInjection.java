@@ -1,13 +1,13 @@
-package fr.sfc.framework;
+package fr.sfc.framework.injection;
 
 import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.database.QueryFactory;
+import fr.sfc.framework.item.InvalidTagException;
 import fr.sfc.framework.item.Tag;
 import fr.sfc.framework.persistence.EntityClassLoader;
 import fr.sfc.framework.persistence.EntityManager;
 import fr.sfc.framework.persistence.Repository;
 import fr.sfc.framework.persistence.RepositoryManager;
-import fr.sfc.framework.persistence.annotation.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,20 +17,19 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static fr.sfc.framework.item.TagManager.*;
 
-public final class InjectionConfiguration {
+public final class DependencyInjection {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(InjectionConfiguration.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DependencyInjection.class);
 
     private final EntityManager entityManager;
     private final RepositoryManager repositoryManager;
     private final ContainerManager containerManager;
-    private static Object object = null;
-    private final List<Runnable> afterSetup;
 
-    public InjectionConfiguration(final RepositoryManager repositoryManager,
-                                  final EntityManager entityManager,
-                                  final ContainerManager containerManager) {
-        afterSetup = new ArrayList<>();
+
+    public DependencyInjection(final RepositoryManager repositoryManager,
+                               final EntityManager entityManager,
+                               final ContainerManager containerManager) {
+
         this.entityManager = entityManager;
         this.repositoryManager = repositoryManager;
         this.containerManager = containerManager;
@@ -40,6 +39,7 @@ public final class InjectionConfiguration {
      *
      */
     public void configure() {
+
         configureFor(repositoryManager.getAllRepository());
         configureFor(containerManager.getAllContainers());
         configureFor(containerManager.getAllControllers());
@@ -85,31 +85,30 @@ public final class InjectionConfiguration {
 
         AtomicReference<Object> value = new AtomicReference<>();
         String valueTag = field.getAnnotation(Tag.class).value();
-        List<String> tags = new ArrayList<>(Collections
-                .list(new StringTokenizer(valueTag, "."))
-                .stream().map(Object::toString).toList());
-        String primaryTag = tags.remove(0);
+        String[] tagSeparate = valueTag.split(DELIMITER_PREFIX);
 
-        switch (primaryTag) {
-            case CONTAINER -> value.set(containerManager.getContainer(String.join(DELIMITER, tags)));
-            case ITEM -> {
-/*                List<String> tagsWithoutTheLast = new ArrayList<>(tags);
-                if (!tagsWithoutTheLast.isEmpty())
-                    tagsWithoutTheLast.remove(tagsWithoutTheLast.size() - 1);
-                ItemManager<T> itemManager = new ItemManager<>(
-                        containerManager.getContainer(String.join(DELIMITER, tagsWithoutTheLast)), valueTag);
-                value.set(itemManager.load().getItem());*/
-            }
-            default -> LOGGER.error("We don't recognize this {} as primary tag, attached to the field {}", primaryTag, field.getName());
+        if (tagSeparate.length <= 1) {
+            LOGGER.error("Invalid format {} for in classes {}", valueTag, field.getDeclaringClass().getName());
+            throw new InvalidTagException();
+        }
+
+        String prefix = tagSeparate[0];
+        String tagPath = tagSeparate[1];
+        List<String> tags = new ArrayList<>(Collections
+                .list(new StringTokenizer(tagPath, String.valueOf(DELIMITER)))
+                .stream().map(Object::toString).toList());
+        String tag = String.join(String.valueOf(DELIMITER), tags);
+
+        switch (prefix) {
+            case CONTAINER -> value.set(containerManager.getContainer(tag));
+            case ITEM -> {}
+            case CONTROLLER -> value.set(containerManager.getController(tag));
+            default -> LOGGER.error("We don't recognize this {} as primary tag, attached to the field {}", prefix, field.getName());
         }
 
         if (value.get() != null)
             injectValueFieldForObject(value.get().getClass(), field, instance, value.get());
 
-    }
-
-    public List<Runnable> getAfterSetup() {
-        return afterSetup;
     }
 
     /**
@@ -123,6 +122,7 @@ public final class InjectionConfiguration {
             injectValueFieldForObject(repository.getClass(), field, instance, repository);
     }
 
+
     /**
      *
      * @param aClass
@@ -131,8 +131,8 @@ public final class InjectionConfiguration {
      * @param value
      * @param <T>
      */
-    private <T> void injectValueFieldForObject(final Class<?> aClass, final Field field,
-                                                 final Object instance, final T value) {
+    public <T> void injectValueFieldForObject(final Class<?> aClass, final Field field,
+                                              final Object instance, final T value) {
         try {
             if (field.getType().equals(aClass)) {
                 field.setAccessible(true);
@@ -142,5 +142,6 @@ public final class InjectionConfiguration {
             throw new RuntimeException(e);
         }
     }
+
 
 }

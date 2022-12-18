@@ -12,38 +12,31 @@ public class DetailsProductTourContainer extends Pane implements Container {
 
     @AutoController
     private DetailsProductTourController controller;
-    
-    @Tag(value = "map")
+
+    @Tag("map")
     @SetContainer
     private MapContainer mapContainer;
 
-    @Tag(value = "specifies")
+    @Tag("specifies")
     @SetContainer
     private SpecifiesProductTourContainer specifiesProductTourContainer;
 
     @Override
     public void setup() {
-
-        // Responsive
-        mapContainer.prefWidthProperty().bind(widthProperty());
-        mapContainer.prefHeightProperty().bind(heightProperty());
-        specifiesProductTourContainer.prefWidthProperty().bind(widthProperty());
-        specifiesProductTourContainer.prefHeightProperty().bind(heightProperty());
-
+        responsive();
         // By default, we set for specifies container
         getChildren().setAll(specifiesProductTourContainer);
     }
 
+    private void responsive() {
+        mapContainer.prefWidthProperty().bind(widthProperty());
+        mapContainer.prefHeightProperty().bind(heightProperty());
+        specifiesProductTourContainer.prefWidthProperty().bind(widthProperty());
+        specifiesProductTourContainer.prefHeightProperty().bind(heightProperty());
+    }
+
     public void setFor(Parent parent) {
         getChildren().setAll(parent);
-    }
-
-    public DetailsProductTourController getController() {
-        return controller;
-    }
-
-    public void setController(DetailsProductTourController controller) {
-        this.controller = controller;
     }
 
     public MapContainer getMapContainer() {

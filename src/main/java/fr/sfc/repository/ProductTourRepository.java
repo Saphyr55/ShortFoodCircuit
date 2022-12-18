@@ -7,7 +7,7 @@ import fr.sfc.framework.database.Query;
 import fr.sfc.framework.database.QueryFactory;
 import fr.sfc.framework.persistence.EntityManager;
 import fr.sfc.framework.persistence.Repository;
-import fr.sfc.framework.persistence.annotation.Inject;
+import fr.sfc.framework.injection.Inject;
 import fr.sfc.repository.queries.ProductTourQueries;
 
 import java.sql.ResultSet;

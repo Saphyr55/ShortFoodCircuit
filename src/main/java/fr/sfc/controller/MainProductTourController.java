@@ -3,10 +3,10 @@ package fr.sfc.controller;
 import fr.sfc.container.productTour.MainProductTourContainer;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
-import fr.sfc.framework.persistence.annotation.Inject;
+import fr.sfc.framework.injection.Inject;
 import fr.sfc.repository.*;
 
-public class MainController implements Controller {
+public class MainProductTourController implements Controller {
 
     @AutoContainer
     private MainProductTourContainer component;

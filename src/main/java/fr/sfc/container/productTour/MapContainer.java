@@ -2,9 +2,7 @@ package fr.sfc.container.productTour;
 
 import fr.sfc.controller.productTour.MapController;
 import fr.sfc.framework.controlling.Container;
-import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.annotation.AutoController;
-import fr.sfc.framework.persistence.annotation.Inject;
 import javafx.scene.layout.Pane;
 import javafx.scene.web.WebView;
 
@@ -14,9 +12,6 @@ public class MapContainer extends Pane implements Container {
     private MapController controller;
 
     private WebView wwMap;
-
-    @Inject
-    private ContainerManager containerManager;
 
     @Override
     public void setup() {

@@ -2,7 +2,6 @@ package fr.sfc.controller.productTour;
 
 import fr.sfc.common.Custom;
 import fr.sfc.container.productTour.AdderProductTourContainer;
-import fr.sfc.container.productTour.ListProductTourContainer;
 import fr.sfc.entity.Company;
 import fr.sfc.entity.ProductTour;
 import fr.sfc.entity.Vehicle;
@@ -12,7 +11,7 @@ import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.SimpleAlertUtils;
 import fr.sfc.framework.controlling.TimeTextField;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
-import fr.sfc.framework.persistence.annotation.Inject;
+import fr.sfc.framework.injection.Inject;
 import fr.sfc.repository.CompanyRepository;
 import fr.sfc.repository.ProductTourRepository;
 import fr.sfc.repository.VehicleRepository;
@@ -54,8 +53,8 @@ public class AdderProductTourController implements Controller {
     @Inject
     private VehicleRepository vehicleRepository;
     @Inject
-    @Tag("container.root.list")
-    private ListProductTourContainer listProductTourContainer;
+    @Tag("controller:root.list")
+    private ListProductTourController listProductTourController;
 
     private Company currentCompany; // TODO: A enlever quand la page de connexion sera faite
 
@@ -129,7 +128,7 @@ public class AdderProductTourController implements Controller {
             if (createConfirmAlertInsertProductTour(productTour)) return;
 
             // Rafraichi la liste de tournées
-            listProductTourContainer.getController().refresh();
+            listProductTourController.refresh();
 
             LOGGER.info( "Product Tour {} has been created by {} id={}" ,
                     productTour.getName(),
@@ -235,4 +234,8 @@ public class AdderProductTourController implements Controller {
         return is;
     }
 
+    // TODO: a enlever quand page de connexion sera faite
+    public Company getCurrentCompany() {
+        return currentCompany;
+    }
 }

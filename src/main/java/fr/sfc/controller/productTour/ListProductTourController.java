@@ -9,8 +9,8 @@ import fr.sfc.entity.ProductTour;
 import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
+import fr.sfc.framework.injection.Inject;
 import fr.sfc.framework.item.Tag;
-import fr.sfc.framework.persistence.annotation.Inject;
 import fr.sfc.repository.OrderRepository;
 import fr.sfc.repository.ProductTourRepository;
 import javafx.beans.Observable;
@@ -23,7 +23,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,7 +38,7 @@ public class ListProductTourController implements Controller {
     @Inject
     private OrderRepository orderRepository;
     @Inject
-    @Tag("container.root.details.specifies")
+    @Tag("container:root.details.specifies")
     private SpecifiesProductTourContainer specifiesProductTourContainer;
 
     private ObjectProperty<ProductTour> currentProductTour;
@@ -76,9 +75,8 @@ public class ListProductTourController implements Controller {
     }
 
     private String toStringPt(ProductTour productTour) {
-        return  productTour.getName() + " | Commenc\u00E9 le " +
-                productTour.getStartDateTime()
-                        .format(DateTimeFormatter.ISO_LOCAL_DATE);
+        return  productTour.getName() + " | Start the " +
+                productTour.getStartDateTime().toString();
     }
 
     public void refresh() {

@@ -43,7 +43,7 @@ public class Order {
     @ForeignKey(
             type = ForeignKey.Type.Unique,
             entity = Company.class)
-    private String SIRET;
+    private Integer SIRET;
 
     public Order() { }
 
@@ -54,7 +54,7 @@ public class Order {
                  Integer idProductTour,
                  Integer idCustomer,
                  Integer idCompany,
-                 String SIRET) {
+                 Integer SIRET) {
         this.startLocalDateTime = startLocalDateTime;
         this.endLocalDateTime = endLocalDateTime;
         this.wording = wording;
@@ -130,11 +130,11 @@ public class Order {
         this.idCompany = idCompany;
     }
 
-    public String getSIRET() {
+    public Integer getSIRET() {
         return SIRET;
     }
 
-    public void setSIRET(String SIRET) {
+    public void setSIRET(Integer SIRET) {
         this.SIRET = SIRET;
     }
 

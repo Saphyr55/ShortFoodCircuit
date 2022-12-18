@@ -26,11 +26,11 @@ public class AdderOrderContainer extends VBox implements Container {
     private final Stage stage;
 
     public AdderOrderContainer() throws IOException {
+        stage = new Stage();
         listSearchCustomerDialog = new ListSearchDialog<>();
         loader = new FXMLLoader(Resources.getResource("/fxml/adderOrderContainer.fxml"));
         loader.setRoot(this);
         loader.load();
-        stage = new Stage();
     }
 
     @Override

@@ -7,11 +7,11 @@ import java.io.File;
 
 public final class IconsType {
 
-    public static final Image WARNING_16x16 = create16by16("/icons/warning.png");
-    public static final Image CORRECT_16x16 = create16by16("/icons/correct.png");
-    public static final Image LOADING_16x16 = create16by16("/icons/loading.png");
+    public static final Image WARNING_16x16 = create16x16("/icons/warning.png");
+    public static final Image CORRECT_16x16 = create16x16("/icons/correct.png");
+    public static final Image LOADING_16x16 = create16x16("/icons/loading.png");
 
-    public static Image create16by16(String path) {
+    public static Image create16x16(String path) {
         return create(path, 16, 16);
     }
 

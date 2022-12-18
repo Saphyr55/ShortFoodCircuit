@@ -8,7 +8,7 @@ import fr.sfc.framework.item.Tag;
 import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
-import fr.sfc.framework.persistence.annotation.Inject;
+import fr.sfc.framework.injection.Inject;
 import fr.sfc.repository.CustomerRepository;
 import fr.sfc.repository.ProducerRepository;
 import javafx.beans.Observable;
@@ -31,7 +31,7 @@ public class ListProducerController implements Controller {
     private ListProducerContainer container;
 
     @Inject
-    @Tag("container.root")
+    @Tag("container:root")
     private MainAdminContainer mainAdminContainer;
 
     @Inject

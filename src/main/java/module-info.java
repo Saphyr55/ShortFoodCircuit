@@ -55,5 +55,6 @@ module fr.sfc {
     opens fr.sfc.controller.admin;
     opens fr.sfc.container.common;
     opens fr.sfc.framework.item;
+    opens fr.sfc.framework.injection;
 
 }

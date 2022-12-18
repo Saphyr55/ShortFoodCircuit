@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class LocalResources extends ListResourceBundle {
+public final class LocaleResources extends ListResourceBundle {
 
     @Override
     protected Object[][] getContents() { return contents; }
@@ -21,7 +21,7 @@ public class LocalResources extends ListResourceBundle {
     static Map<?, ?> contentsMap;
 
     public static ResourceBundle getBundle() {
-        return ResourceBundle.getBundle(LocalResources.class.getName());
+        return ResourceBundle.getBundle(LocaleResources.class.getName());
     }
 
     public static String get(String id) {

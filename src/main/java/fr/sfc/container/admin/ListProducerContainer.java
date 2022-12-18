@@ -43,6 +43,16 @@ public class ListProducerContainer extends GridPane implements Container {
         containerBottomButtons.addColumn(2, adderButton);
         listView.prefHeightProperty().bind(heightProperty());
 
+        responsive();
+
+        searchTextField.setPromptText("Search producer");
+
+        addRow(0, searchTextField);
+        addRow(1, listView);
+        addRow(2, containerBottomButtons);
+    }
+
+    private void responsive() {
         containerBottomButtons.prefWidthProperty().bind(widthProperty());
         containerBottomButtons.prefHeightProperty().bind(heightProperty().divide(10));
 
@@ -50,12 +60,6 @@ public class ListProducerContainer extends GridPane implements Container {
         switchProducerCustomer.prefWidthProperty().bind(containerBottomButtons.widthProperty().divide(0.75));
         adderButton.prefHeightProperty().bind(containerBottomButtons.heightProperty());
         adderButton.prefWidthProperty().bind(containerBottomButtons.widthProperty());
-
-        searchTextField.setPromptText("Search producer");
-
-        addRow(0, searchTextField);
-        addRow(1, listView);
-        addRow(2, containerBottomButtons);
     }
 
     public Stage getStage() {

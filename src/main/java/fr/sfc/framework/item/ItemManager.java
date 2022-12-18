@@ -38,7 +38,7 @@ public class ItemManager<T> {
         Arrays.stream(controller.getClass().getDeclaredFields())
                 .filter(field -> field.isAnnotationPresent(Item.class))
                 .filter(field -> {
-                    String[] t = tags.split(DELIMITER);
+                    String[] t = tags.split(String.valueOf(DELIMITER));
                     return getValue(field, field.getAnnotation(Tag.class)).equals(t[t.length - 1]);
                 }).forEach(field -> {
                     try {

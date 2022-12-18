@@ -8,7 +8,7 @@ import fr.sfc.entity.Order;
 import fr.sfc.entity.ProductTour;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
-import fr.sfc.framework.persistence.annotation.Inject;
+import fr.sfc.framework.injection.Inject;
 import fr.sfc.repository.CustomerRepository;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -77,9 +77,9 @@ public class SpecifiesProductTourController implements Controller {
 
     @FXML
     public void openAdderOrderContainer() {
-        container.getAdderOrderContainer().getStage().show();
+        if (productTour != null)
+            container.getAdderOrderContainer().getStage().show();
     }
-
 
     private void onActionSelectElementListView(
                                 ObservableValue<? extends Custom<Order>> observableV,
@@ -133,7 +133,7 @@ public class SpecifiesProductTourController implements Controller {
 
         dataOrderTextField.setText(order.getWording());
         dataCustomerOrderTextField.setText(customer.getName());
-        dataWeightOrderTextField.setText(order.getSIRET());
+        dataWeightOrderTextField.setText(String.valueOf(order.getSIRET()));
     }
 
     public ProductTour getProductTour() {

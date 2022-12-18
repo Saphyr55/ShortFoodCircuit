@@ -13,12 +13,12 @@ import java.util.Set;
  */
 public final class ContainerManager {
 
-    private final ContainerGraph containerGraph;
+    private final ContainerFactory containerFactory;
+    private final ContainerLoader containerLoader;
+    private final ContainerTree containerTree;
     private final Map<Container, Controller> containerControllerMap;
     private final Set<Container> containers;
     private final Set<Controller> controllers;
-    private final ContainerFactory containerFactory;
-    private final ContainerLoader containerLoader;
 
     /**
      * Create a component manager
@@ -30,7 +30,7 @@ public final class ContainerManager {
         this.controllers = new HashSet<>();
         this.containerControllerMap = new HashMap<>();
         this.containerFactory = new ContainerFactory(this);
-        this.containerGraph = new ContainerGraph();
+        this.containerTree = new ContainerTree();
         this.containerLoader = containerLoader;
     }
 
@@ -46,18 +46,18 @@ public final class ContainerManager {
 
         containerLoader.getNodes().stream()
                 .filter(node -> node instanceof Container)
-                .findFirst().ifPresent(c -> containerGraph.getPathForEachComponent()
+                .findFirst().ifPresent(c -> containerTree.getPathForEachComponent()
                         .put("root", new ContainerProperties((Container) c, "root")));
 
-        containerGraph.getNodes().forEach(cp -> containers.add(cp.self()));
+        containerTree.getNodes().forEach(cp -> containers.add(cp.self()));
         containerControllerMap.forEach((aClass, c) -> controllers.add(c));
     }
 
     /**
-     * Récupère un conteneur depuis son chemin de tag
+     * Récupère le conteneur correspond au chemin de tag
      * <br>
      * <blockquote>
-     * exemple : container.getComponent("root.container1.container2")
+     * exemple : containerManager.getComponent("root.container1.container2")
      * </blockquote>
      * Il va retourner le container2
      *
@@ -66,9 +66,25 @@ public final class ContainerManager {
      */
     @SuppressWarnings("unchecked")
     public <T extends Container> @Nullable T getContainer(String pathTag) {
-        var cp = containerGraph.getPathForEachComponent().get(pathTag);
+        var cp = containerTree.getPathForEachComponent().get(pathTag);
         if (cp != null) return (T) cp.self();
         return null;
+    }
+
+    /**
+     * Récupère le controller depuis du chemin de tag du conteneur
+     * <br>
+     * <blockquote>
+     * exemple : containerManager.getController("root.container1.container2")
+     * </blockquote>
+     * Il va retourner le contrôleur correspondant au conteneur 'container2'
+     *
+     * @param pathTag chemin
+     * @return container
+     */
+    @SuppressWarnings("unchecked")
+    public <T extends Controller> @Nullable T getController(String pathTag) {
+        return (T) containerControllerMap.get(getContainer(pathTag));
     }
 
     /**
@@ -92,7 +108,7 @@ public final class ContainerManager {
         return controllers;
     }
 
-    public ContainerGraph getComponentGraph() {
-        return containerGraph;
+    public ContainerTree getComponentGraph() {
+        return containerTree;
     }
 }

@@ -2,7 +2,7 @@ package fr.sfc.framework.controlling;
 
 import java.util.*;
 
-public final class ContainerGraph {
+public final class ContainerTree {
 
     private final Set<ContainerProperties> nodes;
     private final Map<ContainerProperties, ContainerProperties> edges;
@@ -10,7 +10,7 @@ public final class ContainerGraph {
 
     private final Map<String, ContainerProperties> pathForEachComponent;
 
-    public ContainerGraph() {
+    public ContainerTree() {
         nodes = new LinkedHashSet<>();
         edges = new LinkedHashMap<>();
         graph = new LinkedHashMap<>();
