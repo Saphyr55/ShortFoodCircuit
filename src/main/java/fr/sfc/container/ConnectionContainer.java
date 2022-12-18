@@ -54,8 +54,10 @@ public class ConnectionContainer extends GridPane implements Container {
     public void setup() {
         mainAdminStage = new Stage();
         mainProducttourStage = new Stage();
-        mainAdminScene = new Scene(mainAdminContainer);
-        mainProducttourScene = new Scene(mainProductTourContainer);
+        mainAdminScene = new Scene(mainAdminContainer, 880, 620);
+        mainProducttourScene = new Scene(mainProductTourContainer, 880, 620);
+        mainAdminStage.setScene(mainAdminScene);
+        mainProducttourStage.setScene(mainProducttourScene);
     }
 
     @Override
