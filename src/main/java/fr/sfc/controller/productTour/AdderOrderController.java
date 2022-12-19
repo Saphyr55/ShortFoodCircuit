@@ -6,7 +6,6 @@ import fr.sfc.entity.Company;
 import fr.sfc.entity.Customer;
 import fr.sfc.entity.Order;
 import fr.sfc.entity.ProductTour;
-import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.SimpleAlertUtils;
 import fr.sfc.framework.controlling.TimeTextField;
@@ -39,8 +38,6 @@ public class AdderOrderController implements Controller {
     private CustomerRepository customerRepository;
     @Inject
     private OrderRepository orderRepository;
-    @Inject
-    private ContainerManager containerManager;
 
     @Inject
     @Tag("controller:root.producer.list.adder")

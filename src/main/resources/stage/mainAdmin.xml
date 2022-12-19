@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Window>
-    <Container tag="mainAdmin" type="fr.sfc.container.admin.MainAdminContainer" controller="fr.sfc.controller.admin.MainAdminController">
-        <Container tag="listProducer" type="fr.sfc.container.admin.ListProducerContainer" controller="fr.sfc.controller.admin.ListProducerController">
+<Stage>
+    <Container tag="main" type="fr.sfc.container.admin.MainAdminContainer" controller="fr.sfc.controller.admin.MainAdminController">
+
+        <Repository type="fr.sfc.repository.ProducerRepository"/>
+        <Repository type="fr.sfc.repository.CompanyRepository"/>
+
+        <Container tag="list" type="fr.sfc.container.admin.ListProducerContainer" controller="fr.sfc.controller.admin.ListProducerController">
+
             <Container tag="adder" type="fr.sfc.container.admin.AdderProducerContainer"/>
+            <Repository type="fr.sfc.repository.CustomerRepository"/>
+            <Repository type="fr.sfc.repository.ProducerRepository"/>
+
         </Container>
+
         <Container tag="specificsDataProducer" type="fr.sfc.container.admin.SpecificsProducerDataContainer"/>
         <Container tag="specificsTextProducer" type="fr.sfc.container.admin.SpecificsProducerTextContainer"/>
         <Container tag="specificsDataCustomer" type="fr.sfc.container.admin.SpecificsCustomerDataContainer"/>
         <Container tag="specificsTextCustomer" type="fr.sfc.container.admin.SpecificsCustomerTextContainer"/>
+
     </Container>
-</Window>
+
+</Stage>

@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Window>
+<Stage>
     <Container tag="adder" type="fr.sfc.container.productTour.AdderOrderContainer" controller="fr.sfc.controller.productTour.AdderOrderController"/>
-</Window>
+</Stage>

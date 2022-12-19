@@ -25,7 +25,6 @@ public class MainProductTourController implements Controller {
     public void setup() {
         currentProducer = producerRepository.find(3);
         currentCompany = companyRepository.find(currentProducer.getIdCompany());
-        System.out.println(currentCompany);
     }
 
     public Company getCurrentCompany() {

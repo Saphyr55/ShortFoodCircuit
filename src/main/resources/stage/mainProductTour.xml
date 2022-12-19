@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Window>
+<Stage>
 
     <Container tag="mainProductTour"
                type="fr.sfc.container.productTour.MainProductTourContainer"
@@ -24,4 +24,4 @@
 
     </Container>
 
-</Window>
+</Stage>

@@ -6,7 +6,6 @@ import fr.sfc.container.productTour.ListProductTourContainer;
 import fr.sfc.container.productTour.SpecifiesProductTourContainer;
 import fr.sfc.entity.Order;
 import fr.sfc.entity.ProductTour;
-import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.injection.Inject;
@@ -31,8 +30,6 @@ public class ListProductTourController implements Controller {
     @AutoContainer
     private ListProductTourContainer container;
 
-    @Inject
-    private ContainerManager containerManager;
     @Inject
     private ProductTourRepository productTourRepository;
     @Inject
