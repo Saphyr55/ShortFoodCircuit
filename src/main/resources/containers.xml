@@ -1,51 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Containers>
-    <Container tag="connection"
-               type="fr.sfc.container.ConnectionContainer">
-        <Container tag="mainProductTour"
-                   type="fr.sfc.container.productTour.MainProductTourContainer"
-                   controller="fr.sfc.controller.productTour.MainProductTourController">
-            <Container tag="details"
-                       type="fr.sfc.container.productTour.DetailsProductTourContainer"
-                       controller="fr.sfc.controller.productTour.DetailsProductTourController">
-
-                <Container tag="map"
-                           type="fr.sfc.container.productTour.MapContainer"
-                           controller="fr.sfc.controller.productTour.MapController"/>
-
-                <Container tag="specifies"
-                           type="fr.sfc.container.productTour.SpecifiesProductTourContainer"
-                           controller="fr.sfc.controller.productTour.SpecifiesProductTourController">
-                    <Container tag="adder"
-                               type="fr.sfc.container.productTour.AdderOrderContainer"
-                               controller="fr.sfc.controller.productTour.AdderOrderController"/>
+    <Container tag="connection" type="fr.sfc.container.ConnectionContainer">
+        <Container tag="mainProductTour" type="fr.sfc.container.productTour.MainProductTourContainer" controller="fr.sfc.controller.productTour.MainProductTourController">
+            <Container tag="details" type="fr.sfc.container.productTour.DetailsProductTourContainer" controller="fr.sfc.controller.productTour.DetailsProductTourController">
+                <Container tag="map" type="fr.sfc.container.productTour.MapContainer" controller="fr.sfc.controller.productTour.MapController"/>
+                <Container tag="specifies" type="fr.sfc.container.productTour.SpecifiesProductTourContainer" controller="fr.sfc.controller.productTour.SpecifiesProductTourController">
+                    <Container tag="adder" type="fr.sfc.container.productTour.AdderOrderContainer" controller="fr.sfc.controller.productTour.AdderOrderController"/>
                 </Container>
             </Container>
-            <Container tag="list"
-                       type="fr.sfc.container.productTour.ListProductTourContainer"
-                       controller="fr.sfc.controller.productTour.ListProductTourController">
-                <Container tag="adder"
-                           type="fr.sfc.container.productTour.AdderProductTourContainer"
-                           controller="fr.sfc.controller.productTour.AdderProductTourController"/>
+            <Container tag="list" type="fr.sfc.container.productTour.ListProductTourContainer" controller="fr.sfc.controller.productTour.ListProductTourController">
+                <Container tag="adder" type="fr.sfc.container.productTour.AdderProductTourContainer" controller="fr.sfc.controller.productTour.AdderProductTourController"/>
             </Container>
-
         </Container>
-        <Container tag="mainAdminContainer"
-                   type="fr.sfc.container.admin.MainAdminContainer"
-                   controller="fr.sfc.controller.admin.MainAdminController">
-            <Container tag="listProducer"
-                       type="fr.sfc.container.admin.ListProducerContainer"
-                       controller="fr.sfc.controller.admin.ListProducerController">
+        <Container tag="mainAdminContainer" type="fr.sfc.container.admin.MainAdminContainer" controller="fr.sfc.controller.admin.MainAdminController">
+            <Container tag="listProducer" type="fr.sfc.container.admin.ListProducerContainer" controller="fr.sfc.controller.admin.ListProducerController">
                 <Container tag="adder" type="fr.sfc.container.admin.AdderProducerContainer"/>
             </Container>
-            <Container tag="specificsDataProducer"
-                       type="fr.sfc.container.admin.SpecificsProducerDataContainer"/>
-            <Container tag="specificsTextProducer"
-                       type="fr.sfc.container.admin.SpecificsProducerTextContainer"/>
-            <Container tag="specificsDataCustomer"
-                       type="fr.sfc.container.admin.SpecificsCustomerDataContainer"/>
-            <Container tag="specificsTextCustomer"
-                       type="fr.sfc.container.admin.SpecificsCustomerTextContainer"/>
+            <Container tag="specificsDataProducer" type="fr.sfc.container.admin.SpecificsProducerDataContainer"/>
+            <Container tag="specificsTextProducer" type="fr.sfc.container.admin.SpecificsProducerTextContainer"/>
+            <Container tag="specificsDataCustomer" type="fr.sfc.container.admin.SpecificsCustomerDataContainer"/>
+            <Container tag="specificsTextCustomer" type="fr.sfc.container.admin.SpecificsCustomerTextContainer"/>
         </Container>
     </Container>
 </Containers>
