@@ -35,14 +35,10 @@ public class ConnectionContainer extends GridPane implements Container {
     private Stage mainProducttourStage;
     private Scene mainProducttourScene;
 
-    public ConnectionContainer() {
-        try {
-            loader = new FXMLLoader(Resources.getResource("/fxml/connection.fxml"));
-            loader.setRoot(this);
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public ConnectionContainer() throws IOException {
+        loader = new FXMLLoader(Resources.getResource("/fxml/connection.fxml"));
+        loader.setRoot(this);
+        loader.load();
     }
 
     @Override
