@@ -10,7 +10,7 @@ public final class ContainersDocument {
 
     public static final String ELEMENT_CONTAINER = "container";
     public static final String ELEMENT_ITEM = "item";
-    public static final String ELEMENT_ROOT_CONTAINERS = "containers";
+    public static final String ELEMENT_ROOT_CONTAINERS = "stage";
     public static final String ATTRIBUTE_TAG = "tag";
     public static final String ATTRIBUTE_TYPE = "type";
     public static final String ATTRIBUTE_CONTROLLER = "controller";
