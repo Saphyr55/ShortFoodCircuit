@@ -5,63 +5,32 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.GridPane?>
-
-<fx:root fx:id="root" type="GridPane"
-         maxHeight="-Infinity" maxWidth="-Infinity"
-         minHeight="-Infinity" minWidth="-Infinity"
-         prefHeight="400.0" prefWidth="600.0"
-         xmlns="http://javafx.com/javafx/19"
-         xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="fr.sfc.controller.ConnectionController">
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<fx:root type="AnchorPane" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.sfc.controller.ConnectionController">
     <children>
-        <VBox layoutX="1.0" layoutY="-1.0" prefHeight="${root.height}" prefWidth="${root.width}">
-            <children>
-                <HBox prefHeight="100.0" prefWidth="200.0">
-                    <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" nodeOrientation="LEFT_TO_RIGHT" scaleX="2.0" scaleY="2.0" text="Login">
-                            <HBox.margin>
-                                <Insets left="250.0" top="20.0" />
-                            </HBox.margin>
-                        </Label>
-                    </children>
-                </HBox>
-                <HBox prefHeight="100.0" prefWidth="200.0">
-                    <children>
-                        <Label scaleX="2.0" scaleY="2.0" text="ID">
-                            <HBox.margin>
-                                <Insets left="100.0" />
-                            </HBox.margin>
-                        </Label>
-                        <TextField fx:id="idTextField" scaleX="2.0" scaleY="2.0">
-                            <HBox.margin>
-                                <Insets left="150.0" />
-                            </HBox.margin>
-                        </TextField>
-                    </children>
-                </HBox>
-                <HBox prefHeight="100.0" prefWidth="200.0">
-                    <children>
-                        <Label scaleX="2.0" scaleY="2.0" text="PASSWORD">
-                            <HBox.margin>
-                                <Insets left="80.0" />
-                            </HBox.margin>
-                        </Label>
-                        <PasswordField fx:id="passwordTextField" scaleX="2.0" scaleY="2.0">
-                            <HBox.margin>
-                                <Insets left="120.0" />
-                            </HBox.margin>
-                        </PasswordField>
-                    </children>
-                </HBox>
-                <Button onAction="#onPressLogin" mnemonicParsing="false" scaleX="2.0" scaleY="2.0" text="Login">
-                    <VBox.margin>
-                        <Insets left="250.0" />
-                    </VBox.margin>
-                </Button>
-            </children>
-        </VBox>
+        <TextField fx:id="identifierTextField" cache="true" cacheHint="QUALITY" layoutX="96.0" layoutY="89.0" prefHeight="51.0" prefWidth="209.0" promptText="Identifier">
+            <font>
+                <Font name="Arial" size="24.0" />
+            </font>
+        </TextField>
+        <PasswordField fx:id="passwordTextField" layoutX="96.0" layoutY="199.0" prefHeight="46.0" prefWidth="209.0" promptText="Password">
+            <font>
+                <Font name="Arial" size="24.0" />
+            </font>
+        </PasswordField>
+        <Button onAction="#onPressLogin" alignment="CENTER" layoutX="128.0" layoutY="322.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="144.0" text="Login">
+            <font>
+                <Font name="Arial" size="19.0" />
+            </font>
+        </Button>
+        <Label alignment="CENTER" layoutX="99.0" layoutY="418.0" prefHeight="38.0" prefWidth="200.0">
+            <font>
+                <Font name="Arial" fx:id="errorMessage" size="26.0" />
+            </font>
+        </Label>
     </children>
+    <opaqueInsets>
+        <Insets />
+    </opaqueInsets>
 </fx:root>

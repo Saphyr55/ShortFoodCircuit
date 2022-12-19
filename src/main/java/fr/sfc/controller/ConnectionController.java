@@ -13,18 +13,23 @@ import fr.sfc.repository.ProducerRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Font;
 
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ConnectionController implements Controller {
 
+
+    @AutoContainer
+    private ConnectionContainer container;
+
     @FXML
     public PasswordField passwordTextField;
     @FXML
-    public TextField idTextField;
-    @AutoContainer
-    private ConnectionContainer container;
+    public TextField identifierTextField;
+    @FXML
+    public Font errorMessage;
 
     @Inject
     private ContainerManager containerManager;
@@ -44,7 +49,6 @@ public class ConnectionController implements Controller {
         if(entity instanceof Admin admin && admin.getPassword().equals(passwordTextField.getText())){
             BackendApplication.getCurrentApplication().getPrimaryStage().hide();
             container.getMainAdminStage().show();
-            System.out.println(passwordTextField.getText());
         } else if (entity instanceof Producer producer && producer.getPassword().equals(passwordTextField.getText()) ){
             BackendApplication.getCurrentApplication().getPrimaryStage().hide();
             container.getMainProducttourStage().show();
@@ -53,7 +57,7 @@ public class ConnectionController implements Controller {
     }
 
     public String getDataIdTextField(){
-        return idTextField.getText();
+        return identifierTextField.getText();
     }
 
     public int getIdIntegerFromStringId(String id){

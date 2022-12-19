@@ -22,7 +22,7 @@ public class DetailsProductTourController implements Controller {
     private ListProductTourContainer listProductTourContainer;
 
     @Inject
-    @Tag("controller:root.details.map")
+    @Tag("controller:root.producer.details.map")
     private MapController mapController;
 
     private State state = State.Specifies;
