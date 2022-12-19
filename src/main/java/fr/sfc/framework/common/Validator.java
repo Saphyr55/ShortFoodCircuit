@@ -1,6 +1,7 @@
 package fr.sfc.framework.common;
 
 import java.util.Stack;
+import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 public class Validator<T> {
@@ -38,7 +39,13 @@ public class Validator<T> {
         if (throwableStack.isEmpty()) return type;
         IllegalStateException e = new IllegalStateException();
         throwableStack.forEach(e::addSuppressed);
+
         throw e;
+    }
+
+    public Validator<T> trace(BiConsumer<T, Stack<Throwable>> biConsumer) {
+        biConsumer.accept(type, throwableStack);
+        return this;
     }
 
 }
