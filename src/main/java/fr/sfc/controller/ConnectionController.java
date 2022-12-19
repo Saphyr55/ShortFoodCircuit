@@ -35,6 +35,9 @@ public class ConnectionController implements Controller {
     @Inject
     private AdminRepository adminRepository;
 
+    @Override
+    public void setup() { }
+
     @FXML
     public void onPressLogin(){
         var entity = getEntity(getDataIdTextField());
@@ -83,8 +86,4 @@ public class ConnectionController implements Controller {
         }
     }
 
-    @Override
-    public void setup() {
-        var producers = producerRepository.findAll();
-    }
 }

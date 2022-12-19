@@ -22,23 +22,18 @@ public class ConnectionContainer extends GridPane implements Container {
     @AutoController
     private ConnectionController controller;
 
-    private FXMLLoader loader;
-
-    private Stage mainAdminStage;
-
-    private Scene mainAdminScene;
-
-    private Stage mainProducttourStage;
-
-    private Scene mainProducttourScene;
-
     @SetContainer
     @Tag("admin")
     private MainAdminContainer mainAdminContainer;
-
     @SetContainer
     @Tag("producer")
     private MainProductTourContainer mainProductTourContainer;
+
+    private FXMLLoader loader;
+    private Stage mainAdminStage;
+    private Scene mainAdminScene;
+    private Stage mainProducttourStage;
+    private Scene mainProducttourScene;
 
     public ConnectionContainer() {
         try {

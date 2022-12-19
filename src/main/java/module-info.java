@@ -11,7 +11,6 @@ module fr.sfc {
     requires jdk.charsets;
     requires jdk.compiler;
     requires jdk.javadoc;
-    requires jdk.xml.dom;
     requires jdk.random;
 
     requires javafx.base;
@@ -20,13 +19,12 @@ module fr.sfc {
     requires javafx.web;
     requires javafx.media;
     requires javafx.swing;
-    requires dom4j;
 
+    requires jdom2;
     requires org.slf4j;
     requires org.apache.logging.log4j;
     requires org.apache.logging.log4j.slf4j;
     requires org.apache.logging.log4j.core;
-
     requires ini4j;
     requires org.mariadb.jdbc;
     requires commons.math3;
@@ -34,13 +32,14 @@ module fr.sfc {
     requires org.yaml.snakeyaml;
     requires org.reflections;
     requires org.jetbrains.annotations;
-    requires libphonenumber;
+    requires com.google.gson;
 
     opens fr.sfc;
-    opens fr.sfc.container;
-    opens fr.sfc.repository;
     opens fr.sfc.entity;
     opens fr.sfc.common;
+    opens fr.sfc.repository;
+    opens fr.sfc.controller;
+    opens fr.sfc.container;
     opens fr.sfc.container.productTour;
     opens fr.sfc.controller.productTour;
 

@@ -23,12 +23,12 @@ public class AdderProductTourContainer extends VBox implements Container {
 
     private final ListSearchDialog<Custom<Vehicle>> searchMatriculationDialog;
     private final FXMLLoader loader;
-    private final Stage frame;
+    private final Stage stage;
     private final Scene scene;
 
     public AdderProductTourContainer() throws IOException {
         searchMatriculationDialog = new ListSearchDialog<>();
-        frame = new Stage();
+        stage = new Stage();
         loader = new FXMLLoader(Resources.getResource("/fxml/adderProductToursFrame.fxml"));
         loader.setRoot(this);
         loader.load();
@@ -37,7 +37,7 @@ public class AdderProductTourContainer extends VBox implements Container {
 
     @Override
     public void setup() {
-        frame.setScene(scene);
+        stage.setScene(scene);
     }
 
     public ListSearchDialog<Custom<Vehicle>> getSearchMatriculationDialog() {
@@ -45,7 +45,7 @@ public class AdderProductTourContainer extends VBox implements Container {
     }
 
     public Stage getStage() {
-        return frame;
+        return stage;
     }
 
     @Override

@@ -20,7 +20,7 @@ public class SpecifiesProductTourContainer extends HBox implements Container {
     @AutoController
     private SpecifiesProductTourController controller;
 
-    @Tag("tag")
+    @Tag("adder")
     @SetContainer
     private AdderOrderContainer adderOrderContainer;
 
@@ -35,9 +35,7 @@ public class SpecifiesProductTourContainer extends HBox implements Container {
     }
 
     @Override
-    public void setup()  {
-
-    }
+    public void setup() { }
 
     public AdderOrderContainer getAdderOrderContainer() {
         return adderOrderContainer;

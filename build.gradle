@@ -7,6 +7,13 @@ plugins {
 group 'fr.sfc'
 version '1.0'
 
+tasks.withType(JavaCompile) + tasks.withType(Javadoc).tap {
+    configureEach {
+        options.encoding = 'UTF-8'
+        options.charSet = options.encoding
+    }
+}
+
 repositories {
     mavenCentral()
 }
@@ -34,23 +41,16 @@ javafx {
 
 dependencies {
 
-    implementation 'org.dom4j:dom4j:2.1.0'
+    implementation group: 'org.jdom', name: 'jdom2', version: '2.0.6'
 
     implementation "com.google.code.gson:gson:$gsonVersion"
-
-    implementation 'com.googlecode.libphonenumber:libphonenumber:8.13.2'
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.6'
-
     implementation 'org.apache.commons:commons-math3:3.6.1'
     implementation 'org.apache.lucene:lucene-spatial:8.4.1'
-
     implementation 'org.reflections:reflections:0.10.2'
-
-    implementation 'org.jetbrains:annotations:23.0.0'
-
+    implementation 'org.jetbrains:annotations:23.1.0'
     implementation 'org.yaml:snakeyaml:1.33'
     implementation 'org.ini4j:ini4j:0.5.4'
-
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.19.0'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.19.0'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.19.0'

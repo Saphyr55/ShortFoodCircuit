@@ -2,6 +2,7 @@ package fr.sfc;
 
 import fr.sfc.framework.BackendApplicationConfiguration;
 import fr.sfc.framework.Resources;
+import fr.sfc.framework.item.ContainersDocument;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -17,12 +18,16 @@ public final class SFCApplication extends Application {
     @Override
     public void start(final Stage primaryStage) throws IOException {
 
+
+
         LOGGER.info("Start Application");
 
         BackendApplicationConfiguration configuration = BackendApplicationConfiguration.File
                 .of(Resources.getFileResource(FILE_CONF)).create();
 
         LOGGER.info("Start Configuration");
+
+        new ContainersDocument("/containers.xml");
 
         configuration.configure();
         configuration.createApplication(primaryStage, "Short Food Circuit", 980, 620).show();

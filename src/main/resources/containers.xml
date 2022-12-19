@@ -5,7 +5,6 @@
         <Container tag="mainProductTour"
                    type="fr.sfc.container.productTour.MainProductTourContainer"
                    controller="fr.sfc.controller.productTour.MainProductTourController">
-
             <Container tag="details"
                        type="fr.sfc.container.productTour.DetailsProductTourContainer"
                        controller="fr.sfc.controller.productTour.DetailsProductTourController">

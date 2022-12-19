@@ -30,11 +30,11 @@ public class MapController implements Controller {
     private JSObject js;
 
     @Inject
-    @Tag("controller:root.list")
+    @Tag("controller:root.producer.list")
     private ListProductTourController listProductTourController;
 
     @Inject
-    @Tag("controller:root")
+    @Tag("controller:root.producer")
     private MainProductTourController mainProductTourController;
 
     @Inject

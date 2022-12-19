@@ -56,7 +56,7 @@ public class AdderProductTourController implements Controller {
     @Tag("controller:root.producer.list")
     private ListProductTourController listProductTourController;
     @Inject
-    @Tag("controller:root")
+    @Tag("controller:root.producer")
     private MainProductTourController mainProductTourController;
 
     private Company currentCompany;
@@ -237,4 +237,7 @@ public class AdderProductTourController implements Controller {
         return is;
     }
 
+    public Company getCurrentCompany() {
+        return currentCompany;
+    }
 }
