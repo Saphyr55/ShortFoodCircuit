@@ -1,9 +1,12 @@
 package fr.sfc.framework;
 
 import fr.sfc.framework.controlling.*;
-import fr.sfc.framework.injection.DependencyInjection;
-import fr.sfc.framework.persistence.*;
 import fr.sfc.framework.database.DatabaseManager;
+import fr.sfc.framework.injection.DependencyInjection;
+import fr.sfc.framework.persistence.EntityClassLoader;
+import fr.sfc.framework.persistence.EntityClassManager;
+import fr.sfc.framework.persistence.EntityManager;
+import fr.sfc.framework.persistence.RepositoryManager;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 

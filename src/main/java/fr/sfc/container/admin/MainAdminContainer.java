@@ -4,6 +4,7 @@ import fr.sfc.controller.admin.MainAdminController;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.annotation.SetContainer;
+import fr.sfc.framework.item.Tag;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -14,7 +15,8 @@ public class MainAdminContainer extends GridPane implements Container {
     private MainAdminController controller;
 
     @SetContainer
-    private ListProducerContainer listProducer;
+    @Tag(value = "list")
+    private ListProducerCustomerContainer listProducerCustomer;
     @SetContainer
     private SpecificsProducerDataContainer specificsDataProducer;
     @SetContainer
@@ -43,8 +45,13 @@ public class MainAdminContainer extends GridPane implements Container {
 
         responsive();
 
-        addColumn(0, listProducer);
+        addColumn(0, listProducerCustomer);
         addColumn(1, detailsPane);
+    }
+
+    public void update() {
+        listProducerCustomer.getObservableList().setAll();
+        listProducerCustomer.getListView().refresh();
     }
 
     private void responsive() {
@@ -66,9 +73,9 @@ public class MainAdminContainer extends GridPane implements Container {
         specificsTextCustomer.minHeightProperty().bind(detailsCustomer.heightProperty());
         specificsTextCustomer.prefWidthProperty().bind(detailsCustomer.widthProperty().divide(2));
 
-        listProducer.prefHeightProperty().bind(heightProperty());
-        listProducer.prefWidthProperty().bind(widthProperty().divide(3.5d));
-        listProducer.setMinWidth(300);
+        listProducerCustomer.prefHeightProperty().bind(heightProperty());
+        listProducerCustomer.prefWidthProperty().bind(widthProperty().divide(3.5d));
+        listProducerCustomer.setMinWidth(300);
 
     }
 
@@ -76,8 +83,8 @@ public class MainAdminContainer extends GridPane implements Container {
         return controller;
     }
 
-    public ListProducerContainer getListProducer() {
-        return listProducer;
+    public ListProducerCustomerContainer getListProducerCustomer() {
+        return listProducerCustomer;
     }
 
     public SpecificsProducerDataContainer getSpecificsDataProducer() {

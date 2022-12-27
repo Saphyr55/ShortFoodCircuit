@@ -18,37 +18,37 @@
                        prefHeight="${containerNameTextField.height}"
                        disable="true"
                        font="$defaultFont"
-                       text="Name"/>
+                       text="Nom"/>
 
             <TextField prefWidth="${containerNameTextField.width}"
                        prefHeight="${containerNameTextField.height}"
                        disable="true"
                        font="$defaultFont"
-                       text="Start date"/>
+                       text="Date de debut"/>
 
             <TextField prefWidth="${containerNameTextField.width}"
                        prefHeight="${containerNameTextField.height}"
                        disable="true"
                        font="$defaultFont"
-                       text="Start hour"/>
+                       text="Heure de debut"/>
 
             <TextField prefWidth="${containerNameTextField.width}"
                        prefHeight="${containerNameTextField.height}"
                        disable="true"
                        font="$defaultFont"
-                       text="End date"/>
+                       text="Date de fin"/>
 
             <TextField prefWidth="${containerNameTextField.width}"
                        prefHeight="${containerNameTextField.height}"
                        disable="true"
                        font="$defaultFont"
-                       text="End hour"/>
+                       text="Heure de fin"/>
 
             <TextField prefWidth="${containerNameTextField.width}"
                        prefHeight="${containerNameTextField.height}"
                        disable="true"
                        font="$defaultFont"
-                       text="Weight"/>
+                       text="Poids"/>
 
             <TextField prefWidth="${containerNameTextField.width}"
                        prefHeight="${containerNameTextField.height}"
@@ -91,13 +91,12 @@
                        prefWidth="${containerDataTextField.width}"
                        prefHeight="${containerDataTextField.height}"
                        disable="true"
-                       onMouseClicked="#onClickMatriculationTextField"
-                       promptText="need"/>
+                       onMouseClicked="#onClickMatriculationTextField"/>
 
         </VBox>
     </HBox>
     <Button font="$defaultFont"
             prefWidth="${root.width}"
             onAction="#buttonAddProductTourEvent"
-            text="Add"/>
+            text="Ajoute"/>
 </fx:root>

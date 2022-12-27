@@ -9,17 +9,17 @@
 <?import javafx.scene.text.Font?>
 <fx:root type="AnchorPane" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.sfc.controller.ConnectionController">
     <children>
-        <TextField fx:id="identifierTextField" cache="true" cacheHint="QUALITY" layoutX="96.0" layoutY="89.0" prefHeight="51.0" prefWidth="209.0" promptText="Identifier">
+        <TextField fx:id="identifierTextField" cache="true" cacheHint="QUALITY" layoutX="96.0" layoutY="89.0" prefHeight="51.0" prefWidth="209.0" promptText="Identifiant">
             <font>
                 <Font name="Arial" size="24.0" />
             </font>
         </TextField>
-        <PasswordField fx:id="passwordTextField" layoutX="96.0" layoutY="199.0" prefHeight="46.0" prefWidth="209.0" promptText="Password">
+        <PasswordField fx:id="passwordTextField" layoutX="96.0" layoutY="199.0" prefHeight="46.0" prefWidth="209.0" promptText="Mot De Passe">
             <font>
                 <Font name="Arial" size="24.0" />
             </font>
         </PasswordField>
-        <Button onAction="#onPressLogin" alignment="CENTER" layoutX="128.0" layoutY="322.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="144.0" text="Login">
+        <Button onAction="#onPressLogin" alignment="CENTER" layoutX="128.0" layoutY="322.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="144.0" text="Se Connecter">
             <font>
                 <Font name="Arial" size="19.0" />
             </font>

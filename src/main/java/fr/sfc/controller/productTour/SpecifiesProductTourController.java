@@ -101,21 +101,21 @@ public class SpecifiesProductTourController implements Controller {
     }
 
     private void setTextForNameProductTourTextField() {
-        nameTitleProductTourTextField.setText("Product Tour Details...");
-        nameProductTourTextField.setText("Name");
-        nameStartDateProductTourTextField.setText("Start Date");
-        nameEndDateProductTourTextField.setText("End Date");
-        nameWeightProductTourTextField.setText("Weight (kg)");
-        nameMatriculationVehicleProductTourTextField.setText("Vehicle");
+        nameTitleProductTourTextField.setText("Tourn\u00E9e Propri\u00E9t\u00E9s...");
+        nameProductTourTextField.setText("Nom");
+        nameStartDateProductTourTextField.setText("Commenc\u00E9 le");
+        nameEndDateProductTourTextField  .setText("Fin le");
+        nameWeightProductTourTextField.setText("Poids (kg)");
+        nameMatriculationVehicleProductTourTextField.setText("V\u00E9hicule");
     }
 
     private void setTextForNameOrderTextField() {
-        nameTitleOrderTextField.setText("Order Details...");
-        nameOrderTextField.setText("Name Order");
-        nameCustomerOrderTextField.setText("Name Customer");
-        nameStartDateOrderTextField.setText("Start Date");
-        nameEndDateOrderTextField.setText("End Date");
-        nameWeightOrderTextField.setText("Weight (kg)");
+        nameTitleOrderTextField.setText("Commande Propri\u00E9t\u00E9s...");
+        nameOrderTextField.setText("Nom Commande");
+        nameCustomerOrderTextField.setText("Nom Client");
+        nameStartDateOrderTextField.setText("Commenc\u00E9 le");
+        nameEndDateOrderTextField.setText("Fin le");
+        nameWeightOrderTextField.setText("Poids (kg)");
     }
 
     private void setTextForDataOrderTextField(Order order) {
@@ -129,7 +129,7 @@ public class SpecifiesProductTourController implements Controller {
             dataEntDateOrderTextField.setText(order.getEndLocalDateTime()
                     .toString().replace('T', ' '));
         else
-            dataEntDateOrderTextField.setText("Not finish");
+            dataEntDateOrderTextField.setText("Non fini");
 
         dataOrderTextField.setText(order.getWording());
         dataCustomerOrderTextField.setText(customer.getName());

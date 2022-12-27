@@ -41,13 +41,13 @@ public class DetailsProductTourController implements Controller {
             switch (state) {
                 case Specifies -> {
                     state = State.Map;
-                    listProductTourContainer.getSwitcherDetailsComponentButton().setText("Show Specifies");
+                    listProductTourContainer.getSwitcherDetailsComponentButton().setText("Afficher Proprieties");
                     container.setFor(container.getMapContainer());
                     mapController.loadMap();
                 }
                 case Map -> {
                     state = State.Specifies;
-                    listProductTourContainer.getSwitcherDetailsComponentButton().setText("Show Map");
+                    listProductTourContainer.getSwitcherDetailsComponentButton().setText("Afficher Map");
                     container.setFor(container.getSpecifiesProductTourContainer());
                 }
             }

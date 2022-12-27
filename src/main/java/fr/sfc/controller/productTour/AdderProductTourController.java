@@ -157,8 +157,8 @@ public class AdderProductTourController implements Controller {
     private boolean createConfirmAlertInsertProductTour(ProductTour productTour) {
         AtomicBoolean quit = new AtomicBoolean(false);
         SimpleAlertUtils.createAlertConfirmation()
-                .withTitle( "Successful" )
-                .withContentText( "Do you want to create a product tour" )
+                .withTitle("Confirmation")
+                .withContentText("Voulez-vous cr\u00E9er une tourn\u00E9e")
                 .withOnOkButton( alert -> productTourRepository.insert(productTour) )
                 .withOnCancelButton( alert -> quit.set(true) )
                 .buildShowAndWait();
@@ -168,10 +168,9 @@ public class AdderProductTourController implements Controller {
     private boolean createAlertFieldsEmpty(Vehicle vehicle) {
         AtomicBoolean quit = new AtomicBoolean(false);
         SimpleAlertUtils.createAlertErrorConditional(fieldsIsNotEmpty(vehicle))
-                .ifPresent(simpleAlertBuilder -> {
-                    simpleAlertBuilder
-                        .withTitle( "Error Form" )
-                        .withContentText( "You need to specifies all fields" )
+                .ifPresent(simpleAlertBuilder -> { simpleAlertBuilder
+                        .withTitle("Erreur formulaire")
+                        .withContentText("Un des champs n'est pas remplis")
                         .buildShowAndWait();
                     quit.set(true);
                 });
@@ -180,8 +179,8 @@ public class AdderProductTourController implements Controller {
 
     private void createAlertCreationError() {
         SimpleAlertUtils.createAlertError()
-                .withTitle( "Error Form" )
-                .withContentText( "Error while creation product tour" )
+                .withTitle("Erreur formulaire")
+                .withContentText("Erreur pendant la creation d'un tourn\u00E9e")
                 .buildShowAndWait();
     }
 

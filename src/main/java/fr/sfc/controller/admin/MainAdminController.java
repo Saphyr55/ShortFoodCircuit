@@ -52,8 +52,6 @@ public class MainAdminController implements Controller {
         return String.valueOf(productTourRepository.countProductTourByCompany(company));
     }
 
-
-
     public Producer getCurrentProducer() {
         return currentProducer;
     }
@@ -61,7 +59,6 @@ public class MainAdminController implements Controller {
     public void setCurrentProducer(Producer currentProducer) {
         this.currentProducer = currentProducer;
     }
-
 
     public Customer getCurrentCustomer() {
         return currentCustomer;
@@ -74,4 +71,6 @@ public class MainAdminController implements Controller {
     public MainAdminContainer getContainer() {
         return container;
     }
+
+
 }

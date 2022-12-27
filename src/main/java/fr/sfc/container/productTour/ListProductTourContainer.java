@@ -39,15 +39,15 @@ public class ListProductTourContainer extends GridPane implements Container {
         observableList = FXCollections.observableArrayList();
         filteredList = new FilteredList<>(observableList);
         productTourListView = new ListView<>(filteredList);
-        switcherDetailsComponentButton = new Button("Show Map");
-        adderProductTourButton = new Button("Add Product Tour");
+        switcherDetailsComponentButton = new Button("Afficher Map");
+        adderProductTourButton = new Button("Ajout\u00E9 tourn\u00E9e");
         searchTextField = new TextField();
     }
 
     @Override
     public void setup() {
 
-        searchTextField.setPromptText("Search for product tour");
+        searchTextField.setPromptText("Recherche...");
         hBox.getChildren().addAll(
                 adderProductTourButton,
                 switcherDetailsComponentButton

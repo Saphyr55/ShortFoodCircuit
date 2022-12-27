@@ -1,6 +1,8 @@
 package fr.sfc.container.admin;
 
+import fr.sfc.controller.admin.AdderProducerController;
 import fr.sfc.framework.controlling.Container;
+import fr.sfc.framework.controlling.annotation.AutoController;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -8,6 +10,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class AdderProducerContainer extends HBox implements Container {
+
+    @AutoController
+    private AdderProducerController controller;
 
     private final TextField lastnameTextField = new TextField();
     private final TextField firstnameTextField = new TextField();
@@ -30,10 +35,10 @@ public class AdderProducerContainer extends HBox implements Container {
         textFieldTextContainerVBox.getChildren().add(firstnameTextTextField);
         textFieldTextContainerVBox.getChildren().add(siretTextTextField);
 
-        lastnameTextField.setText("Lastname");
-        firstnameTextField.setText("Firstname");
-        siretTextField.setText("Siret");
-        addProducerButton.setText("Add Producer");
+        lastnameTextField.setText("Nom");
+        firstnameTextField.setText("Pr\u00E9nom");
+        siretTextField.setText("SIRET");
+        addProducerButton.setText("Ajout\u00E9 Producteur");
 
         lastnameTextField.setDisable(true);
         firstnameTextField.setDisable(true);

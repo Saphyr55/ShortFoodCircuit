@@ -1,14 +1,14 @@
 package fr.sfc.controller.admin;
 
-import fr.sfc.container.admin.ListProducerContainer;
+import fr.sfc.container.admin.ListProducerCustomerContainer;
 import fr.sfc.container.admin.MainAdminContainer;
 import fr.sfc.entity.Customer;
 import fr.sfc.entity.Producer;
-import fr.sfc.framework.item.Tag;
-import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
+import fr.sfc.framework.controlling.SimpleAlertUtils;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.injection.Inject;
+import fr.sfc.framework.item.Tag;
 import fr.sfc.repository.CustomerRepository;
 import fr.sfc.repository.ProducerRepository;
 import javafx.beans.Observable;
@@ -18,9 +18,10 @@ import javafx.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
-public class ListProducerController implements Controller {
+public class ListProducerCustomerController implements Controller {
 
     public enum State {
         Customer,
@@ -28,18 +29,15 @@ public class ListProducerController implements Controller {
     }
 
     @AutoContainer
-    private ListProducerContainer container;
+    private ListProducerCustomerContainer container;
 
     @Inject
     @Tag("container:root.admin")
     private MainAdminContainer mainAdminContainer;
-
     @Inject
     private ProducerRepository producerRepository;
     @Inject
     private CustomerRepository customerRepository;
-    @Inject
-    private ContainerManager containerManager;
 
     private List<Producer> producers = new ArrayList<>();
     private List<Customer> customers = new ArrayList<>();
@@ -49,20 +47,40 @@ public class ListProducerController implements Controller {
 
     @Override
     public void setup() {
-
-        container.getAdderButton().setOnAction((event) -> container.getStage().show());
-
+        container.getAdderButton().setOnAction(this::onAdderButton);
+        container.getDeleteButton().setOnAction(this::onDeleteButton);
         fillListView();
-
         // Filtre la liste en fonction de l'observation du text field
         container.getSearchTextField().textProperty().addListener(this::filterProducerListView);
-
         // Switch entre list de client et de producteur
         container.getSwitchProducerCustomer().setOnAction(this::switchProducerCustomerInListEvent);
-
         // Rempli les données du producteur en cliquant sur un element de la liste
         container.getListView().getSelectionModel().selectedIndexProperty().addListener(this::selectedList);
+    }
 
+    private void onAdderButton(ActionEvent event) {
+        switch (state) {
+            case Producer -> container.getAdderProducerStage().show();
+            case Customer -> container.getAdderCustomerStage().show();
+        }
+    }
+
+    private void onDeleteButton(ActionEvent event) {
+        SimpleAlertUtils.createAlertConfirmation()
+                .withTitle("Confirmation")
+                .withContentText("Voulez-vous vraiment supprimer")
+                .withOnOkButton(alert -> {
+                    switch (state) {
+                        case Producer -> producerRepository.delete(producerSelected);
+                        case Customer -> customerRepository.delete(customerSelected);
+                    }
+                }).buildShowAndWait();
+    }
+
+    private boolean createConfirmAlertInsertCustomer() {
+        AtomicBoolean quit = new AtomicBoolean(false);
+
+        return quit.get();
     }
 
     private void filterProducerListView(Observable observable) {

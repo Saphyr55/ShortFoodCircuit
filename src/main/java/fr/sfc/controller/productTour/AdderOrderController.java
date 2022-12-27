@@ -127,7 +127,7 @@ public class AdderOrderController implements Controller {
     private void createAlertConfirmation(Order order) {
         SimpleAlertUtils.createAlertConfirmation()
                 .withTitle("Confirmation")
-                .withHeaderText("Do you to add an oder")
+                .withHeaderText("Voulez-vous ajout\u00E9 une commande ?")
                 .withOnOkButton(alert -> orderRepository.insert(order));
     }
 
@@ -200,8 +200,8 @@ public class AdderOrderController implements Controller {
         AtomicBoolean quit = new AtomicBoolean(false);
         SimpleAlertUtils.createAlertErrorConditional(checkForEmptyFields()).ifPresent(simpleAlertBuilder -> {
             simpleAlertBuilder
-                    .withTitle("Error Form")
-                    .withContentText("You need to specifies all field")
+                    .withTitle("Erreur dans le formulaire")
+                    .withContentText("Un des champs n'est pas remplis")
                     .buildShowAndWait();
             quit.set(true);
         });

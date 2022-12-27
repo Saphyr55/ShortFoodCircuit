@@ -22,6 +22,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -75,8 +76,7 @@ public class ListProductTourController implements Controller {
     }
 
     private String toStringPt(ProductTour productTour) {
-        return  productTour.getName() + " | Start the " +
-                productTour.getStartDateTime().toString();
+        return MessageFormat.format("{0} | Commencé le {1}", productTour.getName(), productTour.getStartDateTime().toString());
     }
 
     public void refresh() {

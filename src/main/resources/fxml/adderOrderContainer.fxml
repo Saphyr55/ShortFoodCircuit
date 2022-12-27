@@ -20,43 +20,43 @@
                        prefHeight="${containerNameTextField.height}"
                        disable="true"
                        font="$defaultFont"
-                       text="Wording"/>
+                       text="Étiquette"/>
 
             <TextField prefWidth="${containerNameTextField.width}"
                        prefHeight="${containerNameTextField.height}"
                        disable="true"
                        font="$defaultFont"
-                       text="Weight (kg)"/>
+                       text="Poids (kg)"/>
 
             <TextField prefWidth="${containerNameTextField.width}"
                        prefHeight="${containerNameTextField.height}"
                        disable="true"
                        font="$defaultFont"
-                       text="Start date"/>
+                       text="Date de debut"/>
 
             <TextField prefWidth="${containerNameTextField.width}"
                            prefHeight="${containerNameTextField.height}"
                            disable="true"
                            font="$defaultFont"
-                           text="Start hour"/>
+                           text="Heure de debut"/>
 
             <TextField prefWidth="${containerNameTextField.width}"
                        prefHeight="${containerNameTextField.height}"
                        disable="true"
                        font="$defaultFont"
-                       text="End date"/>
+                       text="Date de fin"/>
 
             <TextField prefWidth="${containerNameTextField.width}"
                            prefHeight="${containerNameTextField.height}"
                            disable="true"
                            font="$defaultFont"
-                           text="End hour"/>
+                           text="Heure de fin"/>
 
             <TextField prefWidth="${containerNameTextField.width}"
                        prefHeight="${containerNameTextField.height}"
                        disable="true"
                        font="$defaultFont"
-                       text="Customer"/>
+                       text="Client"/>
         </VBox>
         <VBox fx:id="containerDataTextField">
 
@@ -99,5 +99,5 @@
     <Button font="$defaultFont"
             prefWidth="${root.width}"
             onAction="#sendOrder"
-            text="Add"/>
+            text="Ajoute"/>
 </fx:root>

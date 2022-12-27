@@ -173,7 +173,7 @@
                 prefWidth="${listContainerVBox.width}"
                 prefHeight="${listContainerVBox.height}"/>
       <Button fx:id="addOrderButton"
-              text="Add Order"
+              text="Ajouté Commande"
               prefWidth="${listContainerVBox.width}"
               onAction="#openAdderOrderContainer"/>
    </VBox>

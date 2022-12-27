@@ -1,6 +1,6 @@
 package fr.sfc.container.admin;
 
-import fr.sfc.controller.admin.ListProducerController;
+import fr.sfc.controller.admin.ListProducerCustomerController;
 import fr.sfc.framework.controlling.Container;
 import fr.sfc.framework.controlling.annotation.AutoController;
 import fr.sfc.framework.controlling.annotation.SetContainer;
@@ -8,32 +8,35 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class ListProducerContainer extends GridPane implements Container {
+public class ListProducerCustomerContainer extends GridPane implements Container {
 
     @AutoController
-    private ListProducerController controller;
+    private ListProducerCustomerController controller;
 
     @SetContainer
     private AdderProducerContainer adderProducerContainer;
+    @SetContainer
+    private AdderCustomerContainer adderCustomerContainer;
 
     private final GridPane containerBottomButtons = new GridPane();
-    private final Button adderButton = new Button("+");
-    private final Button switchProducerCustomer = new Button();
+    private final Button adderButton = new Button("Ajout\u00E9");
+    private final Button deleteButton = new Button("Supprimer");
+    private final Button switchProducerCustomer = new Button("Client | Producteur");
     private final TextField searchTextField = new TextField();
     private ListView<String> listView;
     private FilteredList<String> filteredList;
     private ObservableList<String> observableList;
-    private final Stage stage = new Stage();
+    private final Stage adderProducerStage = new Stage();
+    private final Stage adderCustomerStage = new Stage();
 
     @Override
     public void setup() {
-        stage.setScene(new Scene(adderProducerContainer, 800, 600));
+        adderProducerStage.setScene(new Scene(adderProducerContainer, 550, 400));
+        adderCustomerStage.setScene(new Scene(adderCustomerContainer, 550, 400));
 
         observableList = FXCollections.observableArrayList();
         filteredList = new FilteredList<>(observableList);
@@ -41,11 +44,12 @@ public class ListProducerContainer extends GridPane implements Container {
 
         containerBottomButtons.addColumn(1, switchProducerCustomer);
         containerBottomButtons.addColumn(2, adderButton);
+        containerBottomButtons.addColumn(3, deleteButton);
         listView.prefHeightProperty().bind(heightProperty());
 
         responsive();
 
-        searchTextField.setPromptText("Search producer");
+        searchTextField.setPromptText("Rechercher...");
 
         addRow(0, searchTextField);
         addRow(1, listView);
@@ -57,13 +61,18 @@ public class ListProducerContainer extends GridPane implements Container {
         containerBottomButtons.prefHeightProperty().bind(heightProperty().divide(10));
 
         switchProducerCustomer.prefHeightProperty().bind(containerBottomButtons.heightProperty());
-        switchProducerCustomer.prefWidthProperty().bind(containerBottomButtons.widthProperty().divide(0.75));
-        adderButton.prefHeightProperty().bind(containerBottomButtons.heightProperty());
-        adderButton.prefWidthProperty().bind(containerBottomButtons.widthProperty());
+        switchProducerCustomer.prefWidthProperty().bind(containerBottomButtons.widthProperty());
+        adderButton.prefWidthProperty().bind(containerBottomButtons.widthProperty().multiply(0.25));
+        deleteButton.prefWidthProperty().bind(containerBottomButtons.widthProperty().multiply(0.25));
+        switchProducerCustomer.prefWidthProperty().bind(containerBottomButtons.widthProperty().multiply(0.50));
     }
 
-    public Stage getStage() {
-        return stage;
+    public Stage getAdderProducerStage() {
+        return adderProducerStage;
+    }
+
+    public Stage getAdderCustomerStage() {
+        return adderCustomerStage;
     }
 
     public ListView<String> getListView() {
@@ -90,4 +99,7 @@ public class ListProducerContainer extends GridPane implements Container {
         return adderButton;
     }
 
+    public Button getDeleteButton() {
+        return deleteButton;
+    }
 }
