@@ -1,6 +1,6 @@
 package fr.sfc.container.productTour;
 
-import fr.sfc.common.Custom;
+import fr.sfc.common.Pack;
 import fr.sfc.container.common.ListSearchDialog;
 import fr.sfc.controller.productTour.AdderOrderController;
 import fr.sfc.entity.Customer;
@@ -21,7 +21,7 @@ public class AdderOrderContainer extends VBox implements Container {
     @AutoController
     private AdderOrderController controller;
 
-    private final ListSearchDialog<Custom<Customer>> listSearchCustomerDialog;
+    private final ListSearchDialog<Pack<Customer>> listSearchCustomerDialog;
     private final FXMLLoader loader;
     private final Stage stage;
 
@@ -40,7 +40,7 @@ public class AdderOrderContainer extends VBox implements Container {
         stage.setScene(new Scene(this));
     }
 
-    public ListSearchDialog<Custom<Customer>> getListSearchCustomerDialog() {
+    public ListSearchDialog<Pack<Customer>> getListSearchCustomerDialog() {
         return listSearchCustomerDialog;
     }
 

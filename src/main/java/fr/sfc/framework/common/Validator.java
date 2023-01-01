@@ -4,6 +4,10 @@ import java.util.Stack;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
+/**
+ * 
+ * @param <T>
+ */
 public class Validator<T> {
 
     private final T type;

@@ -1,7 +1,8 @@
 package fr.sfc.controller.productTour;
 
-import fr.sfc.common.Custom;
+import fr.sfc.common.Pack;
 import fr.sfc.container.productTour.AdderOrderContainer;
+import fr.sfc.controller.ConnectionController;
 import fr.sfc.entity.Company;
 import fr.sfc.entity.Customer;
 import fr.sfc.entity.Order;
@@ -22,6 +23,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -32,6 +35,8 @@ import static fr.sfc.common.Phones.formatPhoneNumberFR;
 
 public class AdderOrderController implements Controller {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdderOrderController.class);
+
     @AutoContainer
     private AdderOrderContainer container;
 
@@ -41,15 +46,17 @@ public class AdderOrderController implements Controller {
     private OrderRepository orderRepository;
     @Inject
     private ContainerManager containerManager;
-
     @Inject
     @Tag("controller:root.producer.list.adder")
     private AdderProductTourController adderProductTourController;
     @Inject
     @Tag("controller:root.producer.list")
     private ListProductTourController listProductTourController;
+    @Inject
+    @Tag("controller:root")
+    private ConnectionController connectionController;
 
-    private ObjectProperty<Custom<Customer>> customerObservableValue;
+    private ObjectProperty<Pack<Customer>> customerObservableValue;
 
     @FXML TextField dataCustomerTextField;
     @FXML VBox containerDataTextField;
@@ -105,10 +112,25 @@ public class AdderOrderController implements Controller {
 
         Customer customer = customerObservableValue.get().get();
         ProductTour productTour = listProductTourController.getCurrentProductTour();
-        Company company = adderProductTourController.getCurrentCompany();
-        Order order = createOrder(customer, productTour, company);
+        Order order = createOrder(customer, productTour, connectionController.getCompanyConnected());
 
-        Set<Order> allOrder = orderRepository.findByProductTour(productTour);
+        try {
+
+            if (createAlertConfirmation(order)) return;
+
+            listProductTourController.updateOrders(productTour);
+
+            LOGGER.info( "Order `{}` has been created by `{}` id=`{}` for `{}` id=`{}" ,
+                    order.getWording(),
+                    connectionController.getCompanyConnected().getNameOwner(),
+                    connectionController.getCompanyConnected().getId(),
+                    customer.getName(), customer.getId());
+
+            container.getStage().hide();
+
+        } catch (Exception e) {
+            LOGGER.error("Error while order creation", e);
+        }
 
     }
 
@@ -124,11 +146,15 @@ public class AdderOrderController implements Controller {
         return false;
     }
 
-    private void createAlertConfirmation(Order order) {
+    private boolean createAlertConfirmation(Order order) {
+        AtomicBoolean quit = new AtomicBoolean(false);
         SimpleAlertUtils.createAlertConfirmation()
                 .withTitle("Confirmation")
                 .withHeaderText("Voulez-vous ajout\u00E9 une commande ?")
-                .withOnOkButton(alert -> orderRepository.insert(order));
+                .withOnOkButton(alert -> orderRepository.insert(order))
+                .withOnCancelButton(alert -> quit.set(true))
+                .buildShowAndWait();
+        return quit.get();
     }
 
     /**
@@ -198,12 +224,13 @@ public class AdderOrderController implements Controller {
      */
     private boolean createAlertIfEmptyField() {
         AtomicBoolean quit = new AtomicBoolean(false);
-        SimpleAlertUtils.createAlertErrorConditional(checkForEmptyFields()).ifPresent(simpleAlertBuilder -> {
-            simpleAlertBuilder
+        SimpleAlertUtils.createAlertErrorConditional(checkForEmptyFields())
+                .ifPresent(simpleAlertBuilder -> {
+                    simpleAlertBuilder
                     .withTitle("Erreur dans le formulaire")
                     .withContentText("Un des champs n'est pas remplis")
                     .buildShowAndWait();
-            quit.set(true);
+                    quit.set(true);
         });
         return quit.get();
     }
@@ -215,9 +242,9 @@ public class AdderOrderController implements Controller {
      * @param old odl
      * @param current current
      */
-    private void listenSelectedPackCustomer(ObservableValue<? extends Custom<Customer>> o,
-                                            Custom<Customer> old,
-                                            Custom<Customer> current) {
+    private void listenSelectedPackCustomer(ObservableValue<? extends Pack<Customer>> o,
+                                            Pack<Customer> old,
+                                            Pack<Customer> current) {
         if (current == null) return;
 
         customerObservableValue.set(current);
@@ -232,8 +259,8 @@ public class AdderOrderController implements Controller {
      * @param customer customer
      * @return custom de customer
      */
-    private Custom<Customer> customerPack(Customer customer) {
-        return Custom.of(customer, c -> c.getName() + " - " + formatPhoneNumberFR(c.getPhoneNumber()));
+    private Pack<Customer> customerPack(Customer customer) {
+        return Pack.of(customer, c -> c.getName() + " - " + formatPhoneNumberFR(c.getPhoneNumber()));
     }
 
 }

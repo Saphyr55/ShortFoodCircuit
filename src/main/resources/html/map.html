@@ -43,12 +43,12 @@
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo($map);
 
-        createMaker($map, latitude, longitude, "<b>Your Company<b>")
+        createMarker($map, latitude, longitude, "<b>Your Company<b>")
 
         return $map;
     }
 
-    function createMaker($map, latitude, longitude, textHtml) {
+    function createMarker($map, latitude, longitude, textHtml) {
 
        return L.marker([latitude, longitude])
             .addTo($map)

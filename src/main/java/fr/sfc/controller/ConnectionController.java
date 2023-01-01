@@ -2,15 +2,16 @@ package fr.sfc.controller;
 
 import fr.sfc.container.ConnectionContainer;
 import fr.sfc.entity.Admin;
+import fr.sfc.entity.Company;
 import fr.sfc.entity.Producer;
 import fr.sfc.framework.BackendApplication;
 import fr.sfc.framework.common.Validator;
-import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.injection.Inject;
 import fr.sfc.framework.persistence.Repository;
 import fr.sfc.repository.AdminRepository;
+import fr.sfc.repository.CompanyRepository;
 import fr.sfc.repository.ProducerRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -35,16 +36,26 @@ public class ConnectionController implements Controller {
     public Font errorMessage;
 
     @Inject
-    private ContainerManager containerManager;
-
+    private CompanyRepository companyRepository;
     @Inject
     private ProducerRepository producerRepository;
-
     @Inject
     private AdminRepository adminRepository;
 
+    private Admin adminConnected;
+    private Producer producerConnected;
+    private Company companyConnected = new Company();
+
     @Override
-    public void setup() { }
+    public void setup() {
+        companyConnected.setId(-1);
+        companyConnected.setLatitude(0);
+        companyConnected.setLongitude(0);
+        companyConnected.setNameOwner("");
+        companyConnected.setSIRET(-1);
+        companyConnected.setPhoneNumber("");
+        companyConnected.setAddress("");
+    }
 
     @FXML
     public void onPressLogin(){
@@ -55,31 +66,26 @@ public class ConnectionController implements Controller {
                 Validator.of(admin).validate(a -> a.getPassword().equals(passwordTextField.getText())).get();
                 BackendApplication.getCurrentApplication().getPrimaryStage().hide();
                 container.getMainAdminStage().show();
+                adminConnected = admin;
 
             } else if (entity instanceof Producer producer) {
 
                 Validator.of(producer).validate(p -> p.getPassword().equals(passwordTextField.getText())).get();
                 BackendApplication.getCurrentApplication().getPrimaryStage().hide();
                 container.getMainProducttourStage().show();
+                producerConnected = producer;
+                companyConnected = companyRepository.find(producer.getIdCompany());
             }
         });
     }
 
-    public Optional<?> getEntity(String id) {
-
+    private Optional<?> getEntity(String id) {
         if (id.isBlank()) return Optional.empty();
-
-        switch ( id.charAt(id.length() - 1) ) {
-            case 'a' -> {
-                return find(adminRepository, id);
-            }
-            case 'p' -> {
-                return find(producerRepository, id);
-            }
-            default -> {
-                return Optional.empty();
-            }
-        }
+        return switch (id.charAt(id.length() - 1)) {
+            case 'a' -> find(adminRepository, id);
+            case 'p' -> find(producerRepository, id);
+            default -> Optional.empty();
+        };
     }
 
     private <T> Optional<T> find(Repository<T> repository, String id) {
@@ -105,6 +111,18 @@ public class ConnectionController implements Controller {
         } catch (Exception e){
             return Optional.empty();
         }
+    }
+
+    public Admin getAdminConnected() {
+        return adminConnected;
+    }
+
+    public Producer getProducerConnected() {
+        return producerConnected;
+    }
+
+    public Company getCompanyConnected() {
+        return companyConnected;
     }
 
 }

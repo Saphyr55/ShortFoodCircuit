@@ -10,10 +10,13 @@ public class Producer {
     @Column(name = "idProducer")
     private Integer id;
 
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "lastname")
     private String lastname;
 
+    @Column(name = "firstname")
     private String firstname;
 
     @ForeignKey(entity = Company.class)
@@ -32,6 +35,7 @@ public class Producer {
                     String firstname,
                     Integer idCompany,
                     Integer SIRET) {
+
         this.password = password;
         this.lastname = lastname;
         this.firstname = firstname;

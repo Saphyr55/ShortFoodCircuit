@@ -1,6 +1,6 @@
 package fr.sfc.container.productTour;
 
-import fr.sfc.common.Custom;
+import fr.sfc.common.Pack;
 import fr.sfc.container.common.ListSearchDialog;
 import fr.sfc.controller.productTour.AdderProductTourController;
 import fr.sfc.entity.Vehicle;
@@ -21,7 +21,7 @@ public class AdderProductTourContainer extends VBox implements Container {
     @AutoController
     private AdderProductTourController controller;
 
-    private final ListSearchDialog<Custom<Vehicle>> searchMatriculationDialog;
+    private final ListSearchDialog<Pack<Vehicle>> searchMatriculationDialog;
     private final FXMLLoader loader;
     private final Stage stage;
     private final Scene scene;
@@ -40,7 +40,7 @@ public class AdderProductTourContainer extends VBox implements Container {
         stage.setScene(scene);
     }
 
-    public ListSearchDialog<Custom<Vehicle>> getSearchMatriculationDialog() {
+    public ListSearchDialog<Pack<Vehicle>> getSearchMatriculationDialog() {
         return searchMatriculationDialog;
     }
 

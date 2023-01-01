@@ -1,6 +1,6 @@
 package fr.sfc.container.productTour;
 
-import fr.sfc.common.Custom;
+import fr.sfc.common.Pack;
 import fr.sfc.controller.productTour.ListProductTourController;
 import fr.sfc.entity.ProductTour;
 import fr.sfc.framework.controlling.Container;
@@ -27,9 +27,9 @@ public class ListProductTourContainer extends GridPane implements Container {
     private AdderProductTourContainer adderProductTourContainer;
     
     private final TextField searchTextField;
-    private final FilteredList<Custom<ProductTour>> filteredList;
-    private final ObservableList<Custom<ProductTour>> observableList;
-    private final ListView<Custom<ProductTour>> productTourListView;
+    private final FilteredList<Pack<ProductTour>> filteredList;
+    private final ObservableList<Pack<ProductTour>> observableList;
+    private final ListView<Pack<ProductTour>> productTourListView;
     private final HBox hBox;
     private final Button adderProductTourButton;
     private final Button switcherDetailsComponentButton;
@@ -79,7 +79,7 @@ public class ListProductTourContainer extends GridPane implements Container {
         return adderProductTourButton;
     }
 
-    public ListView<Custom<ProductTour>> getProductTourListView() {
+    public ListView<Pack<ProductTour>> getProductTourListView() {
         return productTourListView;
     }
 
@@ -95,11 +95,11 @@ public class ListProductTourContainer extends GridPane implements Container {
         return adderProductTourContainer;
     }
 
-    public FilteredList<Custom<ProductTour>> getFilteredList() {
+    public FilteredList<Pack<ProductTour>> getFilteredList() {
         return filteredList;
     }
 
-    public ObservableList<Custom<ProductTour>> getObservableList() {
+    public ObservableList<Pack<ProductTour>> getObservableList() {
         return observableList;
     }
 

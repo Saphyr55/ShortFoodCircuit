@@ -33,16 +33,17 @@ public class ProducerRepository implements Repository<Producer>  {
 
     @Override
     public void delete(Producer entity) {
-        entityManager.delete(Producer.class);
+        entityManager.delete(entity);
     }
 
     @Override
     public void insert(Producer entity) {
-        entityManager.insert(Producer.class);
+        entityManager.insert(entity);
     }
 
     @Override
-    public void save(Producer admin) {
-        entityManager.insert(Producer.class);
+    public void save(Producer entity) {
+        entityManager.insert(entity);
     }
+
 }

@@ -2,22 +2,27 @@ package fr.sfc.common;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
 import java.util.function.Function;
 
-public final class Custom<T> {
+public final class Pack<T> {
 
     private final Function<T, String> toString;
     private final T type;
 
-    public static <T> Custom<T> of(@NotNull final T type,
-                                   @NotNull final Function<T, String> toString) {
-        return new Custom<>(type, toString);
+    public static <T> Pack<T> of(@NotNull final T type,
+                                 @NotNull final Function<T, String> toString) {
+        return new Pack<>(type, toString);
     }
 
-    private Custom(@NotNull final T type,
-                   @NotNull final Function<T, String> toString) {
+    private Pack(@NotNull final T type,
+                 @NotNull final Function<T, String> toString) {
         this.type = type;
         this.toString = toString;
+    }
+
+    public Optional<T> asOptional() {
+        return Optional.of(type);
     }
 
     public @NotNull T get() {

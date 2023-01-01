@@ -46,8 +46,8 @@ public class OrderRepository implements Repository<Order> {
     }
 
     @Override
-    public void save(Order admin) {
-        entityManager.insert(admin);
+    public void save(Order entity) {
+        entityManager.insert(entity);
     }
 
     public Set<Order> findByProductTour(ProductTour productTour) {

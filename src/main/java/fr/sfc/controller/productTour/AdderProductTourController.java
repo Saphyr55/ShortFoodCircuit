@@ -1,17 +1,17 @@
 package fr.sfc.controller.productTour;
 
-import fr.sfc.common.Custom;
+import fr.sfc.common.Pack;
 import fr.sfc.container.productTour.AdderProductTourContainer;
-import fr.sfc.entity.Company;
+import fr.sfc.controller.ConnectionController;
 import fr.sfc.entity.ProductTour;
 import fr.sfc.entity.Vehicle;
-import fr.sfc.framework.item.Tag;
 import fr.sfc.framework.controlling.ContainerManager;
 import fr.sfc.framework.controlling.Controller;
 import fr.sfc.framework.controlling.SimpleAlertUtils;
 import fr.sfc.framework.controlling.TimeTextField;
 import fr.sfc.framework.controlling.annotation.AutoContainer;
 import fr.sfc.framework.injection.Inject;
+import fr.sfc.framework.item.Tag;
 import fr.sfc.repository.CompanyRepository;
 import fr.sfc.repository.ProductTourRepository;
 import fr.sfc.repository.VehicleRepository;
@@ -20,6 +20,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,15 +58,11 @@ public class AdderProductTourController implements Controller {
     @Tag("controller:root.producer.list")
     private ListProductTourController listProductTourController;
     @Inject
-    @Tag("controller:root.producer")
-    private MainProductTourController mainProductTourController;
-
-    private Company currentCompany;
+    @Tag("controller:root")
+    private ConnectionController connectionController;
 
     @Override
     public void setup() {
-
-        currentCompany = mainProductTourController.getCurrentCompany();
 
         // Listen the current company and vehicle
         container.getSearchMatriculationDialog().currentSelectedProperty().addListener(this::listenSelectedPackVehicle);
@@ -86,29 +84,29 @@ public class AdderProductTourController implements Controller {
 
     }
 
-    private void listenSelectedPackVehicle(ObservableValue<? extends Custom<Vehicle>> o,
-                                           Custom<Vehicle> old,
-                                           Custom<Vehicle> current) {
-        if (current == null) return;
+    private void listenSelectedPackVehicle(ObservableValue<? extends Pack<Vehicle>> o,
+                                           Pack<Vehicle> old,
+                                           Pack<Vehicle> current) {
 
-        tFMatriculation.setText(current.get().getMatriculation());
+        current.asOptional().ifPresent(vehicle -> tFMatriculation.setText(vehicle.getMatriculation()));
     }
 
     private void listenWeightTextField(ObservableValue<? extends String> o,
                                        String old,
                                        String current) {
 
-        container.getSearchMatriculationDialog().getObservableList().setAll(
-                vehicleRepository.findByCompany(currentCompany).stream()
-                .filter(this::checkVehicleWeight)
-                .map(this::vehiclePack)
-                .collect(Collectors.toSet()));
+       container.getSearchMatriculationDialog().getObservableList().setAll(
+       vehicleRepository.findByCompany(connectionController.getCompanyConnected()).stream()
+               .filter(this::checkVehicleWeight)
+               .map(this::customVehicle)
+               .collect(Collectors.toSet()));
+
 
         tFMatriculation.setDisable(current == null || current.isBlank());
     }
 
-    private Custom<Vehicle> vehiclePack(Vehicle vehicle) {
-        return Custom.of(vehicle, vehicle1 ->
+    private Pack<Vehicle> customVehicle(Vehicle vehicle) {
+        return Pack.of(vehicle, vehicle1 ->
                 vehicle1.getMatriculation() + " " +
                 vehicle1.getMaxWeight() + "kg");
     }
@@ -135,8 +133,8 @@ public class AdderProductTourController implements Controller {
 
             LOGGER.info( "Product Tour {} has been created by {} id={}" ,
                     productTour.getName(),
-                    currentCompany.getNameOwner(),
-                    currentCompany.getId());
+                    connectionController.getCompanyConnected().getNameOwner(),
+                    connectionController.getCompanyConnected().getId());
 
         } catch (Exception e) {
 
@@ -154,7 +152,7 @@ public class AdderProductTourController implements Controller {
         container.getSearchMatriculationDialog().show();
     }
 
-    private boolean createConfirmAlertInsertProductTour(ProductTour productTour) {
+    private boolean createConfirmAlertInsertProductTour(@NotNull ProductTour productTour) {
         AtomicBoolean quit = new AtomicBoolean(false);
         SimpleAlertUtils.createAlertConfirmation()
                 .withTitle("Confirmation")
@@ -165,14 +163,14 @@ public class AdderProductTourController implements Controller {
         return quit.get();
     }
 
-    private boolean createAlertFieldsEmpty(Vehicle vehicle) {
+    private boolean createAlertFieldsEmpty(@Nullable Vehicle vehicle) {
         AtomicBoolean quit = new AtomicBoolean(false);
         SimpleAlertUtils.createAlertErrorConditional(fieldsIsNotEmpty(vehicle))
                 .ifPresent(simpleAlertBuilder -> { simpleAlertBuilder
                         .withTitle("Erreur formulaire")
                         .withContentText("Un des champs n'est pas remplis")
                         .buildShowAndWait();
-                    quit.set(true);
+                        quit.set(true);
                 });
         return quit.get();
     }
@@ -184,7 +182,9 @@ public class AdderProductTourController implements Controller {
                 .buildShowAndWait();
     }
 
-    private ProductTour createProductTourFromTextField(Vehicle vehicle) {
+    private ProductTour createProductTourFromTextField(@NotNull Vehicle vehicle) {
+
+        var company = connectionController.getCompanyConnected();
 
         var pt = new ProductTour(
 
@@ -204,17 +204,17 @@ public class AdderProductTourController implements Controller {
 
                 Float.valueOf(tFWeight.getText()),
 
-                currentCompany.getSIRET(),
+                company.getSIRET(),
 
                 vehicle.getMatriculation());
 
-        pt.setIdCompany(currentCompany.getId());
+        pt.setIdCompany(company.getId());
         pt.setIdVehicle(vehicle.getId());
 
         return pt;
     }
 
-    private boolean fieldsIsNotEmpty(Vehicle vehicle) {
+    private boolean fieldsIsNotEmpty(@Nullable Vehicle vehicle) {
         return  tFName.getText().trim().isBlank() ||
                 startDate.getValue() == null ||
                 endDate.getValue() == null ||
@@ -225,7 +225,7 @@ public class AdderProductTourController implements Controller {
                 startHourTextField.getText().trim().isBlank();
     }
 
-    private boolean checkVehicleWeight(Vehicle vehicle) {
+    private boolean checkVehicleWeight(@NotNull Vehicle vehicle) {
 
         boolean is = tFWeight != null &&
                     !tFWeight.getText().isBlank() &&
@@ -236,7 +236,4 @@ public class AdderProductTourController implements Controller {
         return is;
     }
 
-    public Company getCurrentCompany() {
-        return currentCompany;
-    }
 }

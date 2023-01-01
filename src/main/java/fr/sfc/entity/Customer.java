@@ -24,7 +24,7 @@ public class Customer {
 
     public Customer() { }
 
-    public Customer(String name, String phoneNumber, String address, float longitude, float latitude) {
+    public Customer(String name, String phoneNumber, String address, float latitude, float longitude) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.name = name;
@@ -32,8 +32,8 @@ public class Customer {
         this.address = address;
     }
     
-    public Customer(int id, String name, String phoneNumber, String address, float longitude, float latitude) {
-        this(name, phoneNumber, address, longitude, latitude);
+    public Customer(int id, String name, String phoneNumber, String address, float latitude, float longitude) {
+        this(name, phoneNumber, address, latitude, longitude);
         this.id = id;
     }
 

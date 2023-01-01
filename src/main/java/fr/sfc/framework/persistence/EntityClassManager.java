@@ -22,11 +22,11 @@ public final class EntityClassManager {
         return new EntityManager(database, this);
     }
 
-    public Map<String, Field> getFieldsFromEntity(final Class<?> aClass) {
+    public <T> Map<String, Field> getFieldsFromEntity(Class<T> aClass) {
 
         if (classEntities.containsKey(aClass)) return classEntities.get(aClass);
-        
-        throw new EntityNotFoundException(aClass + " was not found");
+
+        throw new EntityNotFoundException(aClass.getGenericSuperclass().getTypeName() + " was not found");
     }
 
     public <T> Object getValueId(T entity) {
@@ -58,32 +58,23 @@ public final class EntityClassManager {
 
     public <T> String getNameTable(Class<T> aClass) {
         final Table table = aClass.getAnnotation(Table.class);
-        if (table != null)
-            return table.name().toLowerCase();
+        if (table != null) return table.name().toLowerCase();
         return aClass.getSimpleName().toLowerCase();
     }
 
     public <T> String replaceExceptId(Class<T> entity, String by) {
-
         final StringJoiner column = new StringJoiner(",");
-
-        getFieldsFromEntity(entity).forEach((s, field) -> {
-            if (!field.isAnnotationPresent(Id.class))
-                column.add(by);
-        });
-
+        getFieldsFromEntity(entity).entrySet().stream()
+                .filter(entry -> !entry.getValue().isAnnotationPresent(Id.class))
+                .forEach(entry -> column.add(by));
         return column.toString();
     }
 
-    public <T> String formatColumnExceptId(Class<T> entity) {
-
+    public String formatColumnExceptId(Class<?> entity) {
         final StringJoiner column = new StringJoiner(",");
-
-        getFieldsFromEntity(entity).forEach((s, field) -> {
-            if (!field.isAnnotationPresent(Id.class))
-                column.add(s);
-        });
-
+        getFieldsFromEntity(entity).entrySet().stream()
+                .filter(entry -> !entry.getValue().isAnnotationPresent(Id.class))
+                .forEach(entry -> column.add(entry.getKey()));
         return column.toString();
     }
 

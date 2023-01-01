@@ -1,7 +1,7 @@
 package fr.sfc.controller.productTour;
 
-import fr.sfc.common.Custom;
 import fr.sfc.common.IconsType;
+import fr.sfc.common.Pack;
 import fr.sfc.container.productTour.ListProductTourContainer;
 import fr.sfc.container.productTour.SpecifiesProductTourContainer;
 import fr.sfc.entity.Order;
@@ -76,45 +76,48 @@ public class ListProductTourController implements Controller {
     }
 
     private String toStringPt(ProductTour productTour) {
-        return MessageFormat.format("{0} | Commencé le {1}", productTour.getName(), productTour.getStartDateTime().toString());
+        return MessageFormat.format("{0} | Commenc\u00E9 le {1}", productTour.getName(), productTour.getStartDateTime().toString());
     }
 
     public void refresh() {
         container.getObservableList().setAll(productTourRepository.findAll().stream()
-                .map(productTour -> Custom.of(productTour, this::toStringPt))
+                .map(productTour -> Pack.of(productTour, this::toStringPt))
                 .collect(Collectors.toSet()));
         container.getProductTourListView().setCellFactory(this::returnListCellWithImage);
         container.getProductTourListView().refresh();
     }
 
-    private void selectItem(ObservableValue<? extends Custom<ProductTour>> observableV,
-                            Custom<ProductTour> oldV,
-                            Custom<ProductTour> newV) {
+    private void selectItem(ObservableValue<? extends Pack<ProductTour>> observableV,
+                            Pack<ProductTour> oldV,
+                            Pack<ProductTour> newV) {
 
         // Si on n'a rien sélectionné on quitte la methode
         if (newV == null) return;
+        updateOrders(newV.get());
+    }
 
-        currentProductTour.set(newV.get());
+    public void updateOrders(ProductTour productTour) {
+        currentProductTour.set(productTour);
 
         Set<Order> orders =  orderRepository.findByProductTour(currentProductTour.get());
 
-        Set<Custom<Order>> packsOrder = orders.stream()
-                .map(order -> Custom.of(order, Order::getWording))
+        Set<Pack<Order>> packsOrder = orders.stream()
+                .map(order -> Pack.of(order, Order::getWording))
                 .collect(Collectors.toSet());
 
         specifiesProductTourContainer.getController().setProductTour(currentProductTour.get());
         specifiesProductTourContainer.getController().getOrderListView().getItems().setAll(packsOrder);
-        specifiesProductTourContainer.getController().refresh();
+        specifiesProductTourContainer.getController().refreshOrder();
     }
 
-    private ListCell<Custom<ProductTour>> returnListCellWithImage(ListView<Custom<ProductTour>> lv) {
+    private ListCell<Pack<ProductTour>> returnListCellWithImage(ListView<Pack<ProductTour>> lv) {
         return new ListCell<>() {
 
             private final ImageView imageView = new ImageView();
 
             @Override
-            public void updateItem(Custom<ProductTour> productTourCustom, boolean empty) {
-                super.updateItem(productTourCustom, empty);
+            public void updateItem(Pack<ProductTour> productTourPack, boolean empty) {
+                super.updateItem(productTourPack, empty);
 
                 if (empty) {
                     setText(null);
@@ -122,7 +125,7 @@ public class ListProductTourController implements Controller {
                     return;
                 }
 
-                ProductTour productTour = productTourCustom.get();
+                ProductTour productTour = productTourPack.get();
                 Image image = IconsType.WARNING_16x16;
 
                 if (    productTour.getEndDateTime() != null &&
@@ -133,7 +136,7 @@ public class ListProductTourController implements Controller {
 
                 imageView.setImage(image);
                 setGraphic(imageView);
-                setText(productTourCustom.toString());
+                setText(productTourPack.toString());
             }
         };
     }

@@ -1,6 +1,7 @@
 package fr.sfc.controller.productTour;
 
 import fr.sfc.container.productTour.MapContainer;
+import fr.sfc.controller.ConnectionController;
 import fr.sfc.entity.Customer;
 import fr.sfc.entity.Order;
 import fr.sfc.framework.Resources;
@@ -16,8 +17,8 @@ import javafx.scene.web.WebEngine;
 import netscape.javascript.JSException;
 import netscape.javascript.JSObject;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -32,17 +33,19 @@ public class MapController implements Controller {
     @Inject
     @Tag("controller:root.producer.list")
     private ListProductTourController listProductTourController;
-
     @Inject
-    @Tag("controller:root.producer")
-    private MainProductTourController mainProductTourController;
+    @Tag("controller:root")
+    private ConnectionController connectionController;
 
     @Inject
     private OrderRepository orderRepository;
     @Inject
     private CustomerRepository customerRepository;
 
-    private Set<Customer> customers;
+    private Set<Order> orders;
+
+    private final String CREATE_MARKER_FUNCTION_NAME = "createMarker";
+    private final String CREATE_MAP_FUNCTION_NAME = "createMap";
 
     @Override
     public void setup() {
@@ -54,9 +57,7 @@ public class MapController implements Controller {
     }
 
     public void loadMap() {
-        customers = new HashSet<>();
-        Set<Order> orders = orderRepository.findByProductTour(listProductTourController.getCurrentProductTour());
-        orders.forEach(order -> customers.add(customerRepository.find(order.getId())));
+        orders = orderRepository.findByProductTour(listProductTourController.getCurrentProductTour());
         engine.reload();
     }
 
@@ -68,17 +69,16 @@ public class MapController implements Controller {
             try {
 
                 js = (JSObject) engine.executeScript("window");
+                if (connectionController != null) {
 
-                final Object map = js.call("createMap",
-                        mainProductTourController.getCurrentCompany().getLatitude(),
-                        mainProductTourController.getCurrentCompany().getLongitude());
-
-                final List<Object> markers = new ArrayList<>();
-                if (customers != null)
-                    customers.forEach(customer -> {
-                        System.out.println(customers);
-                        markers.add(createMarker(customer, map));
-                    });
+                    final Object map = js.call(CREATE_MAP_FUNCTION_NAME,
+                            connectionController.getCompanyConnected().getLatitude(),
+                            connectionController.getCompanyConnected().getLongitude());
+                    final List<Object> markers = new ArrayList<>();
+                    if (orders != null)
+                        orders.forEach(order -> markers.add(
+                                createMarker(order, customerRepository.find(order.getIdCustomer()), map)));
+                }
 
             } catch (JSException e) {
                 e.printStackTrace();
@@ -87,10 +87,17 @@ public class MapController implements Controller {
         }
     }
 
-    private Object createMarker(Customer customer, Object map) {
-        return js.call("createMaker", map,
-                customer.getLatitude(), customer.getLongitude(),
-                "<b>"+customer.getName()+"</b><br />"+customer.getAddress());
+    private Object createMarker(Order order, Customer customer, Object map) {
+        return js.call(CREATE_MARKER_FUNCTION_NAME, map,
+                        customer.getLatitude(), customer.getLongitude(),
+                        "<b>" + customer.getName() + "</b><br/>" +
+                         customer.getAddress() + "<br/> Debut le "+
+                        formatDate(order.getStartLocalDateTime()) + "<br/> Fin le " +
+                        formatDate(order.getEndLocalDateTime()) + "<br/>");
+    }
+
+    private String formatDate(LocalDateTime localDateTime) {
+        return localDateTime == null ? "unknown" : localDateTime.toString().replace('T', ' ');
     }
 
 }

@@ -34,11 +34,14 @@ public class AdderCustomerController implements Controller {
 
     @AutoContainer
     private AdderCustomerContainer container;
+
     @Inject
     private CustomerRepository customerRepository;
+
     @Inject
     @Tag("container:root.admin.list")
     private ListProducerCustomerContainer listProducerCustomerContainer;
+
     @Inject
     @Tag("controller:root.admin.list")
     private ListProducerCustomerController listProducerCustomerController;

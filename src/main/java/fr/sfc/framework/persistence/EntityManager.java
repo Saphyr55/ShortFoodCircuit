@@ -114,7 +114,6 @@ public final class EntityManager {
 
         } catch (Exception e) {
             LOGGER.error("Error with find by id request", e);
-
         }
         return type.get();
     }

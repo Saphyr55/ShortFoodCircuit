@@ -1,7 +1,7 @@
 package fr.sfc.controller.productTour;
 
 import fr.sfc.common.IconsType;
-import fr.sfc.common.Custom;
+import fr.sfc.common.Pack;
 import fr.sfc.container.productTour.SpecifiesProductTourContainer;
 import fr.sfc.entity.Customer;
 import fr.sfc.entity.Order;
@@ -55,7 +55,7 @@ public class SpecifiesProductTourController implements Controller {
     @FXML private HBox containerNameTextFieldHBox;
     @FXML private VBox containerHBoxVBox;
     @FXML private HBox containerDataTextFieldHBox;
-    @FXML private ListView<Custom<Order>> orderListView;
+    @FXML private ListView<Pack<Order>> orderListView;
 
     private ProductTour productTour;
 
@@ -77,14 +77,13 @@ public class SpecifiesProductTourController implements Controller {
 
     @FXML
     public void openAdderOrderContainer() {
-        if (productTour != null)
-            container.getAdderOrderContainer().getStage().show();
+        if (productTour != null) container.getAdderOrderContainer().getStage().show();
     }
 
     private void onActionSelectElementListView(
-                                ObservableValue<? extends Custom<Order>> observableV,
-                                Custom<Order> oldV,
-                                Custom<Order> newV) {
+                                ObservableValue<? extends Pack<Order>> observableV,
+                                Pack<Order> oldV,
+                                Pack<Order> newV) {
 
         // Si on n'a rien sélectionné on quitte la methode
         if (newV == null) return;
@@ -144,21 +143,20 @@ public class SpecifiesProductTourController implements Controller {
         this.productTour = productTour;
     }
 
-    public void refresh() {
+    public void refreshOrder() {
         orderListView.setCellFactory(this::returnListCellWithImage);
         orderListView.refresh();
         setDataProductTourTextField();
     }
 
-
-    private ListCell<Custom<Order>> returnListCellWithImage(ListView<Custom<Order>> lv) {
+    private ListCell<Pack<Order>> returnListCellWithImage(ListView<Pack<Order>> lv) {
         return new ListCell<>() {
 
             private final ImageView imageView = new ImageView();
 
             @Override
-            public void updateItem(Custom<Order> orderCustom, boolean empty) {
-                super.updateItem(orderCustom, empty);
+            public void updateItem(Pack<Order> orderPack, boolean empty) {
+                super.updateItem(orderPack, empty);
 
                 if (empty) {
                     setText(null);
@@ -166,7 +164,7 @@ public class SpecifiesProductTourController implements Controller {
                     return;
                 }
 
-                Order order = orderCustom.get();
+                Order order = orderPack.get();
                 Image image = IconsType.LOADING_16x16;
 
                 if (order.getEndLocalDateTime() != null) {
@@ -181,7 +179,7 @@ public class SpecifiesProductTourController implements Controller {
 
                 imageView.setImage(image);
                 setGraphic(imageView);
-                setText(orderCustom.toString());
+                setText(orderPack.toString());
 
             }
         };
@@ -195,9 +193,14 @@ public class SpecifiesProductTourController implements Controller {
         dataEndDateProductTourTextField.setText(productTour.getEndDateTime()
                 .toString().replace('T', ' '));
         dataMatriculationVehicleProductTourTextField.setText(productTour.getMatriculation());
+        dataStartDateOrderTextField.setText("");
+        dataEntDateOrderTextField.setText("");
+        dataOrderTextField.setText("");
+        dataCustomerOrderTextField.setText("");
+        dataWeightOrderTextField.setText("");
     }
 
-    public ListView<Custom<Order>> getOrderListView() {
+    public ListView<Pack<Order>> getOrderListView() {
         return orderListView;
     }
 }
