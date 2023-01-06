@@ -2,6 +2,6 @@
 
 ### Configuration
 
-The project is built with gradle
-IDE recommendation : IntelliJ IDEA
-JDK 17
+The project is built with gradle<br>
+IDE recommendation : IntelliJ IDEA<br>
+JDK 17<br>
